@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="com.typesafe.sbtrc" module="integration-tests" revision="0.3.5" status="integration" publication="20150606082927">
+		<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0.html"/>
+		<description>
+		integration-tests
+		</description>
+	</info>
+	<configurations>
+		<conf name="compile" visibility="public" description=""/>
+		<conf name="runtime" visibility="public" description="" extends="compile"/>
+		<conf name="test" visibility="public" description="" extends="runtime"/>
+		<conf name="provided" visibility="public" description=""/>
+		<conf name="optional" visibility="public" description=""/>
+		
+		
+		
+		
+		<conf name="sources" visibility="public" description=""/>
+		<conf name="docs" visibility="public" description=""/>
+		<conf name="pom" visibility="public" description=""/>
+		
+	</configurations>
+	<publications>
+		<artifact name="integration-tests" type="jar" ext="jar" conf="compile"/>
+		<artifact name="integration-tests" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+	</publications>
+	<dependencies>
+		
+		<dependency org="org.scala-lang" name="scala-library" rev="2.11.5" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.sbt" name="client-all-2-11" rev="0.3.5" conf="compile->default(compile)"/>
+		<dependency org="com.novocode" name="junit-interface" rev="0.11" conf="test->default(compile)"/>
+		<dependency org="org.scalacheck" name="scalacheck_2.11" rev="1.11.5" conf="test->default(compile)"/>
+		<dependency org="org.scala-sbt" name="serialization_2.11" rev="0.1.2" conf="compile->default(compile)"/>
+	</dependencies>
+</ivy-module>

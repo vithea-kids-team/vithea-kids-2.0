@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="org.springframework"
+		module="spring-beans"
+		revision="4.2.4.RELEASE"
+		status="release"
+		publication="20151217092959"
+	>
+		<license name="The Apache Software License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt" />
+		<description homepage="https://github.com/spring-projects/spring-framework">
+		Spring Beans
+		</description>
+		<e:sbtTransformHash>87e59183a103ba7310cc1dee55abed74497c3503</e:sbtTransformHash>
+	</info>
+	<configurations>
+		<conf name="default" visibility="public" description="runtime dependencies and master artifact can be used with this conf" extends="runtime,master"/>
+		<conf name="master" visibility="public" description="contains only the artifact published by this module itself, with no transitive dependencies"/>
+		<conf name="compile" visibility="public" description="this is the default scope, used if none is specified. Compile dependencies are available in all classpaths."/>
+		<conf name="provided" visibility="public" description="this is much like compile, but indicates you expect the JDK or a container to provide it. It is only available on the compilation classpath, and is not transitive."/>
+		<conf name="runtime" visibility="public" description="this scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath." extends="compile"/>
+		<conf name="test" visibility="private" description="this scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases." extends="runtime"/>
+		<conf name="system" visibility="public" description="this scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository."/>
+		<conf name="sources" visibility="public" description="this configuration contains the source artifact of this module, if any."/>
+		<conf name="javadoc" visibility="public" description="this configuration contains the javadoc artifact of this module, if any."/>
+		<conf name="optional" visibility="public" description="contains all optional dependencies"/>
+	</configurations>
+	<publications>
+		<artifact name="spring-beans" type="jar" ext="jar" conf="master"/>
+	</publications>
+	<dependencies>
+		<dependency org="javax.el" name="javax.el-api" rev="2.2.5" force="true" conf="optional->compile(*),master(compile)"/>
+		<dependency org="javax.inject" name="javax.inject" rev="1" force="true" conf="optional->compile(*),master(compile)"/>
+		<dependency org="org.codehaus.groovy" name="groovy-all" rev="2.4.5" force="true" conf="optional->compile(*),master(compile)"/>
+		<dependency org="org.springframework" name="spring-core" rev="4.2.4.RELEASE" force="true" conf="compile->compile(*),master(compile);runtime->runtime(*)"/>
+		<dependency org="org.yaml" name="snakeyaml" rev="1.16" force="true" conf="optional->compile(*),master(compile)"/>
+	</dependencies>
+</ivy-module>

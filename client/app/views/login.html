@@ -1,0 +1,15 @@
+<form name="loginForm" ng-submit="login()" novalidate>
+ <div>
+   <label for="email" data-i18n="common._Email_"></label>
+   <input name="email" class="form-control" type="email" id="email" 
+			data-i18n-attr="{placeholder: 'common._Email_'}"
+          ng-model="email">
+ </div>
+ <div>
+   <label for="password" data-i18n="common._Password_"></label>
+   <input name="password" class="form-control" type="password" id="password"
+         data-i18n-attr="{placeholder: 'common._Password_'}" ng-model="password">
+
+ </div>
+ <button type="submit" class="btn btn-primary" data-i18n="common._LoginBtn_"></button>
+</form>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>VITHEA Kids</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/fav/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/fav/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/fav/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/fav/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/fav/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/fav/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/fav/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/fav/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/fav/apple-touch-icon-180x180.png">
+	<link rel="icon" type="image/png" href="/fav/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/fav/favicon-194x194.png" sizes="194x194">
+	<link rel="icon" type="image/png" href="/fav/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/fav/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="/fav/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="/fav/manifest.json">
+	<link rel="mask-icon" href="/fav/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-TileImage" content="/fav/mstile-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="clientApp">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="header" style="border:0">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="#/" style="padding:0;margin:0">
+            	<img src="images/VITHEAkidsLogo.png" alt="VITHEA Kids" style="max-height:100%">
+            </a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="js-navbar-collapse" ng-controller="MenuCtrl">
+           <ul class="nav navbar-nav pull-right" ng-hide="isLoggedIn">
+             <li><a ng-href="/#/signup" data-i18n="common._Signup_"></a></li>
+             <li><a ng-href="/#/login" data-i18n="common._Login_"></a></li>
+           </ul>
+           <div class="btn-group pull-right acc-button" ng-show="isLoggedIn">
+             <button type="button" class="btn btn-default">{{ username }}</button>
+             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                     aria-expanded="false">
+               <span class="caret"></span>
+               <span class="sr-only">Toggle Dropdown</span>
+             </button>
+             <ul class="dropdown-menu" role="menu">
+               <li><a ng-href="/#" data-i18n="common._MyProfile_"></a></li>
+               <li class="divider"></li>
+               <li><a href="#" ng-click="logout()" data-i18n="common._Logout_"></a></li>
+             </ul>
+           </div>
+          </div>
+      </div>
+    </div>
+	</div>
+    <div class="container-fluid" style="height:80vh">
+      <div ng-controller="AlertsCtrl">
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{ alert.msg }}</alert>
+      </div>
+      <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation"  ng-show="isLoggedIn" ng-controller="MenuCtrl">
+         <ul class="nav">
+           <li class="active"><a href="#" data-i18n="common._Home_"></a></li>
+           <li data-toggle="collapse" data-target="#exercises" class="collapsed active">
+           <a ng-href="#" data-i18n="common._Exercises_"></a>
+	           <ul class="sub-menu collapse" id="exercises">
+	               <li class="active"><a href="#" data-i18n="common._CreateExercise_"></a></li>
+	               <li><a href="#" data-i18n="common._ManageExercises_"></a></li>	               
+	           </ul>             
+           </li>
+           <li data-toggle="collapse" data-target="#sequences" class="collapsed active">
+           <a ng-href="#" data-i18n="common._ExerciseSequences_"></a>
+	           <ul class="sub-menu collapse" id="sequences">
+	               <li class="active"><a href="#" data-i18n="common._CreateSequence_"></a></li>
+	               <li><a href="#" data-i18n="common._ManageSequences_"></a></li>	               
+	           </ul>             
+           </li>   
+           <li data-toggle="collapse" data-target="#multimedia" class="collapsed active">
+           <a ng-href="#" data-i18n="common._MultimediaResources_"></a>
+	           <ul class="sub-menu collapse" id="multimedia">
+	               <li class="active"><a href="#" data-i18n="common._CreateMultimediaResource_"></a></li>
+	               <li><a href="#" data-i18n="common._ManageMultimediaResources_"></a></li>	               
+	           </ul>             
+           </li>    
+           <li data-toggle="collapse" data-target="#children" class="collapsed active">
+           <a ng-href="#" data-i18n="common._Children_"></a>
+	           <ul class="sub-menu collapse" id="children">
+	               <li class="active"><a href="#" data-i18n="common._CreateChild_"></a></li>
+	               <li><a href="#" data-i18n="common._ManageChildren_"></a></li>	               
+	           </ul>             
+           </li> 
+           <li data-toggle="collapse" data-target="#preferences" class="collapsed active">
+           <a ng-href="#" data-i18n="common._Preferences_"></a>
+	           <ul class="sub-menu collapse" id="preferences">
+	               <li class="active"><a href="#" data-i18n="common._AnimatedCharacterMessages_"></a></li>
+	               <li><a href="#" data-i18n="common._Reinforcements_"></a></li>	               
+	           </ul>             
+           </li>                 
+         </ul>
+      </div>
+      <div class="col-xs-12 col-sm-9" ng-view="">
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+      </div>
+    </div>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-localization/angular-localization.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/signup.js"></script>
+        <script src="scripts/services/alerts.js"></script>
+        <script src="scripts/controllers/alerts.js"></script>
+        <script src="scripts/services/user.js"></script>
+        <script src="scripts/controllers/menu.js"></script>
+        <script src="scripts/controllers/login.js"></script>
+        <script src="scripts/controllers/dashboard.js"></script>
+        <script src="scripts/controllers/registerchild.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

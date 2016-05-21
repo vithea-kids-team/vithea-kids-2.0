@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven" xmlns:e="http://ant.apache.org/ivy/extra">
+	<info organisation="org.hibernate"
+		module="hibernate-validator-parent"
+		revision="5.2.4.Final"
+		status="release"
+		publication="20160217151456"
+	>
+		<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0.txt" />
+		<description homepage="http://hibernate.org/validator">
+		Aggregator of the Hibernate Validator modules.
+		</description>
+		<m:dependency.management__org.jboss.arquillian.testenricher__arquillian-testenricher-ejb__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.testenricher__arquillian-testenricher-ejb__version>
+		<m:properties__javax.el.version>2.2.4</m:properties__javax.el.version>
+		<m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-api__version>1.2.2</m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-api__version>
+		<m:dependency.management__org.jboss.arquillian.testenricher__arquillian-testenricher-initialcontext__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.testenricher__arquillian-testenricher-initialcontext__version>
+		<m:dependency.management__org.hibernate__hibernate-validator-cdi__version>5.2.4.Final</m:dependency.management__org.hibernate__hibernate-validator-cdi__version>
+		<m:dependency.management__org.jboss.arquillian.junit__arquillian-junit-standalone__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.junit__arquillian-junit-standalone__version>
+		<m:dependency.management__org.jboss.logging__jboss-logging__version>3.2.1.Final</m:dependency.management__org.jboss.logging__jboss-logging__version>
+		<m:dependency.management__org.jboss.arquillian.core__arquillian-core-impl-base__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.core__arquillian-core-impl-base__version>
+		<m:dependency.management__org.glassfish.web__javax.el__version>2.2.4</m:dependency.management__org.glassfish.web__javax.el__version>
+		<m:dependency.management__org.jboss.arquillian.container__arquillian-container-impl-base__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.container__arquillian-container-impl-base__version>
+		<m:properties__checkstyle.header.file>src/main/build-config/java.header</m:properties__checkstyle.header.file>
+		<m:dependency.management__org.jboss.arquillian.testenricher__arquillian-testenricher-resource__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.testenricher__arquillian-testenricher-resource__version>
+		<m:dependency.management__org.jboss.arquillian.container__arquillian-container-test-spi__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.container__arquillian-container-test-spi__version>
+		<m:dependency.management__org.jboss.logging__jboss-logging-annotations__version>1.2.0.Final</m:dependency.management__org.jboss.logging__jboss-logging-annotations__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-api__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-api__version>
+		<m:properties__paranamer.version>2.5.5</m:properties__paranamer.version>
+		<m:dependency.management__junit__junit__version>4.11</m:dependency.management__junit__junit__version>
+		<m:dependency.management__log4j__log4j__version>1.2.17</m:dependency.management__log4j__log4j__version>
+		<m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-impl-nio2__version>1.2.2</m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-impl-nio2__version>
+		<m:dependency.management__org.jboss.arquillian.container__arquillian-container-spi__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.container__arquillian-container-spi__version>
+		<m:dependency.management__org.jboss.arquillian.container__arquillian-weld-se-embedded-1.1__version>1.0.0.CR9</m:dependency.management__org.jboss.arquillian.container__arquillian-weld-se-embedded-1.1__version>
+		<m:properties__arquillian.version>1.1.9.Final</m:properties__arquillian.version>
+		<m:dependency.management__org.jboss.arquillian.config__arquillian-config-impl-base__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.config__arquillian-config-impl-base__version>
+		<m:dependency.management__org.hibernate__hibernate-validator-annotation-processor__version>5.2.4.Final</m:dependency.management__org.hibernate__hibernate-validator-annotation-processor__version>
+		<m:dependency.management__org.easymock__easymock__version>3.1</m:dependency.management__org.easymock__easymock__version>
+		<e:sbtTransformHash>66a97a59a9cd187cc05f2dec69115fef07f83974</e:sbtTransformHash>
+		<m:dependency.management__org.jboss.arquillian.testng__arquillian-testng-core__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.testng__arquillian-testng-core__version>
+		<m:maven.plugins>org.apache.maven.plugins__maven-enforcer-plugin__1.0.1</m:maven.plugins>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-api-javaee__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-api-javaee__version>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-impl-javaee__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-impl-javaee__version>
+		<m:dependency.management__org.jboss.arquillian.config__arquillian-config-api__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.config__arquillian-config-api__version>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-spi__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-spi__version>
+		<m:properties__wildfly.version>10.0.0.CR5</m:properties__wildfly.version>
+		<m:dependency.management__org.jboss.weld__weld-core__version>2.3.0.CR2</m:dependency.management__org.jboss.weld__weld-core__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-api-maven__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-api-maven__version>
+		<m:dependency.management__org.jboss.arquillian.junit__arquillian-junit-core__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.junit__arquillian-junit-core__version>
+		<m:dependency.management__org.jboss.spec.javax.ejb__jboss-ejb-api_3.2_spec__version>1.0.0.Final</m:dependency.management__org.jboss.spec.javax.ejb__jboss-ejb-api_3.2_spec__version>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-impl-base__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-impl-base__version>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-api-base__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-api-base__version>
+		<m:properties__org.codehaus.mojo.chronos.version>1.0-beta-3</m:properties__org.codehaus.mojo.chronos.version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-impl-maven-archive__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-impl-maven-archive__version>
+		<m:dependency.management__org.jboss.arquillian.test__arquillian-test-impl-base__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.test__arquillian-test-impl-base__version>
+		<m:properties__jboss.logging.version>3.2.1.Final</m:properties__jboss.logging.version>
+		<m:dependency.management__org.jsoup__jsoup__version>1.8.3</m:dependency.management__org.jsoup__jsoup__version>
+		<m:dependency.management__org.jboss.arquillian.container__arquillian-container-test-impl-base__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.container__arquillian-container-test-impl-base__version>
+		<m:dependency.management__javax.el__javax.el-api__version>2.2.4</m:dependency.management__javax.el__javax.el-api__version>
+		<m:properties__jsoup.version>1.8.3</m:properties__jsoup.version>
+		<m:properties__maven.javadoc.skip>true</m:properties__maven.javadoc.skip>
+		<m:dependency.management__org.hibernate__hibernate-validator-test-utils__version>5.2.4.Final</m:dependency.management__org.hibernate__hibernate-validator-test-utils__version>
+		<m:dependency.management__com.fasterxml__classmate__version>1.1.0</m:dependency.management__com.fasterxml__classmate__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-api-maven-archive__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-api-maven-archive__version>
+		<m:dependency.management__org.hibernate__hibernate-validator__version>5.2.4.Final</m:dependency.management__org.hibernate__hibernate-validator__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-depchain__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-depchain__version>
+		<m:dependency.management__org.easytesting__fest-assert__version>1.4</m:dependency.management__org.easytesting__fest-assert__version>
+		<m:dependency.management__org.jboss.arquillian.core__arquillian-core-api__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.core__arquillian-core-api__version>
+		<m:dependency.management__org.jboss.arquillian.test__arquillian-test-spi__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.test__arquillian-test-spi__version>
+		<m:dependency.management__org.jboss.arquillian.junit__arquillian-junit-container__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.junit__arquillian-junit-container__version>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-gen__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-gen__version>
+		<m:dependency.management__org.codehaus.groovy__groovy-jsr223__version>2.4.1</m:dependency.management__org.codehaus.groovy__groovy-jsr223__version>
+		<m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-impl-base__version>1.2.2</m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-impl-base__version>
+		<m:dependency.management__org.slf4j__slf4j-api__version>1.7.2</m:dependency.management__org.slf4j__slf4j-api__version>
+		<m:dependency.management__org.slf4j__slf4j-log4j12__version>1.7.2</m:dependency.management__org.slf4j__slf4j-log4j12__version>
+		<m:dependency.management__org.jboss.arquillian.protocol__arquillian-protocol-jmx__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.protocol__arquillian-protocol-jmx__version>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-api-jboss__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-api-jboss__version>
+		<m:properties__slf4j.version>1.7.2</m:properties__slf4j.version>
+		<m:dependency.management__org.testng__testng__version>6.8</m:dependency.management__org.testng__testng__version>
+		<m:dependency.management__javax.annotation__javax.annotation-api__version>1.2</m:dependency.management__javax.annotation__javax.annotation-api__version>
+		<m:properties__jboss.logging.processor.version>1.2.0.Final</m:properties__jboss.logging.processor.version>
+		<m:dependency.management__org.jboss.arquillian.config__arquillian-config-spi__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.config__arquillian-config-spi__version>
+		<m:properties__joda-time.version>2.7</m:properties__joda-time.version>
+		<m:dependency.management__org.jboss.arquillian.testng__arquillian-testng-standalone__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.testng__arquillian-testng-standalone__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-maven-plugin__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-maven-plugin__version>
+		<m:dependency.management__org.jboss.arquillian.container__arquillian-container-test-api__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.container__arquillian-container-test-api__version>
+		<m:dependency.management__org.jboss.arquillian.core__arquillian-core-spi__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.core__arquillian-core-spi__version>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-impl-jboss__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-impl-jboss__version>
+		<m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-depchain__version>1.2.2</m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-depchain__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-impl-maven__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-impl-maven__version>
+		<m:dependency.management__org.jboss.arquillian.test__arquillian-test-api__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.test__arquillian-test-api__version>
+		<m:dependency.management__org.jboss.arquillian.testng__arquillian-testng-container__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.testng__arquillian-testng-container__version>
+		<m:dependency.management__javax.enterprise__cdi-api__version>1.2</m:dependency.management__javax.enterprise__cdi-api__version>
+		<m:dependency.management__org.wildfly.arquillian__wildfly-arquillian-container-managed__exclusion_0>sun.jdk__jconsole</m:dependency.management__org.wildfly.arquillian__wildfly-arquillian-container-managed__exclusion_0>
+		<m:dependency.management__com.thoughtworks.paranamer__paranamer__version>2.5.5</m:dependency.management__com.thoughtworks.paranamer__paranamer__version>
+		<m:dependency.management__org.jboss.arquillian.protocol__arquillian-protocol-servlet__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.protocol__arquillian-protocol-servlet__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-maven-plugin__scope>runtime</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-maven-plugin__scope>
+		<m:dependency.management__org.jboss.spec.javax.interceptor__jboss-interceptors-api_1.2_spec__version>1.0.0.Final</m:dependency.management__org.jboss.spec.javax.interceptor__jboss-interceptors-api_1.2_spec__version>
+		<m:dependency.management__org.wildfly.arquillian__wildfly-arquillian-container-managed__version>1.0.1.Final</m:dependency.management__org.wildfly.arquillian__wildfly-arquillian-container-managed__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-spi__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-spi__version>
+		<m:properties__project.build.sourceEncoding>UTF-8</m:properties__project.build.sourceEncoding>
+		<m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-depchain-java7__version>1.2.2</m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-depchain-java7__version>
+		<m:dependency.management__org.jboss.logging__jboss-logging-processor__version>1.2.0.Final</m:dependency.management__org.jboss.logging__jboss-logging-processor__version>
+		<m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-spi__version>1.2.2</m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-spi__version>
+		<m:properties__classmate.version>1.1.0</m:properties__classmate.version>
+		<m:dependency.management__org.jboss.arquillian.testenricher__arquillian-testenricher-cdi__version>1.1.9.Final</m:dependency.management__org.jboss.arquillian.testenricher__arquillian-testenricher-cdi__version>
+		<m:dependency.management__javax.validation__validation-api__version>1.1.0.Final</m:dependency.management__javax.validation__validation-api__version>
+		<m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-api-nio2__version>1.2.2</m:dependency.management__org.jboss.shrinkwrap__shrinkwrap-api-nio2__version>
+		<m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-spi-maven__version>2.1.1</m:dependency.management__org.jboss.shrinkwrap.resolver__shrinkwrap-resolver-spi-maven__version>
+		<m:dependency.management__org.hibernate.javax.persistence__hibernate-jpa-2.1-api__version>1.0.0.Final</m:dependency.management__org.hibernate.javax.persistence__hibernate-jpa-2.1-api__version>
+		<m:dependency.management__joda-time__joda-time__version>2.7</m:dependency.management__joda-time__joda-time__version>
+		<m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-depchain__version>2.0.0-alpha-7</m:dependency.management__org.jboss.shrinkwrap.descriptors__shrinkwrap-descriptors-depchain__version>
+		<m:properties__bv.api.version>1.1.0.Final</m:properties__bv.api.version>
+	</info>
+	<configurations>
+		<conf name="default" visibility="public" description="runtime dependencies and master artifact can be used with this conf" extends="runtime,master"/>
+		<conf name="master" visibility="public" description="contains only the artifact published by this module itself, with no transitive dependencies"/>
+		<conf name="compile" visibility="public" description="this is the default scope, used if none is specified. Compile dependencies are available in all classpaths."/>
+		<conf name="provided" visibility="public" description="this is much like compile, but indicates you expect the JDK or a container to provide it. It is only available on the compilation classpath, and is not transitive."/>
+		<conf name="runtime" visibility="public" description="this scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath." extends="compile"/>
+		<conf name="test" visibility="private" description="this scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases." extends="runtime"/>
+		<conf name="system" visibility="public" description="this scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository."/>
+		<conf name="sources" visibility="public" description="this configuration contains the source artifact of this module, if any."/>
+		<conf name="javadoc" visibility="public" description="this configuration contains the javadoc artifact of this module, if any."/>
+		<conf name="optional" visibility="public" description="contains all optional dependencies"/>
+	</configurations>
+	<publications>
+	</publications>
+</ivy-module>
