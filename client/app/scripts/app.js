@@ -36,7 +36,11 @@ angular
           .when('/login', {
             templateUrl: 'views/login.html',
             controller: 'LoginCtrl'
-          })          
+          })
+          .when('/registerchild', {
+            templateUrl: 'views/registerchild.html',
+            controller: 'RegisterchildCtrl'
+          })
           .otherwise({
             redirectTo: '/'
           });

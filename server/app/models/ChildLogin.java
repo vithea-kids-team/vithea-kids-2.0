@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.Model.Finder;
 
 @Entity
 public class ChildLogin extends Model {
@@ -95,5 +96,14 @@ public class ChildLogin extends Model {
 	public void addSequence(Sequence sequence) {
 		this.sequenceList.add(sequence);
 	}
+	
+	public static final Finder<Long, ChildLogin> find = new Finder<>(ChildLogin.class);
+
+	public static ChildLogin findByUsername(String username) {
+        return find
+	        .where()
+	        .eq("childUsername", username.toLowerCase())
+	        .findUnique();
+    }
 
 }

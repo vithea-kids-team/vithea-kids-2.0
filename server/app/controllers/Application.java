@@ -4,6 +4,8 @@ import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Caregiver;
+import models.Child;
+import models.ChildLogin;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
@@ -45,6 +47,22 @@ public class Application extends Controller {
 	 @Constraints.Required
 	 public String password;
 	}
+	
+	public static class RegisterChild {
+		 @Constraints.Required
+		 @Constraints.MinLength(6)
+		 public String password;
+		 
+		 public String username;
+		 
+		 public String passwordcheck;
+		 
+		 public String firstname;
+		 
+		 public String lastname;
+		 
+		 public String gender;
+		}
 
     /**
      * Signup action
@@ -120,7 +138,36 @@ public class Application extends Controller {
 	   wrapper.put("success", msg);
 	   return ok(wrapper);
 	 }
-	}	
+	}
+	
+	/**
+     * RegisterChild action
+     */
+	@Inject FormFactory formFactory1;
+    public Result registerchild() {
+	 Form<RegisterChild> registerChildForm = formFactory.form(RegisterChild.class).bindFromRequest();
+
+	 if ( registerChildForm.hasErrors()) {
+	   return badRequest(registerChildForm.errorsAsJson());
+	 }
+	 RegisterChild newUser =  registerChildForm.get();
+	 ChildLogin existingUser = ChildLogin.findByUsername(newUser.username);
+	 if(existingUser != null) {
+	   return badRequest(buildJsonResponse("error", "User exists"));
+	 } else {
+	   ChildLogin user = new ChildLogin();
+	   user.setPassword(newUser.password);
+	   user.setChildUserName(newUser.username);
+	   
+	   Child userInfo = new Child();
+	   userInfo.setFirstName(newUser.firstname);
+	   userInfo.setLastName(newUser.lastname);
+	   userInfo.setGender(newUser.gender);
+	   userInfo.save();
+
+	   return ok(buildJsonResponse("success", "User created successfully"));
+	 }
+	}
 
 	private static ObjectNode buildJsonResponse(String type, String message) {
 	  ObjectNode wrapper = Json.newObject();
