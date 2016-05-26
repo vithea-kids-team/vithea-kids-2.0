@@ -1,6 +1,5 @@
 package controllers;
 
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -193,7 +192,11 @@ public class Application extends Controller {
 	  ObjectNode wrapper = Json.newObject();
 	  ObjectNode msg = Json.newObject();
 	  msg.put("message", message);
-	  wrapper.put(type, msg);
+	  wrapper.set(type, msg);
 	  return wrapper;
+	}
+	
+	public Result getChildren() {
+	 return ok(Json.toJson(Child.find.findList()));
 	}
 }

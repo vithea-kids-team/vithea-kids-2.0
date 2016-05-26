@@ -23,9 +23,9 @@ public class ChildLogin extends Model {
 	
 	private boolean enabled;	
 	
-	private List<Caregiver> caregivers;
+	//private List<Caregiver> caregivers;
 		
-	private List<Sequence> sequenceList;
+	//private List<Sequence> sequenceList;
 
 	public Long getChildId() {
 		return childId;
@@ -65,40 +65,40 @@ public class ChildLogin extends Model {
 		this.enabled = enabled;
 	}
 
-	/**
-	 * @return the caregivers
-	 */
-	public List<Caregiver> getCaregivers() {
-		return caregivers;
-	}
-
-	/**
-	 * @param caregivers the caregivers to set
-	 */
-	public void setCaregivers(List<Caregiver> caregivers) {
-		this.caregivers = caregivers;
-	}
-
-	/**
-	 * @return the sequenceList
-	 */
-	public List<Sequence> getSequenceList() {
-		return sequenceList;
-	}
-
-	/**
-	 * @param sequenceList the sequenceList to set
-	 */
-	public void setSequenceList(List<Sequence> sequenceList) {
-		this.sequenceList = sequenceList;
-	}
-	
-	/**
-	 * @param sequence the sequence to add to sequenceList
-	 */
-	public void addSequence(Sequence sequence) {
-		this.sequenceList.add(sequence);
-	}
+//	/**
+//	 * @return the caregivers
+//	 */
+//	public List<Caregiver> getCaregivers() {
+//		return caregivers;
+//	}
+//
+//	/**
+//	 * @param caregivers the caregivers to set
+//	 */
+//	public void setCaregivers(List<Caregiver> caregivers) {
+//		this.caregivers = caregivers;
+//	}
+//
+//	/**
+//	 * @return the sequenceList
+//	 */
+//	public List<Sequence> getSequenceList() {
+//		return sequenceList;
+//	}
+//
+//	/**
+//	 * @param sequenceList the sequenceList to set
+//	 */
+//	public void setSequenceList(List<Sequence> sequenceList) {
+//		this.sequenceList = sequenceList;
+//	}
+//	
+//	/**
+//	 * @param sequence the sequence to add to sequenceList
+//	 */
+//	public void addSequence(Sequence sequence) {
+//		this.sequenceList.add(sequence);
+//	}
 	
 	public static final Finder<Long, ChildLogin> find = new Finder<>(ChildLogin.class);
 

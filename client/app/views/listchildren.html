@@ -1,4 +1,21 @@
-<table st-table="childrenList" class="table table-striped">
+<div class="panel panel-default" ng-repeat="child in children">
+ <div class="panel-body">
+   <h4>{{ child.firstName }}&nbsp;{{ child.lastName }}</h4>
+   <p>
+     {{ child.birthDate }}
+   </p>
+   <p>
+     {{ child.gender }}
+   </p>
+ </div>
+
+ <div class="panel-footer">Rodapé | <a
+     ng-href="/#/viewchild/{{ child.child_id }}">Coisas
+   <span class="badge">count</span></a></div>
+</div>
+
+
+<!--<table st-table="childrenList" class="table table-striped">
 	<thead>
 	<tr>
 		<th>Primeiro nome</th>
@@ -16,4 +33,4 @@
 		<td>{{row.password}}</td>
 	</tr>
 	</tbody>
-</table>
+</table>-->

@@ -10,9 +10,12 @@
 angular.module('clientApp')
   .controller('ListchildrenCtrl', function ($scope, $http, $log, alertService, $location, userService) {
 
-      $scope.childrenList = [
-         {firstName: 'Laurent', lastName: 'Renard', username: 'username', password: 'password', gender: 'girl'},
-         {firstName: 'Blandine', lastName: 'Faivre', username: 'username', password: 'password', gender: 'girl'},
-         {firstName: 'Francoise', lastName: 'Frere', username: 'username', password: 'password', gender: 'girl'}
-     ];
+	  $scope.getChildren = function() {
+       $http.get('app/listchildren')
+           .success(function(data) {
+             $scope.children = data;
+           });
+     };
+
+     $scope.getChildren();
   });

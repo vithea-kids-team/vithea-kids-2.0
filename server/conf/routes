@@ -18,3 +18,4 @@ POST   		/app/registerchild         	controllers.Application.registerchild
 POST        /app/login                  controllers.Application.login
 GET         /app/logout                 controllers.Application.logout
 GET         /app/isauthenticated        controllers.Application.isAuthenticated
+GET         /app/listchildren           controllers.Application.getChildren

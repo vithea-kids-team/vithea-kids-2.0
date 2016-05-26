@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.Model.Finder;
 
 @Entity
 public class Child extends Model {
@@ -30,6 +31,8 @@ public class Child extends Model {
 	@OneToOne (cascade=CascadeType.ALL)
 	@JoinColumn(name="child_id")
 	private ChildLogin childLogin;
+	
+	public static final Finder<Long, Child> find = new Finder<>(Child.class);
 
 	public String getFirstName() {
 		return firstName;
