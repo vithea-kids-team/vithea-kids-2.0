@@ -9,7 +9,19 @@
  */
 angular.module('clientApp')
     .controller('SignupCtrl', function ($scope, $http, $log, alertService, $location, userService) {
-
+		$scope.genders = [{
+	        id: "Male",
+	        name: "Masculino"        
+	    }, {
+	        id: "Female",
+	        name: "Feminino"        
+	    }, {
+	        id: "Other",
+	        name: "Outro"        
+	    }];
+    	
+      $scope.selected_gender = "Other";
+		
       $scope.signup = function() {
         var payload = {
           username : $scope.username,

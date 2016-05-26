@@ -1,5 +1,11 @@
 package controllers;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -62,6 +68,8 @@ public class Application extends Controller {
 		 public String lastname;
 		 
 		 public String gender;
+		 
+		 public String birthdate;
 		}
 
     /**
@@ -114,7 +122,7 @@ public class Application extends Controller {
 	   ObjectNode msg = Json.newObject();
 	   msg.put("message", "Logged in successfully");
 	   msg.put("user", loggingInUser.email);
-	   wrapper.put("success", msg);
+	   wrapper.set("success", msg);
 	   return ok(wrapper);
 	 }
 	}
@@ -135,7 +143,7 @@ public class Application extends Controller {
 	   ObjectNode msg = Json.newObject();
 	   msg.put("message", "User is logged in already");
 	   msg.put("user", session().get("username"));
-	   wrapper.put("success", msg);
+	   wrapper.set("success", msg);
 	   return ok(wrapper);
 	 }
 	}
@@ -158,11 +166,23 @@ public class Application extends Controller {
 	   ChildLogin user = new ChildLogin();
 	   user.setPassword(newUser.password);
 	   user.setChildUserName(newUser.username);
+	   user.save();
 	   
 	   Child userInfo = new Child();
+	   userInfo.setChildLogin(user);
 	   userInfo.setFirstName(newUser.firstname);
 	   userInfo.setLastName(newUser.lastname);
 	   userInfo.setGender(newUser.gender);
+	   
+	   DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+	   try {
+		   java.util.Date utilDate = format.parse(newUser.birthdate);
+		   java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			userInfo.setBirthDate(sqlDate );
+	   } catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	   }
 	   userInfo.save();
 
 	   return ok(buildJsonResponse("success", "User created successfully"));

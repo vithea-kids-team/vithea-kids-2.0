@@ -34,5 +34,6 @@
         "_SignUpBtn_":"Registar",
         "_Select_":"Escolher...",
         "_LoginBtn_":"Entrar",
-        "_RegisterChildBtn_":"Registar criança"
+        "_RegisterChildBtn_":"Registar criança",
+        "_BirthDate_":"Data de nascimento"
 }

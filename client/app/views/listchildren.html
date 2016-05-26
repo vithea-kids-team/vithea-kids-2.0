@@ -1,0 +1,19 @@
+<table st-table="childrenList" class="table table-striped">
+	<thead>
+	<tr>
+		<th>Primeiro nome</th>
+		<th>Último nome</th>
+		<th>Género</th>
+		<th>Username</th>
+		<th>Password</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr ng-repeat="row in childrenList">
+		<td>{{row.firstName}}</td>
+		<td>{{row.lastName}}</td>
+		<td>{{row.gender}}</td>
+		<td>{{row.password}}</td>
+	</tr>
+	</tbody>
+</table>

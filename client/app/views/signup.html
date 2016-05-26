@@ -37,15 +37,12 @@
   </div>
   
   <div>
-  	<label for="gender" data-i18n="common._Gender_"></label><br>
-  	<select name="gender" ng-model="gender" id="gender">
-      <option value="" data-i18n="common._Select_"></option>
-      <option value="Masculino" data-i18n="common._Male_"></option>
-      <option value="Feminino" data-i18n="common._Female_"></option>
-      <option value="Outro" data-i18n="common._Other_"></option>
-    </select><br>
+  	<label for="gender" data-i18n="common._Gender_"></label><br>    
+    <bs-dropdown data-menu-type="button" select-val="gender = selectedVal"
+		preselected-item="selected_gender" data-dropdown-data="genders"></bs-dropdown>
+  	<br>
   </div>
-  
+<br>  
 
   <button type="submit" class="btn btn-primary" data-i18n="common._SignUpBtn_"></button>
 </form>

@@ -3,6 +3,8 @@ package models;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.avaje.ebean.Model;
@@ -12,6 +14,7 @@ import com.avaje.ebean.Model.Finder;
 public class ChildLogin extends Model {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long childId;
 	
 	private String childUserName;
@@ -102,7 +105,7 @@ public class ChildLogin extends Model {
 	public static ChildLogin findByUsername(String username) {
         return find
 	        .where()
-	        .eq("childUsername", username.toLowerCase())
+	        .eq("childUserName", username.toLowerCase())
 	        .findUnique();
     }
 

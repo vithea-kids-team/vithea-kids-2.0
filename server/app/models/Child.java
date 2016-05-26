@@ -2,7 +2,10 @@ package models;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -12,6 +15,10 @@ import com.avaje.ebean.Model;
 @Entity
 public class Child extends Model {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
 	private String firstName;
 	
 	private String lastName;
@@ -20,7 +27,7 @@ public class Child extends Model {
 	
 	private String gender;
 	
-	@OneToOne
+	@OneToOne (cascade=CascadeType.ALL)
 	@JoinColumn(name="child_id")
 	private ChildLogin childLogin;
 

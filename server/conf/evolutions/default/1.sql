@@ -17,12 +17,14 @@ create table caregiver (
 ;
 
 create table child (
+  id                        bigint auto_increment not null,
   first_name                varchar(255),
   last_name                 varchar(255),
   birth_date                date,
   gender                    varchar(255),
   child_id                  bigint,
-  constraint uq_child_child_id unique (child_id))
+  constraint uq_child_child_id unique (child_id),
+  constraint pk_child primary key (id))
 ;
 
 create table child_login (
