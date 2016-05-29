@@ -19,7 +19,7 @@ angular.module('clientApp').directive('bsDropdown', function ($compile) {
             var html = '';
             switch (attrs.menuType) {
                 case "button":
-                    html += '<div class="btn-group"><button class="btn btn-default button-label" style="width:90px;" data-i18n="common._Select_"></button><button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
+                    html += '<div class="btn-group"><button class="btn btn-default button-label" style="width:90px;"></button><button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>';
                     break;
                 default:
                     html += '<div class="dropdown"><a class="dropdown-toggle" role="button" data-toggle="dropdown"  href="javascript:;">Dropdown<b class="caret"></b></a>';

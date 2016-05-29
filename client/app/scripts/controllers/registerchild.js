@@ -9,7 +9,12 @@
  */
 angular.module('clientApp')
   .controller('RegisterChildCtrl', function ($scope, $http, $log, alertService, $location, userService) {
-	  $scope.genders = [{
+	  $scope.genders = [
+        {
+        	id: "Select",
+        	name: "Selecionar..."
+        },
+	    {
 	        id: "Male",
 	        name: "Masculino"        
 	    }, {
@@ -20,7 +25,7 @@ angular.module('clientApp')
 	        name: "Outro"        
 	    }];
 	  
-	  $scope.selected_gender = "Other";
+	  $scope.selected_gender = "Select";
 	    
     $scope.registerchild = function() {
         var payload = {
