@@ -7,6 +7,11 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 import play.data.validation.Constraints;
@@ -18,10 +23,6 @@ public class Caregiver extends Model {
 	
 	@Id
 	private Long caregiverId;
-	
-	private String userName;
-	
-	public byte[] password;
 	
 	private String firstName;
 	
@@ -35,11 +36,14 @@ public class Caregiver extends Model {
 
 	private String gender;
 	
-	private boolean active;
-
-	private List<ChildLogin> childList;
-
+	@OneToOne (cascade=CascadeType.ALL)
+	@JoinColumn(name="caregiverlogin_id")
+	private Login caregiverLogin;
 	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "CaregiverChild")
+	private List<Login> childList;
+
 	/**
 	 * @return the caregiverId
 	 */
@@ -52,34 +56,6 @@ public class Caregiver extends Model {
 	 */
 	public void setCaregiverId(Long caregiverId) {
 		this.caregiverId = caregiverId;
-	}
-
-	/**
-	 * @return the userName
-	 */
-	public String getUserName() {
-		return userName;
-	}
-
-	/**
-	 * @param userName the userName to set
-	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	/**
-	 * @return the password
-	 */
-	public byte[] getPassword() {
-		return password;
-	}
-
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = getSha512(password);
 	}
 
 	/**
@@ -139,24 +115,38 @@ public class Caregiver extends Model {
 	}
 
 	/**
-	 * @return the active
+	 * @return the caregiverLogin
 	 */
-	public boolean isActive() {
-		return active;
+	public Login getCaregiverLogin() {
+		return caregiverLogin;
 	}
 
 	/**
-	 * @param active the active to set
+	 * @param caregiverLogin the caregiverLogin to set
 	 */
-	public void setActive(boolean active) {
-		this.active = active;
+	public void setCaregiverLogin(Login caregiverLogin) {
+		this.caregiverLogin = caregiverLogin;
+	}
+
+	/**
+	 * @return the childList
+	 */
+	public List<Login> getChildList() {
+		return childList;
+	}
+
+	/**
+	 * @param childList the childList to set
+	 */
+	public void setChildList(List<Login> childList) {
+		this.childList = childList;
 	}
 
 	/**
 	 * Adds a child
 	 * @param child
 	 */
-	public void addChild(ChildLogin child) {
+	public void addChild(Login child) {
 		childList.add(child);
 	}	
 
@@ -168,25 +158,4 @@ public class Caregiver extends Model {
 	        .eq("email", email.toLowerCase())
 	        .findUnique();
     }
-
-    public static Caregiver findByEmailAndPassword(String email, String password) {
-	    return find
-	        .where()
-	        .eq("email", email.toLowerCase())
-	        .eq("password", getSha512(password))
-	        .findUnique();
-	}
-
-	 public static byte[] getSha512(String value) {
-	    try {
-	      return MessageDigest.getInstance("SHA-512").digest(value.getBytes("UTF-8"));
-	    }
-	    catch (NoSuchAlgorithmException e) {
-	      throw new RuntimeException(e);
-	    }
-	    catch (UnsupportedEncodingException e) {
-	      throw new RuntimeException(e);
-	    }
-	  }
-
 }

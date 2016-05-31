@@ -79,7 +79,7 @@
       </div>
     </div>
 	</div>
-    <div class="container-fluid" style="height:80vh">
+    <div class="container-fluid" style="min-height:80vh">
       <div ng-controller="AlertsCtrl">
         <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()">{{ alert.msg }}</alert>
       </div>
@@ -107,12 +107,8 @@
 	               <li><a href="#" data-i18n="common._ManageMultimediaResources_"></a></li>	               
 	           </ul>             
            </li>    
-           <li data-toggle="collapse" data-target="#children" class="collapsed active">
-           <a ng-href="#" data-i18n="common._Children_"></a>
-	           <ul class="sub-menu collapse" id="children">
-	               <li class="active"><a href="/#/registerchild" data-i18n="common._CreateChild_"></a></li>
-	               <li><a href="/#/listchildren" data-i18n="common._ManageChildren_"></a></li>	               
-	           </ul>             
+           <li>
+           		<a href="/#/children" data-i18n="common._Children_"></a>	                       
            </li> 
            <li data-toggle="collapse" data-target="#preferences" class="collapsed active">
            <a ng-href="#" data-i18n="common._Preferences_"></a>
@@ -166,8 +162,7 @@
         <script src="scripts/controllers/menu.js"></script>
         <script src="scripts/controllers/login.js"></script>
         <script src="scripts/controllers/dashboard.js"></script>
-        <script src="scripts/controllers/registerchild.js"></script>
-        <script src="scripts/controllers/listchildren.js"></script>
+        <script src="scripts/controllers/children.js"></script>
         
         <script src="scripts/controllers/utils/alerts.js"></script>
         <script src="scripts/controllers/utils/dropdown.js"></script>

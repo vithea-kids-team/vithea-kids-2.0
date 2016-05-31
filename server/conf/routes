@@ -13,9 +13,11 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # HomePage
-POST   		/app/signup       		   	controllers.Application.signup
-POST   		/app/registerchild         	controllers.Application.registerchild
-POST        /app/login                  controllers.Application.login
-GET         /app/logout                 controllers.Application.logout
-GET         /app/isauthenticated        controllers.Application.isAuthenticated
-GET         /app/listchildren           controllers.Application.getChildren
+POST   		/app/signup       		   	controllers.ApplicationCtrl.signup
+POST   		/app/registerchild         	controllers.ChildCtrl.registerchild
+POST        /app/login                  controllers.ApplicationCtrl.login
+GET         /app/logout                 controllers.ApplicationCtrl.logout
+GET         /app/isauthenticated        controllers.ApplicationCtrl.isAuthenticated
+# Child
+GET         /app/listchildren           controllers.ChildCtrl.getChildren
+POST        /app/deletechild/:child     controllers.ChildCtrl.deleteChild(child:Long)

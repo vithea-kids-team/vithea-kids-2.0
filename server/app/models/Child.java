@@ -11,14 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
-import com.avaje.ebean.Model.Finder;
 
 @Entity
 public class Child extends Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long childId;
 	
 	private String firstName;
 	
@@ -29,10 +28,31 @@ public class Child extends Model {
 	private String gender;
 	
 	@OneToOne (cascade=CascadeType.ALL)
-	@JoinColumn(name="child_id")
-	private ChildLogin childLogin;
+	@JoinColumn(name="childlogin_id")
+	private Login childLogin;
 	
 	public static final Finder<Long, Child> find = new Finder<>(Child.class);
+
+	public static Child findByChildId(Long childId) {
+        return find
+	        .where()
+	        .eq("child_id", childId)
+	        .findUnique();
+    }
+	
+	/**
+	 * @return the childId
+	 */
+	public Long getChildId() {
+		return childId;
+	}
+
+	/**
+	 * @param childId the childId to set
+	 */
+	public void setChildId(Long childId) {
+		this.childId = childId;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -77,15 +97,16 @@ public class Child extends Model {
 	/**
 	 * @param childLogin the childLogin to set
 	 */
-	public void setChildLogin(ChildLogin childLogin) {
+	public void setChildLogin(Login childLogin) {
 		this.childLogin = childLogin;
 	}
 
 	/**
 	 * @return the childLogin
 	 */
-	public ChildLogin getChildLogin() {
+	public Login getChildLogin() {
 		return childLogin;
 	}	
 
+	
 }
