@@ -47,8 +47,6 @@ public class ApplicationCtrl extends Controller {
 		public String password;
 	}
 	 
-	
-
     /**
      * Signup action
      */
@@ -64,13 +62,7 @@ public class ApplicationCtrl extends Controller {
 	 if(existingUser != null) {
 	   return badRequest(buildJsonResponse("error", "User exists"));
 	 } else {
-	   Caregiver user = new Caregiver();
-	   user.setEmail(newUser.email);	  
-	   user.setFirstName(newUser.firstname);
-	   user.setLastName(newUser.lastname);
-	   user.setGender(newUser.gender);
-	   user.save();
-	   
+	      
 	   Login userlogin = new Login();
 	   userlogin.setPassword(newUser.password);
 	   userlogin.setUserName(newUser.username);
@@ -78,8 +70,16 @@ public class ApplicationCtrl extends Controller {
 	   userlogin.setUserType(0);
 	   userlogin.save();
 	   
+	   Caregiver user = new Caregiver();
+	   user.setCaregiverLogin(userlogin);
+	   user.setEmail(newUser.email);	  
+	   user.setFirstName(newUser.firstname);
+	   user.setLastName(newUser.lastname);
+	   user.setGender(newUser.gender);
+	   user.save();
+	   
 	   session().clear();
-	   session("username", newUser.email);
+	   session("username", newUser.username);
 
 	   return ok(buildJsonResponse("success", "User created successfully"));
 	 }

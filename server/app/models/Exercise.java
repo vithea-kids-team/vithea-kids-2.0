@@ -1,83 +1,125 @@
 package models;
 
-import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
 
-@MappedSuperclass
-public abstract class Exercise extends Model {
-	/**
-	 * Exercise ID
-	 */
+@Entity
+public class Exercise extends Model {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "exerciseId", unique = true, nullable = false)
 	private Long exerciseId;
 	
-	/* Common parts */
+	@ManyToOne
+	private Topic topic;
 	
-	/**
-	 * Topic of the exercise
-	 */
-//	@ManyToOne
-//	private Topic topic;
+	@ManyToOne
+	private Level level;
+	
+	@ManyToOne
+	private Question question;
+	
+	@OneToOne
+	private Answer rightAnswer;
+	
+	@ManyToMany
+	private List<Answer> distractors;
 	
 	@ManyToOne
 	private Caregiver author;
 
 	/**
-	 * Difficulty level
-	 */
-	private int level;
-	
-	
-	/** 
-	 * Specifies whether the exercise is automatic or manual
-	 */
-	private boolean isAutomatic; 
-	
-	/**
-	 * How the answer should be provided by the child
-	 */
-	private String instruction;
-	
-
-	/**
-	 * @param exerciseId
-	 *            The exercise ID
-	 */
-	public void setExerciseId(Long exerciseId) {
-		this.exerciseId = exerciseId;
-	}
-
-	/**
-	 * @return The exercise ID
+	 * @return the exerciseId
 	 */
 	public Long getExerciseId() {
 		return exerciseId;
 	}
 
 	/**
-	 * @param topic The topic of the exercise
+	 * @param exerciseId the exerciseId to set
 	 */
-//	public void setTopic(Topic topic) {
-//		this.topic = topic;
-//	}
-//
-//	/**
-//	 * @return The topic of the exercise
-//	 */
-//	public Topic getTopic() {
-//		return topic;
-//	}
+	public void setExerciseId(Long exerciseId) {
+		this.exerciseId = exerciseId;
+	}
+
+	/**
+	 * @return the topic
+	 */
+	public Topic getTopic() {
+		return topic;
+	}
+
+	/**
+	 * @param topic the topic to set
+	 */
+	public void setTopic(Topic topic) {
+		this.topic = topic;
+	}
+
+	/**
+	 * @return the level
+	 */
+	public Level getLevel() {
+		return level;
+	}
+
+	/**
+	 * @param level the level to set
+	 */
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	/**
+	 * @return the question
+	 */
+	public Question getQuestion() {
+		return question;
+	}
+
+	/**
+	 * @param question the question to set
+	 */
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
+
+	/**
+	 * @return the rightAnswer
+	 */
+	public Answer getRightAnswer() {
+		return rightAnswer;
+	}
+
+	/**
+	 * @param rightAnswer the rightAnswer to set
+	 */
+	public void setRightAnswer(Answer rightAnswer) {
+		this.rightAnswer = rightAnswer;
+	}
+
+	/**
+	 * @return the distractors
+	 */
+	public List<Answer> getDistractors() {
+		return distractors;
+	}
+
+	/**
+	 * @param distractors the distractors to set
+	 */
+	public void setDistractors(List<Answer> distractors) {
+		this.distractors = distractors;
+	}
 
 	/**
 	 * @return the author
@@ -92,47 +134,5 @@ public abstract class Exercise extends Model {
 	public void setAuthor(Caregiver author) {
 		this.author = author;
 	}
-
-	/**
-	 * @return the level
-	 */
-	public int getLevel() {
-		return level;
-	}
-
-	/**
-	 * @param level the level to set
-	 */
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-
-	/**
-	 * @return the isAutomatic
-	 */
-	public boolean isAutomatic() {
-		return isAutomatic;
-	}
-
-	/**
-	 * @param isAutomatic the isAutomatic to set
-	 */
-	public void setAutomatic(boolean isAutomatic) {
-		this.isAutomatic = isAutomatic;
-	}
-
-	/**
-	 * @return the instruction
-	 */
-	public String getInstruction() {
-		return instruction;
-	}
-
-	/**
-	 * @param instruction the instruction to set
-	 */
-	public void setInstruction(String instruction) {
-		this.instruction = instruction;
-	}
+	
 }

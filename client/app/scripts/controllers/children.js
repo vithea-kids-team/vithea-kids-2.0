@@ -47,22 +47,23 @@ angular.module('clientApp')
      $scope.getChildren();
      
      /* EDIT child */
-     $scope.editchild = function() {
+     $scope.editchild = function(index) {
+    	 
+    	 var childToEdit = $scope.children[index].childId;
+    	 
          var payload = {
-           username : $scope.username,
-           password : $scope.password,
-           passwordcheck : $scope.passwordcheck,
+           username : $scope.username,          
            firstname : $scope.firstname,
            lastname : $scope.lastname,
            gender : $scope.gender,
            birthdate: $scope.birthdate
          };
 
-         $http.post('app/editchild', payload)
+         $http.post('app/editchild/' + childToEdit, payload)
              .error(function(data, status) {
                if(status === 400) {
                  angular.forEach(data, function(value, key) {
-                   if(key === 'password' || key === 'username' || key === 'passwordcheck' || key === 'firstname' || key === 'lastname' || key === 'gender' || key === 'birthdate') {
+                   if(key === 'username' || key === 'firstname' || key === 'lastname' || key === 'gender' || key === 'birthdate') {
                      alertService.add('danger', key + ' : ' + value);
                    } else {
                      alertService.add('danger', value.message);

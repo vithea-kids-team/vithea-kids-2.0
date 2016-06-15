@@ -42,7 +42,7 @@ public class Caregiver extends Model {
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "CaregiverChild")
-	private List<Login> childList;
+	private List<Child> childList;
 
 	/**
 	 * @return the caregiverId
@@ -131,14 +131,14 @@ public class Caregiver extends Model {
 	/**
 	 * @return the childList
 	 */
-	public List<Login> getChildList() {
+	public List<Child> getChildList() {
 		return childList;
 	}
 
 	/**
 	 * @param childList the childList to set
 	 */
-	public void setChildList(List<Login> childList) {
+	public void setChildList(List<Child> childList) {
 		this.childList = childList;
 	}
 
@@ -146,7 +146,7 @@ public class Caregiver extends Model {
 	 * Adds a child
 	 * @param child
 	 */
-	public void addChild(Login child) {
+	public void addChild(Child child) {
 		childList.add(child);
 	}	
 
@@ -156,6 +156,13 @@ public class Caregiver extends Model {
         return find
 	        .where()
 	        .eq("email", email.toLowerCase())
+	        .findUnique();
+    }
+	
+	public static Caregiver findByUsername(String username) {
+        return find
+	        .where()
+	        .eq("caregiverlogin_id", Login.findByUsername(username).getLoginId())
 	        .findUnique();
     }
 }

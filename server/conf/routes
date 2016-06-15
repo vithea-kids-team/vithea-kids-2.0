@@ -14,10 +14,11 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 # HomePage
 POST   		/app/signup       		   	controllers.ApplicationCtrl.signup
-POST   		/app/registerchild         	controllers.ChildCtrl.registerchild
 POST        /app/login                  controllers.ApplicationCtrl.login
 GET         /app/logout                 controllers.ApplicationCtrl.logout
 GET         /app/isauthenticated        controllers.ApplicationCtrl.isAuthenticated
 # Child
+POST   		/app/registerchild         	controllers.ChildCtrl.registerchild
+POST   		/app/editchild/:child  		controllers.ChildCtrl.editchild(child:Long)
 GET         /app/listchildren           controllers.ChildCtrl.getChildren
 POST        /app/deletechild/:child     controllers.ChildCtrl.deleteChild(child:Long)

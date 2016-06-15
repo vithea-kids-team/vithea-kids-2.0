@@ -99,7 +99,7 @@ public class Login extends Model {
 	public static Login findByUsername(String username) {
         return find
 	        .where()
-	        .eq("userName", username.toLowerCase())
+	        .eq("user_name", username)
 	        .findUnique();
     }
 	
@@ -125,7 +125,7 @@ public class Login extends Model {
 	 public static Login findByUsernameAndPassword(String username, String password) {
 		    return find
 		        .where()
-		        .eq("userName", username.toLowerCase())
+		        .eq("user_name", username.toLowerCase())
 		        .eq("password", getSha512(password))
 		        .findUnique();
 	}

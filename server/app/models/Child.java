@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
 
+import play.Logger;
+
 @Entity
 public class Child extends Model {
 	
@@ -33,6 +35,14 @@ public class Child extends Model {
 	
 	public static final Finder<Long, Child> find = new Finder<>(Child.class);
 
+	public static Child findByUsername(String username) {
+		Logger.debug("Looking for child with username: " + username);
+		return find
+				.where()
+				.eq("childlogin_id", Login.findByUsername(username).getLoginId())
+				.findUnique();
+	}
+	
 	public static Child findByChildId(Long childId) {
         return find
 	        .where()
