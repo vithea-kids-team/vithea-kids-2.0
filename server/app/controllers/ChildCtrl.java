@@ -73,15 +73,8 @@ public class ChildCtrl extends Controller {
 			child.setFirstName(newUser.firstname);
 			child.setLastName(newUser.lastname);
 			child.setGender(newUser.gender);
+			child.setBirthDate(newUser.birthdate);
 
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-			try {
-				java.util.Date utilDate = format.parse(newUser.birthdate);
-				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-				child.setBirthDate(sqlDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 			child.save();
 
 			Caregiver loggedCaregiver = Caregiver.findByUsername(session("username"));
@@ -90,7 +83,7 @@ public class ChildCtrl extends Controller {
 			Logger.debug(child.getChildLogin().getUserName() + " added to caregivers list.");
 			loggedCaregiver.save();
 
-			return ok(buildJsonResponse("success", "User created successfully"));
+			return ok(Json.toJson(child));
 		}
 	}
 
@@ -99,24 +92,30 @@ public class ChildCtrl extends Controller {
 	 */
 
 	public static class EditChild {
-		public String username;
+		public String userName;
 
-		public String firstname;
+		public String firstName;
 
-		public String lastname;
+		public String lastName;
+
+		public String birthDate;
 
 		public String gender;
-
-		public String birthdate;
 	}
 
 	/**
 	 * EditChild action
 	 */
+	
 
 	public Result editchild(Long childId) {
 		Form<EditChild> editChildForm = formFactory.form(EditChild.class).bindFromRequest();
+
+		Logger.debug("DEBUG:" + editChildForm);
+
 		EditChild newUser = editChildForm.get();
+		Logger.debug("DEBUG:" + newUser.userName + " " + newUser.firstName + " " + newUser.lastName + " " + newUser.gender +" "+ newUser.birthDate);
+
 		if (editChildForm.hasErrors()) {
 			return badRequest(editChildForm.errorsAsJson());
 		}
@@ -128,21 +127,14 @@ public class ChildCtrl extends Controller {
 		} else {
 			Logger.debug("Editing child with id " + childId + ": " + child.getChildLogin().getUserName());
 			
-			child.getChildLogin().setUserName(newUser.username);
-			child.setFirstName(newUser.firstname);
-			child.setLastName(newUser.lastname);
+			child.getChildLogin().setUserName(newUser.userName);
+			child.setFirstName(newUser.firstName);
+			child.setLastName(newUser.lastName);
 			child.setGender(newUser.gender);
+			child.setBirthDate(newUser.birthDate);
 
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-			try {
-				java.util.Date utilDate = format.parse(newUser.birthdate);
-				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-				child.setBirthDate(sqlDate);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
 			child.save();
-			return ok(buildJsonResponse("success", "User updated successfully"));
+			return ok(Json.toJson(child));
 		}
 	}
 
@@ -155,6 +147,12 @@ public class ChildCtrl extends Controller {
 
 		if (child == null)
 			return badRequest(buildJsonResponse("error", "User doesn't exist"));
+
+		Caregiver loggedCaregiver = Caregiver.findByUsername(session("username"));
+		Logger.debug("Deleting " + loggedCaregiver.getCaregiverLogin().getUserName() + "'s' child: "+ child.getFirstName());
+		
+		loggedCaregiver.removeChild(child);
+		loggedCaregiver.save();
 
 		child.delete();
 
@@ -170,6 +168,7 @@ public class ChildCtrl extends Controller {
 		Logger.debug(loggedCaregiver.getChildList().size() + " children registered.");
 		return ok(Json.toJson(loggedCaregiver.getChildList()));
 	}
+	
 
 	private static ObjectNode buildJsonResponse(String type, String message) {
 		ObjectNode wrapper = Json.newObject();

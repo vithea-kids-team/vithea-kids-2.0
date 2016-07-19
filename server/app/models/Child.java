@@ -1,6 +1,9 @@
 package models;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -83,17 +86,20 @@ public class Child extends Model {
 	public Date getBirthDate() {
 		return birthDate;
 	}
-	
-	/**
-	 * 
-	 * @return the date in the format yyyy-mm-dd
-	 */
-	public String getBirthDateFormatted() {
-		return birthDate.toString();
-	}
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthDate(String birthDate) {
+		
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        
+		try {
+			java.util.Date utilDate = sdf.parse(birthDate);
+			Logger.debug(utilDate + "");
+			this.birthDate =  new java.sql.Date(utilDate.getTime());
+			Logger.debug(this.birthDate + "");
+		}
+		catch (ParseException e){
+			e.printStackTrace();
+		}
 	}
 
 	public String getGender() {

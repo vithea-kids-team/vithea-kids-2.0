@@ -148,6 +148,14 @@ public class Caregiver extends Model {
 	 */
 	public void addChild(Child child) {
 		childList.add(child);
+	}
+
+	/**
+	 * Removes a child
+	 * @param child
+	 */
+	public void removeChild(Child child) {
+		childList.remove(child);
 	}	
 
 	public static final Finder<Long, Caregiver> find = new Finder<>(Caregiver.class);

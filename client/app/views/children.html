@@ -1,118 +1,149 @@
-<a ng-hide="adding" class="btn btn-default pull-right"
-	ng-click="adding = true"> <span class="glyphicon glyphicon-plus"></span>
-	<span data-i18n="common._RegisterChildBtn_"></span>
-</a>
-<div style="clear: both;"></div>
-<br>
-<!-- REGISTER FORM -->
-<form class="panel panel-default" ng-show="adding" name="registerChildForm" ng-submit="registerchild()" novalidate>
-	<div class="panel-body">
-		<div>
-			<label for="username" data-i18n="common._Username_"></label> 
-			<input name="username" class="form-control" id="username"
-				data-i18n-attr="{placeholder: 'common._Username_'}"
-				ng-model="username">
-		</div>
-		<div>
-			<label for="password" data-i18n="common._Password_"></label> 
-			<input name="password" class="form-control" type="password" id="password"
-				data-i18n-attr="{placeholder: 'common._Password_'}"
-				ng-model="password">
-
-		</div>
-		<div>
-			<label for="passwordcheck" data-i18n="common._ConfirmPassword_"></label>
-			<input name="passwordcheck" class="form-control" type="password" id="passwordcheck"
-				data-i18n-attr="{placeholder: 'common._ConfirmPassword_'}"
-				ng-model="passwordcheck">
-		</div>
-		<div>
-			<label for="firstname" data-i18n="common._FirstName_"></label> 
-			<input name="firstname" class="form-control" id="firstname"
-				data-i18n-attr="{placeholder: 'common._FirstName_'}"
-				ng-model="firstname">
-		</div>
-		<div>
-			<label for="lastname" data-i18n="common._LastName_"></label> 
-			<input name="lastname" class="form-control" id="lastname"
-				data-i18n-attr="{placeholder: 'common._LastName_'}"
-				ng-model="lastname">
-		</div>
-		<div>
-			<label for="birthdate" data-i18n="common._BirthDate_"></label><br>
-			<input type="date" id="exampleInput" name="input"
-				ng-model="birthdate" placeholder="yyyy-MM-dd" required />
-		</div>
-		<div>
-			<label for="gender" data-i18n="common._Gender_"></label><br>
-			<bs-dropdown data-menu-type="button"
-				select-val="gender = selectedVal"
-				preselected-item="selected_gendernew" data-dropdown-data="genders"></bs-dropdown>
-			<br>
-		</div>
-	</div>
-	<div class="panel-footer">
-		<a ng-click="registerchild(); adding = false">
-			<span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span>
-		</a> 
-		<a ng-click="adding = false">
-			<span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span>
-		</a>
-	</div>
-</form>
-<!-- VIEW FORM -->
-<div class="panel panel-default" ng-repeat="child in children" ng-hide="adding">
-	<div class="panel-body" ng-hide="editing">
-		<h4>{{child.firstName}}&nbsp;{{ child.lastName}}&nbsp;({{child.childLogin.userName}})</h4>
-		<p>{{ child.birthDate | date:"dd/MM/yyyy"}}</p>
-		<p>{{ child.gender }}</p>
-	</div>
-	<!-- EDIT FORM -->
-	<form class="panel-body" name="editChildForm" ng-submit="editchild($index)" ng-show="editing" novalidate>
-		<div>
-			<label for="username" data-i18n="common._Username_"></label> 
-			<input name="username" class="form-control" id="username"
-				data-i18n-attr="{placeholder: 'common._Username_'}"
-				ng-model="child.childLogin.userName">
-		</div>
-		<div>
-			<label for="firstname" data-i18n="common._FirstName_"></label> 
-			<input name="firstname" class="form-control" id="firstname"
-				data-i18n-attr="{placeholder: 'common._FirstName_'}"
-				ng-model="child.firstName">
-		</div>
-		<div>
-			<label for="lastname" data-i18n="common._LastName_"></label> 
-			<input name="lastname" class="form-control" id="lastname"
-				data-i18n-attr="{placeholder: 'common._LastName_'}"
-				ng-model="child.lastName">
-		</div>		
-		<div>
-			<label for="birthdate" data-i18n="common._BirthDate_"></label><br>
-			<input type="date" id="birthdate" name="birthdate"
-				ng-model="child.birthDate" placeholder="yyyy-MM-dd" required />
-		</div>
-		<div>
-			<label for="gender" data-i18n="common._Gender_"></label><br>
-			<bs-dropdown data-menu-type="button"
-				select-val="gender = selectedVal"
-				preselected-item="selected_gender[$index]"
-				data-dropdown-data="genders"></bs-dropdown>
-			<br>
-		</div>
-	</form>
-	<div class="panel-footer">
-		<a ng-hide="editing" ng-click="editing = true"><span
-			class="glyphicon glyphicon-edit"
-			style="font-size: large; cursor: pointer;" aria-hidden="true"></span></a>
-		<a ng-show="editing" ng-click="editchild($index); editing = false;"><span
-			class="glyphicon glyphicon-ok"
-			style="font-size: large; cursor: pointer;" aria-hidden="true"></span></a>
-		<a ng-show="editing" ng-click="editing = false"><span
-			class="glyphicon glyphicon-remove"
-			style="font-size: large; cursor: pointer;" aria-hidden="true"></span></a>
-		<a ng-hide="editing" ng-click="deletechild($index)"><span
-			class="glyphicon glyphicon-trash"
-			style="font-size: large; cursor: pointer;" aria-hidden="true"></span></a>
-	</div>
+<div data-ng-controller="ChildrenCtrl" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <strong class="error">{{ error }}</strong>
+            <p data-ng-hide="addMode"><a data-ng-click="toggleAdd()" href="javascript:;" class="btn btn-primary">Add New</a></p>
+            <form name="addChild" data-ng-show="addMode" style="width:600px;margin:0px auto;">
+                <div>
+					<label for="username" data-i18n="common._Username_"></label> 
+					<input name="username" class="form-control" id="username"
+						data-i18n-attr="{placeholder: 'common._Username_'}"
+						data-ng-model="newchild.username">
+				</div>
+				<div>
+					<label for="password" data-i18n="common._Password_"></label> 
+					<input name="password" class="form-control" type="password" id="password"
+						data-i18n-attr="{placeholder: 'common._Password_'}"
+						data-ng-model="newchild.password">
+		
+				</div>
+				<div>
+					<label for="passwordcheck" data-i18n="common._ConfirmPassword_"></label>
+					<input name="passwordcheck" class="form-control" type="password" id="passwordcheck"
+						data-i18n-attr="{placeholder: 'common._ConfirmPassword_'}"
+						data-ng-model="newchild.passwordcheck">
+				</div>
+				<div>
+					<label for="firstname" data-i18n="common._FirstName_"></label> 
+					<input name="firstname" class="form-control" id="firstname"
+						data-i18n-attr="{placeholder: 'common._FirstName_'}"
+						data-ng-model="newchild.firstname">
+				</div>
+				<div>
+					<label for="lastname" data-i18n="common._LastName_"></label> 
+					<input name="lastname" class="form-control" id="lastname"
+						data-i18n-attr="{placeholder: 'common._LastName_'}"
+						data-ng-model="newchild.lastname">
+				</div>
+				<div>
+					<label for="birthdate" data-i18n="common._BirthDate_"></label><br>
+					<input type="date" id="birthdate" name="birthdate"
+						data-ng-model="newchild.birthdate" placeholder="yyyy-MM-dd" required />
+				</div>
+				<div>
+					<label for="gender" data-i18n="common._Gender_"></label><br>
+					
+					<div class="btn-group acc-button">
+						<button id="gender" type="button" class="btn btn-default"dropdown-toggle" data-toggle="dropdown"
+								aria-expanded="false">{{selected_gendernew.name}}</button>
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+								aria-expanded="false">
+							<span class="caret"></span>
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+						<li ng-repeat="gender in genders"><a ng-click="selectnewgender(gender)">{{gender.name}}</a></li>
+						</ul>
+					</div>
+					<br>
+				</div>                
+                <br />
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <a data-ng-click="registerchild()" data-ng-disabled="!addChild.$valid" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span></a> 
+                        <a data-ng-click="toggleAdd()" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span></a>
+                    </div>
+                </div>
+                <br />
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <br />
+            <br />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default" ng-repeat="child in children">
+				<div class="panel-body" data-ng-hide="child.editMode">
+					<h4>{{child.firstName}}&nbsp;{{ child.lastName}}&nbsp;({{child.childLogin.userName}})</h4>
+					<p>{{ child.birthDate | date:"dd/MM/yyyy"}}</p>
+					<p>{{ child.gender }}</p>
+				</div>
+				<form class="panel-body" name="editChild" data-ng-show="child.editMode">
+					<div>
+						<label for="editusername" data-i18n="common._Username_"></label> 
+						<input name="editusername" class="form-control" id="editusername"
+							data-i18n-attr="{placeholder: 'common._Username_'}"
+							data-ng-model="child.childLogin.userName" 
+							ng-change="child.userName = child.childLogin.userName" 
+							ng-init="child.userName = child.childLogin.userName">
+					</div>
+					<div>
+						<label for="editfirstname" data-i18n="common._FirstName_"></label> 
+						<input name="editfirstname" class="form-control" id="editfirstname"
+							data-i18n-attr="{placeholder: 'common._FirstName_'}"
+							data-ng-model="child.firstName">
+					</div>
+					<div>
+						<label for="editlastname" data-i18n="common._LastName_"></label> 
+						<input name="editlastname" class="form-control" id="editlastname"
+							data-i18n-attr="{placeholder: 'common._LastName_'}"
+							data-ng-model="child.lastName">
+					</div>		
+					<div>
+						<label for="editbirthdate" data-i18n="common._BirthDate_"></label><br>
+						<input type="date" id="editbirthdate" name="editbirthdate"
+							data-ng-model="child.birthDate" placeholder="yyyy-MM-dd" required />
+					</div>
+					<div>
+						<label for="editgender" data-i18n="common._Gender_"></label><br>
+						<div class="btn-group acc-button">
+							<button id="editgender" type="button" class="btn btn-default"dropdown-toggle" data-toggle="dropdown"
+									aria-expanded="false">{{child.selected_gender.name}}</button>
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+									aria-expanded="false">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+							<li ng-repeat="gender in genders"><a ng-click="editgender(gender)">{{gender.name}}</a></li>
+							</ul>
+						</div>
+						<br>
+					</div>
+					<div class="form-group">
+						<a data-ng-show="child.editMode" data-ng-disabled="!editChild.$valid" data-ng-click="editchild()" href="javascript:;" class="btn btn-primary"><span
+							class="glyphicon glyphicon-ok"
+							style="font-size: large; cursor: pointer;" aria-hidden="true"></span></a>
+						<a data-ng-click="toggleEdit(child)" href="javascript:;" class="btn btn-primary"><span
+							class="glyphicon glyphicon-remove"
+							style="font-size: large; cursor: pointer;" aria-hidden="true"></span></a>
+					</div>
+				</form>
+				<div class="panel-footer">
+					<a data-ng-hide="child.editMode" data-ng-click="toggleEdit(child)" href="javascript:;"><span
+						class="glyphicon glyphicon-edit"
+						style="font-size: large; cursor: pointer;" aria-hidden="true"></span></a>
+					<a data-ng-click="deletechild(child)" href="javascript:;"><span
+						class="glyphicon glyphicon-trash"
+						style="font-size: large; cursor: pointer;" aria-hidden="true"></span></a>
+				</div>                
+            </div>
+        </div>
+    </div>
 </div>
