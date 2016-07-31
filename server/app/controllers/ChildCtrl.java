@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Caregiver;
 import models.Child;
 import models.Login;
+
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -78,6 +79,8 @@ public class ChildCtrl extends Controller {
 			child.save();
 
 			Caregiver loggedCaregiver = Caregiver.findByUsername(session("username"));
+			if (loggedCaregiver == null)
+				return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
 			Logger.debug(loggedCaregiver.getCaregiverLogin().getUserName() + " is logged in.");
 			loggedCaregiver.addChild(child);
 			Logger.debug(child.getChildLogin().getUserName() + " added to caregivers list.");
@@ -149,6 +152,8 @@ public class ChildCtrl extends Controller {
 			return badRequest(buildJsonResponse("error", "User doesn't exist"));
 
 		Caregiver loggedCaregiver = Caregiver.findByUsername(session("username"));
+		if (loggedCaregiver == null)
+			return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
 		Logger.debug("Deleting " + loggedCaregiver.getCaregiverLogin().getUserName() + "'s' child: "+ child.getFirstName());
 		
 		loggedCaregiver.removeChild(child);
@@ -164,6 +169,8 @@ public class ChildCtrl extends Controller {
 	 */
 	public Result getChildren() {
 		Caregiver loggedCaregiver = Caregiver.findByUsername(session("username"));
+		if (loggedCaregiver == null)
+			return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
 		Logger.debug(loggedCaregiver.getCaregiverLogin().getUserName() + " is logged in.");
 		Logger.debug(loggedCaregiver.getChildList().size() + " children registered.");
 		return ok(Json.toJson(loggedCaregiver.getChildList()));

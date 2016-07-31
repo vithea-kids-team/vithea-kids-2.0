@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <strong class="error">{{ error }}</strong>
-            <p data-ng-hide="addMode"><a data-ng-click="toggleAdd()" href="javascript:;" class="btn btn-primary">Add New</a></p>
+            <p data-ng-hide="addMode"><a data-ng-click="toggleAdd()" href="javascript:;" class="btn btn-primary">Registar Criança</a></p>
             <form name="addChild" data-ng-show="addMode" style="width:600px;margin:0px auto;">
                 <div>
 					<label for="username" data-i18n="common._Username_"></label> 
@@ -44,7 +44,7 @@
 					<label for="gender" data-i18n="common._Gender_"></label><br>
 					
 					<div class="btn-group acc-button">
-						<button id="gender" type="button" class="btn btn-default"dropdown-toggle" data-toggle="dropdown"
+						<button id="gender" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
 								aria-expanded="false">{{selected_gendernew.name}}</button>
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
 								aria-expanded="false">

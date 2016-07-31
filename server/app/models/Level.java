@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import java.util.List;
+
 import com.avaje.ebean.Model;
 
 @Entity
@@ -44,7 +46,19 @@ public class Level extends Model {
 		this.levelDescription = levelDescription;
 	}
 
+	public static final Finder<Long, Level> find = new Finder<>(Level.class);
+
+	public static List<Level> getAll() {
+        return find		
+		//.orderBy("level_description desc")
+		.all();
+    }
 	
-	
+	public static Level findLevelById(Long levelId) {
+        return find
+		.where()
+		.eq("level_id", levelId)
+		.findUnique();
+    }
 	
 }

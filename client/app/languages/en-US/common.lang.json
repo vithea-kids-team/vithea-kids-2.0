@@ -20,7 +20,7 @@
         "_MyProfile_":"O Meu Perfil",
         "_AnimatedCharacterMessages_":"Mensagens da Personagem Animada",
         "_Reinforcements_":"Reforços",
-        "__COMMENT__": "SIGNUP AND LOGIN FORM ***********************************************",
+        "__COMMENT__": "SIGNUP, REGISTER CHILD AND LOGIN FORM ***********************************************",
         "_Username_":"Nome de utilizador",
         "_FirstName_":"Primeiro Nome",
         "_LastName_":"Último Nome",
@@ -35,5 +35,16 @@
         "_Select_":"Escolher...",
         "_LoginBtn_":"Entrar",
         "_RegisterChildBtn_":"Registar criança",
-        "_BirthDate_":"Data de nascimento"
+        "_BirthDate_":"Data de nascimento",
+        "__COMMENT__": "EXERCISES ***********************************************",
+        "_Topic_": "Tema",
+        "_Level_": "Nível de dificuldade",
+        "_Question_": "Pergunta",
+        "_Stimulus_": "Estímulo",
+        "_StimulusText_": "Estímulo textual",
+        "_Answer_": "Resposta certa",
+        "_Distractor_": "Nova opção",
+        "_Distractors_": "Outras opções",
+        "_NoDistractors_": "Insira outras opções para criar uma pergunta de escolha múltipla",
+        "_ExerciseType_": "Tipo de exercício"
 }

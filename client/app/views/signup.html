@@ -38,8 +38,18 @@
   
   <div>
   	<label for="gender" data-i18n="common._Gender_"></label><br>    
-    <bs-dropdown data-menu-type="button" select-val="gender = selectedVal"
-		preselected-item="selected_gender" data-dropdown-data="genders"></bs-dropdown>
+    <div class="btn-group acc-button">
+      <button id="gender" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+          aria-expanded="false">{{selected_gender.name}}</button>
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+          aria-expanded="false">
+        <span class="caret"></span>
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+      <li ng-repeat="gender in genders"><a ng-click="selectnewgender(gender)">{{gender.name}}</a></li>
+      </ul>
+    </div>
   	<br>
   </div>
 <br>  

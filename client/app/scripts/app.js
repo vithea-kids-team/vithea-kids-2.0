@@ -17,7 +17,8 @@ angular
       'ngSanitize',
       'ngTouch',
       'ui.bootstrap',
-      'ngLocalize'
+      'ngLocalize',
+      'lr.upload'
     ])
     .config(function ($routeProvider) {
       $routeProvider
@@ -40,6 +41,10 @@ angular
           .when('/children', {
             templateUrl: 'views/children.html',
             controller: 'ChildrenCtrl'
+          })
+          .when('/exercises', {
+            templateUrl: 'views/exercises.html',
+            controller: 'ExercisesCtrl'
           })          
           .otherwise({
             redirectTo: '/'

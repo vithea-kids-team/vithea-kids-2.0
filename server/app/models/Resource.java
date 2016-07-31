@@ -6,7 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import java.util.*;
+
+import play.Logger;
+
 import com.avaje.ebean.Model;
+
+import models.Caregiver;
+import models.ResourceArea;
 
 @Entity
 public class Resource extends Model {
@@ -19,6 +26,28 @@ public class Resource extends Model {
 
 	@ManyToOne
 	private ResourceType resourceType;
+
+	@ManyToOne
+	private ResourceArea resourceArea;
+
+	@ManyToOne
+	private Caregiver owner;
+
+	public void setResourceArea(ResourceArea resourceArea) {
+		this.resourceArea = resourceArea;
+	}
+
+	public ResourceArea getResourceArea() {
+		return resourceArea;
+	}
+
+	public void setOwner(Caregiver owner) {
+		this.owner = owner;
+	}
+
+	public Caregiver getOwner() {
+		return this.owner;
+	}
 
 	/**
 	 * @return the resourceId
@@ -60,5 +89,22 @@ public class Resource extends Model {
 	 */
 	public void setResourceType(ResourceType resourceType) {
 		this.resourceType = resourceType;
+	}
+
+	public static final Finder<Long, Resource> find = new Finder<>(Resource.class);
+
+	public static List<Resource> findByOwner(Caregiver owner) {
+		Logger.debug("Looking for exercises from: " + owner.getCaregiverLogin().getUserName());
+		return find
+		.where()
+		.eq("owner_caregiver_id", owner.getCaregiverLogin().getLoginId())
+		.findList();
+	}
+
+	public static Resource findById(Long resourceId) {
+		return find
+		.where()
+		.eq("resource_id", resourceId)
+		.findUnique();
 	}
 }

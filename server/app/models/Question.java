@@ -20,6 +20,8 @@ public class Question extends Model {
 	@ManyToOne
 	private Resource stimulus;
 
+	private String stimulusText;
+
 	/**
 	 * @return the questionId
 	 */
@@ -60,6 +62,27 @@ public class Question extends Model {
 	 */
 	public void setStimulus(Resource stimulus) {
 		this.stimulus = stimulus;
+	}
+
+	/**
+	 * @param stimulusid of the stimulus to set
+	 */
+	public void setStimulus(Long stimulus) {
+		this.stimulus = Resource.findById(stimulus);
+	}
+
+	/**
+	 * @return the stimulusText
+	 */
+	public String getStimulusText() {
+		return stimulusText;
+	}
+
+	/**
+	 * @param the stimulusText to set
+	 */
+	public void setStimulusText(String stimulusText) {
+		this.stimulusText = stimulusText;
 	}
 		
 	

@@ -15,6 +15,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 import play.data.validation.Constraints;
+import play.Logger;
 
 import com.avaje.ebean.Model;
 
@@ -167,7 +168,7 @@ public class Caregiver extends Model {
 	        .findUnique();
     }
 	
-	public static Caregiver findByUsername(String username) {
+	public static Caregiver findByUsername(String username) { 
         return find
 	        .where()
 	        .eq("caregiverlogin_id", Login.findByUsername(username).getLoginId())

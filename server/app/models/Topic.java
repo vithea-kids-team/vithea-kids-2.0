@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 import com.avaje.ebean.Model;
 
+import java.util.List;
+
 @Entity
 public class Topic extends Model {
 	
@@ -15,6 +17,10 @@ public class Topic extends Model {
 	private Long topicId;
 	
 	private String topicDescription;
+
+	public Topic(String topicDescription) {
+		this.topicDescription = topicDescription;
+	}
 
 	/**
 	 * @return the topicId
@@ -43,6 +49,21 @@ public class Topic extends Model {
 	public void setTopicDescription(String topicDescription) {
 		this.topicDescription = topicDescription;
 	}
+	
+	public static final Finder<Long, Topic> find = new Finder<>(Topic.class);
+
+	public static List<Topic> getAll() {
+        return find		
+		//.orderBy("topic_description desc")
+		.all();
+    }
+
+	public static Topic findTopicById(Long topicId) {
+        return find
+		.where()
+		.eq("topic_id", topicId)
+		.findUnique();
+    }
 	
 	
 }

@@ -1,6 +1,3 @@
-# --- Created by Ebean DDL
-# To stop Ebean DDL generation, remove this comment and start using Evolutions
-
 # --- !Ups
 
 create table answer (
@@ -63,6 +60,7 @@ create table question (
   question_id               bigint auto_increment not null,
   question_description      varchar(255),
   stimulus_resource_id      bigint,
+  stimulus_text             varchar(255),
   constraint pk_question primary key (question_id))
 ;
 
@@ -70,7 +68,15 @@ create table resource (
   resource_id               bigint auto_increment not null,
   resource_path             varchar(255),
   resource_type_resource_type_id bigint,
+  resource_area_resource_area_id bigint,
+  owner_caregiver_id        bigint,
   constraint pk_resource primary key (resource_id))
+;
+
+create table resource_area (
+  resource_area_id          bigint auto_increment not null,
+  resource_area_description varchar(255),
+  constraint pk_resource_area primary key (resource_area_id))
 ;
 
 create table resource_type (
@@ -117,6 +123,10 @@ alter table question add constraint fk_question_stimulus_9 foreign key (stimulus
 create index ix_question_stimulus_9 on question (stimulus_resource_id);
 alter table resource add constraint fk_resource_resourceType_10 foreign key (resource_type_resource_type_id) references resource_type (resource_type_id) on delete restrict on update restrict;
 create index ix_resource_resourceType_10 on resource (resource_type_resource_type_id);
+alter table resource add constraint fk_resource_resourceArea_11 foreign key (resource_area_resource_area_id) references resource_area (resource_area_id) on delete restrict on update restrict;
+create index ix_resource_resourceArea_11 on resource (resource_area_resource_area_id);
+alter table resource add constraint fk_resource_owner_12 foreign key (owner_caregiver_id) references caregiver (caregiver_id) on delete restrict on update restrict;
+create index ix_resource_owner_12 on resource (owner_caregiver_id);
 
 
 
@@ -151,6 +161,8 @@ drop table login;
 drop table question;
 
 drop table resource;
+
+drop table resource_area;
 
 drop table resource_type;
 

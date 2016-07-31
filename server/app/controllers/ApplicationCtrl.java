@@ -2,15 +2,18 @@ package controllers;
 
 import javax.inject.Inject;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Caregiver;
 import models.Login;
+
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import play.libs.Json;
 
 /**
  * This controller contains application common logic
@@ -130,13 +133,13 @@ public class ApplicationCtrl extends Controller {
 	   wrapper.set("success", msg);
 	   return ok(wrapper);
 	 }
-	}	
-	
-	private static ObjectNode buildJsonResponse(String type, String message) {
+	}
+
+	public static ObjectNode buildJsonResponse(String type, String message) {
 	  ObjectNode wrapper = Json.newObject();
 	  ObjectNode msg = Json.newObject();
 	  msg.put("message", message);
 	  wrapper.set(type, msg);
 	  return wrapper;
-	}
+	}	
 }

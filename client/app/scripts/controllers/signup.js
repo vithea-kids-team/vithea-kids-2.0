@@ -9,18 +9,30 @@
  */
 angular.module('clientApp')
     .controller('SignupCtrl', function ($scope, $http, $log, alertService, $location, userService) {
-		$scope.genders = [{
-	        id: "Male",
-	        name: "Masculino"        
-	    }, {
-	        id: "Female",
-	        name: "Feminino"        
-	    }, {
-	        id: "Other",
-	        name: "Outro"        
-	    }];
+	$scope.genders = [{
+			id: "Select",
+			name: "Selecionar..."
+	  	}, {
+				id: "Male",
+				name: "Masculino"
+			}, {
+				id: "Female",
+				name: "Feminino"
+			}, {
+				id: "Other",
+				name: "Outro"
+			}];
+
+		/* Select gender dropdown list handler for creation */
+		$scope.selectnewgender = function (item) {
+
+			$scope.selected_gender = item;
+			$scope.gender = $scope.selected_gender.id;
+    }
+
+		$scope.selected_gender = $scope.genders[0];
+		$scope.gender = $scope.selected_gender.id;
     	
-      $scope.selected_gender = "Other";
 		
       $scope.signup = function() {
         var payload = {

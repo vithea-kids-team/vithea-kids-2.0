@@ -1,6 +1,6 @@
 package models;
 
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
+
+import play.Logger;
 
 @Entity
 public class Exercise extends Model {
@@ -32,7 +34,7 @@ public class Exercise extends Model {
 	private Answer rightAnswer;
 	
 	@ManyToMany
-	private List<Answer> distractors;
+	private List<Answer> answers;
 	
 	@ManyToOne
 	private Caregiver author;
@@ -66,6 +68,18 @@ public class Exercise extends Model {
 	}
 
 	/**
+	 * @param topicId of the topic to set
+	 */
+	public void setTopic(Long topicId) {
+		Topic topic = Topic.findTopicById(topicId);
+		if (topic == null)
+			throw new NullPointerException("Topic does not exist");
+		Logger.debug("New exercise :: setTopic: " + topic.getTopicDescription());
+		this.topic = topic;
+	}
+
+
+	/**
 	 * @return the level
 	 */
 	public Level getLevel() {
@@ -76,6 +90,17 @@ public class Exercise extends Model {
 	 * @param level the level to set
 	 */
 	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	/**
+	 * @param levelid of the level to set
+	 */
+	public void setLevel(Long levelId) {
+		Level level = Level.findLevelById(levelId);
+		if (level == null)
+			throw new NullPointerException("Level does not exist");
+		Logger.debug("New exercise :: setLevel: " + level.getLevelDescription());
 		this.level = level;
 	}
 
@@ -94,6 +119,19 @@ public class Exercise extends Model {
 	}
 
 	/**
+	 * @param questionDescription of the question to set
+	 */
+	public void setQuestion(String questionDescription, Long stimulus) {
+		Question question = new Question();
+		question.setQuestionDescription(questionDescription);
+		if(stimulus != 0)
+			question.setStimulus(stimulus);
+		question.save();
+		Logger.debug("New exercise :: setQuestion: " + question.getQuestionDescription() + " (" + question.getQuestionId() + ")");
+		this.question = question;
+	}
+
+	/**
 	 * @return the rightAnswer
 	 */
 	public Answer getRightAnswer() {
@@ -108,18 +146,38 @@ public class Exercise extends Model {
 	}
 
 	/**
-	 * @return the distractors
+	 * @param rightAnswerDescription the rightAnswer to set
 	 */
-	public List<Answer> getDistractors() {
-		return distractors;
+	public void setRightAnswer(String rightAnswerDescription) {
+		Answer rightAnswer = new Answer();
+		rightAnswer.setAnswerDescription(rightAnswerDescription); 
+		rightAnswer.save();
+		Logger.debug("New exercise :: setRightAnswer: " + rightAnswer.getAnswerDescription() +" (" + rightAnswer.getAnswerId() + ")");
+		this.rightAnswer = rightAnswer;
+		this.answers.add(rightAnswer);
 	}
 
 	/**
-	 * @param distractors the distractors to set
+	 * @return the answers
 	 */
-	public void setDistractors(List<Answer> distractors) {
-		this.distractors = distractors;
+	public List<Answer> getAnswers() {
+		return answers;
 	}
+
+	/**
+	 * @param answersDescription of the answers to set
+	 */
+	public void setAnswers(List<String> answerDescriptions) {		
+		for(Iterator<String> i = answerDescriptions.iterator(); i.hasNext(); ) {
+			String item = i.next();
+			Answer answer = new Answer();
+			answer.setAnswerDescription(item);
+			answer.save();
+			Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");
+			this.answers.add(answer);
+		}		
+	}
+
 
 	/**
 	 * @return the author
@@ -135,4 +193,13 @@ public class Exercise extends Model {
 		this.author = author;
 	}
 	
+	public static final Finder<Long, Exercise> find = new Finder<>(Exercise.class);
+
+	public static List<Exercise> findByAuthor(Caregiver author) {
+		Logger.debug("Looking for exercises from: " + author.getCaregiverLogin().getUserName());
+		return find
+		.where()
+		.eq("author_caregiver_id", author.getCaregiverLogin().getLoginId())
+		.findList();
+	}
 }

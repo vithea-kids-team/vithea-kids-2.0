@@ -18,3 +18,14 @@ POST   		/app/registerchild         	controllers.ChildCtrl.registerchild
 POST   		/app/editchild/:child  		controllers.ChildCtrl.editchild(child:Long)
 GET         /app/listchildren           controllers.ChildCtrl.getChildren
 POST        /app/deletechild/:child     controllers.ChildCtrl.deleteChild(child:Long)
+# Exercise
+POST   		/app/registerexercise           	controllers.ExerciseCtrl.registerExercise
+POST   		/app/editexercise/:exercise  		controllers.ExerciseCtrl.editExercise(exercise:Long)
+GET         /app/listexercises                  controllers.ExerciseCtrl.getExercises
+POST        /app/deleteexercise/:exercise       controllers.ExerciseCtrl.deleteExercise(exercise:Long)
+### Topic
+GET         /app/listtopics                  controllers.ExerciseCtrl.getTopics
+### Level
+GET         /app/listlevels                  controllers.ExerciseCtrl.getLevels
+### Resources
+GET         /app/listresources               controllers.ExerciseCtrl.getResources
