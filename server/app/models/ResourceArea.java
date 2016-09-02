@@ -43,5 +43,14 @@ public class ResourceArea extends Model {
 	public void setResourceAreaDescription(String resourceAreaDescription) {
 		this.resourceAreaDescription = resourceAreaDescription;
 	}
+
+	public static final Finder<Long, ResourceArea> find = new Finder<>(ResourceArea.class);
+
+	public static ResourceArea findByDescription(String description) {
+		return find
+		.where()
+		.eq("resource_area_description", description)
+		.findUnique();
+	}
 	
 }

@@ -168,7 +168,7 @@ public class ChildCtrl extends Controller {
 	 * GetChildren action
 	 */
 	public Result getChildren() {
-		Caregiver loggedCaregiver = Caregiver.findByUsername(session("username"));
+		Caregiver loggedCaregiver = Caregiver.findByUsername("Caregiver");
 		if (loggedCaregiver == null)
 			return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
 		Logger.debug(loggedCaregiver.getCaregiverLogin().getUserName() + " is logged in.");

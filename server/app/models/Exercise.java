@@ -148,9 +148,10 @@ public class Exercise extends Model {
 	/**
 	 * @param rightAnswerDescription the rightAnswer to set
 	 */
-	public void setRightAnswer(String rightAnswerDescription) {
+	public void setRightAnswer(String rightAnswerDescription, Long resource) {
 		Answer rightAnswer = new Answer();
 		rightAnswer.setAnswerDescription(rightAnswerDescription); 
+		rightAnswer.setStimulus(resource);
 		rightAnswer.save();
 		Logger.debug("New exercise :: setRightAnswer: " + rightAnswer.getAnswerDescription() +" (" + rightAnswer.getAnswerId() + ")");
 		this.rightAnswer = rightAnswer;
@@ -167,11 +168,15 @@ public class Exercise extends Model {
 	/**
 	 * @param answersDescription of the answers to set
 	 */
-	public void setAnswers(List<String> answerDescriptions) {		
-		for(Iterator<String> i = answerDescriptions.iterator(); i.hasNext(); ) {
-			String item = i.next();
+	public void setAnswers(List<String> answerDescriptions, List<Long> answerStimulus) {
+		Iterator<String> i = answerDescriptions.iterator(); 
+		Iterator<Long> j = answerStimulus.iterator();		
+		while(i.hasNext() || j.hasNext()) {
+			String description = i.next();
+			Long stimulus = j.next();
 			Answer answer = new Answer();
-			answer.setAnswerDescription(item);
+			answer.setAnswerDescription(description);
+			answer.setStimulus(stimulus);
 			answer.save();
 			Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");
 			this.answers.add(answer);

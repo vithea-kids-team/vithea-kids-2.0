@@ -33,6 +33,10 @@ public class Resource extends Model {
 	@ManyToOne
 	private Caregiver owner;
 
+	public void setResourceArea(String resourceArea) {
+		this.resourceArea = ResourceArea.findByDescription(resourceArea);
+	}
+
 	public void setResourceArea(ResourceArea resourceArea) {
 		this.resourceArea = resourceArea;
 	}

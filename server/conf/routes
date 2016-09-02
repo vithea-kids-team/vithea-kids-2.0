@@ -29,3 +29,5 @@ GET         /app/listtopics                  controllers.ExerciseCtrl.getTopics
 GET         /app/listlevels                  controllers.ExerciseCtrl.getLevels
 ### Resources
 GET         /app/listresources               controllers.ExerciseCtrl.getResources
+### Upload
+POST        /app/uploadresources/:type       controllers.ExerciseCtrl.uploadResources(type:String)

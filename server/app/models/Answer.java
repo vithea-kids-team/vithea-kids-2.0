@@ -61,6 +61,14 @@ public class Answer extends Model {
 	public void setStimulus(Resource stimulus) {
 		this.stimulus = stimulus;
 	}
+
+
+	/**
+	 * @param stimulusId of the stimulus to set
+	 */
+	public void setStimulus(Long stimulusId) {
+		this.stimulus = Resource.findById(stimulusId);
+	}
 	
 	
 	
