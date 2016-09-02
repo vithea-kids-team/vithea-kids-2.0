@@ -37,4 +37,5 @@ npm-debug.log
 /scripts/bower/bower-*
 .vscode
 *.log
-*.stackdump
+*.stackdump 
+/client_old
