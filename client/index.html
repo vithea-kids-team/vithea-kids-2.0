@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <base href="/">
+    <title>VITHEA Kids 2.0</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="fav/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="fav/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="fav/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="fav/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="fav/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="fav/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="fav/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="fav/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="fav/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="fav/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="fav/favicon-194x194.png" sizes="194x194">
+    <link rel="icon" type="image/png" href="fav/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="fav/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="fav/favicon-16x16.png" sizes="16x16">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- 1. Load libraries -->
+     <!-- Polyfill(s) for older browsers -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- 2. Configure SystemJS -->
+    <script src="systemjs.config.js"></script>
+    <script>
+      System.import('app').catch(function(err){ console.error(err); });
+    </script>
+  </head>
+  <!-- 3. Display the application -->
+  <body>
+    <my-app>Loading...</my-app>
+  </body>
+</html>
