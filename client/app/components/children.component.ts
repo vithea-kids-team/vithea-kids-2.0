@@ -10,8 +10,12 @@ import { ChildrenService } from '../services/children.service';
 export class ChildrenComponent implements OnInit{
 
     private children = [];
-    genders = ['Really Smart', 'Super Flexible', 'Super Hot', 'Weather Changer'];
-    model = { username: 'Username', firstname: 'First name', lastname: 'Last name' };
+    genders = ['Female', 'Male', 'Other'];
+    model = { username: 'Username', 
+            password: 'Password',
+            confirmpassword: 'Confirm password', 
+            firstname: 'First name', 
+            lastname: 'Last name' };
     addMode = false;
     active = true;
 
@@ -20,6 +24,10 @@ export class ChildrenComponent implements OnInit{
     }
 
     ngOnInit() {
+        this.getChildren();
+    }
+
+    ngOnChanges() {
         this.getChildren();
     }
 
@@ -36,7 +44,7 @@ export class ChildrenComponent implements OnInit{
     }
 
     toogleAddMode() {
-        this.model = { username: '', firstname: '', lastname: '' };
+        this.model = { username: '', password:'', confirmpassword: '', firstname: '', lastname: '' };
         this.active = false;
         setTimeout(() => this.active = true, 0);
         this.addMode = !this.addMode;
