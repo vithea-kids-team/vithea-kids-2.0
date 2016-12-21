@@ -9,18 +9,18 @@ GET     /                           controllers.HomeController.index
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # HomePage
-POST   		/app/signup       		   	controllers.ApplicationCtrl.signup
-POST        /app/login                  controllers.ApplicationCtrl.login
-GET         /app/logout                 controllers.ApplicationCtrl.logout
-GET         /app/isauthenticated        controllers.ApplicationCtrl.isAuthenticated
+POST        /app/signup       		controllers.SecurityController.signup
+POST        /app/login                  controllers.SecurityController.login
+POST        /app/logout                 controllers.SecurityController.logout
+
 # Child
-POST   		/app/registerchild         	controllers.ChildCtrl.registerchild
-POST   		/app/editchild/:child  		controllers.ChildCtrl.editchild(child:Long)
+POST        /app/registerchild         	controllers.ChildCtrl.registerchild
+POST        /app/editchild/:child  	controllers.ChildCtrl.editchild(child:Long)
 GET         /app/listchildren           controllers.ChildCtrl.getChildren
 POST        /app/deletechild/:child     controllers.ChildCtrl.deleteChild(child:Long)
 # Exercise
-POST   		/app/registerexercise           	controllers.ExerciseCtrl.registerExercise
-POST   		/app/editexercise/:exercise  		controllers.ExerciseCtrl.editExercise(exercise:Long)
+POST        /app/registerexercise           	controllers.ExerciseCtrl.registerExercise
+POST        /app/editexercise/:exercise  	controllers.ExerciseCtrl.editExercise(exercise:Long)
 GET         /app/listexercises                  controllers.ExerciseCtrl.getExercises
 POST        /app/deleteexercise/:exercise       controllers.ExerciseCtrl.deleteExercise(exercise:Long)
 ### Topic

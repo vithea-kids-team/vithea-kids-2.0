@@ -142,9 +142,9 @@ for /f "delims=. tokens=1-3" %%v in ("%JAVA_VERSION%") do (
     set MINOR=%%w
     set BUILD=%%x
 
-    set META_SIZE=-XX:MetaspaceSize=64M -XX:MaxMetaspaceSize=256M
+    set META_SIZE=-XX:MetaspaceSize=1024M -XX:MaxMetaspaceSize=2048M
     if "!MINOR!" LSS "8" (
-      set META_SIZE=-XX:PermSize=64M -XX:MaxPermSize=256M
+      set META_SIZE=-XX:PermSize=1024M -XX:MaxPermSize=2048M
     )
 
     set MEM_OPTS=!META_SIZE!
@@ -189,7 +189,8 @@ if not "%~1"=="" (
     )
     shift
 
-    set DEBUG_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=!JPDA_PORT!
+    set DEBUG_OPTS=-agentlib:jdwp=transport=dt_socket,address=!JPDA_PORT!,server=y,suspend=n
+	rem Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=!JPDA_PORT!
     goto argsloop
   )
   rem else

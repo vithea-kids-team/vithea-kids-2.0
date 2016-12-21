@@ -4,17 +4,30 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
-# An example controller showing how to use dependency injection
-GET     /count                      controllers.CountController.count
-# An example controller showing how to write asynchronous code
-GET     /message                    controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # HomePage
-POST   		/app/signup       		   	controllers.Application.signup
-POST   		/app/registerchild         	controllers.Application.registerchild
-POST        /app/login                  controllers.Application.login
-GET         /app/logout                 controllers.Application.logout
-GET         /app/isauthenticated        controllers.Application.isAuthenticated
+POST   		/app/signup       		   	controllers.ApplicationCtrl.signup
+POST        /app/login                  controllers.SecurityController.login
+GET         /app/logout                 controllers.ApplicationCtrl.logout
+GET         /app/isauthenticated        controllers.ApplicationCtrl.isAuthenticated
+# Child
+POST   		/app/registerchild         	controllers.ChildCtrl.registerchild
+POST   		/app/editchild/:child  		controllers.ChildCtrl.editchild(child:Long)
+GET         /app/listchildren           controllers.ChildCtrl.getChildren
+POST        /app/deletechild/:child     controllers.ChildCtrl.deleteChild(child:Long)
+# Exercise
+POST   		/app/registerexercise           	controllers.ExerciseCtrl.registerExercise
+POST   		/app/editexercise/:exercise  		controllers.ExerciseCtrl.editExercise(exercise:Long)
+GET         /app/listexercises                  controllers.ExerciseCtrl.getExercises
+POST        /app/deleteexercise/:exercise       controllers.ExerciseCtrl.deleteExercise(exercise:Long)
+### Topic
+GET         /app/listtopics                  controllers.ExerciseCtrl.getTopics
+### Level
+GET         /app/listlevels                  controllers.ExerciseCtrl.getLevels
+### Resources
+GET         /app/listresources               controllers.ExerciseCtrl.getResources
+### Upload
+POST        /app/uploadresources/:type       controllers.ExerciseCtrl.uploadResources(type:String)

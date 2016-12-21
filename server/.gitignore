@@ -12,4 +12,4 @@ project/target
 target
 tmp
 dist
-.cache
+.cache/.nb-play.properties

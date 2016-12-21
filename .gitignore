@@ -1,4 +1,5 @@
 # Ignore Play! working directory #
+old/
 bin/
 /db
 .eclipse
@@ -39,3 +40,4 @@ npm-debug.log
 *.log
 *.stackdump 
 /client_old
+/server/nbproject/private/

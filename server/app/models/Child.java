@@ -1,10 +1,5 @@
 package models;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Date;
 
 import play.Logger;
 
@@ -89,17 +88,10 @@ public class Child extends Model {
 
 	public void setBirthDate(String birthDate) {
 		
-		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-        
-		try {
-			java.util.Date utilDate = sdf.parse(birthDate);
-			Logger.debug(utilDate + "");
-			this.birthDate =  new java.sql.Date(utilDate.getTime());
-			Logger.debug(this.birthDate + "");
-		}
-		catch (ParseException e){
-			e.printStackTrace();
-		}
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+            TemporalAccessor accessor = timeFormatter.parse(birthDate);
+            this.birthDate = Date.from(Instant.from(accessor));
+            
 	}
 
 	public String getGender() {

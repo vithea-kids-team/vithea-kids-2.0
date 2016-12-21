@@ -1,0 +1,113 @@
+<div class="container">
+  <h2>{{ '_CreateExercise_' | translate }}</h2>
+  <form ngSubmit="createExercise()" #exerciseForm="ngForm" class="col-md-8">
+    <div>
+      <div class="form-group">
+        <label for="topic"> {{ '_ExerciseType_' | translate }}</label><br>
+        <label class="radio-inline"><input type="radio" value="text">Resposta em texto</label>
+        <label class="radio-inline"><input type="radio" value="image">Resposta em imagem</label>
+      </div>
+      <div class="form-group" *ngIf="resourcesService.topics">
+        <label for="topic"> {{ '_Topic_' | translate }} </label>
+        <select class="form-control" id="topic" required [(ngModel)]="newexercise.topic" name="topic" #topic="ngModel">
+          <option *ngFor="let topic of resourcesService.topics" [value]="topic">{{ topic.topicDescription }}</option>
+        </select>
+        <div *ngIf="!topic.valid && !topic.pristine" class="alert alert-danger">
+          {{ '_RequiredTopic_' | translate }}
+        </div>
+      </div>
+      <div class="form-group" *ngIf="resourcesService.levels">
+        <label for="level"> {{ '_Level_' | translate }}</label>
+        <select class="form-control" id="level" required [(ngModel)]="newexercise.level" name="level" #level="ngModel">
+          <option *ngFor="let level of resourcesService.levels" [value]="level">{{ level.levelDescription }}</option>
+        </select>
+        <div *ngIf="!level.valid && !level.pristine" class="alert alert-danger">
+          {{ '_RequiredLevel_' | translate }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="question"> {{'_Question_' | translate }} </label>
+        <input type="text" class="form-control" id="question" required [(ngModel)]="newexercise.question" name="question" #question="ngModel">
+        <div *ngIf="!question.valid && !question.pristine" class="alert alert-danger">
+          {{ '_RequiredQuestion_' | translate }}
+        </div>
+      </div>      
+      <div class="form-group" *ngIf="resourcesService.resources">
+        <label for="stimulus"> {{ '_Stimulus_' | translate }}</label>
+        <input class="form-control" id="stimulusText" [(ngModel)]="newexercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
+        <br>
+        <div style="max-height: 100px; overflow-y: scroll;">
+          <image-picker [(ngModel)]="resourcesService.resources" name="stimulus"> </image-picker>
+          <!--<select class="image-picker" id="stimulus" style="display: none;">
+							<option value=""></option>
+							<option ng-repeat="resource in resources | filter:'stimuli'" data-img-src={{resource.resourcePath}} value={{resource.resourceId}}>Image{{resource.resourceId}}</option>
+						</select>-->
+        </div>
+        <!--<p>
+              <a data-ng-click="toggleAddResource('stimuli')" href="javascript:;" class="btn btn-primary" data-i18n="common._UploadStimulus_"></a>
+            </p>-->
+      </div>
+      <br>
+      <div *ngIf="newexercise.type == 'text' || true">
+        <label for="answer"> {{ '_Answer_' | translate }}</label>
+        <input name="answer" class="form-control" id="answer">
+      </div>
+      <div *ngIf="newexercise.type == 'image' || true">
+        <label for="answer"> {{ '_Answer_' | translate }}</label>
+        <br>
+        <div style="max-height: 100px; overflow-y: scroll;">
+          TODO Image picker
+          <!--<select class="image-picker" id="answerImg" style="display: none;">
+							<option ng-repeat="resource in resources | filter:'answer'" data-img-src={{resource.resourcePath}} value={{resource.resourceId}}>Image{{resource.resourceId}}</option>
+						</select>-->
+        </div>
+        <!--<p>
+              <a data-ng-click="toggleAddResource('answer')" href="javascript:;" class="btn btn-primary" data-i18n="common._UploadAnswer_"></a>
+            </p>-->
+      </div>
+      <br>
+      <div *ngIf="newexercise.type == 'text' || true">
+        <label for="distractors"> {{ '_Distractors_' | translate }}</label>
+        <div>
+          <ul class="list-group">
+            <li class="list-group-item" *ngIf="!newexercise.distractors || newexercise.distractors.length == 0"><em>{{ '_NoDistractors_' | translate }}</em></li>
+            <!--  <li class="list-group-item" *ngFor=" let distractor of newexercise.distractors; let index = index">
+                      <span>{{distractor}}</span>
+                      <i role="button" class="glyphicon glyphicon-remove pull-right" (click)="removeDistractor(index)"></i>
+                    </li>-->
+          </ul>
+          <div class="input-group">
+            <input class="form-control">
+            <span class="input-group-btn">
+                        <button class="btn" (click)="addDistractor()"><i class="glyphicon glyphicon-plus"></i></button>
+                    </span>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="newexercise.type == 'image' || true">
+        <label for="distractors"> {{ '_Distractors_' | translate }}</label>
+        <br>
+        <div style="max-height: 100px; overflow-y: scroll;">
+          TODO image picker
+          <!--<select class="image-picker" id="distractorsImg" multiple="multiple" style="display: none;">
+							<option ng-repeat="resource in resources | filter:'option'" data-img-src={{resource.resourcePath}} value={{resource.resourceId}}>Image{{resource.resourceId}}</option>
+						</select>
+                </div>
+                <p>
+                  <a data-ng-click="toggleAddResource('option')" href="javascript:;" class="btn btn-primary" data-i18n="common._UploadOption_"></a>
+                </p>-->
+        </div>
+        <br />
+        <div class="form-group">
+          <div class="col-sm-12">
+            <a (click)="registerexercise()" class="btn btn-primary">
+              <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span></a>
+            <a (click)="toggleAdd()" class="btn btn-primary">
+              <span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span></a>
+          </div>
+        </div>
+        <br />
+      </div>
+    </div>
+  </form>
+</div>

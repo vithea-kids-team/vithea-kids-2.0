@@ -1,8 +1,5 @@
 package models;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,7 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 import play.data.validation.Constraints;
-import play.Logger;
+
 
 import com.avaje.ebean.Model;
 

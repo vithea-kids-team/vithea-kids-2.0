@@ -98,7 +98,7 @@ public class Resource extends Model {
 	public static final Finder<Long, Resource> find = new Finder<>(Resource.class);
 
 	public static List<Resource> findByOwner(Caregiver owner) {
-		Logger.debug("Looking for exercises from: " + owner.getCaregiverLogin().getUserName());
+		Logger.debug("Looking for exercises from: " + owner.getCaregiverLogin().getUsername());
 		return find
 		.where()
 		.eq("owner_caregiver_id", owner.getCaregiverLogin().getLoginId())

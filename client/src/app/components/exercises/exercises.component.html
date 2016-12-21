@@ -1,0 +1,15 @@
+<div class="container">
+  <button type="button" class="btn btn-default pull-right" [routerLink]="['/exercises/new']">{{ '_CreateExercise_' | translate }}</button>
+  <h2>{{ '_Exercises_' | translate }}</h2>
+  <div class="panel panel-default" *ngFor="let exercise of exercises">
+    <div class="panel-body">
+      <h3>{{exercise.question.questionDescription}}</h3>
+      <img [src]="exercise.question.stimulus.resourcePath">
+      <h4>{{ exercise.topic.topicDescription}}&nbsp;-&nbsp;{{exercise.level.levelDescription}}</h4>
+      <div class="col-md-6 col-sm-6" *ngFor="let distractor of exercise.answers">{{distractor.answerDescription}}
+        <span class="pull-right glyphicon glyphicon-check" *ngIf="distractor.answerId == exercise.rightAnswer.answerId"></span>
+        <span class="pull-right glyphicon glyphicon-unchecked" *ngIf="distractor.answerId != exercise.rightAnswer.answerId"></span>
+      </div>
+    </div>
+  </div>
+</div>
