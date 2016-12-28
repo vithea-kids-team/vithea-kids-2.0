@@ -2,17 +2,17 @@ import { Component, Input, Provider, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Resource } from '../../../models/resource'
 
+export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => ImagePickerComponent),
+    multi: true
+};
+
 @Component({
   selector: 'image-picker',
   templateUrl: './image-picker.component.html',
   styleUrls: ['./image-picker.component.css'],
-  viewProviders: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ImagePickerComponent),
-      multi: true
-    }
-  ]
+  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class ImagePickerComponent implements ControlValueAccessor {
 

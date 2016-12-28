@@ -21,6 +21,7 @@ import { appRoutes } from './app.routing';
 import { AddChildComponent } from './components/add-child/add-child.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
 import { ImagePickerComponent } from './components/utils/image-picker/image-picker.component';
+import { TesteInputComponent } from './components/teste-input/teste-input.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { ImagePickerComponent } from './components/utils/image-picker/image-pick
     LoginComponent,
     AddChildComponent,
     AddExerciseComponent,
-    ImagePickerComponent
+    ImagePickerComponent,
+    TesteInputComponent
   ],
   providers: [
     ChildrenService,

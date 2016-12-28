@@ -38,10 +38,6 @@
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
           <image-picker [(ngModel)]="resourcesService.resources" name="stimulus"> </image-picker>
-          <!--<select class="image-picker" id="stimulus" style="display: none;">
-							<option value=""></option>
-							<option ng-repeat="resource in resources | filter:'stimuli'" data-img-src={{resource.resourcePath}} value={{resource.resourceId}}>Image{{resource.resourceId}}</option>
-						</select>-->
         </div>
         <!--<p>
               <a data-ng-click="toggleAddResource('stimuli')" href="javascript:;" class="btn btn-primary" data-i18n="common._UploadStimulus_"></a>
@@ -56,10 +52,7 @@
         <label for="answer"> {{ '_Answer_' | translate }}</label>
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          TODO Image picker
-          <!--<select class="image-picker" id="answerImg" style="display: none;">
-							<option ng-repeat="resource in resources | filter:'answer'" data-img-src={{resource.resourcePath}} value={{resource.resourceId}}>Image{{resource.resourceId}}</option>
-						</select>-->
+          <image-picker [(ngModel)]="resourcesService.resources" name="answers"> </image-picker>
         </div>
         <!--<p>
               <a data-ng-click="toggleAddResource('answer')" href="javascript:;" class="btn btn-primary" data-i18n="common._UploadAnswer_"></a>
@@ -88,12 +81,8 @@
         <label for="distractors"> {{ '_Distractors_' | translate }}</label>
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          TODO image picker
-          <!--<select class="image-picker" id="distractorsImg" multiple="multiple" style="display: none;">
-							<option ng-repeat="resource in resources | filter:'option'" data-img-src={{resource.resourcePath}} value={{resource.resourceId}}>Image{{resource.resourceId}}</option>
-						</select>
-                </div>
-                <p>
+          <image-picker [(ngModel)]="resourcesService.resources" name="distractors"> </image-picker>
+          <!--<p>
                   <a data-ng-click="toggleAddResource('option')" href="javascript:;" class="btn btn-primary" data-i18n="common._UploadOption_"></a>
                 </p>-->
         </div>
