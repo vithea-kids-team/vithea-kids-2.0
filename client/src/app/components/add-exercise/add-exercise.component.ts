@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Exercise } from '../../models/exercise';
+import { Resource } from '../../models/resource';
 import { ResourcesService } from '../../services/resources/resources.service';
 
 @Component({
@@ -9,12 +10,30 @@ import { ResourcesService } from '../../services/resources/resources.service';
 })
 export class AddExerciseComponent implements OnInit {
 
-  public newexercise = new Exercise();
+  public newExercise = new Exercise();
+  public newAnswer : string = '';
 
-  constructor(private resourcesService: ResourcesService) { }
+  constructor(private resourcesService: ResourcesService) {}
 
   ngOnInit() {
+    this.newExercise.type = 'text';
+    this.newExercise.answers = [];
+    this.newExercise.rightAnswers = [];
+    this.newExercise.stimulus = [];
+    this.newExercise.answersImg = [];
+  }
 
+  addAnswer() {
+    this.newExercise.answers.push(this.newAnswer);
+    this.newAnswer = '';
+  }
+
+  removeAnswer(index : number) {
+    this.newExercise.answers.splice(index, 1);
+  }
+
+  registerExercise() {
+    console.log(this.newExercise);
   }
 
 }

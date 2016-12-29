@@ -1,6 +1,7 @@
-import { Component, Input, Provider, forwardRef } from '@angular/core';
+import { Component, Input, Provider, forwardRef} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Resource } from '../../../models/resource'
+import { Resource } from '../../../models/resource';
+import { ResourcesService } from '../../../services/resources/resources.service';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -18,7 +19,19 @@ export class ImagePickerComponent implements ControlValueAccessor {
 
   private _items: Array<Resource> = [];
 
-  get items(): Array<Resource> { return this._items }
+  constructor(public resourcesService: ResourcesService) { }
+
+  get items(): Array<Resource> {
+    if (!this._items) this._items = [];
+    
+    if (this._items.length === 0 && this.resourcesService.resources) {
+      //value copy
+      this.resourcesService.resources.forEach((x) => {
+        this._items.push(Object.assign({}, x));
+      });
+    }
+    return this._items;
+  }
 
   set items(i: Array<Resource>) {
     if (i !== this._items) {
