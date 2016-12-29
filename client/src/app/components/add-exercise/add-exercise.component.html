@@ -37,7 +37,7 @@
         <input class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="newExercise.stimulus" name="stimulus"> </image-picker>
+          <image-picker [(ngModel)]="newExercise.stimulus" name="stimulus" [multiSelect]="false"> </image-picker>
         </div>
         <p>
           <a data-ng-click="toggleAddResource('stimuli')" class="btn btn-primary">{{ '_UploadStimulus_' | translate }}</a>
@@ -45,13 +45,13 @@
       </div>
       <br>
       <label for="answer"> {{ '_Answer_' | translate }}</label>
-      <div *ngIf="newExercise.type == 'text' || true">
+      <div *ngIf="newExercise.type == 'text' ">
         <input type="text" class="form-control" id="rightAnswer" required [(ngModel)]="newExercise.rightAnswer" name="rightAnswer" #rightAnswer="ngModel">
       </div>
-      <div *ngIf="newExercise.type == 'image' || true">
+      <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="newExercise.rightAnswers" name="rightAnswers"> </image-picker>
+          <image-picker [(ngModel)]="newExercise.rightAnswers"  [multiSelect]="false" name="rightAnswers"> </image-picker>
         </div>
         <p>
           <a ngClick="toggleAddResource('answer')" class="btn btn-primary">{{ '_UploadAnswer_' | translate }}</a>
@@ -59,27 +59,27 @@
       </div>
       <br>
       <label for="answers"> {{ '_Distractors_' | translate }}</label>
-      <div *ngIf="newExercise.type == 'text' || true">
+      <div *ngIf="newExercise.type == 'text' ">
         <div>
           <ul class="list-group">
             <li class="list-group-item" *ngIf="!newExercise.answers || newExercise.answers.length == 0"><em>{{ '_NoDistractors_' | translate }}</em></li>
             <li class="list-group-item" *ngFor=" let answer of newExercise.answers; let index = index">
               <span>{{answer}}</span>
-              <i role="button" class="glyphicon glyphicon-remove pull-right" (click)="removeAnswer(index)"></i>
+              <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeAnswer(index)"><i class="glyphicon glyphicon-remove"></i></a>
             </li>
           </ul>
           <form class="input-group">
             <input class="form-control" [(ngModel)]="newAnswer" name="newAnswer">
             <span class="input-group-btn">
-              <button class="btn" (click)="addAnswer()"><i class="glyphicon glyphicon-plus"></i></button>
+              <button class="btn btn-primary" (click)="addAnswer()"><i class="glyphicon glyphicon-plus"></i></button>
             </span>
           </form>
         </div>
       </div>
-      <div *ngIf="newExercise.type == 'image' || true">
+      <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="newExercise.answersImg" name="answersImg"> </image-picker>
+          <image-picker [(ngModel)]="newExercise.answersImg" [multiSelect]="true" name="answersImg"> </image-picker>
         </div>
         <p>
           <a onClick="toggleAddResource('option')" class="btn btn-primary">{{ '_UploadOption_' | translate }}</a>

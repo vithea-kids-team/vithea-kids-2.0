@@ -1,5 +1,5 @@
 <ul class="thumbnails image_picker_selector">
-    <li *ngFor="let item of items; let index = index;" (click)="item.selected = !item.selected;">
+    <li *ngFor="let item of items; let index = index;" (click)="toggleItem(item);">
         <div class="thumbnail" [class.selected]="item.selected">
             <img class="image_picker_image" [src]="item.resourcePath" [alt]="'Image ' + index">
         </div>

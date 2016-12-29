@@ -24,8 +24,10 @@ export class AddExerciseComponent implements OnInit {
   }
 
   addAnswer() {
-    this.newExercise.answers.push(this.newAnswer);
-    this.newAnswer = '';
+    if(this.newAnswer !== '') {
+      this.newExercise.answers.push(this.newAnswer);
+      this.newAnswer = '';
+    }
   }
 
   removeAnswer(index : number) {

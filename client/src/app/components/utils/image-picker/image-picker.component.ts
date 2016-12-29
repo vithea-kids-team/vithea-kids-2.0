@@ -17,13 +17,15 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class ImagePickerComponent implements ControlValueAccessor {
 
+  @Input() multiSelect : boolean;
+
   private _items: Array<Resource> = [];
 
   constructor(public resourcesService: ResourcesService) { }
 
   get items(): Array<Resource> {
     if (!this._items) this._items = [];
-    
+
     if (this._items.length === 0 && this.resourcesService.resources) {
       //value copy
       this.resourcesService.resources.forEach((x) => {
@@ -39,9 +41,21 @@ export class ImagePickerComponent implements ControlValueAccessor {
       this.onChange(i);
     }
   }
+
   writeValue(i: Array<Resource>) {
     this._items = i;
     this.onChange(i);
+  }
+
+  toggleItem(item) {
+    item.selected = !item.selected;
+    if(!this.multiSelect) {
+      this._items.forEach((x) => {
+        if(x !== item) {
+          x.selected = false;
+        }
+      });
+    }
   }
 
   onChange = (_) => { };
