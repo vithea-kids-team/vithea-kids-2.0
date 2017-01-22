@@ -15,11 +15,14 @@ import play.data.validation.Constraints;
 
 
 import com.avaje.ebean.Model;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Entity
 public class Caregiver extends Model {
 	
 	@Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long caregiverId;
 	
 	private String firstName;

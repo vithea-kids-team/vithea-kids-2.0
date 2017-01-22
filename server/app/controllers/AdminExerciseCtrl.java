@@ -2,7 +2,6 @@ package controllers;
 
 import play.mvc.*;
 import play.libs.Json;
-import play.data.Form;
 import play.data.FormFactory;
 import play.Logger;
 
@@ -20,8 +19,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.data.DynamicForm;
 
 @Security.Authenticated(Secured.class)
-public class ExerciseCtrl extends Controller {
-	
+public class AdminExerciseCtrl extends Controller {
+
     @Inject
     FormFactory formFactory;
 
@@ -29,21 +28,21 @@ public class ExerciseCtrl extends Controller {
         DynamicForm registerExerciseForm = formFactory.form().bindFromRequest();
 
         if (registerExerciseForm.hasErrors()) {
-                return badRequest(registerExerciseForm.errorsAsJson());
+            return badRequest(registerExerciseForm.errorsAsJson());
         }
 
         Exercise exercise = new Exercise();
-		
+
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
-        if (loggedCaregiver == null)
+        if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-        
+        }
+
         /*exercise.setAuthor(loggedCaregiver);		
         exercise.setQuestion(registerExerciseForm.get("question"), Long.parseLong(registerExerciseForm.get("stimulus")));
         exercise.setRightAnswer(registerExerciseForm.get("answer"), Long.parseLong(registerExerciseForm.get("answerImg")));
         exercise.setAnswers(registerExerciseForm.get("distractors"), registerExerciseForm.get("distractorsImg"));
         exercise.save();*/
-        
         return ok(Json.toJson(exercise));
     }
 
@@ -56,13 +55,14 @@ public class ExerciseCtrl extends Controller {
     }
 
     public Result getExercises() {
-    	Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
-        if (loggedCaregiver == null)
-			return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-		Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         List<Exercise> exercises = Exercise.findByAuthor(loggedCaregiver);
-		Logger.debug(exercises.size() + " exercises registered.");
-		return ok(Json.toJson(exercises));
+        Logger.debug(exercises.size() + " exercises registered.");
+        return ok(Json.toJson(exercises));
     }
 
     public Result getTopics() {
@@ -74,16 +74,17 @@ public class ExerciseCtrl extends Controller {
     }
 
     public Result getResources() {
-    	Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
-        if (loggedCaregiver == null)
-			return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-		Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         return ok(Json.toJson(Resource.findByOwner(loggedCaregiver)));
     }
 
     public Result uploadResources(String type) {
-        Logger.debug("Uploading "+ type);
-       /* MultipartFormData<File> body = request().body().asMultipartFormData();
+        Logger.debug("Uploading " + type);
+        /* MultipartFormData<File> body = request().body().asMultipartFormData();
         Logger.debug("body -> " + body);
         List<FilePart<File>> resources = body.getFiles();
 
@@ -127,10 +128,10 @@ public class ExerciseCtrl extends Controller {
     }
 
     public static ObjectNode buildJsonResponse(String type, String message) {
-	  ObjectNode wrapper = Json.newObject();
-	  ObjectNode msg = Json.newObject();
-	  msg.put("message", message);
-	  wrapper.set(type, msg);
-	  return wrapper;
-	}
+        ObjectNode wrapper = Json.newObject();
+        ObjectNode msg = Json.newObject();
+        msg.put("message", message);
+        wrapper.set(type, msg);
+        return wrapper;
+    }
 }

@@ -13,108 +13,109 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 
 import play.Logger;
 
 @Entity
 public class Child extends Model {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long childId;
-	
-	private String firstName;
-	
-	private String lastName;
-	
-	private Date birthDate;
-	
-	private String gender;
-	
-	@OneToOne (cascade=CascadeType.ALL)
-	@JoinColumn(name="childlogin_id")
-	private Login childLogin;
-	
-	public static final Finder<Long, Child> find = new Finder<>(Child.class);
 
-	public static Child findByUsername(String username) {
-		Logger.debug("Looking for child with username: " + username);
-		return find
-				.where()
-				.eq("childlogin_id", Login.findByUsername(username).getLoginId())
-				.findUnique();
-	}
-	
-	public static Child findByChildId(Long childId) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long childId;
+
+    private String firstName;
+
+    private String lastName;
+
+    private Date birthDate;
+
+    private String gender;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "childlogin_id")
+    private Login childLogin;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Sequence> sequencesList;
+
+    public static final Finder<Long, Child> find = new Finder<>(Child.class);
+
+    public static Child findByUsername(String username) {
+        Logger.debug("Looking for child with username: " + username);
         return find
-	        .where()
-	        .eq("child_id", childId)
-	        .findUnique();
+                .where()
+                .eq("childlogin_id", Login.findByUsername(username).getLoginId())
+                .findUnique();
     }
-	
-	/**
-	 * @return the childId
-	 */
-	public Long getChildId() {
-		return childId;
-	}
 
-	/**
-	 * @param childId the childId to set
-	 */
-	public void setChildId(Long childId) {
-		this.childId = childId;
-	}
+    public static Child findByChildId(Long childId) {
+        return find
+                .where()
+                .eq("child_id", childId)
+                .findUnique();
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public Long getChildId() {
+        return childId;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setChildId(Long childId) {
+        this.childId = childId;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public Date getBirthDate() {
-		return birthDate;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setBirthDate(String birthDate) {
-		
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
-            TemporalAccessor accessor = timeFormatter.parse(birthDate);
-            this.birthDate = Date.from(Instant.from(accessor));
-            
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getGender() {
-		return gender;
-	}
+    public Date getBirthDate() {
+        return birthDate;
+    }
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
+    public void setBirthDate(String birthDate) {
 
-	/**
-	 * @param childLogin the childLogin to set
-	 */
-	public void setChildLogin(Login childLogin) {
-		this.childLogin = childLogin;
-	}
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+        TemporalAccessor accessor = timeFormatter.parse(birthDate);
+        this.birthDate = Date.from(Instant.from(accessor));
 
-	/**
-	 * @return the childLogin
-	 */
-	public Login getChildLogin() {
-		return childLogin;
-	}	
+    }
 
-	
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setChildLogin(Login childLogin) {
+        this.childLogin = childLogin;
+    }
+
+    public Login getChildLogin() {
+        return childLogin;
+    }
+
+    public List<Sequence> getSequencesList() {
+        return sequencesList;
+    }
+
+    public void setSequencesList(List<Sequence> sequencesList) {
+        this.sequencesList = sequencesList;
+    }
+
 }

@@ -3,10 +3,6 @@ package controllers;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-import java.util.Date;
 
 import models.Caregiver;
 import models.Child;
@@ -24,7 +20,7 @@ import play.db.ebean.Transactional;
 import play.mvc.Security;
 
 @Security.Authenticated(Secured.class)
-public class ChildCtrl extends Controller {
+public class AdminChildCtrl extends Controller {
 
     @Inject
     FormFactory formFactory;
@@ -158,7 +154,7 @@ public class ChildCtrl extends Controller {
         Logger.debug(loggedCaregiver.getChildList().size() + " children registered.");
         return ok(Json.toJson(loggedCaregiver.getChildList()));
     }
-
+    
     private static ObjectNode buildJsonResponse(String type, String message) {
         ObjectNode wrapper = Json.newObject();
         ObjectNode msg = Json.newObject();

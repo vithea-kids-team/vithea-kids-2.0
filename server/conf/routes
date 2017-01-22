@@ -14,20 +14,27 @@ POST        /app/login                  controllers.SecurityController.login
 POST        /app/logout                 controllers.SecurityController.logout
 
 # Child
-POST        /app/registerchild         	controllers.ChildCtrl.registerchild
-POST        /app/editchild/:child  	controllers.ChildCtrl.editchild(child:Long)
-GET         /app/listchildren           controllers.ChildCtrl.getChildren
-POST        /app/deletechild/:child     controllers.ChildCtrl.deleteChild(child:Long)
+POST        /app/registerchild         	controllers.AdminChildCtrl.registerchild
+POST        /app/editchild/:child  	controllers.AdminChildCtrl.editchild(child:Long)
+GET         /app/listchildren           controllers.AdminChildCtrl.getChildren
+POST        /app/deletechild/:child     controllers.AdminChildCtrl.deleteChild(child:Long)
 # Exercise
-POST        /app/registerexercise           	controllers.ExerciseCtrl.registerExercise
-POST        /app/editexercise/:exercise  	controllers.ExerciseCtrl.editExercise(exercise:Long)
-GET         /app/listexercises                  controllers.ExerciseCtrl.getExercises
-POST        /app/deleteexercise/:exercise       controllers.ExerciseCtrl.deleteExercise(exercise:Long)
+POST        /app/registerexercise           	controllers.AdminExerciseCtrl.registerExercise
+POST        /app/editexercise/:exercise  	controllers.AdminExerciseCtrl.editExercise(exercise:Long)
+GET         /app/listexercises                  controllers.AdminExerciseCtrl.getExercises
+POST        /app/deleteexercise/:exercise       controllers.AdminExerciseCtrl.deleteExercise(exercise:Long)
 ### Topic
-GET         /app/listtopics                  controllers.ExerciseCtrl.getTopics
+GET         /app/listtopics                  controllers.AdminExerciseCtrl.getTopics
 ### Level
-GET         /app/listlevels                  controllers.ExerciseCtrl.getLevels
+GET         /app/listlevels                  controllers.AdminExerciseCtrl.getLevels
 ### Resources
-GET         /app/listresources               controllers.ExerciseCtrl.getResources
+GET         /app/listresources               controllers.AdminExerciseCtrl.getResources
 ### Upload
-POST        /app/uploadresources/:type       controllers.ExerciseCtrl.uploadResources(type:String)
+POST        /app/uploadresources/:type       controllers.AdminExerciseCtrl.uploadResources(type:String)
+
+###
+### Child Application
+###
+
+### Sequences
+GET         /app/listsequences              controllers.ChildAppCtrl.getSequences
