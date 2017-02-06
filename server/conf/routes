@@ -36,5 +36,6 @@ POST        /app/uploadresources/:type       controllers.AdminExerciseCtrl.uploa
 ### Child Application
 ###
 
+GET         /app/greetingmessage            controllers.ChildAppCtrl.getGreetingMessage
 ### Sequences
 GET         /app/listsequences              controllers.ChildAppCtrl.getSequences

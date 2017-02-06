@@ -40,6 +40,9 @@ public class Child extends Model {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Sequence> sequencesList;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<PersonalMessage> personalMessagesList;
 
     public static final Finder<Long, Child> find = new Finder<>(Child.class);
 
@@ -118,4 +121,22 @@ public class Child extends Model {
         this.sequencesList = sequencesList;
     }
 
+    public List<PersonalMessage> getPersonalMessagesList() {
+        return personalMessagesList;
+    }
+
+    public void setPersonalMessagesList(List<PersonalMessage> personalMessagesList) {
+        this.personalMessagesList = personalMessagesList;
+    }
+    
+    public String getPesonalMessageByType(String type) {
+        String message = PersonalMessage.findByType(type).getMessage();
+        Logger.debug("Retrieving greeting msg: " + message);
+        return message;
+    } 
+
+    @Override
+    public String toString() {
+        return "Child{" + "childId=" + childId + ", firstName=" + firstName + ", lastName=" + lastName + ", birthDate=" + birthDate + ", gender=" + gender + ", childLogin=" + childLogin + ", sequencesList=" + sequencesList + ", personalMessagesList=" + personalMessagesList + '}';
+    }
 }

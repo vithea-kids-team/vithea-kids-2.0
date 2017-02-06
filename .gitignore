@@ -41,3 +41,4 @@ npm-debug.log
 *.stackdump 
 /client_old
 /server/nbproject/private/
+server/conf/evolutions/
