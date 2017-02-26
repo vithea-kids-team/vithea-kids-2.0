@@ -1,4 +1,4 @@
-name := """server"""
+name := """vithea-kids-api"""
 
 version := "1.0-SNAPSHOT"
 
