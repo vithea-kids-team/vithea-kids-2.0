@@ -11,11 +11,14 @@ VITHEA Kids has three modules:
 3. vithea-kids-child is an Android application
 
 ## Running
-On the 'server' folder to start serving the vithea-kids-api:
+In the 'server' folder to start serving the vithea-kids-api:
 `activator run`
 
+In the 'client' folder to start serving vithea-kids-caregiver:
+`npm start`
+
 ## Deploying
-On the 'server' folder to deploy vithea-kids-api:
+In the 'server' folder to deploy vithea-kids-api:
 `activator dist`
 
 ## Contributing
