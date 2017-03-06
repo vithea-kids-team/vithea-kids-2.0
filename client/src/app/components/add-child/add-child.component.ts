@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/Router';
 import { Child } from '../../models/Child';
 import { ChildrenService } from '../../services/children/children.service';
 
@@ -14,15 +13,10 @@ export class AddChildComponent {
 
   model: Child = new Child()
 
-  constructor(private childService: ChildrenService, private router: Router) { }
+  constructor(private childService: ChildrenService) { }
 
   createChild() {
-    this.childService.addChildren(this.model).subscribe(
-      res => this.router.navigate(['/children']),
-      err => {
-        console.error("Error registering new child. "+ err);
-      }
-    );
+    this.childService.addChildren(this.model);
   }
 
   reset() {

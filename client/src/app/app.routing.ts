@@ -7,6 +7,7 @@ import { ExercisesComponent } from './components/exercises/exercises.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 export const appRoutes: Routes = [
   {
@@ -17,6 +18,10 @@ export const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'signup',
+    component: SignUpComponent
   },
   {
     path: 'home',

@@ -63,5 +63,6 @@
     "_File_": "Ficheiro",
     "_Image_": "Resposta em imagem",
     "_Text_": "Resposta em texto",
-    "_ClickHereToSignUp_": "Clique aqui para se registar"
+    "_ClickHereToSignUp_": "Clique aqui para se registar",
+    "_InvalidUsernamePassword_": "Nome de utilizador ou palavra-chave inválidos."
 }   

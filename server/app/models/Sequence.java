@@ -22,6 +22,8 @@ public class Sequence extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Exercise> exerciseList;
 
+    public static final Finder<Long, Sequence> find = new Finder<>(Sequence.class);
+    
     public Sequence(String name) {
         this.sequenceName = name;
     }
@@ -49,5 +51,4 @@ public class Sequence extends Model {
     public void setSequenceExercises(List<Exercise> exerciseList) {
         this.exerciseList = exerciseList;
     }
-
 }

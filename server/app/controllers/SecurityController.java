@@ -31,7 +31,7 @@ public class SecurityController extends Controller {
         Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
 
         if (loginForm.hasErrors()) {
-            Logger.debug("\t Login form has erros, returning badRequest");
+            Logger.debug("\t Login form has errors, returning badRequest");
             return badRequest(loginForm.errorsAsJson());
         }
 

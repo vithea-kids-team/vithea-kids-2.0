@@ -9,33 +9,33 @@ GET     /                           controllers.HomeController.index
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 # HomePage
-POST        /app/signup       		controllers.SecurityController.signup
-POST        /app/login                  controllers.SecurityController.login
-POST        /app/logout                 controllers.SecurityController.logout
+POST        /vithea-kids-api/signup       		controllers.SecurityController.signup
+POST        /vithea-kids-api/login                  controllers.SecurityController.login
+POST        /vithea-kids-api/logout                 controllers.SecurityController.logout
 
 # Child
-POST        /app/registerchild         	controllers.AdminChildCtrl.registerchild
-POST        /app/editchild/:child  	controllers.AdminChildCtrl.editchild(child:Long)
-GET         /app/listchildren           controllers.AdminChildCtrl.getChildren
-POST        /app/deletechild/:child     controllers.AdminChildCtrl.deleteChild(child:Long)
+POST        /vithea-kids-api/registerchild         	controllers.AdminChildCtrl.registerchild
+POST        /vithea-kids-api/editchild/:child  	controllers.AdminChildCtrl.editchild(child:Long)
+GET         /vithea-kids-api/listchildren           controllers.AdminChildCtrl.getChildren
+POST        /vithea-kids-api/deletechild/:child     controllers.AdminChildCtrl.deleteChild(child:Long)
 # Exercise
-POST        /app/registerexercise           	controllers.AdminExerciseCtrl.registerExercise
-POST        /app/editexercise/:exercise  	controllers.AdminExerciseCtrl.editExercise(exercise:Long)
-GET         /app/listexercises                  controllers.AdminExerciseCtrl.getExercises
-POST        /app/deleteexercise/:exercise       controllers.AdminExerciseCtrl.deleteExercise(exercise:Long)
+POST        /vithea-kids-api/registerexercise           	controllers.AdminExerciseCtrl.registerExercise
+POST        /vithea-kids-api/editexercise/:exercise  	controllers.AdminExerciseCtrl.editExercise(exercise:Long)
+GET         /vithea-kids-api/listexercises                  controllers.AdminExerciseCtrl.getExercises
+POST        /vithea-kids-api/deleteexercise/:exercise       controllers.AdminExerciseCtrl.deleteExercise(exercise:Long)
 ### Topic
-GET         /app/listtopics                  controllers.AdminExerciseCtrl.getTopics
+GET         /vithea-kids-api/listtopics                  controllers.AdminExerciseCtrl.getTopics
 ### Level
-GET         /app/listlevels                  controllers.AdminExerciseCtrl.getLevels
+GET         /vithea-kids-api/listlevels                  controllers.AdminExerciseCtrl.getLevels
 ### Resources
-GET         /app/listresources               controllers.AdminExerciseCtrl.getResources
+GET         /vithea-kids-api/listresources               controllers.AdminExerciseCtrl.getResources
 ### Upload
-POST        /app/uploadresources/:type       controllers.AdminExerciseCtrl.uploadResources(type:String)
+POST        /vithea-kids-api/uploadresources/:type       controllers.AdminExerciseCtrl.uploadResources(type:String)
 
 ###
 ### Child Application
 ###
 
-GET         /app/greetingmessage            controllers.ChildAppCtrl.getGreetingMessage
+GET         /vithea-kids-api/greetingmessage            controllers.ChildAppCtrl.getGreetingMessage
 ### Sequences
-GET         /app/listsequences              controllers.ChildAppCtrl.getSequences
+GET         /vithea-kids-api/listsequences              controllers.ChildAppCtrl.getSequences

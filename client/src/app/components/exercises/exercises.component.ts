@@ -20,7 +20,7 @@ export class ExercisesComponent implements OnInit {
 
   private getExercises() {
     this.subs.push(this.exercisesService.getExercises().subscribe(
-      result => this.exercises = result,
+      result => this.exercises = result, 
       err => console.error("Error loading exercises. " + err) 
     ))
   }

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, Http } from '@angular/http';
+import { HttpModule, Http, XHRBackend } from '@angular/http';
 import { RouterModule, Routes } from '@angular/Router'
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate'
 
@@ -22,6 +22,7 @@ import { AddChildComponent } from './components/add-child/add-child.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
 import { ImagePickerComponent } from './components/utils/image-picker/image-picker.component';
 import { TesteInputComponent } from './components/teste-input/teste-input.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 @NgModule({
   imports: [
@@ -44,14 +45,15 @@ import { TesteInputComponent } from './components/teste-input/teste-input.compon
     AddChildComponent,
     AddExerciseComponent,
     ImagePickerComponent,
-    TesteInputComponent
+    TesteInputComponent,
+    SignUpComponent
   ],
   providers: [
+    HttpApiClient,
     ChildrenService,
     ExercisesService,
     CaregiverService,
-    ResourcesService,
-    HttpApiClient
+    ResourcesService
   ],
   bootstrap: [AppComponent]
 })

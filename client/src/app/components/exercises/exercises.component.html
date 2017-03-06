@@ -1,5 +1,5 @@
 <div class="container">
-  <button type="button" class="btn btn-default pull-right" [routerLink]="['/exercises/new']">{{ '_CreateExercise_' | translate }}</button>
+  <button type="button" class="btn btn-primary pull-right" [routerLink]="['/exercises/new']">{{ '_CreateExercise_' | translate }}</button>
   <h2>{{ '_Exercises_' | translate }}</h2>
   <div class="panel panel-default" *ngFor="let exercise of exercises">
     <div class="panel-body">
