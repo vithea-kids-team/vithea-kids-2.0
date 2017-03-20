@@ -16,6 +16,7 @@ import models.Caregiver;
 import models.Resource;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import static java.lang.Integer.parseInt;
 import play.data.DynamicForm;
 
 @Security.Authenticated(Secured.class)
@@ -31,18 +32,24 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(registerExerciseForm.errorsAsJson());
         }
 
-        Exercise exercise = new Exercise();
-
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
         if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
-
-        /*exercise.setAuthor(loggedCaregiver);		
-        exercise.setQuestion(registerExerciseForm.get("question"), Long.parseLong(registerExerciseForm.get("stimulus")));
-        exercise.setRightAnswer(registerExerciseForm.get("answer"), Long.parseLong(registerExerciseForm.get("answerImg")));
-        exercise.setAnswers(registerExerciseForm.get("distractors"), registerExerciseForm.get("distractorsImg"));
-        exercise.save();*/
+        
+        int topic = parseInt(registerExerciseForm.get("topic"));
+        int level = parseInt(registerExerciseForm.get("level"));
+        String question = registerExerciseForm.get("question");
+        String answer = registerExerciseForm.get("rightAnswer");
+        List<String> distractors = new ArrayList();
+        registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("answers"))).forEachOrdered((key) -> {
+            distractors.add(registerExerciseForm.data().get(key));
+        });
+        
+        
+        Exercise exercise = new Exercise(loggedCaregiver, topic, level, question, answer, distractors);
+        exercise.save();
+        
         return ok(Json.toJson(exercise));
     }
 

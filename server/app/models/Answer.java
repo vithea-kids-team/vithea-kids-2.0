@@ -20,6 +20,10 @@ public class Answer extends Model {
 	@ManyToOne
 	private Resource stimulus;
 
+    Answer(String answer) {
+        this.answerDescription = answer;
+    }
+
 	/**
 	 * @return the answerId
 	 */

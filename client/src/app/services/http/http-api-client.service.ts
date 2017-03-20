@@ -7,6 +7,8 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class HttpApiClient {
+
+  SERVER : string = 'vithea-kids-api';
   
   constructor(private http: Http, public router : Router) {}
   private addHeaders(options?: RequestOptionsArgs) {
@@ -31,39 +33,30 @@ export class HttpApiClient {
   }
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
     options = this.addHeaders(options);
-    if(url.indexOf('/app/')!=-1){
-      return this.intercept(this.http.get(url, options)
+      return this.intercept(this.http.get(this.SERVER + url, options)
       .map(res => {
         return res;
       }));
-    }
-    else{
-      return this.intercept(this.http.get(url, options)
-      .map(res => {
-        return res;
-      }));
-    }
-    
   }
   post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
     options = this.addHeaders(options);
-    return this.intercept(this.http.post(url, body, options));
+    return this.intercept(this.http.post(this.SERVER + url, body, options));
   }
   put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.intercept(this.http.put(url, body, options));
+    return this.intercept(this.http.put(this.SERVER + url, body, options));
   }
   delete(url: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.intercept(this.http.delete(url, options));
+    return this.intercept(this.http.delete(this.SERVER + url, options));
   }
   patch(url: string, body: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.intercept(this.http.patch(url, body, options));
+    return this.intercept(this.http.patch(this.SERVER + url, body, options));
   }
   head(url: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.intercept(this.http.head(url, options));
+    return this.intercept(this.http.head(this.SERVER + url, options));
   }
   upload(url: string, files:File[]): Observable<any> {
     return Observable.create(observer => {
@@ -82,7 +75,7 @@ export class HttpApiClient {
                     }
                 }
             };
-            xhr.open('PUT', url , true);
+            xhr.open('PUT', this.SERVER + url , true);
             xhr.setRequestHeader('Accept', 'application/json');
             xhr.setRequestHeader('Authorization',localStorage.getItem('Authorization'));
             xhr.send(formData);
@@ -91,7 +84,7 @@ export class HttpApiClient {
 
   intercept(observable: Observable<Response>): Observable<Response> {
         return observable.catch((err, source) => {
-            if (err.status  == 401 && !_.endsWith(err.url, 'app/login')) {
+            if (err.status  == 401 && !_.endsWith(err.url, '/login')) {
                 this.router.navigate(['/login']);
                 return Observable.of(null);
             } else {

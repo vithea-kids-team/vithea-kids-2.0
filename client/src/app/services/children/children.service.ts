@@ -11,13 +11,13 @@ export class ChildrenService {
   constructor(private http: HttpApiClient, private router : Router) { }
 
   getChildren() : Observable<Array<Child>> {
-    return this.http.get('/app/listchildren')
+    return this.http.get('/listchildren')
       .map(result => result.json());
   }
 
   addChildren(child : Child) {
     child.birthDate = new Date(child.birthDate).toISOString()
-    this.http.post('/app/registerchild', JSON.stringify(child))
+    this.http.post('/registerchild', JSON.stringify(child))
       .subscribe(
         res => this.router.navigate(['/children']),
         err => {

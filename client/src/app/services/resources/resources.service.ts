@@ -14,7 +14,7 @@ export class ResourcesService {
   constructor(private http: HttpApiClient) { 
 
     /* fetch topics */
-    this.http.get('/app/listtopics')
+    this.http.get('/listtopics')
       .map(result => result.json())
       .subscribe(
         result => this.topics = result,
@@ -22,7 +22,7 @@ export class ResourcesService {
       );
 
     /* fetch levels */
-    this.http.get('/app/listlevels')
+    this.http.get('/listlevels')
       .map(result => result.json())
       .subscribe(
         result => this.levels = result, 
@@ -30,7 +30,7 @@ export class ResourcesService {
       )
 
     /* fetch resources */
-    this.http.get('/app/listresources')
+    this.http.get('/listresources')
       .map(result => result.json())
       .subscribe(
         result => this.resources = result, 

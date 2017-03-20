@@ -12,7 +12,7 @@ export class CaregiverService {
 
   login(username, password) {
     return this.http
-      .post('/app/login', JSON.stringify({ username, password }))
+      .post('/login', JSON.stringify({ username, password }))
       .subscribe(res => {
         if (res && res.status != 401) {
           this.loggedIn = true;          
@@ -25,7 +25,7 @@ export class CaregiverService {
   }
 
   signUp(caregiver : Caregiver) {
-    return this.http.post('/app/signup', JSON.stringify(caregiver))
+    return this.http.post('/signup', JSON.stringify(caregiver))
     .subscribe(
       res => this.router.navigate(['/login']),
       err => {

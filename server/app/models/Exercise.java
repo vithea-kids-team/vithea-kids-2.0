@@ -34,10 +34,21 @@ public class Exercise extends Model {
 	private Answer rightAnswer;
 	
 	@ManyToMany
-	private List<Answer> answers;
+	private final List<Answer> answers = new ArrayList();
 	
 	@ManyToOne
 	private Caregiver author;
+
+    public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, String answer, List<String> distractors) {
+        this.author = loggedCaregiver;
+        this.topic = Topic.findTopicById(topic);
+        this.level = Level.findLevelById(level);
+        this.question = new Question(question);
+        this.rightAnswer = new Answer(answer);
+        distractors.forEach((s) -> {
+            this.answers.add(new Answer(s));
+            });  
+    }
 
 	public Long getExerciseId() {
 		return exerciseId;
@@ -88,8 +99,7 @@ public class Exercise extends Model {
 	}
 
 	public void setQuestion(String questionDescription, Long stimulus) {
-		Question question = new Question();
-		question.setQuestionDescription(questionDescription);
+		Question question = new Question(questionDescription);
 		if(stimulus != 0)
 			question.setStimulus(stimulus);
 		question.save();
@@ -106,8 +116,7 @@ public class Exercise extends Model {
 	}
 
 	public void setRightAnswer(String rightAnswerDescription, Long resource) {
-		Answer rightAnswer = new Answer();
-		rightAnswer.setAnswerDescription(rightAnswerDescription); 
+		Answer rightAnswer = new Answer(rightAnswerDescription);
 		rightAnswer.setStimulus(resource);
 		rightAnswer.save();
 		Logger.debug("New exercise :: setRightAnswer: " + rightAnswer.getAnswerDescription() +" (" + rightAnswer.getAnswerId() + ")");
@@ -125,8 +134,7 @@ public class Exercise extends Model {
 		while(i.hasNext() || j.hasNext()) {
 			String description = i.next();
 			Long stimulus = j.next();
-			Answer answer = new Answer();
-			answer.setAnswerDescription(description);
+			Answer answer = new Answer(description);
 			answer.setStimulus(stimulus);
 			answer.save();
 			Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");

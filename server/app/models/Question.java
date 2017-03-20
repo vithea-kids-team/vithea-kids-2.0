@@ -22,6 +22,10 @@ public class Question extends Model {
 
 	private String stimulusText;
 
+    Question(String question) {
+        this.questionDescription = question;
+    }
+
 	/**
 	 * @return the questionId
 	 */
