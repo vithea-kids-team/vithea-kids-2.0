@@ -13,7 +13,7 @@ public class Question extends Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long questionId;
+	private Long id;
 	
 	private String questionDescription;
 
@@ -30,14 +30,14 @@ public class Question extends Model {
 	 * @return the questionId
 	 */
 	public Long getQuestionId() {
-		return questionId;
+		return id;
 	}
 
 	/**
 	 * @param questionId the questionId to set
 	 */
 	public void setQuestionId(Long questionId) {
-		this.questionId = questionId;
+		this.id = questionId;
 	}
 
 	/**

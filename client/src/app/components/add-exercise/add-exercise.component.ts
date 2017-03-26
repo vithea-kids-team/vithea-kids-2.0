@@ -3,6 +3,7 @@ import { Exercise } from '../../models/exercise';
 import { Resource } from '../../models/resource';
 import { ResourcesService } from '../../services/resources/resources.service';
 import { ExercisesService } from '../../services/exercises/exercises.service'
+import { Router } from '@angular/Router';
 
 @Component({
   selector: 'app-add-exercise',
@@ -14,7 +15,7 @@ export class AddExerciseComponent implements OnInit {
   public newExercise = new Exercise();
   public newAnswer : string = '';
 
-  constructor(private resourcesService: ResourcesService, private exercisesService : ExercisesService) {}
+  constructor(private resourcesService: ResourcesService, private exercisesService : ExercisesService, private router: Router) {}
 
   ngOnInit() {
     this.newExercise.type = 'text';
@@ -38,7 +39,7 @@ export class AddExerciseComponent implements OnInit {
   registerExercise() {
     console.log(this.newExercise);
     this.exercisesService.registerExercise(this.newExercise).subscribe(
-      result => console.log(result), 
+      result => this.router.navigate(['/exercises']), 
       err => console.error("Error loading exercises. " + err) 
     );
   }

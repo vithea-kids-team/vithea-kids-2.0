@@ -18,11 +18,11 @@ public class Login extends Model {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long loginId;
+	public Long id;
 
 	private String authToken;
 
-	@Column(length = 256, unique = true, nullable = false)
+	@Column(length = 255, unique = true, nullable = false)
 	@Constraints.MaxLength(256)
 	@Constraints.Required
 	public String username;
@@ -44,7 +44,7 @@ public class Login extends Model {
         @JsonIgnore
 	private int userType;
 
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "datetime")
 	public Date createdUtc;
         
         /* For binding */
@@ -57,11 +57,11 @@ public class Login extends Model {
 	}	
 
 	public Long getLoginId() {
-		return loginId;
+		return id;
 	}
 
 	public void setLoginId(Long loginId) {
-		this.loginId = loginId;
+		this.id = loginId;
 	}
 
 	public String getUsername() {

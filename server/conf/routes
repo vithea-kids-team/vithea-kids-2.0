@@ -36,6 +36,4 @@ POST        /vithea-kids-api/uploadresources/:type       controllers.AdminExerci
 ### Child Application
 ###
 
-GET         /vithea-kids-api/greetingmessage            controllers.ChildAppCtrl.getGreetingMessage
-### Sequences
-GET         /vithea-kids-api/listsequences              controllers.ChildAppCtrl.getSequences
+GET         /vithea-kids-api/getchildapp            controllers.ChildAppCtrl.getChildApp

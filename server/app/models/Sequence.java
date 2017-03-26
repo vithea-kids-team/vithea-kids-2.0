@@ -4,44 +4,47 @@ import java.util.List;
 
 import com.avaje.ebean.Model;
 import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Sequence extends Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sequenceId;
+    private Long id;
     
-    private String sequenceName;
+    private String name;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "sequence_exercise")
     private List<Exercise> exerciseList;
 
     public static final Finder<Long, Sequence> find = new Finder<>(Sequence.class);
     
     public Sequence(String name) {
-        this.sequenceName = name;
+        this.name = name;
     }
 
     public Long getSequenceId() {
-        return this.sequenceId;
+        return this.id;
     }
 
     public void setSequenceId(Long sequenceId) {
-        this.sequenceId = sequenceId;
+        this.id = sequenceId;
     }
 
     public String getSequenceName() {
-        return this.sequenceName;
+        return this.name;
     }
 
     public void setSequenceName(String name) {
-        this.sequenceName = name;
+        this.name = name;
     }
 
     public List<Exercise> getSequenceExercises() {

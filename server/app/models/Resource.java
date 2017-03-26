@@ -20,7 +20,7 @@ public class Resource extends Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long resourceId;
+	private Long id;
 	
 	private String resourcePath;
 
@@ -57,14 +57,14 @@ public class Resource extends Model {
 	 * @return the resourceId
 	 */
 	public Long getResourceId() {
-		return resourceId;
+		return id;
 	}
 
 	/**
 	 * @param resourceId the resourceId to set
 	 */
 	public void setResourceId(Long resourceId) {
-		this.resourceId = resourceId;
+		this.id = resourceId;
 	}
 
 	/**
@@ -101,14 +101,14 @@ public class Resource extends Model {
 		Logger.debug("Looking for exercises from: " + owner.getCaregiverLogin().getUsername());
 		return find
 		.where()
-		.eq("owner_caregiver_id", owner.getCaregiverLogin().getLoginId())
+		.eq("owner_id", owner.getCaregiverLogin().getLoginId())
 		.findList();
 	}
 
 	public static Resource findById(Long resourceId) {
 		return find
 		.where()
-		.eq("resource_id", resourceId)
+		.eq("id", resourceId)
 		.findUnique();
 	}
 }

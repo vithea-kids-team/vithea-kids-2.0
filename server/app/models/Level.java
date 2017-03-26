@@ -14,36 +14,36 @@ public class Level extends Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long levelId;
+	private Long id;
 	
-	private String levelDescription;
+	private String description;
 
 	/**
 	 * @return the levelId
 	 */
 	public Long getLevelId() {
-		return levelId;
+		return id;
 	}
 
 	/**
 	 * @param levelId the levelId to set
 	 */
 	public void setLevelId(Long levelId) {
-		this.levelId = levelId;
+		this.id = levelId;
 	}
 
 	/**
 	 * @return the levelDescription
 	 */
 	public String getLevelDescription() {
-		return levelDescription;
+		return description;
 	}
 
 	/**
 	 * @param levelDescription the levelDescription to set
 	 */
 	public void setLevelDescription(String levelDescription) {
-		this.levelDescription = levelDescription;
+		this.description = levelDescription;
 	}
 
 	public static final Finder<Long, Level> find = new Finder<>(Level.class);
@@ -57,7 +57,7 @@ public class Level extends Model {
 	public static Level findLevelById(Long levelId) {
         return find
 		.where()
-		.eq("level_id", levelId)
+		.eq("id", levelId)
 		.findUnique();
     }
 	

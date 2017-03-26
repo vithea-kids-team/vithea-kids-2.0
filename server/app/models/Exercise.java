@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 
 import play.Logger;
 
@@ -19,43 +21,58 @@ public class Exercise extends Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long exerciseId;
+	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
+        @Column(nullable = true)
 	private Topic topic;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
+        @Column(nullable = true)
 	private Level level;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Question question;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Answer rightAnswer;
 	
-	@ManyToMany
-	private final List<Answer> answers = new ArrayList();
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Answer> answers;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Caregiver author;
 
     public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, String answer, List<String> distractors) {
         this.author = loggedCaregiver;
-        this.topic = Topic.findTopicById(topic);
-        this.level = Level.findLevelById(level);
+        if (topic != -1) {
+            this.topic = Topic.findTopicById(topic);
+        }
+        
+        if (level != -1) {
+            this.level = Level.findLevelById(level);
+        }
+        
         this.question = new Question(question);
+        
+        List<Answer> answers = new ArrayList();
+        
         this.rightAnswer = new Answer(answer);
+        
+        answers.add(this.rightAnswer);
         distractors.forEach((s) -> {
-            this.answers.add(new Answer(s));
-            });  
+            answers.add(new Answer(s));
+        }); 
+        
+        this.answers = answers;
     }
 
 	public Long getExerciseId() {
-		return exerciseId;
+		return id;
 	}
 
 	public void setExerciseId(Long exerciseId) {
-		this.exerciseId = exerciseId;
+		this.id = exerciseId;
 	}
 
 	public Topic getTopic() {
@@ -156,7 +173,7 @@ public class Exercise extends Model {
 		Logger.debug("Looking for exercises from: " + author.getCaregiverLogin().getUsername());
 		return find
 		.where()
-		.eq("author_caregiver_id", author.getCaregiverLogin().getLoginId())
+		.eq("author_id", author.getCaregiverLogin().getLoginId())
 		.findList();
 	}
 }

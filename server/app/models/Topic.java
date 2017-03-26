@@ -14,54 +14,52 @@ public class Topic extends Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long topicId;
+	private Long id;
 	
-	private String topicDescription;
+	private String description;
 
 	public Topic(String topicDescription) {
-		this.topicDescription = topicDescription;
+            this.description = topicDescription;
 	}
 
 	/**
 	 * @return the topicId
 	 */
 	public Long getTopicId() {
-		return topicId;
+            return id;
 	}
 
 	/**
 	 * @param topicId the topicId to set
 	 */
 	public void setTopicId(Long topicId) {
-		this.topicId = topicId;
+            this.id = topicId;
 	}
 
 	/**
 	 * @return the topicDescription
 	 */
 	public String getTopicDescription() {
-		return topicDescription;
+            return description;
 	}
 
 	/**
 	 * @param topicDescription the topicDescription to set
 	 */
 	public void setTopicDescription(String topicDescription) {
-		this.topicDescription = topicDescription;
+            this.description = topicDescription;
 	}
 	
 	public static final Finder<Long, Topic> find = new Finder<>(Topic.class);
 
 	public static List<Topic> getAll() {
-        return find		
-		//.orderBy("topic_description desc")
-		.all();
+        return find.all();
     }
 
 	public static Topic findTopicById(Long topicId) {
         return find
 		.where()
-		.eq("topic_id", topicId)
+		.eq("id", topicId)
 		.findUnique();
     }
 	

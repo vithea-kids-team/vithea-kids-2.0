@@ -23,7 +23,7 @@ public class Caregiver extends Model {
 	
 	@Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long caregiverId;
+	private Long id;
 	
 	private String firstName;
 	
@@ -49,14 +49,14 @@ public class Caregiver extends Model {
 	 * @return the caregiverId
 	 */
 	public Long getCaregiverId() {
-		return caregiverId;
+		return id;
 	}
 
 	/**
 	 * @param caregiverId the caregiverId to set
 	 */
 	public void setCaregiverId(Long caregiverId) {
-		this.caregiverId = caregiverId;
+		this.id = caregiverId;
 	}
 
 	/**

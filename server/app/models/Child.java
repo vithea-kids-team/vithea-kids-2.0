@@ -9,11 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
@@ -24,18 +26,20 @@ public class Child extends Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long childId;
+    private Long id;
 
     private String firstName;
 
     private String lastName;
 
+    @Column(columnDefinition = "datetime")
     private Date birthDate;
 
     private String gender;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "childlogin_id")
+    @JsonIgnore
     private Login childLogin;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -62,11 +66,11 @@ public class Child extends Model {
     }
 
     public Long getChildId() {
-        return childId;
+        return id;
     }
 
     public void setChildId(Long childId) {
-        this.childId = childId;
+        this.id = childId;
     }
 
     public String getFirstName() {
@@ -137,6 +141,6 @@ public class Child extends Model {
 
     @Override
     public String toString() {
-        return "Child{" + "childId=" + childId + ", firstName=" + firstName + ", lastName=" + lastName + ", birthDate=" + birthDate + ", gender=" + gender + ", childLogin=" + childLogin + ", sequencesList=" + sequencesList + ", personalMessagesList=" + personalMessagesList + '}';
+        return "Child{" + "childId=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", birthDate=" + birthDate + ", gender=" + gender + ", childLogin=" + childLogin + ", sequencesList=" + sequencesList + ", personalMessagesList=" + personalMessagesList + '}';
     }
 }

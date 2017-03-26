@@ -1,5 +1,5 @@
 export class Caregiver {
-   	public caregiverId: number
+   	public id: number
 	public firstName: string	
 	public lastName: string
 	public gender: string

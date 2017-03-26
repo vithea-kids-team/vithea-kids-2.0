@@ -1,5 +1,5 @@
 export class Child {
-   	public childId: number
+   	public id: number
 	public firstName: string	
 	public lastName: string
 	public birthDate: string

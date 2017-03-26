@@ -37,8 +37,19 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         
-        int topic = parseInt(registerExerciseForm.get("topic"));
-        int level = parseInt(registerExerciseForm.get("level"));
+        int topic;
+        try {
+            topic = parseInt(registerExerciseForm.get("topic"));
+        } catch (NumberFormatException e) {
+            topic = -1;
+        } 
+ 
+        int level;
+        try {
+            level = parseInt(registerExerciseForm.get("level"));
+        } catch (NumberFormatException e) {
+            level = -1;
+        }
         String question = registerExerciseForm.get("question");
         String answer = registerExerciseForm.get("rightAnswer");
         List<String> distractors = new ArrayList();

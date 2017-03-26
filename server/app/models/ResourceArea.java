@@ -12,7 +12,7 @@ public class ResourceArea extends Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long resourceAreaId;
+	private Long id;
 	
 	private String resourceAreaDescription;
 
@@ -20,14 +20,14 @@ public class ResourceArea extends Model {
 	 * @return the resourceAreaId
 	 */
 	public Long getResourceAreaId() {
-		return resourceAreaId;
+		return id;
 	}
 
 	/**
 	 * @param resourceAreaId the resourceAreaId to set
 	 */
 	public void setResourceAreaId(Long resourceAreaId) {
-		this.resourceAreaId = resourceAreaId;
+		this.id = resourceAreaId;
 	}
 
 	/**
