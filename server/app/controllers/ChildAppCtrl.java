@@ -7,6 +7,7 @@ import play.libs.Json;
 import play.mvc.*;
 import play.Logger;
 
+@Security.Authenticated(Secured.class)
 public class ChildAppCtrl extends Controller {
     
     public Result getChildApp() {
