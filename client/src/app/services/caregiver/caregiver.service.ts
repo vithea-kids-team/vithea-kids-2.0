@@ -6,7 +6,8 @@ import { Caregiver } from '../../models/Caregiver';
 @Injectable()
 export class CaregiverService {
 
-  private loggedIn = false;
+  private loggedIn : boolean = false;
+  private username : string;
 
   constructor(private http: HttpApiClient, private router: Router) { }
 
@@ -15,7 +16,8 @@ export class CaregiverService {
       .post('/login', JSON.stringify({ username, password }))
       .subscribe(res => {
         if (res && res.status != 401) {
-          this.loggedIn = true;          
+          this.loggedIn = true;
+          this.username = username;          
           localStorage.setItem("Authorization", res.json().authToken)
           this.router.navigate(['/children'])
         }
@@ -36,9 +38,15 @@ export class CaregiverService {
 
   logout() {
     this.loggedIn = false;
+    this.username = undefined;
+    this.router.navigate(['/home']);
   }
 
   isLoggedIn() {
     return this.loggedIn;
+  }
+
+  getUsername() {
+    return this.username;
   }
 }

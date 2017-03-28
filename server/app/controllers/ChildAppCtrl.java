@@ -11,10 +11,12 @@ import play.Logger;
 public class ChildAppCtrl extends Controller {
     
     public Result getChildApp() {
+        Logger.debug("Hit ChildAppCtrl.getChildApp method");
         Login user = SecurityController.getUser();
         if (user == null) {
             return badRequest(buildJsonResponse("error", "User does not exist"));
         }
+        Logger.debug("User exists.");
         Child loggedChild = Child.findByUsername(user.getUsername());
         if (loggedChild == null) {
             return badRequest(buildJsonResponse("error", "Child does not exist."));

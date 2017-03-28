@@ -2,19 +2,17 @@
     <div class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+                <button *ngIf="caregiverService.isLoggedIn()" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
                 <a class="navbar-brand" [routerLink]="['/']" style="padding:0;margin:0">
                     <img src="images/VITHEAkidsLogo.png" alt="VITHEA Kids" style="max-height:100%">
                 </a>
             </div>
-
-            <div class="collapse navbar-collapse" id="js-navbar-collapse">
+            <div *ngIf="caregiverService.isLoggedIn()" class="collapse navbar-collapse" id="js-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
                         <a [routerLink]="['/children']">{{'_Children_' | translate }}</a>
@@ -30,6 +28,18 @@
                         </ul>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right" *ngIf="caregiverService.getUsername()">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        {{caregiverService.getUsername()}} 
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a (click)="caregiverService.logout()">{{'_SignOut_' | translate }} <span class="glyphicon glyphicon-log-out pull-right log-out-icon"></span></a></li>
+                    </ul>
+                </li>
+            </ul>
             </div>
         </div>
     </div>
@@ -42,8 +52,8 @@
     <router-outlet></router-outlet>
 </div>
 
-<div class="footer" style="position:fixed; bottom:0">
+<div class="footer" style="position:fixed; bottom:0;">
     <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> VITHEA Kids 2.0</p>
+        <p class="pull-right"><span class="glyphicon glyphicon-heart"></span> VITHEA Kids 2.0</p>
     </div>
 </div>
