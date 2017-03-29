@@ -1,8 +1,9 @@
-import { Routes } from '@angular/router'
+import { Routes } from '@angular/Router'
 
 import { AppComponent } from './components/app.component';
 import { ChildrenComponent } from './components/children/children.component';
 import { AddChildComponent } from './components/add-child/add-child.component';
+import { ChildDetailComponent } from './components/child-detail/child-detail.component';
 import { ExercisesComponent } from './components/exercises/exercises.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
 import { HomeComponent } from './components/home/home.component';
@@ -36,6 +37,10 @@ export const appRoutes: Routes = [
     {
       path: 'new',
       component: AddChildComponent
+    },
+    {
+      path: ':id',
+      component: ChildDetailComponent
     }]
   },
   {

@@ -23,6 +23,7 @@ import { AddExerciseComponent } from './components/add-exercise/add-exercise.com
 import { ImagePickerComponent } from './components/utils/image-picker/image-picker.component';
 import { TesteInputComponent } from './components/teste-input/teste-input.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { ChildDetailComponent } from './components/child-detail/child-detail.component';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
     AddExerciseComponent,
     ImagePickerComponent,
     TesteInputComponent,
-    SignUpComponent
+    SignUpComponent,
+    ChildDetailComponent
   ],
   providers: [
     HttpApiClient,

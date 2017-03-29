@@ -4,15 +4,22 @@ import { Response } from '@angular/http';
 import { HttpApiClient } from '../http/http-api-client.service';
 import { Child } from '../../models/Child'
 import { Router } from '@angular/Router';
+import { find } from 'lodash';
 
 @Injectable()
 export class ChildrenService {
+
+  children : Array<any>
 
   constructor(private http: HttpApiClient, private router : Router) { }
 
   getChildren() : Observable<Array<Child>> {
     return this.http.get('/listchildren')
-      .map(result => result.json());
+      .map(result => this.children = result.json());
+  }
+
+  getChild(id) {
+    return this.children.find(child => child.childId === id);
   }
 
   addChildren(child : Child) {
