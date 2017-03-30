@@ -10,6 +10,8 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 
+import { GuardService } from './services/guard/guard.service';
+
 export const appRoutes: Routes = [
   {
     path: '',
@@ -28,29 +30,79 @@ export const appRoutes: Routes = [
     path: 'home',
     component: HomeComponent
   },
+
   {
     path: 'children',
     children: [{
       path: '',
-      component: ChildrenComponent
-    }, 
-    {
-      path: 'new',
-      component: AddChildComponent
-    },
-    {
-      path: ':id',
-      component: ChildDetailComponent
-    }]
+      component: ChildrenComponent,
+      canActivate: [
+        GuardService
+      ]
+      }, 
+      {
+        path: 'new',
+        component: AddChildComponent,
+        canActivate: [
+          GuardService
+        ]
+      },
+      {
+        path: ':id',
+        component: ChildDetailComponent,
+        canActivate: [
+          GuardService
+        ]
+      }
+    ]
   },
+
   {
     path: 'exercises',
     children: [{
       path: '',
-      component: ExercisesComponent
-    }, {
-      path: 'new',
-      component: AddExerciseComponent
-    }]
-  }
-];
+      component: ExercisesComponent,
+      canActivate: [
+        GuardService
+      ]
+      }, {
+        path: 'new',
+        component: AddExerciseComponent,
+        canActivate: [
+          GuardService
+        ]
+      },
+      {
+        path: ':id',
+        //component: ExerciseDetailComponent,
+        canActivate: [
+          GuardService
+        ]
+      }]
+  }, 
+  
+  {
+    path: 'sequences',
+    children: [{
+      path: '',
+      //component: SequencesComponent,
+      canActivate: [
+        GuardService
+      ]
+      }, 
+      {
+        path: 'new',
+        //component: AddSequenceComponent,
+        canActivate: [
+          GuardService
+        ]
+      },
+      {
+        path: ':id',
+        component: ExercisesComponent,
+        data: {filteredBySequence: true },
+        canActivate: [
+          GuardService
+        ]
+      }]
+    }];

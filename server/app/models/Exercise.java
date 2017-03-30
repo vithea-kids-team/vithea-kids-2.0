@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
@@ -41,6 +42,7 @@ public class Exercise extends Model {
 	private List<Answer> answers;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
+        @JsonIgnore
 	private Caregiver author;
 
     public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, String answer, List<String> distractors) {

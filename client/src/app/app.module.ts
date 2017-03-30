@@ -16,6 +16,7 @@ import { ExercisesService } from './services/exercises/exercises.service';
 import { CaregiverService } from './services/caregiver/caregiver.service';
 import { ResourcesService } from './services/resources/resources.service';
 import { HttpApiClient } from './services/http/http-api-client.service';
+import { GuardService } from './services/guard/guard.service';
 
 import { appRoutes } from './app.routing';
 import { AddChildComponent } from './components/add-child/add-child.component';
@@ -51,11 +52,12 @@ import { ChildDetailComponent } from './components/child-detail/child-detail.com
     ChildDetailComponent
   ],
   providers: [
+    GuardService,    
     HttpApiClient,
     ChildrenService,
     ExercisesService,
     CaregiverService,
-    ResourcesService
+    ResourcesService  
   ],
   bootstrap: [AppComponent]
 })

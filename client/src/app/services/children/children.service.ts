@@ -10,6 +10,8 @@ import { find } from 'lodash';
 export class ChildrenService {
 
   children : Array<any>
+  currentChild : any
+  currentSequence : any
 
   constructor(private http: HttpApiClient, private router : Router) { }
 
@@ -18,8 +20,9 @@ export class ChildrenService {
       .map(result => this.children = result.json());
   }
 
-  getChild(id) {
-    return this.children.find(child => child.childId === id);
+  getChild(id : number) {
+    this.currentChild = this.children.find(child => child.childId === id);
+    return this.currentChild;
   }
 
   addChildren(child : Child) {
@@ -32,4 +35,10 @@ export class ChildrenService {
         }
       );
   }
+
+  getSequence(id : number) {
+    this.currentSequence = this.currentChild.sequencesList.find(sequence => sequence.sequenceId === id);
+    return this.currentSequence;
+  }
+
 }

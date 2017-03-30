@@ -1,3 +1,9 @@
-<p>
-  {{child?.childId}}
-</p>
+<div class="container">
+  <h2>{{ '_Sequences_' | translate }}</h2>
+  <div class="panel panel-default" *ngFor="let sequence of child?.sequencesList">
+    <div class="panel-body">
+      <button type="button" class="btn btn-secondary pull-right" [routerLink]="['/sequences/' + sequence.sequenceId]">{{ '_ViewSequence_' | translate }}</button>
+      <h4>{{sequence.sequenceName}}</h4>
+    </div>
+  </div>
+</div>
