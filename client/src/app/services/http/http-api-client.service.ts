@@ -3,7 +3,6 @@ import {Http, RequestOptionsArgs, Response, Headers} from '@angular/http';
 import { Router } from '@angular/Router'
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
-import * as _ from 'lodash';
 
 @Injectable()
 export class HttpApiClient {
@@ -33,30 +32,30 @@ export class HttpApiClient {
   }
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
     options = this.addHeaders(options);
-      return this.intercept(this.http.get(this.SERVER + url, options)
+      return this.http.get(this.SERVER + url, options)
       .map(res => {
         return res;
-      }));
+      });
   }
   post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
     options = this.addHeaders(options);
-    return this.intercept(this.http.post(this.SERVER + url, body, options));
+    return this.http.post(this.SERVER + url, body, options);
   }
   put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.intercept(this.http.put(this.SERVER + url, body, options));
+    return this.http.put(this.SERVER + url, body, options);
   }
   delete(url: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.intercept(this.http.delete(this.SERVER + url, options));
+    return this.http.delete(this.SERVER + url, options);
   }
   patch(url: string, body: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.intercept(this.http.patch(this.SERVER + url, body, options));
+    return this.http.patch(this.SERVER + url, body, options);
   }
   head(url: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.intercept(this.http.head(this.SERVER + url, options));
+    return this.http.head(this.SERVER + url, options);
   }
   upload(url: string, files:File[]): Observable<any> {
     return Observable.create(observer => {
@@ -81,16 +80,4 @@ export class HttpApiClient {
             xhr.send(formData);
         });
   }
-
-  intercept(observable: Observable<Response>): Observable<Response> {
-        return observable.catch((err, source) => {
-            if (err.status  == 401 && !_.endsWith(err.url, '/login')) {
-                this.router.navigate(['/login']);
-                return Observable.of(null);
-            } else {
-                return Observable.throw(err);
-            }
-        });
- 
-    }
 }

@@ -20,11 +20,16 @@ export class CaregiverService {
     return this.http
       .post('/login', JSON.stringify({ username, password }))
       .subscribe(res => {
-          this.failedLogin = false;
-          this.loggedIn = true;
-          this.username = username;          
-          localStorage.setItem("Authorization", res.json().authToken)
-          this.router.navigate(['/children']);
+          if (res) {
+            this.failedLogin = false;
+            this.loggedIn = true;
+            this.username = username;          
+            localStorage.setItem("Authorization", res.json().authToken)
+            this.router.navigate(['/children']);
+          } else {
+            this.failedLogin = true;
+            console.error('Login error. No token returned');
+          }
       }, err => {
         this.failedLogin = true;
         console.error('Login error.', err);

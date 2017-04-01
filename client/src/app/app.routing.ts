@@ -12,11 +12,17 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 
 import { GuardService } from './services/guard/guard.service';
 
+export const appName = 'vithea-kids-admin';
+
 export const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
   },
   {
     path: 'login',
@@ -26,11 +32,6 @@ export const appRoutes: Routes = [
     path: 'signup',
     component: SignUpComponent
   },
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-
   {
     path: 'children',
     children: [{

@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Login;
+import play.Logger;
 import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -16,11 +17,13 @@ public class Secured extends Security.Authenticator {
             String token = ctx.request().headers().get(SecurityController.AUTH_TOKEN_HEADER)[0];
             if (token != null) {
                 Login user = Login.findByAuthToken(token);
-
+                
                 if (user != null) {
                     ctx.args.put("user", user);
                     return user.getUsername();
                 }
+                
+                Logger.debug("Could not find user with auth token " + token);
             }
         }
         return null;
