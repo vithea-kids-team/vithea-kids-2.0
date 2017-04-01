@@ -14,7 +14,7 @@
         <div *ngIf="f.submitted && !password.valid" class="alert alert-danger">
             {{ '_RequiredPassword_' | translate }}
         </div>
-        <div *ngIf="failedLogin" class="alert alert-danger">
+        <div *ngIf="caregiverService.failedToLogin()" class="alert alert-danger">
           {{ '_InvalidUsernamePassword_' | translate }}
         </div>
         <div class="form-group">

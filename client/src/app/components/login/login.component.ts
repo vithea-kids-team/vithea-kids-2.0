@@ -10,12 +10,10 @@ import { CaregiverService } from '../../services/caregiver/caregiver.service';
 export class LoginComponent {
 
   model: any = {};
-  failedLogin : boolean = false;
 
   constructor(private caregiverService: CaregiverService) { }
 
   login() {
     this.caregiverService.login(this.model.username, this.model.password);
-    this.failedLogin = !this.caregiverService.isLoggedIn();
   }
 }

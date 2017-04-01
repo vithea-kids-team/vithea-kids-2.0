@@ -1,11 +1,16 @@
+import 'rxjs/add/operator/map'
 import { Injectable } from '@angular/core';
+import { Observable} from 'rxjs/Observable';
 import { HttpApiClient } from '../http/http-api-client.service';
 import { Router } from '@angular/Router';
 import { Caregiver } from '../../models/Caregiver';
 
+
 @Injectable()
 export class CaregiverService {
 
+  private userObs : Observable<any>;
+  private failedLogin : boolean = false;
   private loggedIn : boolean = false;
   private username : string;
 
@@ -15,14 +20,14 @@ export class CaregiverService {
     return this.http
       .post('/login', JSON.stringify({ username, password }))
       .subscribe(res => {
-        if (res && res.status != 401) {
+          this.failedLogin = false;
           this.loggedIn = true;
           this.username = username;          
           localStorage.setItem("Authorization", res.json().authToken)
-          this.router.navigate(['/children'])
-        }
+          this.router.navigate(['/children']);
       }, err => {
-        console.error('Wrong username password combination.');
+        this.failedLogin = true;
+        console.error('Login error.', err);
       });
   }
 
@@ -37,13 +42,32 @@ export class CaregiverService {
   }
 
   logout() {
+    localStorage.removeItem('Authorization');
     this.loggedIn = false;
     this.username = undefined;
     this.router.navigate(['/home']);
   }
 
   isLoggedIn() {
-    return this.loggedIn;
+    return  !!this.getJWT();
+  }
+
+  failedToLogin() {
+    return this.failedLogin;
+  }
+
+  getJWT() {
+    return localStorage.getItem('Authorization');
+  }
+
+  whoAmI(): Observable<any>{
+    if(!this.userObs){
+      this.userObs = this.http.get('/me')
+                                   .map(res => res.json());
+                                   /*.publishReplay(10)
+                                   .refCount();*/
+    }
+    return this.userObs;
   }
 
   getUsername() {
