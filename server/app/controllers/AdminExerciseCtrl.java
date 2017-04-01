@@ -17,6 +17,7 @@ import models.Resource;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import static java.lang.Integer.parseInt;
+import models.Sequence;
 import play.data.DynamicForm;
 
 @Security.Authenticated(Secured.class)
@@ -60,6 +61,22 @@ public class AdminExerciseCtrl extends Controller {
         
         Exercise exercise = new Exercise(loggedCaregiver, topic, level, question, answer, distractors);
         exercise.save();
+        
+        String sequenceId = registerExerciseForm.get("sequenceId");
+        if(sequenceId != null && !"".equals(sequenceId)) {
+            int sequence;
+            try {
+                sequence = parseInt(registerExerciseForm.get("sequenceId"));
+                Logger.debug("Adding exercise to sequence " + sequence);
+                Sequence currentSequence = Sequence.findById(sequence);
+                if (currentSequence != null) {
+                    currentSequence.getSequenceExercises().add(exercise);
+                    currentSequence.save();
+                }
+            } catch (NumberFormatException e) {
+                //Do nothing... for now.
+            }
+        }
         
         return ok(Json.toJson(exercise));
     }

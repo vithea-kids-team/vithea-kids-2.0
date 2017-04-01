@@ -15,7 +15,8 @@ import { ChildrenService } from '../../services/children/children.service';
 })
 export class ExercisesComponent implements OnInit {
 
-  private exercises: Array<Exercise>
+  private exercises: Array<Exercise>;
+  private sequenceId: number = 0;
   
   constructor(private route: ActivatedRoute, private exercisesService : ExercisesService, private childrenService : ChildrenService) { }
 
@@ -25,6 +26,7 @@ export class ExercisesComponent implements OnInit {
       .subscribe(params => {
         const id : number = parseInt(params['id']);
         if(id) {
+          this.sequenceId = id;
           this.exercises = this.childrenService.getSequence(id).sequenceExercises;
         } else {
           this.getExercises();

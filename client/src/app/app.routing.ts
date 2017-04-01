@@ -64,14 +64,19 @@ export const appRoutes: Routes = [
       component: ExercisesComponent,
       canActivate: [
         GuardService
-      ]
-      }, {
+      ]}, 
+      {
         path: 'new',
         component: AddExerciseComponent,
         canActivate: [
           GuardService
-        ]
-      },
+        ]},
+      {
+        path: 'new/:id',
+        component: AddExerciseComponent,
+        canActivate: [
+          GuardService
+        ]},
       {
         path: ':id',
         //component: ExerciseDetailComponent,

@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.avaje.ebean.Model;
 import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import play.Logger;
 
 @Entity
 public class Sequence extends Model {
@@ -53,5 +53,13 @@ public class Sequence extends Model {
 
     public void setSequenceExercises(List<Exercise> exerciseList) {
         this.exerciseList = exerciseList;
+    }
+    
+    public static Sequence findById(Integer id) {
+        Logger.debug("Looking for sequence with id: " + id);
+        return find
+        .where()
+        .eq("id", id)
+        .findUnique();
     }
 }
