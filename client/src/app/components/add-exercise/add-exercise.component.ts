@@ -15,17 +15,17 @@ import { ExercisesService } from '../../services/exercises/exercises.service'
 })
 export class AddExerciseComponent implements OnInit {
 
-  public newExercise = new Exercise();
-  public newAnswer : string = '';
+  private newExercise = new Exercise();
+  private newAnswer : string = '';
+  private stimulusImgs = [];
+  private rightAnswerImgs = [];
+  private answersImgs = [];
+
 
   constructor(private route: ActivatedRoute, private resourcesService: ResourcesService, private exercisesService : ExercisesService, private router: Router) {}
 
   ngOnInit() {
     this.newExercise.type = 'text';
-    this.newExercise.answers = [];
-    this.newExercise.rightAnswers = [];
-    this.newExercise.stimulus = [];
-    this.newExercise.answersImg = [];
 
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
@@ -50,6 +50,25 @@ export class AddExerciseComponent implements OnInit {
 
   registerExercise() {
     console.log(this.newExercise);
+
+    const stimulus = this.stimulusImgs.filter((stimulus) => { return stimulus.selected;});
+    if (stimulus.length > 0)
+      this.newExercise.stimulus = stimulus[0].resourceId;
+
+    if (this.newExercise.type === 'image') {
+      const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected;});
+      const answersImg = this.answersImgs.filter((stimulus) => { return stimulus.selected;});
+
+      if (rightAnswer.length > 0)
+        this.newExercise.rightAnswerImg = rightAnswer[0].resourceId;
+
+      if (answersImg.length > 0) {
+        answersImg.forEach(answer => {
+          this.newExercise.answersImg.push(answer.resourceId);
+        });
+      }
+    }
+
     this.exercisesService.registerExercise(this.newExercise).subscribe(
       result => {
         if (this.newExercise.sequenceId) {

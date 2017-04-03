@@ -3,7 +3,7 @@ import { Routes } from '@angular/Router'
 import { AppComponent } from './components/app.component';
 import { ChildrenComponent } from './components/children/children.component';
 import { AddChildComponent } from './components/add-child/add-child.component';
-import { ChildDetailComponent } from './components/child-detail/child-detail.component';
+import { SequencesComponent } from './components/sequences/sequences.component';
 import { ExercisesComponent } from './components/exercises/exercises.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
 import { HomeComponent } from './components/home/home.component';
@@ -50,7 +50,7 @@ export const appRoutes: Routes = [
       },
       {
         path: ':id',
-        component: ChildDetailComponent,
+        component: SequencesComponent,
         canActivate: [
           GuardService
         ]
@@ -91,7 +91,7 @@ export const appRoutes: Routes = [
     path: 'sequences',
     children: [{
       path: '',
-      //component: SequencesComponent,
+      component: SequencesComponent,
       canActivate: [
         GuardService
       ]
@@ -106,7 +106,6 @@ export const appRoutes: Routes = [
       {
         path: ':id',
         component: ExercisesComponent,
-        data: {filteredBySequence: true },
         canActivate: [
           GuardService
         ]

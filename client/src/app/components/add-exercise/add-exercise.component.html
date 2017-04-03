@@ -38,7 +38,7 @@
         <input class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="newExercise.stimulus" name="stimulus" [multiSelect]="false"> </image-picker>
+          <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
         </div>
         <a data-ng-click="toggleAddResource('stimuli')" class="btn btn-primary">{{ '_UploadStimulus_' | translate }}</a>
       </div>
@@ -50,7 +50,7 @@
       <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="newExercise.rightAnswers"  [multiSelect]="false" name="rightAnswers"> </image-picker>
+          <image-picker [(ngModel)]="rightAnswerImgs"  [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
         </div>
         <a ngClick="toggleAddResource('answer')" class="btn btn-primary">{{ '_UploadAnswer_' | translate }}</a>
       </div>
@@ -76,7 +76,7 @@
       <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="newExercise.answersImg" [multiSelect]="true" name="answersImg"> </image-picker>
+          <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs"> </image-picker>
         </div>
         <a onClick="toggleAddResource('option')" class="btn btn-primary">{{ '_UploadOption_' | translate }}</a>
         <br />

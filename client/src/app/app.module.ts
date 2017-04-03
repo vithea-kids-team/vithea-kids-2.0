@@ -14,6 +14,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ChildrenService } from './services/children/children.service';
 import { ExercisesService } from './services/exercises/exercises.service';
 import { CaregiverService } from './services/caregiver/caregiver.service';
+import { SequencesService } from './services/sequences/sequences.service';
 import { ResourcesService } from './services/resources/resources.service';
 import { HttpApiClient } from './services/http/http-api-client.service';
 import { GuardService } from './services/guard/guard.service';
@@ -24,7 +25,8 @@ import { AddExerciseComponent } from './components/add-exercise/add-exercise.com
 import { ImagePickerComponent } from './components/utils/image-picker/image-picker.component';
 import { TesteInputComponent } from './components/teste-input/teste-input.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { ChildDetailComponent } from './components/child-detail/child-detail.component';
+import { SequencesComponent } from './components/sequences/sequences.component';
+import { AddSequenceComponent } from './components/add-sequence/add-sequence.component';
 
 @NgModule({
   imports: [
@@ -49,7 +51,8 @@ import { ChildDetailComponent } from './components/child-detail/child-detail.com
     ImagePickerComponent,
     TesteInputComponent,
     SignUpComponent,
-    ChildDetailComponent
+    SequencesComponent,
+    AddSequenceComponent
   ],
   providers: [
     GuardService,    
@@ -57,6 +60,7 @@ import { ChildDetailComponent } from './components/child-detail/child-detail.com
     ChildrenService,
     ExercisesService,
     CaregiverService,
+    SequencesService,
     ResourcesService  
   ],
   bootstrap: [AppComponent]

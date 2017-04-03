@@ -7,7 +7,7 @@ export class Exercise {
     public stimulusText: string
     public stimulus: Array<string>
     public rightAnswer: string
-    public rightAnswers: Array<any>
+    public rightAnswerImg: any
     public answers: Array<string>
     public answersImg: Array<string>
     public sequenceId : number

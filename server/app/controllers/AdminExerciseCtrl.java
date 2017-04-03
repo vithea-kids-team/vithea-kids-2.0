@@ -116,6 +116,10 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         return ok(Json.toJson(Resource.findByOwner(loggedCaregiver)));
     }
+    
+    public Result getSequences() {
+        return ok(Json.toJson(Sequence.getAll()));
+    }
 
     public Result uploadResources(String type) {
         Logger.debug("Uploading " + type);

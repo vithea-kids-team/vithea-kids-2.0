@@ -23,6 +23,8 @@ POST        /vithea-kids-api/registerexercise           	controllers.AdminExerci
 POST        /vithea-kids-api/editexercise/:exercise  	controllers.AdminExerciseCtrl.editExercise(exercise:Long)
 GET         /vithea-kids-api/listexercises                  controllers.AdminExerciseCtrl.getExercises
 POST        /vithea-kids-api/deleteexercise/:exercise       controllers.AdminExerciseCtrl.deleteExercise(exercise:Long)
+# Sequence
+GET         /vithea-kids-api/listsequences              controllers.AdminExerciseCtrl.getSequences
 ### Topic
 GET         /vithea-kids-api/listtopics                  controllers.AdminExerciseCtrl.getTopics
 ### Level

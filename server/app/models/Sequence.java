@@ -55,6 +55,10 @@ public class Sequence extends Model {
         this.exerciseList = exerciseList;
     }
     
+    public static List<Sequence> getAll() {
+        return find.all();
+    }
+    
     public static Sequence findById(Integer id) {
         Logger.debug("Looking for sequence with id: " + id);
         return find
