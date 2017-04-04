@@ -26,6 +26,11 @@ public class Answer extends Model {
         this.answerDescription = answer;
         this.stimulus = null;
     }
+    
+    Answer(Resource stimulus) {
+        this.answerDescription = null;
+        this.stimulus = stimulus;
+    }
 
     /**
      * @return the answerId

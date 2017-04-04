@@ -26,6 +26,8 @@ export class AddExerciseComponent implements OnInit {
 
   ngOnInit() {
     this.newExercise.type = 'text';
+    this.newExercise.answers = [];
+    this.newExercise.answersImg = [];
 
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
@@ -78,7 +80,11 @@ export class AddExerciseComponent implements OnInit {
           this.router.navigate(['/exercises']);
         }
       }, 
-      err => console.error("Error loading exercises. " + err) 
+      err => console.error("Error loading exercises. " + err),
+      () => {
+        this.newExercise.answers = [];
+        this.newExercise.answersImg = [];
+      }
     );
   }
 

@@ -26,6 +26,11 @@ public class Question extends Model {
         this.questionDescription = question;
     }
 
+    Question(String question, Resource stimulus) {
+        this.questionDescription = question;
+        this.stimulus = stimulus;
+    }
+
 	/**
 	 * @return the questionId
 	 */

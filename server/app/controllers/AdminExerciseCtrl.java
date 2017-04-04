@@ -38,6 +38,8 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         
+        Exercise exercise = null;
+        
         int topic;
         try {
             topic = parseInt(registerExerciseForm.get("topic"));
@@ -51,17 +53,58 @@ public class AdminExerciseCtrl extends Controller {
         } catch (NumberFormatException e) {
             level = -1;
         }
+        
+        int stimulusId;
+        try {
+            stimulusId = parseInt(registerExerciseForm.get("stimulus"));
+        } catch (NumberFormatException e) {
+            stimulusId = -1;
+        }
+        
         String question = registerExerciseForm.get("question");
-        String answer = registerExerciseForm.get("rightAnswer");
-        List<String> distractors = new ArrayList();
-        registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("answers"))).forEachOrdered((key) -> {
-            distractors.add(registerExerciseForm.data().get(key));
-        });
         
+        if(registerExerciseForm.get("type").equals("text")) {
+            String answer = registerExerciseForm.get("rightAnswer");
+            List<String> distractors = new ArrayList();
+            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("answers"))).forEachOrdered((key) -> {
+                distractors.add(registerExerciseForm.data().get(key));
+            });
+
+
+            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusId, answer, distractors);
+   
+        } else if(registerExerciseForm.get("type").equals("image")) {
+            int answerResourceId;
+            try {
+                answerResourceId = parseInt(registerExerciseForm.get("rightAnswerImg"));
+            } catch (NumberFormatException e) {
+                answerResourceId = -1;
+            }
+            
+            List<Long> distractorsResourcesIds = new ArrayList<Long>();
+            int i = 0;
+            while(true) {
+                String key = "answersImg[" + i + "]";
+                if (registerExerciseForm.data().containsKey(key)) {
+                    int answerId;
+                    try {
+                        answerId = parseInt(registerExerciseForm.data().get(key));
+                    } catch (NumberFormatException e) {
+                        answerId = -1;
+                    }
+                    
+                    distractorsResourcesIds.add((long)answerId);
+                } else {
+                    break;
+                }
+                i++;
+            }
+            
+            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusId, answerResourceId, distractorsResourcesIds);
+        }
         
-        Exercise exercise = new Exercise(loggedCaregiver, topic, level, question, answer, distractors);
         exercise.save();
-        
+
         String sequenceId = registerExerciseForm.get("sequenceId");
         if(sequenceId != null && !"".equals(sequenceId)) {
             int sequence;
@@ -74,10 +117,10 @@ public class AdminExerciseCtrl extends Controller {
                     currentSequence.save();
                 }
             } catch (NumberFormatException e) {
-                //Do nothing... for now.
+                //Do nothing...
             }
         }
-        
+
         return ok(Json.toJson(exercise));
     }
 

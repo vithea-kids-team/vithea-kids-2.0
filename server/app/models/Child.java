@@ -16,7 +16,6 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
 import play.Logger;
