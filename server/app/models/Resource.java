@@ -11,9 +11,7 @@ import java.util.*;
 import play.Logger;
 
 import com.avaje.ebean.Model;
-
-import models.Caregiver;
-import models.ResourceArea;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Resource extends Model {
@@ -31,6 +29,7 @@ public class Resource extends Model {
 	private ResourceArea resourceArea;
 
 	@ManyToOne
+        @JsonIgnore
 	private Caregiver owner;
 
 	public void setResourceArea(String resourceArea) {

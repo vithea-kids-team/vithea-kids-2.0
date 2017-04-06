@@ -3,10 +3,12 @@ package controllers;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.List;
 
 import models.Caregiver;
 import models.Child;
 import models.Login;
+import models.Sequence;
 
 import play.Logger;
 import play.data.Form;
@@ -153,6 +155,25 @@ public class AdminChildCtrl extends Controller {
         Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         Logger.debug(loggedCaregiver.getChildList().size() + " children registered.");
         return ok(Json.toJson(loggedCaregiver.getChildList()));
+    }
+    
+    /*
+     * GetChildSequences action
+     */
+    
+    public Result getChildSequences(Long childId) {
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
+        List<Child> children = loggedCaregiver.getChildList();
+        Child child = Child.findByChildId(childId);
+        if (!children.contains(child)) {
+            return badRequest(buildJsonResponse("error", "Invalid child id."));
+        }
+        
+        return  ok(Json.toJson(child.getSequencesList()));
     }
     
     private static ObjectNode buildJsonResponse(String type, String message) {

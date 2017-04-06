@@ -59,7 +59,7 @@ public class Sequence extends Model {
         return find.all();
     }
     
-    public static Sequence findById(Integer id) {
+    public static Sequence findById(Long id) {
         Logger.debug("Looking for sequence with id: " + id);
         return find
         .where()

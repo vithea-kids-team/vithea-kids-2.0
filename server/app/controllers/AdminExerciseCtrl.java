@@ -111,7 +111,7 @@ public class AdminExerciseCtrl extends Controller {
             try {
                 sequence = parseInt(registerExerciseForm.get("sequenceId"));
                 Logger.debug("Adding exercise to sequence " + sequence);
-                Sequence currentSequence = Sequence.findById(sequence);
+                Sequence currentSequence = Sequence.findById((long)sequence);
                 if (currentSequence != null) {
                     currentSequence.getSequenceExercises().add(exercise);
                     currentSequence.save();

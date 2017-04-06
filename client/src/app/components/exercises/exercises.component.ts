@@ -27,17 +27,24 @@ export class ExercisesComponent implements OnInit {
         const id : number = parseInt(params['id']);
         if(id) {
           this.sequenceId = id;
-          this.exercises = this.childrenService.getSequence(id).sequenceExercises;
+          this.getSequenceExercises(id);
         } else {
           this.getExercises();
         }
       });
   }
 
+  private getSequenceExercises(id) {
+    this.childrenService.getSequence(id).subscribe(
+      res => this.exercises = res.sequenceExercises,
+      err => console.log("Error loading sequence exercises", err)
+    )
+  }
+
   private getExercises() {
     this.exercisesService.getExercises().subscribe(
       result => this.exercises = result, 
-      err => console.error("Error loading exercises. " + err) 
+      err => console.error("Error loading exercises. ", err) 
     );
   }
 }

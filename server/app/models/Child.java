@@ -60,7 +60,7 @@ public class Child extends Model {
     public static Child findByChildId(Long childId) {
         return find
                 .where()
-                .eq("child_id", childId)
+                .eq("id", childId)
                 .findUnique();
     }
 
