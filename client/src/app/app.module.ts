@@ -27,6 +27,7 @@ import { TesteInputComponent } from './components/teste-input/teste-input.compon
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SequencesComponent } from './components/sequences/sequences.component';
 import { AddSequenceComponent } from './components/add-sequence/add-sequence.component';
+import { PreferencesComponent } from './components/preferences/preferences.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { AddSequenceComponent } from './components/add-sequence/add-sequence.com
     TesteInputComponent,
     SignUpComponent,
     SequencesComponent,
-    AddSequenceComponent
+    AddSequenceComponent,
+    PreferencesComponent
   ],
   providers: [
     GuardService,    

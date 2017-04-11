@@ -3,7 +3,10 @@
   <h2>{{ '_Children_' | translate }}</h2>
   <div class="panel panel-default" *ngFor="let child of children">
     <div class="panel-body">
-      <button type="button" class="btn btn-secondary pull-right" [routerLink]="['/children/' + child.childId]">{{ '_ViewChildBtn_' | translate }}</button>
+      <div class="pull-right button-group">
+        <button type="button" class="btn btn-secondary" [routerLink]="['/children/' + child.childId + '/sequences']">{{ '_ViewChildSequencesBtn_' | translate }}</button>
+        <button type="button" class="btn btn-secondary" [routerLink]="['/children/' + child.childId + '/preferences']">{{ '_ViewChildPreferencesBtn_' | translate }}</button>
+      </div>
       <h4>{{child.firstName}}&nbsp;{{ child.lastName}}</h4>
       <p>{{ child.birthDate | date:"dd/MM/yyyy"}}</p>
       <p>{{ child.gender }}</p>

@@ -18,8 +18,8 @@
     "_Signup_": "Registar cuidador",
     "_Logout_": "Sair",
     "_MyProfile_": "O Meu Perfil",
-    "_AnimatedCharacterMessages_": "Mensagens da Personagem Animada",
     "_Reinforcements_": "Reforços",
+    "_PersonalMessages_": "Mensagens personalizadas",
     "__COMMENT__": "SIGNUP, REGISTER CHILD AND LOGIN FORM ***********************************************",
     "_Username_": "Nome de utilizador",
     "_FirstName_": "Nome",
@@ -64,5 +64,9 @@
     "_Image_": "Resposta em imagem",
     "_Text_": "Resposta em texto",
     "_ClickHereToSignUp_": "Clique aqui para se registar",
-    "_InvalidUsernamePassword_": "Nome de utilizador ou palavra-chave inválidos."
+    "_InvalidUsernamePassword_": "Nome de utilizador ou palavra-chave inválidos.",
+    "__COMMENT__": "SEQUENCES ***********************************************",
+    "_Sequences_": "Sequências",
+    "__COMMENT__": "PREFERENCES ***********************************************",
+    "Greeting": "Mensagem de boas-vindas:"
 }   

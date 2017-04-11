@@ -41,8 +41,7 @@ export class ChildrenService {
       this.getChild(id);
       return Observable.of(this.currentChild.sequencesList);
     } else {
-      return this.http.get('/child/'+ id + '/sequences')
-        .map(result => this.children = result.json());
+      return this.http.get('/child/'+ id + '/sequences');
     }
   }
 
@@ -52,6 +51,15 @@ export class ChildrenService {
     } else {
       return this.http.get('/sequences/' + id)
         .map(result => this.children = result.json())
+    }
+  }
+
+  getChildMessages(id : number) {
+     if (this.children) {
+      this.getChild(id);
+      return Observable.of(this.currentChild.personalMessagesList);
+    } else {
+      return this.http.get('/child/'+ id + '/messages');
     }
   }
 

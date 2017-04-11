@@ -6,6 +6,7 @@ import { AddChildComponent } from './components/add-child/add-child.component';
 import { SequencesComponent } from './components/sequences/sequences.component';
 import { ExercisesComponent } from './components/exercises/exercises.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
+import { PreferencesComponent } from './components/preferences/preferences.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
@@ -49,8 +50,15 @@ export const appRoutes: Routes = [
         ]
       },
       {
-        path: ':id',
+        path: ':id/sequences',
         component: SequencesComponent,
+        canActivate: [
+          GuardService
+        ]
+      },
+      {
+        path: ':id/preferences',
+        component: PreferencesComponent,
         canActivate: [
           GuardService
         ]
