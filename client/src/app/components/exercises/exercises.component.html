@@ -1,7 +1,14 @@
 <div class="container">
-  <button *ngIf="!sequenceId" type="button" class="btn btn-primary pull-right" [routerLink]="['/exercises/new']">{{ '_CreateExercise_' | translate }}</button>
-  <button *ngIf="sequenceId" type="button" class="btn btn-primary pull-right" [routerLink]="['/exercises/new/' + sequenceId]">{{ '_AddExercise_' | translate }}</button>
+  <button *ngIf="!sequenceId" type="button" class="btn btn-primary pull-right" [routerLink]="['/exercises/new']">
+    <span class="glyphicon glyphicon-plus"></span>
+    {{ '_CreateExercise_' | translate }}
+  </button>
+  <button *ngIf="sequenceId" type="button" class="btn btn-primary pull-right" [routerLink]="['/exercises/new/' + sequenceId]">
+    <span class="glyphicon glyphicon-plus"></span>
+    {{ '_AddExercise_' | translate }}
+  </button>
   <h2>{{ '_Exercises_' | translate }}</h2>
+  <p *ngIf="!exercises || !exercises.length">{{ '_NoExercises_' | translate }}</p>
   <div class="panel panel-default" *ngFor="let exercise of exercises">
     <div class="panel-body">
       <h3>{{exercise.question?.questionDescription}}</h3>
@@ -12,6 +19,16 @@
         <span class="pull-right glyphicon glyphicon-check" *ngIf="distractor.answerId == exercise.rightAnswer?.answerId"></span>
         <span class="pull-right glyphicon glyphicon-unchecked" *ngIf="distractor.answerId != exercise.rightAnswer?.answerId"></span>
       </div>
+    </div>
+    <div class="panel-heading">
+      <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/edit']">
+        <span class="glyphicon glyphicon-pencil"></span>
+        {{ '_Edit_' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary" (click)="deleteExercise(exercise.exerciseId)">
+        <span class="glyphicon glyphicon-trash"></span>
+        {{ '_Delete_' | translate }}
+      </button>
     </div>
   </div>
 </div>

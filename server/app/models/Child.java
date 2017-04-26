@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
@@ -38,7 +39,7 @@ public class Child extends Model {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "childlogin_id")
-    @JsonIgnore
+    @JsonUnwrapped
     private Login childLogin;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -131,12 +132,6 @@ public class Child extends Model {
     public void setPersonalMessagesList(List<PersonalMessage> personalMessagesList) {
         this.personalMessagesList = personalMessagesList;
     }
-    
-    public String getPesonalMessageByType(String type) {
-        String message = PersonalMessage.findByType(type).getMessage();
-        Logger.debug("Retrieving greeting msg: " + message);
-        return message;
-    } 
 
     @Override
     public String toString() {

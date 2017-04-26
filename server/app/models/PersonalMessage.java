@@ -1,8 +1,10 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.inject.Key;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,13 +23,17 @@ public class PersonalMessage extends Model {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String message;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "messagetype_id")
+    @Column(nullable = false)
     private PersonalMessageType messageType;
-    
+
+    public PersonalMessage(String message, PersonalMessageType personalMessageType) {
+        this.message = message;
+        this.messageType = personalMessageType;
+    }
+
     public Long getId() {
         return id;
     }
@@ -54,15 +60,12 @@ public class PersonalMessage extends Model {
 
     public static final Finder<Long, PersonalMessage> find = new Finder<>(PersonalMessage.class);
 
-    public static PersonalMessage findByType(String type) {
-
-        Long typeId = PersonalMessageType.find(type).getId();
+    public static PersonalMessage findByType(Long typeId) {
         return find
                 .where()
                 .eq("messagetype_id", typeId)
                 .findUnique();
     }
-
 
     @Override
     public boolean equals(Object object) {

@@ -1,9 +1,13 @@
 export class Child {
-   	public id: number
+   	public childId: number
 	public firstName: string	
 	public lastName: string
 	public birthDate: string
 	public gender: string
 	public username: string 
 	public password: string
+	public createdUtc : string
+	public enabled : boolean
+	public personalMessagesList
+	public sequencesList 
 }

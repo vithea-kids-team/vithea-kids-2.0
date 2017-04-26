@@ -17,16 +17,21 @@ POST        /vithea-kids-api/logout                 controllers.SecurityControll
 POST        /vithea-kids-api/registerchild         	controllers.AdminChildCtrl.registerchild
 POST        /vithea-kids-api/editchild/:child  	controllers.AdminChildCtrl.editchild(child:Long)
 GET         /vithea-kids-api/listchildren           controllers.AdminChildCtrl.getChildren
-POST        /vithea-kids-api/deletechild/:child     controllers.AdminChildCtrl.deleteChild(child:Long)
+GET         /vithea-kids-api/child/:child           controllers.AdminChildCtrl.getChild(child:Long)
+DELETE      /vithea-kids-api/deletechild/:child     controllers.AdminChildCtrl.deleteChild(child:Long)
 GET         /vithea-kids-api/child/:child/sequences controllers.AdminChildCtrl.getChildSequences(child:Long)
+GET         /vithea-kids-api/child/:child/personalmessages  controllers.AdminChildCtrl.getPersonalMessages(child:Long)
+POST        /vithea-kids-api/child/:child/personalmessages  controllers.AdminChildCtrl.setPersonalMessages(child:Long)
 # Exercise
 POST        /vithea-kids-api/registerexercise           	controllers.AdminExerciseCtrl.registerExercise
 POST        /vithea-kids-api/editexercise/:exercise  	controllers.AdminExerciseCtrl.editExercise(exercise:Long)
 GET         /vithea-kids-api/listexercises                  controllers.AdminExerciseCtrl.getExercises
-POST        /vithea-kids-api/deleteexercise/:exercise       controllers.AdminExerciseCtrl.deleteExercise(exercise:Long)
+DELETE        /vithea-kids-api/deleteexercise/:exercise       controllers.AdminExerciseCtrl.deleteExercise(exercise:Long)
 # Sequence
+POST        /vithea-kids-api/registersequence          	controllers.AdminSequencesCtrl.registerSequence
 GET         /vithea-kids-api/listsequences              controllers.AdminSequencesCtrl.getSequences
 GET         /vithea-kids-api/sequences/:sequence        controllers.AdminSequencesCtrl.getSequence(sequence:Long)
+DELETE      /vithea-kids-api/deletesequence/:sequence   controllers.AdminSequencesCtrl.deleteSequence(sequence:Long)
 ### Topic
 GET         /vithea-kids-api/listtopics                  controllers.AdminExerciseCtrl.getTopics
 ### Level

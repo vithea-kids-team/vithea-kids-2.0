@@ -28,6 +28,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SequencesComponent } from './components/sequences/sequences.component';
 import { AddSequenceComponent } from './components/add-sequence/add-sequence.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
+import { AddPreferencesComponent } from './components/add-preferences/add-preferences.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { PreferencesComponent } from './components/preferences/preferences.compo
     SignUpComponent,
     SequencesComponent,
     AddSequenceComponent,
-    PreferencesComponent
+    PreferencesComponent,
+    AddPreferencesComponent
   ],
   providers: [
     GuardService,    

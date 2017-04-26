@@ -21,6 +21,10 @@ export class ExercisesComponent implements OnInit {
   constructor(private route: ActivatedRoute, private exercisesService : ExercisesService, private childrenService : ChildrenService) { }
 
   ngOnInit() {  
+    this.fetchExercises();
+  }
+
+  private fetchExercises() {
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
@@ -36,7 +40,7 @@ export class ExercisesComponent implements OnInit {
 
   private getSequenceExercises(id) {
     this.childrenService.getSequence(id).subscribe(
-      res => this.exercises = res.sequenceExercises,
+      res => this.exercises = res.json().sequenceExercises,
       err => console.log("Error loading sequence exercises", err)
     )
   }
@@ -46,5 +50,12 @@ export class ExercisesComponent implements OnInit {
       result => this.exercises = result, 
       err => console.error("Error loading exercises. ", err) 
     );
+  }
+
+  private deleteExercise(exerciseId) {
+    this.exercisesService.deleteExercise(exerciseId).subscribe(
+      res => this.fetchExercises(),
+      err => console.log("Error deleting exercise", exerciseId)
+    )
   }
 }

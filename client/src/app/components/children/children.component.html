@@ -1,5 +1,8 @@
 <div class="container">
-  <button type="button" class="btn btn-primary pull-right" [routerLink]="['/children/new']">{{ '_RegisterChildBtn_' | translate }}</button>
+  <button type="button" class="btn btn-primary pull-right" [routerLink]="['/children/new']">
+    <span class="glyphicon glyphicon-plus"></span>
+    {{ '_RegisterChildBtn_' | translate }}
+  </button>
   <h2>{{ '_Children_' | translate }}</h2>
   <div class="panel panel-default" *ngFor="let child of children">
     <div class="panel-body">
@@ -9,7 +12,17 @@
       </div>
       <h4>{{child.firstName}}&nbsp;{{ child.lastName}}</h4>
       <p>{{ child.birthDate | date:"dd/MM/yyyy"}}</p>
-      <p>{{ child.gender }}</p>
+      <p>{{ child.gender | uppercase | translate }}</p>
+    </div>
+    <div class="panel-heading">
+      <button type="button" class="btn btn-primary" [routerLink]="['/children/' + child.childId + '/edit']">
+        <span class="glyphicon glyphicon-pencil"></span>
+        {{ '_Edit_' | translate }}
+      </button>
+      <button type="button" class="btn btn-primary" (click)="deleteChild(child.childId)">
+        <span class="glyphicon glyphicon-trash"></span>
+        {{ '_Delete_' | translate }}
+      </button>
     </div>
   </div>
 </div>

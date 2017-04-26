@@ -45,6 +45,7 @@
     "_RequiredGender_": "Insira o género",
     "_Cancel_": "Cancelar",
     "_Edit_": "Editar",
+    "_Delete_": "Eliminar",
     "__COMMENT__": "EXERCISES ***********************************************",
     "_Topic_": "Tema",
     "_Level_": "Nível de dificuldade",
@@ -65,8 +66,14 @@
     "_Text_": "Resposta em texto",
     "_ClickHereToSignUp_": "Clique aqui para se registar",
     "_InvalidUsernamePassword_": "Nome de utilizador ou palavra-chave inválidos.",
+    "__COMMENT__": "CHILDREN ***********************************************",
+    "_ViewChildSequencesBtn_": "Ver sequências",
+    "_ViewChildPreferencesBtn_": "Ver preferências",
+    "_ViewSequence_": "Ver sequência",
     "__COMMENT__": "SEQUENCES ***********************************************",
     "_Sequences_": "Sequências",
     "__COMMENT__": "PREFERENCES ***********************************************",
-    "Greeting": "Mensagem de boas-vindas:"
+    "GREETING_MESSAGE": "Mensagem de boas-vindas:",
+    "EXERCISE_REINFORCEMENT": "Reforço do exercício:",
+    "SEQUENCE_REINFORCEMENT": "Reforço da sequência:"
 }   

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Child } from '../../models/Child';
 import { ChildrenService } from '../../services/children/children.service';
 
@@ -7,10 +7,9 @@ import { ChildrenService } from '../../services/children/children.service';
   templateUrl: './children.component.html',
   styleUrls: ['./children.component.css']
 })
-export class ChildrenComponent implements OnInit, OnChanges, OnDestroy {
+export class ChildrenComponent implements OnInit, OnChanges {
 
   private children: Array<Child> = [];
-  private subs = []
 
   constructor(private service: ChildrenService) { }
 
@@ -23,17 +22,18 @@ export class ChildrenComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getChildren() {
-    this.subs.push(this.service.getChildren().subscribe(
+    this.service.getChildren().subscribe(
       result => {
         this.children = result
       },
       err => console.log('Error loading children: ' + err)
-    ))
+    )
   }
 
-  ngOnDestroy() {
-    this.subs.forEach(subscription => {
-      subscription.unsubscribe()
-    });
+  deleteChild(id) {
+    this.service.deleteChild(id).subscribe(
+      result => this.getChildren(),
+      err => console.log("Error deleting child", id)
+    )
   }
 }

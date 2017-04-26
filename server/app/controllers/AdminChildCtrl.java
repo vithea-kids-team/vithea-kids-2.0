@@ -3,11 +3,14 @@ package controllers;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.ArrayList;
 import java.util.List;
 
 import models.Caregiver;
 import models.Child;
 import models.Login;
+import models.PersonalMessage;
+import models.PersonalMessageType;
 import models.Sequence;
 
 import play.Logger;
@@ -26,7 +29,53 @@ public class AdminChildCtrl extends Controller {
 
     @Inject
     FormFactory formFactory;
+    
+    public Result getPersonalMessages(Long childId) {
+        Child child = Child.findByChildId(childId);
+        if (child == null) {
+            return badRequest("Child does not exist.");
+        }
+    
+        return ok(Json.toJson(child.getPersonalMessagesList()));
+    }
 
+    public Result setPersonalMessages(Long childId) {
+        DynamicForm registerPreferencesForm = formFactory.form().bindFromRequest();
+        
+        if (registerPreferencesForm.hasErrors()) {
+            return badRequest(registerPreferencesForm.errorsAsJson());
+        }
+        
+        Child child = Child.findByChildId(childId);
+        if (child == null) {
+            return badRequest("Child does not exist.");
+        }
+        
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
+        if(loggedCaregiver.getChildList().contains(child)) {
+            String greetingMessage = registerPreferencesForm.get("greetingMessage");
+            String exerciseReinforcementMessage = registerPreferencesForm.get("exerciseReinforcementMessage");
+            String sequenceReinforcementMessage = registerPreferencesForm.get("sequenceReinforcementMessage");
+            
+            List<PersonalMessage> newMessages = new ArrayList<PersonalMessage>();
+            newMessages.add(new PersonalMessage(greetingMessage, PersonalMessageType.GREETING_MESSAGE));
+            newMessages.add(new PersonalMessage(exerciseReinforcementMessage, PersonalMessageType.EXERCISE_REINFORCEMENT));
+            newMessages.add(new PersonalMessage(sequenceReinforcementMessage, PersonalMessageType.SEQUENCE_REINFORCEMENT));
+            
+            child.setPersonalMessagesList(newMessages);
+            
+            child.save();
+            
+            return ok("New messages saved.");
+        }
+        
+        return badRequest("No permission to change child data");
+    }
+    
     @Transactional
     public Result registerchild() {
         DynamicForm registerChildForm = formFactory.form().bindFromRequest();
@@ -72,7 +121,7 @@ public class AdminChildCtrl extends Controller {
      */
     public static class EditChild {
 
-        public String userName;
+        public String username;
 
         public String firstName;
 
@@ -95,7 +144,7 @@ public class AdminChildCtrl extends Controller {
         Logger.debug("DEBUG:" + editChildForm);
 
         EditChild newUser = editChildForm.get();
-        Logger.debug("DEBUG:" + newUser.userName + " " + newUser.firstName + " " + newUser.lastName + " " + newUser.gender + " " + newUser.birthDate);
+        Logger.debug("DEBUG:" + newUser.username + " " + newUser.firstName + " " + newUser.lastName + " " + newUser.gender + " " + newUser.birthDate);
 
         if (editChildForm.hasErrors()) {
             return badRequest(editChildForm.errorsAsJson());
@@ -108,7 +157,7 @@ public class AdminChildCtrl extends Controller {
         } else {
             Logger.debug("Editing child with id " + childId + ": " + child.getChildLogin().getUsername());
 
-            child.getChildLogin().setUsername(newUser.userName);
+            child.getChildLogin().setUsername(newUser.username);
             child.setFirstName(newUser.firstName);
             child.setLastName(newUser.lastName);
             child.setGender(newUser.gender);
@@ -155,6 +204,21 @@ public class AdminChildCtrl extends Controller {
         Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         Logger.debug(loggedCaregiver.getChildList().size() + " children registered.");
         return ok(Json.toJson(loggedCaregiver.getChildList()));
+    }
+    
+    public Result getChild(Long childId) {
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
+        List<Child> children = loggedCaregiver.getChildList();
+        Child child = Child.findByChildId(childId);
+        if (!children.contains(child)) {
+            return badRequest(buildJsonResponse("error", "Invalid child id."));
+        }
+        
+        return ok(Json.toJson(child));
     }
     
     /*

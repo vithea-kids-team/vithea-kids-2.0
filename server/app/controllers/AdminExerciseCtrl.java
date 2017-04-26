@@ -1,5 +1,6 @@
 package controllers;
 
+import com.avaje.ebean.Ebean;
 import play.mvc.*;
 import play.libs.Json;
 import play.data.FormFactory;
@@ -109,15 +110,15 @@ public class AdminExerciseCtrl extends Controller {
         if(sequenceId != null && !"".equals(sequenceId)) {
             int sequence;
             try {
-                sequence = parseInt(registerExerciseForm.get("sequenceId"));
+                sequence = parseInt(sequenceId);
                 Logger.debug("Adding exercise to sequence " + sequence);
                 Sequence currentSequence = Sequence.findById((long)sequence);
                 if (currentSequence != null) {
                     currentSequence.getSequenceExercises().add(exercise);
                     currentSequence.save();
-                }
+                } else Logger.debug("Sequence " + sequenceId + " does not exist!");
             } catch (NumberFormatException e) {
-                //Do nothing...
+                Logger.debug("ERROR: " + e);
             }
         }
 
@@ -129,7 +130,27 @@ public class AdminExerciseCtrl extends Controller {
     }
 
     public Result deleteExercise(long exerciseId) {
-        return ok("yey");
+        Exercise exercise = Exercise.findById(exerciseId);
+
+        if (exercise == null) {
+            return badRequest(buildJsonResponse("error", "Exercise doesn't exist"));
+        }
+
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
+        Sequence.getAll().forEach((seq) -> {
+            seq.getSequenceExercises().remove(exercise);
+            seq.save();
+        });
+        
+        Logger.debug("Deleting " + loggedCaregiver.getCaregiverLogin().getUsername() + "'s' exercise. ");
+
+        exercise.delete();
+
+        return ok(buildJsonResponse("success", "Exercise deleted successfully"));
     }
 
     public Result getExercises() {
@@ -158,10 +179,6 @@ public class AdminExerciseCtrl extends Controller {
         }
         Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         return ok(Json.toJson(Resource.findByOwner(loggedCaregiver)));
-    }
-    
-    public Result getSequences() {
-        return ok(Json.toJson(Sequence.getAll()));
     }
 
     public Result uploadResources(String type) {

@@ -18,8 +18,10 @@ public class Login extends Model {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+        @JsonIgnore
 	public Long id;
 
+        @JsonIgnore
 	private String authToken;
 
 	@Column(length = 255, unique = true, nullable = false)
@@ -28,6 +30,7 @@ public class Login extends Model {
 	public String username;
 
 	@Column(length = 64, nullable = false)
+        @JsonIgnore
 	private byte[] shaPassword;
 
 	@Transient

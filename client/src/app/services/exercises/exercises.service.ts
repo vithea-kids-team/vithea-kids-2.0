@@ -16,4 +16,8 @@ export class ExercisesService {
             .map(result => result.json());
   }
 
+  deleteExercise(exerciseId) {
+    return this.http.delete('/deleteexercise/'+ exerciseId);
+  }
+
 }

@@ -1,5 +1,6 @@
 <div class="container">
-    <h2>{{ '_RegisterChildBtn_' | translate }}</h2>
+    <h2 *ngIf="!model.childId">{{ '_RegisterChildBtn_' | translate }}</h2>
+    <h2 *ngIf="model.childId">{{ '_EditChildBtn_' | translate }}</h2>
     <form (ngSubmit)="createChild()" #childForm="ngForm" class="col-md-8">
         <div class="form-group">
             <label for="username">{{ '_Username_' | translate }}</label>
@@ -9,7 +10,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div *ngIf="!model.childId" class="form-group">
             <label for="password">{{ '_Password_' | translate }}</label>
             <input type="password" class="form-control" id="password" required [(ngModel)]="model.password" name="password" #password="ngModel">
             <div *ngIf="!password.valid && !password.pristine" class="alert alert-danger">
@@ -17,7 +18,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div *ngIf="!model.childId" class="form-group">
             <label for="confirmpassword">{{ '_ConfirmPassword_' | translate }}</label>
             <input type="password" class="form-control" id="confirmpassword" required [(ngModel)]="model.confirmpassword" name="confirmpassword"
                 #confirmpassword="ngModel">
@@ -28,7 +29,7 @@
 
         <div class="form-group">
             <label for="firstname">{{ '_FirstName_' | translate }}</label>
-            <input type="text" class="form-control" id="firstname" required [(ngModel)]="model.firstname" name="firstname" #firstname="ngModel">
+            <input type="text" class="form-control" id="firstname" required [(ngModel)]="model.firstName" name="firstname" #firstname="ngModel">
             <div *ngIf="!firstname.valid && !firstname.pristine" class="alert alert-danger">
                 {{ '_RequiredFirstName_' | translate }}
             </div>
@@ -36,7 +37,7 @@
 
         <div class="form-group">
             <label for="lastname">{{ '_LastName_' | translate }}</label>
-            <input type="text" class="form-control" id="lastname" required [(ngModel)]="model.lastname" name="lastname" #lastname="ngModel">
+            <input type="text" class="form-control" id="lastname" required [(ngModel)]="model.lastName" name="lastname" #lastname="ngModel">
             <div *ngIf="!lastname.valid && !lastname.pristine" class="alert alert-danger">
                 {{ '_RequiredLastName_' | translate }}
             </div>
@@ -60,6 +61,8 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [class.disabled]="!childForm.form.valid">{{'_RegisterChildBtn_' | translate }}</button>
+        <button *ngIf="!model.childId" type="submit" class="btn btn-primary" [class.disabled]="!childForm.form.valid">{{'_RegisterChildBtn_' | translate }}</button>
+        <button *ngIf="model.childId" type="submit" class="btn btn-primary" [class.disabled]="!childForm.form.valid">{{'_EditChildBtn_' | translate }}</button>
+        <button type="submit" class="btn btn-secondary">{{'_Cancel_' | translate }}</button>
     </form>
 </div>

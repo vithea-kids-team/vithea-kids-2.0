@@ -14,6 +14,7 @@ import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.JoinTable;
 
 import play.Logger;
 
@@ -24,11 +25,11 @@ public class Exercise extends Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @Column(nullable = true)
     private Topic topic;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @Column(nullable = true)
     private Level level;
 
@@ -41,7 +42,7 @@ public class Exercise extends Model {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Answer> answers;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     private Caregiver author;
     
@@ -216,5 +217,13 @@ public class Exercise extends Model {
             .where()
             .eq("author_id", author.getCaregiverLogin().getLoginId())
             .findList();
+    }
+    
+    public static Exercise findById(Long id) {
+            Logger.debug("Looking for exercise " + id);
+            return find
+            .where()
+            .eq("id", id)
+            .findUnique();
     }
 }
