@@ -75,5 +75,20 @@
     "__COMMENT__": "PREFERENCES ***********************************************",
     "GREETING_MESSAGE": "Mensagem de boas-vindas:",
     "EXERCISE_REINFORCEMENT": "Reforço do exercício:",
-    "SEQUENCE_REINFORCEMENT": "Reforço da sequência:"
+    "SEQUENCE_REINFORCEMENT": "Reforço da sequência:",
+    "_Strategy_" : "Estratégia",
+    "_Always_": "Sempre",
+    "_Differential_" : "Diferente",
+    "_FirstAttempt_" : "À primeira",
+    "_Disabled_": "Desativado",
+    "_Reinforcement_": "Reforço",
+    "_Prompting_": "Ajuda",
+    "_IfNeeded_": "Se precisar",
+    "_Delayed_": "Com atraso",
+    "_Type_": "Tipo",
+    "_OptionsSize_": "Distratores com menor tamanho",
+    "_OptionsColor_": "Distratores com cor diferente",
+    "_CrossDistractors_": "Riscar distratores",
+    "_DistractorsDisappear_": "Esconder distratores",
+    "_AnimatedCharacter_": "Personagem animada"
 }   

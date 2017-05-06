@@ -1,6 +1,6 @@
 {
   "/vithea-kids-api": {
-    "target": "http://localhost:9000/",
+    "target": "https://2d7bbed6.ngrok.io",
     "secure": false,
 	"logLevel": "debug"
   }

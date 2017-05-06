@@ -6,12 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ResourceType extends Model {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+        @JsonIgnore
 	private Long id;
 	
 	private String resourceTypeDescription;

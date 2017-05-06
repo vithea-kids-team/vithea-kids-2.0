@@ -12,6 +12,7 @@ import play.Logger;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 @Entity
 public class Resource extends Model {
@@ -23,6 +24,7 @@ public class Resource extends Model {
 	private String resourcePath;
 
 	@ManyToOne
+        @JsonUnwrapped
 	private ResourceType resourceType;
 
 	@ManyToOne
