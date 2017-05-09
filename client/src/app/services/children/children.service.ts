@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
 import { HttpApiClient } from '../http/http-api-client.service';
 import { Child } from '../../models/Child'
-import { find } from 'lodash';
 
 @Injectable()
 export class ChildrenService {
@@ -19,19 +18,19 @@ export class ChildrenService {
       .map(result => this.children = result.json());
   }
 
-  getChild(id: number) {
+  getChild(id: number) : Observable<Child> {
     return this.http.get('/child/' + id)
       .map(result => result.json());
   }
 
   addChildren(child: Child) : Observable<Response> {
     child.birthDate = new Date(child.birthDate).toISOString()
-    return this.http.post('/registerchild', JSON.stringify(child));
+    return this.http.post('/registerchild', child);
   }
 
   editChild(child:Child) : Observable<Response> {
     child.birthDate = new Date(child.birthDate).toISOString()
-    return this.http.post('/editchild/'+ child.childId, JSON.stringify(child));
+    return this.http.post('/editchild/'+ child.childId, child);
   }
 
   deleteChild(id: number) {

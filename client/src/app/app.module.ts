@@ -18,6 +18,7 @@ import { SequencesService } from './services/sequences/sequences.service';
 import { ResourcesService } from './services/resources/resources.service';
 import { HttpApiClient } from './services/http/http-api-client.service';
 import { GuardService } from './services/guard/guard.service';
+import { PaginationService } from './services/pagination/pagination.service';
 
 import { appRoutes } from './app.routing';
 import { AddChildComponent } from './components/add-child/add-child.component';
@@ -30,6 +31,10 @@ import { AddSequenceComponent } from './components/add-sequence/add-sequence.com
 import { PreferencesComponent } from './components/preferences/preferences.component';
 import { AddPreferencesComponent } from './components/add-preferences/add-preferences.component';
 
+export function translateFactory(http : Http) {
+  return  new TranslateStaticLoader(http, './i18n', '.json');
+}
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -38,7 +43,7 @@ import { AddPreferencesComponent } from './components/add-preferences/add-prefer
     RouterModule.forRoot(appRoutes),
     TranslateModule.forRoot({
       provide: TranslateLoader,
-      useFactory: (http: Http) => new TranslateStaticLoader(http, '/i18n', '.json'),
+      useFactory: translateFactory,
       deps: [Http]
     })
   ],
@@ -65,7 +70,8 @@ import { AddPreferencesComponent } from './components/add-preferences/add-prefer
     ExercisesService,
     CaregiverService,
     SequencesService,
-    ResourcesService  
+    ResourcesService,
+    PaginationService  
   ],
   bootstrap: [AppComponent]
 })

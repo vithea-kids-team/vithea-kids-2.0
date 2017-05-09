@@ -27,17 +27,17 @@
         </div>
 
         <div class="form-group">
-            <label for="firstname">{{ '_FirstName_' | translate }}</label>
-            <input type="text" class="form-control" id="firstname" required [(ngModel)]="model.firstname" name="firstname" #firstname="ngModel">
-            <div *ngIf="!firstname.valid && !firstname.pristine" class="alert alert-danger">
+            <label for="firstName">{{ '_FirstName_' | translate }}</label>
+            <input type="text" class="form-control" id="firstName" required [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
+            <div *ngIf="!firstName.valid && !firstName.pristine" class="alert alert-danger">
                 {{ '_RequiredFirstName_' | translate }}
             </div>
         </div>
 
         <div class="form-group">
-            <label for="lastname">{{ '_LastName_' | translate }}</label>
-            <input type="text" class="form-control" id="lastname" required [(ngModel)]="model.lastname" name="lastname" #lastname="ngModel">
-            <div *ngIf="!lastname.valid && !lastname.pristine" class="alert alert-danger">
+            <label for="lastName">{{ '_LastName_' | translate }}</label>
+            <input type="text" class="form-control" id="lastName" required [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel">
+            <div *ngIf="!lastName.valid && !lastName.pristine" class="alert alert-danger">
                 {{ '_RequiredLastName_' | translate }}
             </div>
         </div>

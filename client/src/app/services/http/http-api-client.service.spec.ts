@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { HttpApiClientService } from './http-api-client.service';
+import { HttpApiClient } from './http-api-client.service';
 
-describe('HttpApiClientService', () => {
+describe('HttpApiClient', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HttpApiClientService]
+      providers: [HttpApiClient]
     });
   });
 
-  it('should ...', inject([HttpApiClientService], (service: HttpApiClientService) => {
+  it('should ...', inject([HttpApiClient], (service: HttpApiClient) => {
     expect(service).toBeTruthy();
   }));
 });

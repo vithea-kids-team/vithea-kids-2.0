@@ -37,7 +37,7 @@ export class HttpApiClient {
         return res;
       });
   }
-  post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+  post(url: string, body: Object, options?: RequestOptionsArgs): Observable<Response> {
     options = this.addHeaders(options);
     return this.http.post(this.SERVER + url, body, options);
   }

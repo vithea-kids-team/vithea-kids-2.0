@@ -90,5 +90,11 @@
     "_OptionsColor_": "Distratores com cor diferente",
     "_CrossDistractors_": "Riscar distratores",
     "_DistractorsDisappear_": "Esconder distratores",
-    "_AnimatedCharacter_": "Personagem animada"
+    "_AnimatedCharacter_": "Personagem animada",
+    "_AddSequence_": "Adicionar sequência",
+    "_ViewExercises_": "Ver exercícios",
+    "_First_": "Início",
+    "_Last_": "Fim",
+    "_Previous_": "Anterior",
+    "_Next_": "Próxima"
 }   

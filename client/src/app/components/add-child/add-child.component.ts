@@ -35,6 +35,7 @@ export class AddChildComponent implements OnInit {
   }
 
   createChild() {
+    console.log(this.model);
     if (this.model.childId) {
       this.childService.editChild(this.model).subscribe(
         res => this.router.navigate(['/children/']),

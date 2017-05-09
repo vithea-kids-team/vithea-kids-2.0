@@ -95,8 +95,8 @@ public class AdminChildCtrl extends Controller {
 
             Child child = new Child();
             child.setChildLogin(user);
-            child.setFirstName(registerChildForm.get("firstname"));
-            child.setLastName(registerChildForm.get("lastname"));
+            child.setFirstName(registerChildForm.get("firstName"));
+            child.setLastName(registerChildForm.get("lastName"));
             child.setGender(registerChildForm.get("gender"));
 
             child.setBirthDate(registerChildForm.get("birthDate"));
