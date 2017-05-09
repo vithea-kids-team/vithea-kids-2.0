@@ -10,6 +10,7 @@ import { ChildrenService } from '../../services/children/children.service';
 export class ChildrenComponent implements OnInit, OnChanges {
 
   private children: Array<Child> = [];
+  private searchBy: string = '';
 
   constructor(private service: ChildrenService) { }
 

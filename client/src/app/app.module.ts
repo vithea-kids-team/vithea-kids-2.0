@@ -31,6 +31,8 @@ import { AddSequenceComponent } from './components/add-sequence/add-sequence.com
 import { PreferencesComponent } from './components/preferences/preferences.component';
 import { AddPreferencesComponent } from './components/add-preferences/add-preferences.component';
 
+import { ChildFilter } from './pipes/child-filter';
+
 export function translateFactory(http : Http) {
   return  new TranslateStaticLoader(http, './i18n', '.json');
 }
@@ -61,7 +63,9 @@ export function translateFactory(http : Http) {
     SequencesComponent,
     AddSequenceComponent,
     PreferencesComponent,
-    AddPreferencesComponent
+    AddPreferencesComponent,
+
+    ChildFilter
   ],
   providers: [
     GuardService,    

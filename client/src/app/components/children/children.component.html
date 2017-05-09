@@ -4,25 +4,31 @@
     {{ '_RegisterChildBtn_' | translate }}
   </button>
   <h2>{{ '_Children_' | translate }}</h2>
-  <div class="panel panel-default" *ngFor="let child of children">
-    <div class="panel-body">
-      <div class="pull-right button-group">
-        <button type="button" class="btn btn-secondary" [routerLink]="['/children/' + child.childId + '/sequences']">{{ '_ViewChildSequencesBtn_' | translate }}</button>
-        <button type="button" class="btn btn-secondary" [routerLink]="['/children/' + child.childId + '/preferences']">{{ '_ViewChildPreferencesBtn_' | translate }}</button>
+  <div class="form-group has-feedback search-container">
+    <input type="text" class="form-control search-input" [(ngModel)]="searchBy" />
+    <i class="glyphicon glyphicon-search form-control-feedback"></i>
+  </div>
+  <div *ngIf="!!children && children.length > 0">
+    <div class="panel panel-default" *ngFor="let child of children | childFilter:searchBy">
+      <div class="panel-body">
+        <div class="pull-right button-group">
+          <button type="button" class="btn btn-secondary" [routerLink]="['/children/' + child.childId + '/sequences']">{{ '_ViewChildSequencesBtn_' | translate }}</button>
+          <button type="button" class="btn btn-secondary" [routerLink]="['/children/' + child.childId + '/preferences']">{{ '_ViewChildPreferencesBtn_' | translate }}</button>
+        </div>
+        <h4>{{child.firstName}}&nbsp;{{ child.lastName}}</h4>
+        <p>{{ child.birthDate | date:"dd/MM/yyyy"}}</p>
+        <p>{{ child.gender | uppercase | translate }}</p>
       </div>
-      <h4>{{child.firstName}}&nbsp;{{ child.lastName}}</h4>
-      <p>{{ child.birthDate | date:"dd/MM/yyyy"}}</p>
-      <p>{{ child.gender | uppercase | translate }}</p>
-    </div>
-    <div class="panel-heading">
-      <button type="button" class="btn btn-primary" [routerLink]="['/children/' + child.childId + '/edit']">
-        <span class="glyphicon glyphicon-pencil"></span>
-        {{ '_Edit_' | translate }}
-      </button>
-      <button type="button" class="btn btn-primary" (click)="deleteChild(child.childId)">
-        <span class="glyphicon glyphicon-trash"></span>
-        {{ '_Delete_' | translate }}
-      </button>
+      <div class="panel-heading">
+        <button type="button" class="btn btn-primary" [routerLink]="['/children/' + child.childId + '/edit']">
+          <span class="glyphicon glyphicon-pencil"></span>
+          {{ '_Edit_' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" (click)="deleteChild(child.childId)">
+          <span class="glyphicon glyphicon-trash"></span>
+          {{ '_Delete_' | translate }}
+        </button>
+      </div>
     </div>
   </div>
 </div>
