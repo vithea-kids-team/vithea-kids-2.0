@@ -8,7 +8,34 @@
     {{ '_AddExercise_' | translate }}
   </button>
   <h2>{{ '_Exercises_' | translate }}</h2>
-  <p *ngIf="!exercises || !exercises.length">{{ '_NoExercises_' | translate }}</p>
+  <div class="filters-container">
+    <div class="[ form-group ] filter">
+        <input type="checkbox" name="image" id="image" autocomplete="off" />
+        <div class="[ btn-group ]">
+            <label for="image" class="[ btn btn-primary ]">
+                <span class="[ glyphicon glyphicon-ok ]"></span>
+                <span> </span>
+            </label>
+            <label for="image" class="[ btn btn-default active ]">
+                {{ "_Image_" | translate}}
+            </label>
+        </div>
+    </div>
+    <div class="[ form-group ] filter">
+        <input type="checkbox" name="text" id="text" autocomplete="off" />
+        <div class="[ btn-group ]">
+            <label for="text" class="[ btn btn-primary ]">
+                <span class="[ glyphicon glyphicon-ok ]"></span>
+                <span> </span>
+            </label>
+            <label for="text" class="[ btn btn-default active ]">
+                {{ "_Text_" | translate}}
+            </label>
+        </div>
+    </div>
+  </div>
+  <loader *ngIf="!exercises"></loader>
+  <p *ngIf="exercises?.length === 0">{{ '_NoExercises_' | translate }}</p>
   <div class="panel panel-default" *ngFor="let exercise of exercises">
     <div class="panel-body">
       <h3>{{exercise.question?.questionDescription}}</h3>

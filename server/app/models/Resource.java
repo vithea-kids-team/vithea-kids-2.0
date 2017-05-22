@@ -13,103 +13,66 @@ import play.Logger;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import javax.persistence.Column;
 
 @Entity
 public class Resource extends Model {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String resourcePath;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-        @JsonUnwrapped
-	private ResourceType resourceType;
+    private String resourcePath;
 
-	@ManyToOne
-	private ResourceArea resourceArea;
+    @ManyToOne
+    @JsonUnwrapped
+    private ResourceType resourceType;
 
-	@ManyToOne
-        @JsonIgnore
-	private Caregiver owner;
+    @Column(nullable = false)
+    private ResourceArea resourceArea;
 
-	public void setResourceArea(String resourceArea) {
-		this.resourceArea = ResourceArea.findByDescription(resourceArea);
-	}
+    @ManyToOne
+    @JsonIgnore
+    private Caregiver owner;
+    
+    public Resource(Caregiver owner, String path, ResourceArea resourceArea) {
+        this.owner = owner;
+        this.resourceType = new ResourceType("img");
+        this.resourcePath = path;
+        this.resourceArea = resourceArea;
+    }
 
-	public void setResourceArea(ResourceArea resourceArea) {
-		this.resourceArea = resourceArea;
-	}
+    public String getResourcePath() {
+        return resourcePath;
+    }
 
-	public ResourceArea getResourceArea() {
-		return resourceArea;
-	}
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
 
-	public void setOwner(Caregiver owner) {
-		this.owner = owner;
-	}
+    public ResourceArea getResourceArea() {
+        return resourceArea;
+    }
 
-	public Caregiver getOwner() {
-		return this.owner;
-	}
+    public Caregiver getOwner() {
+        return owner;
+    }
+    
 
-	/**
-	 * @return the resourceId
-	 */
-	public Long getResourceId() {
-		return id;
-	}
+    public static final Finder<Long, Resource> find = new Finder<>(Resource.class);
 
-	/**
-	 * @param resourceId the resourceId to set
-	 */
-	public void setResourceId(Long resourceId) {
-		this.id = resourceId;
-	}
+    public static List<Resource> findByOwner(Caregiver owner) {
+            Logger.debug("Looking for exercises from: " + owner.getCaregiverLogin().getUsername());
+            return find
+            .where()
+            .eq("owner_id", owner.getCaregiverLogin().getLoginId())
+            .findList();
+    }
 
-	/**
-	 * @return the resourcePath
-	 */
-	public String getResourcePath() {
-		return resourcePath;
-	}
-
-	/**
-	 * @param resourcePath the resourcePath to set
-	 */
-	public void setResourcePath(String resourcePath) {
-		this.resourcePath = resourcePath;
-	}
-
-	/**
-	 * @return the resourceType
-	 */
-	public ResourceType getResourceType() {
-		return resourceType;
-	}
-
-	/**
-	 * @param resourceType the resourceType to set
-	 */
-	public void setResourceType(ResourceType resourceType) {
-		this.resourceType = resourceType;
-	}
-
-	public static final Finder<Long, Resource> find = new Finder<>(Resource.class);
-
-	public static List<Resource> findByOwner(Caregiver owner) {
-		Logger.debug("Looking for exercises from: " + owner.getCaregiverLogin().getUsername());
-		return find
-		.where()
-		.eq("owner_id", owner.getCaregiverLogin().getLoginId())
-		.findList();
-	}
-
-	public static Resource findById(Long resourceId) {
-		return find
-		.where()
-		.eq("id", resourceId)
-		.findUnique();
-	}
+    public static Resource findById(Long resourceId) {
+            return find
+            .where()
+            .eq("id", resourceId)
+            .findUnique();
+    }
 }

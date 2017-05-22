@@ -96,5 +96,9 @@
     "_First_": "Início",
     "_Last_": "Fim",
     "_Previous_": "Anterior",
-    "_Next_": "Próxima"
+    "_Next_": "Próxima",
+    "_EditChildBtn_": "Edit criança",
+    "_RegisterPreferencesBtn_": "Guardar preferências",
+    "_NoSequences_": "Não existem sequências criadas. Adicione uma nova sequência.",
+    "_NoExercises_": "Não existem exercícios criados. Adicione um novo exercício."
 }   

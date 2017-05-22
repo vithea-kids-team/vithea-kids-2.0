@@ -18,19 +18,24 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 export class ImagePickerComponent implements ControlValueAccessor {
 
   @Input() multiSelect : boolean;
+  @Input() resourceType : string;
 
   private _items: Array<Resource> = [];
 
-  constructor(public resourcesService: ResourcesService) { }
+  constructor(public resourcesService: ResourcesService) {}
 
   get items(): Array<Resource> {
     if (!this._items) this._items = [];
+    
+    let allResources = this.resourcesService.resources;
 
-    if (this._items.length === 0 && this.resourcesService.resources) {
-      //value copy
-      this.resourcesService.resources.forEach((x) => {
-        this._items.push(Object.assign({}, x));
-      });
+    if (this._items.length === 0 && allResources) {
+      for(let i = 0; i < allResources.length; i++) {
+        //value copy
+        if (!this.resourceType || allResources[i].resourceArea === this.resourceType.toUpperCase()) {
+          this._items.push(Object.assign({}, allResources[i]));
+        }       
+      }
     }
     return this._items;
   }

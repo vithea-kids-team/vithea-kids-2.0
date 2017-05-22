@@ -17,6 +17,11 @@ public class ResourceType extends Model {
 	private Long id;
 	
 	private String resourceTypeDescription;
+        
+        
+        public ResourceType(String type) {
+            this.resourceTypeDescription = type;
+        }
 
 	/**
 	 * @return the resourceTypeId

@@ -5,6 +5,8 @@ import play.mvc.*;
 import play.libs.Json;
 import play.data.FormFactory;
 import play.Logger;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.*;
 
 import javax.inject.Inject;
 
@@ -17,7 +19,9 @@ import models.Caregiver;
 import models.Resource;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.File;
 import static java.lang.Integer.parseInt;
+import models.ResourceArea;
 import models.Sequence;
 import play.data.DynamicForm;
 
@@ -183,7 +187,7 @@ public class AdminExerciseCtrl extends Controller {
 
     public Result uploadResources(String type) {
         Logger.debug("Uploading " + type);
-        /* MultipartFormData<File> body = request().body().asMultipartFormData();
+        MultipartFormData<File> body = request().body().asMultipartFormData();
         Logger.debug("body -> " + body);
         List<FilePart<File>> resources = body.getFiles();
 
@@ -196,33 +200,40 @@ public class AdminExerciseCtrl extends Controller {
                     String contentType = resource.getContentType();
                     File file = resource.getFile();
 
-                    String path = "../client/app/images/"+ type.replace(":","") +"/" + fileName;
+                    String path = "../client/src/images/"+ type +"/" + fileName;
                     
                     Boolean uploaded = file.renameTo(new File(path));
-
-                    String typeOfRes = type.replace(":","");
                     
                     Logger.debug("filename -> " + fileName + " " + contentType + " " + path + " "+ uploaded);
                     if (uploaded) {
-                        Caregiver loggedCaregiver = Caregiver.findByUsername(session("username"));
-                        Resource res = new Resource();
-                        res.setOwner(loggedCaregiver);
-                        res.setResourcePath("images/"+ typeOfRes +"/" + fileName);
-                        res.setResourceArea(typeOfRes);
+                        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+                        
+                        ResourceArea resourceArea;
+                        
+                        switch (type) {
+                            case "stimuli":
+                                resourceArea = ResourceArea.STIMULI;
+                                break;
+                            case "reinforcement":
+                                resourceArea = ResourceArea.REINFORCEMENT;
+                                break;    
+                            case "answers":
+                                resourceArea = ResourceArea.ANSWERS;
+                                break;
+                            default:
+                                resourceArea = ResourceArea.STIMULI;
+                        }
+                        
+                        Resource res = new Resource(loggedCaregiver, "images/"+ type +"/" + fileName, resourceArea);
                         res.save();
-
                         return ok(Json.toJson(res));
                     }
-
-                    flash("error", "Could not upload file for " + typeOfRes);
-                    return badRequest();
+                    return badRequest("Not possible to upload");
                 }    
             }            
         } catch (Exception e) {
-            flash("error", "Missing file");
-            return badRequest();
-        }    */
-
+            return badRequest(e.getLocalizedMessage());
+        }
         return null;
     }
 

@@ -38,4 +38,8 @@ export class ResourcesService {
       )
 
   }
+
+  uploadFiles(files, type) {
+    return this.http.upload('/uploadresources/' + type, files);
+  }
 }

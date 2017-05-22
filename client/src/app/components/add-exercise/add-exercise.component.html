@@ -38,9 +38,9 @@
         <input class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
+          <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false" [resourceType]="'stimuli'"> </image-picker>
         </div>
-        <a data-ng-click="toggleAddResource('stimuli')" class="btn btn-primary">{{ '_UploadStimulus_' | translate }}</a>
+        <file-upload [label]="'_UploadStimulus_'" [resourceType]="'stimuli'"></file-upload>
       </div>
       <br>
       <label for="answer"> {{ '_Answer_' | translate }}</label>
@@ -50,9 +50,9 @@
       <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="rightAnswerImgs"  [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
+          <image-picker [(ngModel)]="rightAnswerImgs"  [multiSelect]="false" name="rightAnswerImgs" [resourceType]="'answers'"> </image-picker>
         </div>
-        <a ngClick="toggleAddResource('answer')" class="btn btn-primary">{{ '_UploadAnswer_' | translate }}</a>
+        <file-upload [label]="'_UploadAnswer_'" [resourceType]="'answers'"></file-upload>
       </div>
       <br>
       <label for="answers"> {{ '_Distractors_' | translate }}</label>
@@ -76,9 +76,9 @@
       <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs"> </image-picker>
+          <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs" [resourceType]="'answers'"> </image-picker>
         </div>
-        <a onClick="toggleAddResource('option')" class="btn btn-primary">{{ '_UploadOption_' | translate }}</a>
+        <file-upload [label]="'_UploadOption_'" [resourceType]="'answers'"></file-upload>
         <br />
       </div>
       <br />

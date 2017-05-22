@@ -2,8 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend } from '@angular/http';
-import { RouterModule, Routes } from '@angular/Router'
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate'
+import { RouterModule, Routes } from '@angular/Router';
+import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
+import { SpinnerComponent } from 'angular2-spinner';
 
 import { AppComponent } from './components/app.component';
 import { ChildrenComponent } from './components/children/children.component';
@@ -24,7 +25,6 @@ import { appRoutes } from './app.routing';
 import { AddChildComponent } from './components/add-child/add-child.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
 import { ImagePickerComponent } from './components/utils/image-picker/image-picker.component';
-import { TesteInputComponent } from './components/teste-input/teste-input.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SequencesComponent } from './components/sequences/sequences.component';
 import { AddSequenceComponent } from './components/add-sequence/add-sequence.component';
@@ -32,6 +32,8 @@ import { PreferencesComponent } from './components/preferences/preferences.compo
 import { AddPreferencesComponent } from './components/add-preferences/add-preferences.component';
 
 import { ChildFilter } from './pipes/child-filter';
+import { LoaderComponent } from './components/loader/loader.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 export function translateFactory(http : Http) {
   return  new TranslateStaticLoader(http, './i18n', '.json');
@@ -58,14 +60,19 @@ export function translateFactory(http : Http) {
     AddChildComponent,
     AddExerciseComponent,
     ImagePickerComponent,
-    TesteInputComponent,
     SignUpComponent,
     SequencesComponent,
     AddSequenceComponent,
     PreferencesComponent,
     AddPreferencesComponent,
 
-    ChildFilter
+    ChildFilter,
+
+    LoaderComponent,
+
+    SpinnerComponent,
+
+    FileUploadComponent
   ],
   providers: [
     GuardService,    

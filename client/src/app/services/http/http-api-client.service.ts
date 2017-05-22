@@ -74,7 +74,7 @@ export class HttpApiClient {
                     }
                 }
             };
-            xhr.open('PUT', this.SERVER + url , true);
+            xhr.open('POST', this.SERVER + url , true);
             xhr.setRequestHeader('Accept', 'application/json');
             xhr.setRequestHeader('Authorization',localStorage.getItem('Authorization'));
             xhr.send(formData);
