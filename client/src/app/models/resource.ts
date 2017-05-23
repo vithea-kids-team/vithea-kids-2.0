@@ -1,5 +1,5 @@
 export class Resource {
-	public id : number;
+	public resourceId : number;
 	public resourcePath : string;
 	public resourceType : string;
   public resourceArea : string;

@@ -10,18 +10,28 @@
       </div>
       <div class="form-group" *ngIf="resourcesService.topics">
         <label for="topic"> {{ '_Topic_' | translate }} </label>
-        <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel">
-          <option *ngFor="let topic of resourcesService.topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
-        </select>
+        <form class="input-group">
+          <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel">
+            <option *ngFor="let topic of resourcesService.topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
+          </select>
+          <span class="input-group-btn">
+            <button class="btn btn-primary" [routerLink]="['/settings']"><i class="glyphicon glyphicon-list"></i></button>
+          </span>
+        </form>
         <div *ngIf="!topic.valid && !topic.pristine" class="alert alert-danger">
           {{ '_RequiredTopic_' | translate }}
         </div>
       </div>
       <div class="form-group" *ngIf="resourcesService.levels">
         <label for="level"> {{ '_Level_' | translate }}</label>
-        <select class="form-control" id="level" required [(ngModel)]="newExercise.level" name="level" #level="ngModel">
-          <option *ngFor="let level of resourcesService.levels" [value]="level.levelId">{{ level.levelDescription }}</option>
-        </select>
+        <form class="input-group">
+          <select class="form-control" id="level" required [(ngModel)]="newExercise.level" name="level" #level="ngModel">
+            <option *ngFor="let level of resourcesService.levels" [value]="level.levelId">{{ level.levelDescription }}</option>
+          </select>
+          <span class="input-group-btn">
+            <button class="btn btn-primary" [routerLink]="['/settings']"><i class="glyphicon glyphicon-list"></i></button>
+          </span>
+        </form>
         <div *ngIf="!level.valid && !level.pristine" class="alert alert-danger">
           {{ '_RequiredLevel_' | translate }}
         </div>

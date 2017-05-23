@@ -51,12 +51,9 @@ export class AddExerciseComponent implements OnInit {
   }
 
   registerExercise() {
-    console.log(this.newExercise);
-
     const stimulus = this.stimulusImgs.filter((stimulus) => { return stimulus.selected;});
     if (stimulus.length > 0)
       this.newExercise.stimulus = stimulus[0].resourceId;
-
     if (this.newExercise.type === 'image') {
       const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected;});
       const answersImg = this.answersImgs.filter((stimulus) => { return stimulus.selected;});

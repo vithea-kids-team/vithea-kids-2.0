@@ -18,6 +18,10 @@ public class Level extends Model {
 	
 	private String description;
 
+        public Level(String levelDesc) {
+            this.description = levelDesc;
+        }
+
 	/**
 	 * @return the levelId
 	 */

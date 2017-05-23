@@ -171,9 +171,51 @@ public class AdminExerciseCtrl extends Controller {
     public Result getTopics() {
         return ok(Json.toJson(Topic.getAll()));
     }
+    
+    public Result addTopic() {
+        DynamicForm addTopicForm = formFactory.form().bindFromRequest();
+
+        if (addTopicForm.hasErrors()) {
+            return badRequest(addTopicForm.errorsAsJson());
+        }
+        
+        String topicDesc = addTopicForm.get("newTopic");
+        
+        Topic topic = new Topic(topicDesc);
+        topic.save();
+        
+        return ok();
+    }
+    
+    public Result removeTopic(Long topic) {
+        Topic existingTopic = Topic.findTopicById(topic);
+        existingTopic.delete();
+        return ok();
+    }
+    
+    public Result removeLevel(Long level) {
+        Level existingLevel = Level.findLevelById(level);
+        existingLevel.delete();
+        return ok();
+    }
 
     public Result getLevels() {
         return ok(Json.toJson(Level.getAll()));
+    }
+    
+    public Result addLevel() {
+        DynamicForm addLevelForm = formFactory.form().bindFromRequest();
+
+        if (addLevelForm.hasErrors()) {
+            return badRequest(addLevelForm.errorsAsJson());
+        }
+        
+        String levelDesc = addLevelForm.get("newLevel");
+        
+        Level level = new Level(levelDesc);
+        level.save();
+        
+        return ok();
     }
 
     public Result getResources() {

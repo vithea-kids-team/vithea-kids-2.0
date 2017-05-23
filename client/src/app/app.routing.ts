@@ -12,6 +12,7 @@ import { AddPreferencesComponent } from './components/add-preferences/add-prefer
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 import { GuardService } from './services/guard/guard.service';
 
@@ -22,6 +23,7 @@ export const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent },
+  { path: 'settings', component: SettingsComponent },
   { path: 'children',
     children: [{ path: '', component: ChildrenComponent, canActivate: [GuardService] }, 
               { path: 'new', component: AddChildComponent, canActivate: [GuardService] },

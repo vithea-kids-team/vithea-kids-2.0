@@ -34,8 +34,12 @@ GET         /vithea-kids-api/sequences/:sequence        controllers.AdminSequenc
 DELETE      /vithea-kids-api/deletesequence/:sequence   controllers.AdminSequencesCtrl.deleteSequence(sequence:Long)
 ### Topic
 GET         /vithea-kids-api/listtopics                  controllers.AdminExerciseCtrl.getTopics
+PUT         /vithea-kids-api/addtopic                  controllers.AdminExerciseCtrl.addTopic
+DELETE      /vithea-kids-api/removetopic/:topic         controllers.AdminExerciseCtrl.removeTopic(topic:Long)
 ### Level
 GET         /vithea-kids-api/listlevels                  controllers.AdminExerciseCtrl.getLevels
+PUT         /vithea-kids-api/addlevel                  controllers.AdminExerciseCtrl.addLevel
+DELETE      /vithea-kids-api/removelevel/:level         controllers.AdminExerciseCtrl.removeLevel(level:Long)
 ### Resources
 GET         /vithea-kids-api/listresources               controllers.AdminExerciseCtrl.getResources
 ### Upload

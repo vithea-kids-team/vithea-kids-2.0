@@ -34,6 +34,7 @@ import { AddPreferencesComponent } from './components/add-preferences/add-prefer
 import { ChildFilter } from './pipes/child-filter';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 export function translateFactory(http : Http) {
   return  new TranslateStaticLoader(http, './i18n', '.json');
@@ -72,7 +73,9 @@ export function translateFactory(http : Http) {
 
     SpinnerComponent,
 
-    FileUploadComponent
+    FileUploadComponent,
+
+    SettingsComponent
   ],
   providers: [
     GuardService,    

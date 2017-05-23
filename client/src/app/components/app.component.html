@@ -12,7 +12,7 @@
                     <img src="images/VITHEAkidsLogo.png" alt="VITHEA Kids" style="max-height:100%">
                 </a>
             </div>
-            <div *ngIf="caregiverService.isLoggedIn()" class="collapse navbar-collapse" id="js-navbar-collapse">
+            <div class="collapse navbar-collapse" id="js-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li>
                         <a [routerLink]="['/children']">{{'_Children_' | translate }}</a>
@@ -32,6 +32,9 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
+                        <li>
+                            <a [routerLink]="['/settings']">{{'_Settings_' | translate }} <span class="glyphicon glyphicon-list pull-right log-out-icon"></span></a>
+                        </li>
                         <li><a (click)="caregiverService.logout()">{{'_SignOut_' | translate }} <span class="glyphicon glyphicon-log-out pull-right log-out-icon"></span></a></li>
                     </ul>
                 </li>

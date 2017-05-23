@@ -41,6 +41,10 @@ public class Resource extends Model {
         this.resourcePath = path;
         this.resourceArea = resourceArea;
     }
+    
+    public Long getResourceId() {
+        return id;
+    }
 
     public String getResourcePath() {
         return resourcePath;
