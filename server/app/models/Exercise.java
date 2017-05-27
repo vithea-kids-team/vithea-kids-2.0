@@ -46,8 +46,13 @@ public class Exercise extends Model {
     @JsonIgnore
     private Caregiver author;
     
+    @Column(nullable = false)
+    private ExerciseType type;
+
     public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, String answer, List<String> distractors) {
         this.author = loggedCaregiver;
+        this.type = ExerciseType.TEXT;
+        
         if (topic != -1) {
             this.topic = Topic.findTopicById(topic);
         }
@@ -78,6 +83,8 @@ public class Exercise extends Model {
 
     public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, long answerResourceId, List<Long> distractorsResourcesIds) {
         this.author = loggedCaregiver;
+        this.type = ExerciseType.IMAGE;
+        
         if (topic != -1) {
             this.topic = Topic.findTopicById(topic);
         }
@@ -209,6 +216,16 @@ public class Exercise extends Model {
             this.author = author;
     }
 
+    public ExerciseType getType() {
+        return type;
+    }
+
+    public void setType(ExerciseType type) {
+        this.type = type;
+    }
+
+    
+    
     public static final Finder<Long, Exercise> find = new Finder<>(Exercise.class);
 
     public static List<Exercise> findByAuthor(Caregiver author) {

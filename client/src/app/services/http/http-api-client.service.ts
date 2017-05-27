@@ -10,6 +10,7 @@ export class HttpApiClient {
   SERVER : string = 'vithea-kids-api';
   
   constructor(private http: Http, public router : Router) {}
+  
   private addHeaders(options?: RequestOptionsArgs) {
     if(options == null || options == undefined) {
       options = { headers: new Headers() };
@@ -35,27 +36,69 @@ export class HttpApiClient {
       return this.http.get(this.SERVER + url, options)
       .map(res => {
         return res;
+      })
+      .catch(e => {
+        if (e.status === 401) {
+          localStorage.removeItem('Authorization');
+          this.router.navigate(['/login']);
+          return Observable.of(null);
+        }
       });
   }
   post(url: string, body: Object, options?: RequestOptionsArgs): Observable<Response> {
     options = this.addHeaders(options);
-    return this.http.post(this.SERVER + url, body, options);
+    return this.http.post(this.SERVER + url, body, options)
+          .catch(e => {
+              if (e.status === 401) {
+                localStorage.removeItem('Authorization');
+                this.router.navigate(['/login']);
+                return Observable.of(null);
+              }
+            });
   }
   put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.http.put(this.SERVER + url, body, options);
+    return this.http.put(this.SERVER + url, body, options)
+          .catch(e => {
+            if (e.status === 401) {
+              localStorage.removeItem('Authorization');
+              this.router.navigate(['/login']);
+              return Observable.of(null);
+            }
+          });
   }
   delete(url: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.http.delete(this.SERVER + url, options);
+    return this.http.delete(this.SERVER + url, options)
+          .catch(e => {
+            if (e.status === 401) {
+              localStorage.removeItem('Authorization');
+              this.router.navigate(['/login']);
+              return Observable.of(null);
+            }
+          });
   }
   patch(url: string, body: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.http.patch(this.SERVER + url, body, options);
+    return this.http.patch(this.SERVER + url, body, options)
+        .catch(e => {
+          if (e.status === 401) {
+            localStorage.removeItem('Authorization');
+            this.router.navigate(['/login']);
+            return Observable.of(null);
+          }
+        });
   }
   head(url: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
-    return this.http.head(this.SERVER + url, options);
+    return this.http.head(this.SERVER + url, options)
+        .catch(e => {
+            if (e.status === 401) {
+              localStorage.removeItem('Authorization');
+              this.router.navigate(['/login']);
+              return Observable.of(null);
+            }
+          });
   }
   upload(url: string, files:File[]): Observable<any> {
     return Observable.create(observer => {

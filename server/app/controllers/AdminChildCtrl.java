@@ -5,6 +5,8 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import models.Caregiver;
 import models.Child;
@@ -38,6 +40,7 @@ public class AdminChildCtrl extends Controller {
     
         return ok(Json.toJson(child.getPersonalMessagesList()));
     }
+    
 
     public Result setPersonalMessages(Long childId) {
         DynamicForm registerPreferencesForm = formFactory.form().bindFromRequest();
@@ -61,12 +64,38 @@ public class AdminChildCtrl extends Controller {
             String exerciseReinforcementMessage = registerPreferencesForm.get("exerciseReinforcementMessage");
             String sequenceReinforcementMessage = registerPreferencesForm.get("sequenceReinforcementMessage");
             
-            List<PersonalMessage> newMessages = new ArrayList<PersonalMessage>();
-            newMessages.add(new PersonalMessage(greetingMessage, PersonalMessageType.GREETING_MESSAGE));
-            newMessages.add(new PersonalMessage(exerciseReinforcementMessage, PersonalMessageType.EXERCISE_REINFORCEMENT));
-            newMessages.add(new PersonalMessage(sequenceReinforcementMessage, PersonalMessageType.SEQUENCE_REINFORCEMENT));
+            List<PersonalMessage> messages = child.getPersonalMessagesList();
             
-            child.setPersonalMessagesList(newMessages);
+            Optional<PersonalMessage> oldGreetingMessage = messages.stream()
+                .filter(item -> item.getMessageType() == PersonalMessageType.GREETING_MESSAGE)
+                .findFirst();
+            
+            if (oldGreetingMessage.isPresent()) {
+                oldGreetingMessage.get().setMessage(greetingMessage);
+            } else {
+                messages.add(new PersonalMessage(greetingMessage, PersonalMessageType.GREETING_MESSAGE));
+            }
+            
+            Optional<PersonalMessage> oldExerciseReinforcementMessage = messages.stream()
+                .filter(item -> item.getMessageType() == PersonalMessageType.EXERCISE_REINFORCEMENT)
+                .findFirst();
+            
+            if (oldExerciseReinforcementMessage.isPresent()) {
+                oldExerciseReinforcementMessage.get().setMessage(exerciseReinforcementMessage);
+            } else {
+                messages.add(new PersonalMessage(exerciseReinforcementMessage, PersonalMessageType.EXERCISE_REINFORCEMENT));
+            }
+            
+            Optional<PersonalMessage> oldSequenceReinforcementMessage = messages.stream()
+                .filter(item -> item.getMessageType() == PersonalMessageType.SEQUENCE_REINFORCEMENT)
+                .findFirst();
+            
+            if (oldSequenceReinforcementMessage.isPresent()) {
+                oldSequenceReinforcementMessage.get().setMessage(sequenceReinforcementMessage);
+            } else {
+                messages.add(new PersonalMessage(sequenceReinforcementMessage, PersonalMessageType.SEQUENCE_REINFORCEMENT));
+            }
+            
             
             child.save();
             

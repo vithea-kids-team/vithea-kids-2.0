@@ -13,6 +13,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 import { GuardService } from './services/guard/guard.service';
 
@@ -23,7 +24,8 @@ export const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent },
-  { path: 'settings', component: SettingsComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [GuardService] },
+  { path: 'settings', component: SettingsComponent, canActivate: [GuardService] },
   { path: 'children',
     children: [{ path: '', component: ChildrenComponent, canActivate: [GuardService] }, 
               { path: 'new', component: AddChildComponent, canActivate: [GuardService] },
@@ -40,8 +42,10 @@ export const appRoutes: Routes = [
   { path: 'exercises',
     children: [{ path: '', component: ExercisesComponent, canActivate: [GuardService] }, 
               { path: 'new', component: AddExerciseComponent, canActivate: [GuardService] },
-              { path: 'new/:id', component: AddExerciseComponent, canActivate: [GuardService]}]},
+              { path: ':exerciseid/edit', component: AddExerciseComponent, canActivate: [GuardService] },
+              { path: 'new/:sequenceid', component: AddExerciseComponent, canActivate: [GuardService]}]},
   { path: 'sequences',
     children: [{ path: '', component: SequencesComponent, canActivate: [GuardService] }, 
               { path: 'new', component: AddSequenceComponent, canActivate: [GuardService] },
+              { path: ':sequenceid/edit', component: AddSequenceComponent, canActivate: [GuardService] },
               { path: ':sequenceid', component: ExercisesComponent, canActivate: [GuardService] }]}];

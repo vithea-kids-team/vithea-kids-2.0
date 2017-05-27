@@ -9,7 +9,13 @@ export class ResourcesService {
 
   public topics: Array<Topic> = [];
   public levels: Array<Level> = [];
-  public resources: Array<Resource> = [];
+  public stimuli: Array<Resource> = [];
+  public resources = {
+    stimuli: [],
+    answers: [],
+    reinforcement: [],
+    animatedcharacter: []
+  }
 
   constructor(private http: HttpApiClient) { 
     this.fetchTopics();
@@ -22,7 +28,11 @@ export class ResourcesService {
     this.http.get('/listresources')
       .map(result => result.json())
       .subscribe(
-        result => this.resources = result, 
+        result => {
+          result.forEach((resource : Resource) => {
+            this.resources[resource.resourceArea.toLowerCase()].push(resource);
+          });
+        }, 
         err => console.error("Error getting resources.")
       )
   }

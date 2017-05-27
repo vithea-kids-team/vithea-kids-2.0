@@ -26,17 +26,13 @@ export class ImagePickerComponent implements ControlValueAccessor {
 
   get items(): Array<Resource> {
     if (!this._items) this._items = [];
-    
-    let allResources = this.resourcesService.resources;
+    let resources = this.resourcesService.resources;
+    let type = this.resourceType.toLowerCase();
 
-    if (this._items.length === 0 && allResources) {
-      for(let i = 0; i < allResources.length; i++) {
-        //value copy
-        if (!this.resourceType || allResources[i].resourceArea === this.resourceType.toUpperCase()) {
-          this._items.push(Object.assign({}, allResources[i]));
-        }       
-      }
+    if (this._items.length === 0 && resources[type] && resources[type].length > 0) {  
+      this._items = resources[type].slice();
     }
+    
     return this._items;
   }
 

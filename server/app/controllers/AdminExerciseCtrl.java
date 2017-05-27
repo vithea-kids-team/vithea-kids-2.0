@@ -21,8 +21,10 @@ import models.Resource;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import static java.lang.Integer.parseInt;
+import java.sql.Timestamp;
 import models.ResourceArea;
 import models.Sequence;
+import org.apache.commons.lang3.StringUtils;
 import play.data.DynamicForm;
 
 @Security.Authenticated(Secured.class)
@@ -239,18 +241,16 @@ public class AdminExerciseCtrl extends Controller {
                 Logger.debug("resource -> " + resource);
                 if (resource != null) {
                     String fileName = resource.getFilename();
-                    String contentType = resource.getContentType();
                     File file = resource.getFile();
-
-                    String path = "../client/src/images/"+ type +"/" + fileName;
+                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                    Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+                    String folderPath = "images/" + type +"/" + timestamp.getTime() + StringUtils.stripAccents(fileName);
+                    String path = "../client/src/" + folderPath;
                     
                     Boolean uploaded = file.renameTo(new File(path));
                     
-                    Logger.debug("filename -> " + fileName + " " + contentType + " " + path + " "+ uploaded);
-                    if (uploaded) {
-                        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
-                        
-                        ResourceArea resourceArea;
+                    Logger.debug(folderPath + " " + uploaded);
+                    if (uploaded) { ResourceArea resourceArea;
                         
                         switch (type) {
                             case "stimuli":
@@ -262,11 +262,14 @@ public class AdminExerciseCtrl extends Controller {
                             case "answers":
                                 resourceArea = ResourceArea.ANSWERS;
                                 break;
+                            case "animatedcharacter":
+                                resourceArea = ResourceArea.ANIMATEDCHARACTER;
+                                break;
                             default:
                                 resourceArea = ResourceArea.STIMULI;
                         }
                         
-                        Resource res = new Resource(loggedCaregiver, "images/"+ type +"/" + fileName, resourceArea);
+                        Resource res = new Resource(loggedCaregiver, folderPath, resourceArea);
                         res.save();
                         return ok(Json.toJson(res));
                     }

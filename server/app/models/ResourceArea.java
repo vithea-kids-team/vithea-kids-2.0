@@ -8,7 +8,7 @@ public enum ResourceArea {
     ANSWERS(0, "Answers"),
     STIMULI(1, "Stimuli"), 
     REINFORCEMENT(2, "Reinforcement"),
-    ANIMATED_CHARACTER(3, "Animated Character");
+    ANIMATEDCHARACTER(3, "Animated Character");
     
     private final int id;
     private final String type;

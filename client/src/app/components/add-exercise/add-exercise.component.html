@@ -43,10 +43,10 @@
           {{ '_RequiredQuestion_' | translate }}
         </div>
       </div>
-      <div class="form-group" *ngIf="resourcesService.resources">
+      <div class="form-group">
         <label for="stimulus"> {{ '_Stimulus_' | translate }}</label>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false" [resourceType]="'stimuli'"> </image-picker>
+          <image-picker (ngModel)="stimulusImgs" name="stimulusImgs" [multiSelect]="false" [resourceType]="'stimuli'"> </image-picker>
         </div>
         <file-upload [label]="'_UploadStimulus_'" [resourceType]="'stimuli'"></file-upload>
       </div>
@@ -58,9 +58,9 @@
       <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="rightAnswerImgs"  [multiSelect]="false" name="rightAnswerImgs" [resourceType]="'answers'"> </image-picker>
+          <image-picker [(ngModel)]="rightAnswerImgs"  [multiSelect]="false" name="rightAnswerImgs" [resourceType]="'stimuli'"> </image-picker>
         </div>
-        <file-upload [label]="'_UploadAnswer_'" [resourceType]="'answers'"></file-upload>
+        <file-upload [label]="'_UploadAnswer_'" [resourceType]="'stimuli'"></file-upload>
       </div>
       <br>
       <label for="answers"> {{ '_Distractors_' | translate }}</label>
@@ -84,9 +84,9 @@
       <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: scroll;">
-          <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs" [resourceType]="'answers'"> </image-picker>
+          <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs" [resourceType]="'stimuli'"> </image-picker>
         </div>
-        <file-upload [label]="'_UploadOption_'" [resourceType]="'answers'"></file-upload>
+        <file-upload [label]="'_UploadOption_'" [resourceType]="'stimuli'"></file-upload>
         <br />
       </div>
       <br />

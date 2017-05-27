@@ -47,10 +47,18 @@ export class CaregiverService {
   }
 
   logout() {
-    localStorage.removeItem('Authorization');
-    this.loggedIn = false;
-    this.username = undefined;
-    this.router.navigate(['/home']);
+    return this.http.post('/logout', JSON.stringify(null))
+    .subscribe(
+      res => {
+        localStorage.removeItem('Authorization');
+        this.loggedIn = false;
+        this.username = undefined;
+        this.router.navigate(['/home']);
+      },
+      err => {
+        console.error("Error loggin out. "+ err);
+      }
+    );
   }
 
   isLoggedIn() {

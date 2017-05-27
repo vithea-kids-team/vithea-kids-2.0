@@ -17,6 +17,9 @@ export class ExercisesComponent implements OnInit {
 
   private exercises: Array<Exercise>;
   private sequenceId: number = 0;
+
+  private textFilter = true;
+  private imageFilter = true;
   
   constructor(private route: ActivatedRoute, private exercisesService : ExercisesService, private childrenService : ChildrenService) { }
 

@@ -32,7 +32,7 @@ export class AddExerciseComponent implements OnInit {
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
-        const id : number = parseInt(params['id']);
+        const id : number = parseInt(params['sequenceid']);
         if(id) {
           this.newExercise.sequenceId = id;
         }

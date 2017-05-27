@@ -32,9 +32,11 @@ import { PreferencesComponent } from './components/preferences/preferences.compo
 import { AddPreferencesComponent } from './components/add-preferences/add-preferences.component';
 
 import { ChildFilter } from './pipes/child-filter';
+import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 export function translateFactory(http : Http) {
   return  new TranslateStaticLoader(http, './i18n', '.json');
@@ -68,14 +70,13 @@ export function translateFactory(http : Http) {
     AddPreferencesComponent,
 
     ChildFilter,
+    ExerciseTypeFilter,
 
     LoaderComponent,
-
     SpinnerComponent,
-
     FileUploadComponent,
-
-    SettingsComponent
+    SettingsComponent,
+    AdminComponent
   ],
   providers: [
     GuardService,    

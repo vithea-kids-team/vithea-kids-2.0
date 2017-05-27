@@ -44,7 +44,7 @@ public class SecurityController extends Controller {
             Logger.debug("\t \t Invalid user, returning unauthorized");
             return unauthorized();
         } else {
-            String authToken = user.createToken();
+            String authToken = user.addSession();
             ObjectNode authTokenJson = Json.newObject();
             authTokenJson.put(AUTH_TOKEN, authToken);
             response()
@@ -60,7 +60,8 @@ public class SecurityController extends Controller {
         Logger.debug("Hit SecurityController.Logout method");
         Logger.debug("\t Deleting tokens...");
         response().discardCookie(AUTH_TOKEN);
-        getUser().deleteAuthToken();
+        String token = Http.Context.current().request().headers().get(AUTH_TOKEN_HEADER)[0];
+        getUser().removeSession(token);
         Logger.debug("\t Redirecting...");
         return redirect("/");
     }

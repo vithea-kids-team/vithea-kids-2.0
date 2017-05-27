@@ -97,7 +97,7 @@
     "_Last_": "Fim",
     "_Previous_": "Anterior",
     "_Next_": "Próxima",
-    "_EditChildBtn_": "Edit criança",
+    "_EditChildBtn_": "Editar criança",
     "_RegisterPreferencesBtn_": "Guardar preferências",
     "_NoSequences_": "Não existem sequências criadas. Adicione uma nova sequência.",
     "_NoExercises_": "Não existem exercícios criados. Adicione um novo exercício.",
@@ -106,5 +106,10 @@
     "_Levels_": "Níveis",
     "_NoTopics_": "Adicione um novo tema",
     "_NoLevels_": "Adicione um novo nível",
-    "_SignOut_": "Sair"
+    "_SignOut_": "Sair",
+    "_UploadReinforcement_": "Carregar reforço",
+    "_NoChildren_": "Não existem crianças registadas. Registe uma nova criança.",
+    "_UploadAvatar_": "Carregar personagem animada",
+    "_SequenceName_": "Nome da sequência",
+    "_AddExercise_": "Adicionar exercício"
 }   
