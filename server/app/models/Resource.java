@@ -33,10 +33,17 @@ public class Resource extends Model {
 
     @ManyToOne
     @JsonIgnore
+    @Column(nullable = true)
     private Caregiver owner;
     
     public Resource(Caregiver owner, String path, ResourceArea resourceArea) {
         this.owner = owner;
+        this.resourceType = new ResourceType("img");
+        this.resourcePath = path;
+        this.resourceArea = resourceArea;
+    }
+    
+    public Resource(String path, ResourceArea resourceArea) {
         this.resourceType = new ResourceType("img");
         this.resourcePath = path;
         this.resourceArea = resourceArea;

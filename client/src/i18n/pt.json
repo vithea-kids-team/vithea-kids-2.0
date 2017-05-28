@@ -78,7 +78,7 @@
     "SEQUENCE_REINFORCEMENT": "Reforço da sequência:",
     "_Strategy_" : "Estratégia",
     "_Always_": "Sempre",
-    "_Differential_" : "Diferente",
+    "_Differential_" : "Diferencial",
     "_FirstAttempt_" : "À primeira",
     "_Disabled_": "Desativado",
     "_Reinforcement_": "Reforço",
@@ -111,5 +111,7 @@
     "_NoChildren_": "Não existem crianças registadas. Registe uma nova criança.",
     "_UploadAvatar_": "Carregar personagem animada",
     "_SequenceName_": "Nome da sequência",
-    "_AddExercise_": "Adicionar exercício"
+    "_AddExercise_": "Adicionar exercício",
+    "_Name_": "Nome",
+    "_GoBack_": "Voltar"
 }   

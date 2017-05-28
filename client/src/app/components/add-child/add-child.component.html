@@ -61,8 +61,17 @@
             </div>
         </div>
 
-        <button *ngIf="!model.childId" type="submit" class="btn btn-primary" [class.disabled]="!childForm.form.valid">{{'_RegisterChildBtn_' | translate }}</button>
-        <button *ngIf="model.childId" type="submit" class="btn btn-primary" [class.disabled]="!childForm.form.valid">{{'_EditChildBtn_' | translate }}</button>
-        <button type="submit" class="btn btn-secondary">{{'_Cancel_' | translate }}</button>
+        <button *ngIf="!model.childId" type="submit" class="btn btn-primary" [class.disabled]="!childForm.form.valid">
+            <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> 
+            {{'_RegisterChildBtn_' | translate }}
+        </button>
+        <button *ngIf="model.childId" type="submit" class="btn btn-primary" [class.disabled]="!childForm.form.valid">
+            <span class="glyphicon glyphicon-pencil" style="font-size: large;" aria-hidden="true"></span> 
+            {{'_EditChildBtn_' | translate }}
+        </button>
+        <button [routerLink]="['/children']" class="btn btn-secondary">
+            <span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span>
+            {{'_Cancel_' | translate }}
+        </button>
     </form>
 </div>

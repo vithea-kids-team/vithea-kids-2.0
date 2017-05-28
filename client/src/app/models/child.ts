@@ -1,3 +1,5 @@
+import { Resource } from './resource';
+
 export class Child {
    	public childId: number
 	public firstName: string	
@@ -10,4 +12,16 @@ export class Child {
 	public enabled : boolean
 	public personalMessagesList
 	public sequencesList 
+	public animatedCharacter
+	public prompting : {
+		promptingStrategy: string,
+		promptingColor: boolean,
+		promptingSize: boolean,
+		promptingScratch: boolean,
+		promptingHide: boolean
+	}
+	public reinforcement : {
+		reinforcementStrategy: string,
+		reinforcementResource: Resource
+	}
 }

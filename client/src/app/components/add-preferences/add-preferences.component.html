@@ -1,0 +1,18 @@
+<div class="container">
+    <h2>{{ '_Preferences_' | translate }}</h2>
+    <form (ngSubmit)="setPersonalMessages()" class="col-md-8">
+        <div class="form-group">
+            <label for="greetingMessage">{{ 'GREETING_MESSAGE' | translate }}</label>
+            <input type="text" class="form-control" id="greetingMessage" [(ngModel)]="greetingMessage" name="greetingMessage">
+        </div>
+        <div class="form-group">
+            <label for="exerciseReinforcementMessage">{{ 'EXERCISE_REINFORCEMENT' | translate }}</label>
+            <input type="text" class="form-control" id="greetingMessage" [(ngModel)]="exerciseReinforcementMessage" name="exerciseReinforcementMessage">
+        </div>
+        <div class="form-group">
+            <label for="sequenceReinforcementMessage">{{ 'SEQUENCE_REINFORCEMENT' | translate }}</label>
+            <input type="text" class="form-control" id="sequenceReinforcementMessage" [(ngModel)]="sequenceReinforcementMessage" name="sequenceReinforcementMessage">
+        </div>
+        <button type="submit" class="btn btn-primary">{{'_RegisterPreferencesBtn_' | translate }}</button>
+    </form>
+</div>

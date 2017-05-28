@@ -35,6 +35,15 @@ export class ResourcesService {
         }, 
         err => console.error("Error getting resources.")
       )
+
+    this.http.get('/listanimatedcharacters')
+      .map(result => result.json())
+      .subscribe(
+        result => {
+          this.resources.animatedcharacter = result;
+        }, 
+        err => console.error("Error getting resources.")
+      )
   }
 
   fetchLevels() {
@@ -57,8 +66,12 @@ export class ResourcesService {
       );
   }
 
-  uploadFiles(files, type) {
-    return this.http.upload('/uploadresources/' + type, files);
+  uploadFiles(files, type, name?) {
+    if (type === 'animatedcharacter') {
+      return this.http.upload('/uploadanimatedcharacter/'+ name, files);
+    } else {
+      return this.http.upload('/uploadresources/' + type, files);
+    }
   }
 
   addTopic(newTopic : string) {

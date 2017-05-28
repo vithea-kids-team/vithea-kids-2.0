@@ -1,0 +1,10 @@
+<div class="container">
+    <h2>{{ '_CreateSequence_' | translate }}</h2>
+    <form (ngSubmit)="registerSequence()" class="col-md-8">
+        <div class="form-group">
+            <label for="sequenceName">{{ '_SequenceName_' | translate }}</label>
+            <input type="text" class="form-control" id="sequenceName" [(ngModel)]="newSequence.sequenceName" name="sequenceName">
+        </div>
+        <button type="submit" class="btn btn-primary">{{'_CreateSequence_' | translate }}</button>
+    </form>
+</div>

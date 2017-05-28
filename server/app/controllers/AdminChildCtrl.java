@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import models.AnimatedCharacter;
 
 import models.Caregiver;
 import models.Child;
 import models.Login;
 import models.PersonalMessage;
 import models.PersonalMessageType;
+import models.Prompting;
+import models.Reinforcement;
 import models.Sequence;
 
 import play.Logger;
@@ -127,9 +130,16 @@ public class AdminChildCtrl extends Controller {
             child.setFirstName(registerChildForm.get("firstName"));
             child.setLastName(registerChildForm.get("lastName"));
             child.setGender(registerChildForm.get("gender"));
-
             child.setBirthDate(registerChildForm.get("birthDate"));
-
+            
+            AnimatedCharacter defaultChar = AnimatedCharacter.findByName("cat");
+            if(defaultChar != null) {
+                child.setAnimatedCharacter(defaultChar);
+            }
+            
+            child.setReinforcement(new Reinforcement());
+            child.setPrompting(new Prompting());
+            
             child.save();
 
             Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);

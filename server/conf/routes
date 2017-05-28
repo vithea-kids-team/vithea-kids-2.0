@@ -42,9 +42,10 @@ PUT         /vithea-kids-api/addlevel                  controllers.AdminExercise
 DELETE      /vithea-kids-api/removelevel/:level         controllers.AdminExerciseCtrl.removeLevel(level:Long)
 ### Resources
 GET         /vithea-kids-api/listresources               controllers.AdminExerciseCtrl.getResources
-### Upload
 POST        /vithea-kids-api/uploadresources/:type       controllers.AdminExerciseCtrl.uploadResources(type:String)
-
+### Animated Characeters
+GET         /vithea-kids-api/listanimatedcharacters     controllers.AdminCtrl.getAnimatedCharacters
+POST        /vithea-kids-api/uploadanimatedcharacter/:name    controllers.AdminCtrl.uploadAnimatedCharacter(name:String)
 ###
 ### Child Application
 ###

@@ -262,9 +262,6 @@ public class AdminExerciseCtrl extends Controller {
                             case "answers":
                                 resourceArea = ResourceArea.ANSWERS;
                                 break;
-                            case "animatedcharacter":
-                                resourceArea = ResourceArea.ANIMATEDCHARACTER;
-                                break;
                             default:
                                 resourceArea = ResourceArea.STIMULI;
                         }

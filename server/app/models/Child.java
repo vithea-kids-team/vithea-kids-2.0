@@ -47,6 +47,23 @@ public class Child extends Model {
     
     @OneToMany(cascade = CascadeType.ALL)
     private List<PersonalMessage> personalMessagesList;
+    
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private AnimatedCharacter animatedCharacter;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private Reinforcement reinforcement;
+    
+    @OneToOne(cascade = CascadeType.ALL)
+    private Prompting prompting;
+
+    public AnimatedCharacter getAnimatedCharacter() {
+        return animatedCharacter;
+    }
+
+    public void setAnimatedCharacter(AnimatedCharacter animatedCharacter) {
+        this.animatedCharacter = animatedCharacter;
+    }
 
     public static final Finder<Long, Child> find = new Finder<>(Child.class);
 
@@ -132,6 +149,24 @@ public class Child extends Model {
     public void setPersonalMessagesList(List<PersonalMessage> personalMessagesList) {
         this.personalMessagesList = personalMessagesList;
     }
+
+    public Reinforcement getReinforcement() {
+        return reinforcement;
+    }
+
+    public void setReinforcement(Reinforcement reinforcement) {
+        this.reinforcement = reinforcement;
+    }
+
+    public Prompting getPrompting() {
+        return prompting;
+    }
+
+    public void setPrompting(Prompting prompting) {
+        this.prompting = prompting;
+    }
+    
+    
 
     @Override
     public String toString() {
