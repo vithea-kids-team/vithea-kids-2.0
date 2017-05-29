@@ -32,9 +32,25 @@ export class AddExerciseComponent implements OnInit {
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
-        const id : number = parseInt(params['sequenceid']);
-        if(id) {
-          this.newExercise.sequenceId = id;
+        const sequenceId : number = parseInt(params['sequenceid']);
+        const exerciseId : number = parseInt(params['exerciseid']);
+        if(sequenceId) {
+          this.newExercise.sequenceId = sequenceId;
+        } else if (exerciseId) {
+          this.exercisesService.getExercise(exerciseId).subscribe(
+            (res : any) => {
+              console.log(res)
+              this.newExercise.exerciseId = res.exerciseId;
+              this.newExercise.type = res.type.toLowerCase();
+              this.newExercise.topic = res.topic.topicId;
+              this.newExercise.level = res.level.levelId;
+              this.newExercise.question = res.question.questionDescription;
+              this.newExercise.stimulusText = res.question.stimulusText;
+              this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
+
+            },
+            err => console.error("Error getting exercise", err)
+          );
         }
       });
   }
@@ -51,7 +67,6 @@ export class AddExerciseComponent implements OnInit {
   }
 
   registerExercise() {
-    debugger;
     const stimulus = this.stimulusImgs.filter((stimulus) => { return stimulus.selected;});
     if (stimulus.length > 0)
       this.newExercise.stimulus = stimulus[0].resourceId;

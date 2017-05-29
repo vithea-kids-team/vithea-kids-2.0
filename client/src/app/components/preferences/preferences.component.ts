@@ -37,4 +37,10 @@ export class PreferencesComponent implements OnInit {
       err => console.error("Error loading child sequences. " + err) 
     );
   }
+
+  setPersonalMessages() {
+    this.childrenService.setPersonalMessages(this.child.childId, this.child.personalMessagesList[0].message, this.child.personalMessagesList[1].message, this.child.personalMessagesList[2].message)
+      .subscribe(res => this.getChild(this.child.childId),
+      err => console.log("Error setting preferences."))
+  }
 }

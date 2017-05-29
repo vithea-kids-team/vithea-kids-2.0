@@ -30,7 +30,6 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SequencesComponent } from './components/sequences/sequences.component';
 import { AddSequenceComponent } from './components/add-sequence/add-sequence.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
-import { AddPreferencesComponent } from './components/add-preferences/add-preferences.component';
 
 import { ChildFilter } from './pipes/child-filter';
 import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
@@ -69,8 +68,6 @@ export function translateFactory(http : Http) {
     SequencesComponent,
     AddSequenceComponent,
     PreferencesComponent,
-    AddPreferencesComponent,
-
     ChildFilter,
     ExerciseTypeFilter,
 

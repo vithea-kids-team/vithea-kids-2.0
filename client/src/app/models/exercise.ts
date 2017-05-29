@@ -1,5 +1,5 @@
 export class Exercise {
-    public id: number
+    public exerciseId: number
     public type: string
     public topic: string
     public level: string

@@ -160,6 +160,18 @@ public class AdminExerciseCtrl extends Controller {
 
         return ok(buildJsonResponse("success", "Exercise deleted successfully"));
     }
+    
+    
+    public Result getExercise(Long exercise) {
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
+        Exercise ex = Exercise.findById(exercise);
+        Logger.debug("Exercise found");
+        return ok(Json.toJson(ex));
+    }
 
     public Result getExercises() {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
@@ -288,4 +300,6 @@ public class AdminExerciseCtrl extends Controller {
         wrapper.set(type, msg);
         return wrapper;
     }
+
+
 }

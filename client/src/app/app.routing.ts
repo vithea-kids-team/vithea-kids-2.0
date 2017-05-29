@@ -8,7 +8,6 @@ import { AddSequenceComponent } from './components/add-sequence/add-sequence.com
 import { ExercisesComponent } from './components/exercises/exercises.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
-import { AddPreferencesComponent } from './components/add-preferences/add-preferences.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
@@ -29,7 +28,6 @@ export const appRoutes: Routes = [
   { path: 'children',
     children: [{ path: '', component: ChildrenComponent, canActivate: [GuardService] }, 
               { path: 'new', component: AddChildComponent, canActivate: [GuardService] },
-              { path: 'new/:childid/preferences', component: AddPreferencesComponent, canActivate: [GuardService] },
               { path: ':childid',
                 children: [ { path: 'edit', component: AddChildComponent, canActivate: [GuardService] },
                            { path: 'sequences',
@@ -37,8 +35,7 @@ export const appRoutes: Routes = [
                                         { path: 'new', component: AddSequenceComponent, canActivate: [GuardService] },
                                         { path: ':sequenceid', component: ExercisesComponent, canActivate: [GuardService] },
                                         { path: ':sequenceid/edit', component: AddSequenceComponent, canActivate: [GuardService] }] },
-                          { path: 'preferences', component: PreferencesComponent, canActivate: [GuardService] },
-                          { path: 'preferences/edit', component: AddPreferencesComponent, canActivate: [GuardService] }]} ]},
+                          { path: 'preferences', component: PreferencesComponent, canActivate: [GuardService] }]} ]},
   { path: 'exercises',
     children: [{ path: '', component: ExercisesComponent, canActivate: [GuardService] }, 
               { path: 'new', component: AddExerciseComponent, canActivate: [GuardService] },

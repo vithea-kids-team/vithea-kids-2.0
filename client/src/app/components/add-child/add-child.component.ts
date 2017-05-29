@@ -19,7 +19,7 @@ export class AddChildComponent implements OnInit {
         dateFormat: 'dd/mm/yyyy'
   };
   
-  private selDate: IMyDate = {year: 0, month: 0, day: 0};
+  private selDate: IMyDate;
 
   constructor(private childService: ChildrenService, private router: Router, private route: ActivatedRoute) { }
 
@@ -39,6 +39,12 @@ export class AddChildComponent implements OnInit {
             },
             err => console.log("Error getting child")
           );
+        } else {
+          let d = new Date();
+              this.selDate = {year: d.getFullYear(), 
+                        month: d.getMonth() + 1, 
+                        day: d.getDate()};
+              this.model.birthDate = d.toISOString();       
         }
       });
   }
@@ -53,7 +59,7 @@ export class AddChildComponent implements OnInit {
       );
     } else {
       this.childService.addChildren(this.model).subscribe(
-        res => this.router.navigate(['/children/new/'+ res.json().childId + '/preferences']),
+        res => this.router.navigate(['/children/'+ res.json().childId + '/preferences']),
         err => {
           console.error("Error registering new child. ", err);
         });

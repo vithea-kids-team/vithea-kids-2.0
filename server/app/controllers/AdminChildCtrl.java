@@ -132,10 +132,15 @@ public class AdminChildCtrl extends Controller {
             child.setGender(registerChildForm.get("gender"));
             child.setBirthDate(registerChildForm.get("birthDate"));
             
-            /*AnimatedCharacter defaultChar = AnimatedCharacter.findByName("cat");
+            List<PersonalMessage> messages = child.getPersonalMessagesList();
+            messages.add(new PersonalMessage("", PersonalMessageType.GREETING_MESSAGE));
+            messages.add(new PersonalMessage("", PersonalMessageType.EXERCISE_REINFORCEMENT));
+            messages.add(new PersonalMessage("", PersonalMessageType.SEQUENCE_REINFORCEMENT));
+            
+            AnimatedCharacter defaultChar = AnimatedCharacter.findByName("cat");
             if(defaultChar != null) {
                 child.setAnimatedCharacter(defaultChar);
-            }*/
+            }
             
             child.setReinforcement(new Reinforcement());
             child.setPrompting(new Prompting());
@@ -164,6 +169,8 @@ public class AdminChildCtrl extends Controller {
         public String username;
 
         public String firstName;
+        
+        public String password;
 
         public String lastName;
 
@@ -198,6 +205,11 @@ public class AdminChildCtrl extends Controller {
             Logger.debug("Editing child with id " + childId + ": " + child.getChildLogin().getUsername());
 
             child.getChildLogin().setUsername(newUser.username);
+            
+            if (!newUser.password.isEmpty()) {
+                child.getChildLogin().setPassword(newUser.password);
+            }
+            
             child.setFirstName(newUser.firstName);
             child.setLastName(newUser.lastName);
             child.setGender(newUser.gender);

@@ -1,12 +1,13 @@
 <div class="container">
-  <h2>{{ '_CreateExercise_' | translate }}</h2>
+  <h2 *ngIf="!newExercise.exerciseId">{{ '_CreateExercise_' | translate }}</h2>
+  <h2 *ngIf="newExercise.exerciseId">{{ '_EditExercise_' | translate }}</h2>
   <form ngSubmit="createExercise()" #exerciseForm="ngForm" class="col-md-8">
     <div>
       <div class="form-group">
         <label for="type"> {{ '_ExerciseType_' | translate }}</label>
         <br>
-        <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="newExercise.type" name="type">Resposta em texto</label>
-        <label class="radio-inline"><input type="radio" value="image" [(ngModel)]="newExercise.type" name="type">Resposta em imagem</label>
+        <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em texto</label>
+        <label class="radio-inline"><input type="radio" value="image" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em imagem</label>
       </div>
       <div class="form-group" *ngIf="resourcesService.topics">
         <label for="topic"> {{ '_Topic_' | translate }} </label>
@@ -92,9 +93,13 @@
       </div>
       <br />
       <div class="form-group">
-        <a (click)="registerExercise()" class="btn btn-primary">
+        <a *ngIf="!newExercise.exerciseId" (click)="registerExercise()" class="btn btn-primary">
           <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> 
             {{ '_CreateExercise_' | translate }}
+        </a>
+        <a *ngIf="newExercise.exerciseId" (click)="editExercise()" class="btn btn-primary">
+          <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> 
+            {{ '_EditExercise_' | translate }}
         </a>
         <button [routerLink]="['/exercises']" class="btn btn-secondary">
           <span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span> 
