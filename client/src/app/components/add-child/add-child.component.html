@@ -45,7 +45,10 @@
 
         <div class="form-group">
             <label for="birthDate">{{ '_BirthDate_' | translate }}</label>
-            <input type="date" class="form-control" id="birthDate" required [(ngModel)]="model.birthDate" name="birthDate" #birthDate="ngModel">
+            <div>
+                <my-date-picker name="datepicker" [options]="myDatePickerOptions" [locale]="'pt-br'" [selDate]="selDate" (dateChanged)="onDateChanged($event)"></my-date-picker>
+                <input style="display:none;" name="birthDate" required #birthDate="ngModel" [(ngModel)]="model.birthDate">
+            </div>
             <div *ngIf="!birthDate.valid && !birthDate.pristine" class="alert alert-danger">
                 {{ '_RequiredBirthdate_' | translate }}
             </div>

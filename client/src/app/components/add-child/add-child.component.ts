@@ -3,6 +3,7 @@ import { Child } from '../../models/Child';
 import { ChildrenService } from '../../services/children/children.service';
 import { ActivatedRoute, Params, Router } from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
+import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
 
 @Component({
   selector: 'app-add-child',
@@ -12,8 +13,13 @@ import { Observable } from 'rxjs/Observable';
 export class AddChildComponent implements OnInit {
 
   genders = ['Female', 'Male', 'Other'];
-
-  model: Child = new Child()
+  model: Child = new Child();
+  
+  private myDatePickerOptions: IMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy'
+  };
+  
+  private selDate: IMyDate = {year: 0, month: 0, day: 0};
 
   constructor(private childService: ChildrenService, private router: Router, private route: ActivatedRoute) { }
 
@@ -25,7 +31,10 @@ export class AddChildComponent implements OnInit {
         if(id) {
           this.childService.getChild(id).subscribe(
             res => {
-              res.birthDate = new Date(res.birthDate).toISOString().substr(0, 10);
+              let d = new Date(res.birthDate);
+              this.selDate = {year: d.getFullYear(), 
+                        month: d.getMonth() + 1, 
+                        day: d.getDate()};       
               this.model = res;
             },
             err => console.log("Error getting child")
@@ -48,6 +57,12 @@ export class AddChildComponent implements OnInit {
         err => {
           console.error("Error registering new child. ", err);
         });
+    }
+  }
+
+  onDateChanged(event: IMyDateModel) {
+    if (event.jsdate) {
+      this.model.birthDate = event.jsdate.toISOString();
     }
   }
 }

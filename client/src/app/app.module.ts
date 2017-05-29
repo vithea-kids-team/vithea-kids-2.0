@@ -5,6 +5,7 @@ import { HttpModule, Http, XHRBackend } from '@angular/http';
 import { RouterModule, Routes } from '@angular/Router';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 import { SpinnerComponent } from 'angular2-spinner';
+import { MyDatePickerModule } from 'mydatepicker';
 
 import { AppComponent } from './components/app.component';
 import { ChildrenComponent } from './components/children/children.component';
@@ -52,7 +53,8 @@ export function translateFactory(http : Http) {
       provide: TranslateLoader,
       useFactory: translateFactory,
       deps: [Http]
-    })
+    }),
+    MyDatePickerModule
   ],
   declarations: [
     AppComponent,

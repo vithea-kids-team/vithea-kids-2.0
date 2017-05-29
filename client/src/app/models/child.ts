@@ -24,4 +24,5 @@ export class Child {
 		reinforcementStrategy: string,
 		reinforcementResource: Resource
 	}
+	public emotions : boolean
 }

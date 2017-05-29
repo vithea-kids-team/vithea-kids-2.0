@@ -132,13 +132,14 @@ public class AdminChildCtrl extends Controller {
             child.setGender(registerChildForm.get("gender"));
             child.setBirthDate(registerChildForm.get("birthDate"));
             
-            AnimatedCharacter defaultChar = AnimatedCharacter.findByName("cat");
+            /*AnimatedCharacter defaultChar = AnimatedCharacter.findByName("cat");
             if(defaultChar != null) {
                 child.setAnimatedCharacter(defaultChar);
-            }
+            }*/
             
             child.setReinforcement(new Reinforcement());
             child.setPrompting(new Prompting());
+            child.setEmotions(false);
             
             child.save();
 

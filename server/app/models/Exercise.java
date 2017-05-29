@@ -81,7 +81,7 @@ public class Exercise extends Model {
         this.answers = answers;
     }
 
-    public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, long answerResourceId, List<Long> distractorsResourcesIds) {
+    public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, String stimulusText, long answerResourceId, List<Long> distractorsResourcesIds) {
         this.author = loggedCaregiver;
         this.type = ExerciseType.IMAGE;
         
@@ -93,9 +93,8 @@ public class Exercise extends Model {
             this.level = Level.findLevelById(level);
         }
         
-        if (stimulusId != -1) {
-            Resource stimulus = Resource.findById(stimulusId);
-            this.question = new Question(question, stimulus);
+        if (!stimulusText.isEmpty()) {
+            this.question = new Question(question, stimulusText);
         } else {
             this.question = new Question(question);
         }

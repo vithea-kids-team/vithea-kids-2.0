@@ -30,6 +30,11 @@ public class Question extends Model {
         this.questionDescription = question;
         this.stimulus = stimulus;
     }
+    
+    Question(String question, String stimulusText) {
+        this.questionDescription = question;
+        this.stimulusText = stimulusText;
+    }
 
 	/**
 	 * @return the questionId

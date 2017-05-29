@@ -24,12 +24,10 @@ export class ChildrenService {
   }
 
   addChildren(child: Child) : Observable<Response> {
-    child.birthDate = new Date(child.birthDate).toISOString()
     return this.http.post('/registerchild', child);
   }
 
   editChild(child:Child) : Observable<Response> {
-    child.birthDate = new Date(child.birthDate).toISOString()
     return this.http.post('/editchild/'+ child.childId, child);
   }
 

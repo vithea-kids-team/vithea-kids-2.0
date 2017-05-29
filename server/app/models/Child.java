@@ -17,6 +17,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import play.Logger;
@@ -48,7 +49,7 @@ public class Child extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     private List<PersonalMessage> personalMessagesList;
     
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private AnimatedCharacter animatedCharacter;
     
     @OneToOne(cascade = CascadeType.ALL)
@@ -56,6 +57,8 @@ public class Child extends Model {
     
     @OneToOne(cascade = CascadeType.ALL)
     private Prompting prompting;
+    
+    private Boolean emotions;
 
     public AnimatedCharacter getAnimatedCharacter() {
         return animatedCharacter;
@@ -164,6 +167,14 @@ public class Child extends Model {
 
     public void setPrompting(Prompting prompting) {
         this.prompting = prompting;
+    }
+
+    public Boolean getEmotions() {
+        return emotions;
+    }
+
+    public void setEmotions(Boolean emotions) {
+        this.emotions = emotions;
     }
     
     

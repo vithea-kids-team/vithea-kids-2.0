@@ -113,5 +113,9 @@
     "_SequenceName_": "Nome da sequência",
     "_AddExercise_": "Adicionar exercício",
     "_Name_": "Nome",
-    "_GoBack_": "Voltar"
+    "_GoBack_": "Voltar",
+    "_RequiredQuestion_": "Insira a pergunta",
+    "_Emotions_": "Emoções",
+    "_EmotionsOn_": "Com emoções",
+    "_EmotionsOff_": "Sem emoções"
 }   

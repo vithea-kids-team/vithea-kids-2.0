@@ -88,6 +88,8 @@ public class AdminExerciseCtrl extends Controller {
                 answerResourceId = -1;
             }
             
+            String stimulusText = registerExerciseForm.get("stimulusText");
+            
             List<Long> distractorsResourcesIds = new ArrayList<Long>();
             int i = 0;
             while(true) {
@@ -107,7 +109,7 @@ public class AdminExerciseCtrl extends Controller {
                 i++;
             }
             
-            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusId, answerResourceId, distractorsResourcesIds);
+            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds);
         }
         
         exercise.save();
