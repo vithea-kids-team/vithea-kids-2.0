@@ -5,7 +5,7 @@ export class Exercise {
     public level: string
     public question: string
     public stimulusText: string
-    public stimulus: Array<string>
+    public stimulus: number
     public rightAnswer: string
     public rightAnswerImg: any
     public answers: Array<string>

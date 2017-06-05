@@ -3,13 +3,17 @@ package models;
 import java.util.List;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import controllers.SecurityController;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.JoinTable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import play.Logger;
 
 @Entity
@@ -24,11 +28,19 @@ public class Sequence extends Model {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "sequence_exercise")
     private List<Exercise> exerciseList;
+    
+    @ManyToOne
+    private Caregiver author;
 
     public static final Finder<Long, Sequence> find = new Finder<>(Sequence.class);
     
-    public Sequence(String name) {
+    public Sequence(String name, List<Long> exerciseIds, Caregiver author) {
         this.name = name;
+        this.author = author;
+        
+        exerciseIds.stream().map((d) -> Exercise.findById(d)).forEachOrdered((ex) -> {
+            exerciseList.add(ex);
+        });
     }
 
     public Long getSequenceId() {
@@ -65,5 +77,9 @@ public class Sequence extends Model {
         .where()
         .eq("id", id)
         .findUnique();
+    }
+    
+    public static List<Sequence> findByAuthor(Caregiver caregiver) {
+        return find.where().eq("author_id", caregiver.getCaregiverId()).findList();
     }
 }

@@ -4,8 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/Router';
 
 import { Sequence } from '../../models/Sequence';
+import { Exercise } from '../../models/Exercise';
+import { Child } from '../../models/Child';
 
 import { SequencesService } from '../../services/sequences/sequences.service';
+import { ExercisesService } from '../../services/exercises/exercises.service';
+import { ChildrenService } from '../../services/children/children.service';
 
 @Component({
   selector: 'app-add-sequence',
@@ -15,8 +19,12 @@ import { SequencesService } from '../../services/sequences/sequences.service';
 export class AddSequenceComponent implements OnInit {
 
   private newSequence = new Sequence();
+  private exercises : Array<Exercise>;
+  private children : Array<Child>;
+  private addedExercises : Array<Exercise> = [];
+  private addedChildren : Array<Child> = [];
 
-  constructor(private route: ActivatedRoute, private sequencesService : SequencesService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private sequencesService : SequencesService, private exercisesService : ExercisesService, private childrenService : ChildrenService, private router: Router) { }
 
   ngOnInit() {
      this.route.params
@@ -27,9 +35,20 @@ export class AddSequenceComponent implements OnInit {
           this.newSequence.childId = id;
         }
       });
+
+      this.loadExercisesToAdd();
+      this.loadChildrenToAssign();
   }
 
   registerSequence() {
+    this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
+      return exercise.exerciseId;
+    });
+
+    this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
+      return child.childId;
+    });
+    
     this.sequencesService.registerSequence(this.newSequence)
       .subscribe(res => {
          if (this.newSequence.childId) {
@@ -42,4 +61,41 @@ export class AddSequenceComponent implements OnInit {
       err => console.log("Error creating sequence."));
   }
 
+  loadExercisesToAdd() {
+     this.exercisesService.getExercises().subscribe(
+      result => {
+        this.exercises = result;
+      },
+      err => console.error("Error loading exercises for adding to sequence. ", err) 
+    );
+  }
+
+  loadChildrenToAssign() {
+    this.childrenService.getChildren().subscribe(
+      result => {
+        this.children = result;
+      },
+      err => console.error("Error loading children for assigning to sequence. ", err) 
+    );
+  }
+
+  removeExercise(index : number) {
+    this.exercises.push(this.addedExercises[index]);
+    this.addedExercises.splice(index, 1);
+  }
+
+  addExercise(index : number) {
+    this.addedExercises.push(this.exercises[index]);
+    this.exercises.splice(index, 1);
+  }
+
+  removeChild(index : number) {
+    this.children.push(this.addedChildren[index]);
+    this.addedChildren.splice(index, 1);
+  }
+
+  addChild(index : number) {
+    this.addedChildren.push(this.children[index]);
+    this.children.splice(index, 1);
+  }
 }

@@ -185,10 +185,20 @@ public class AdminExerciseCtrl extends Controller {
     }
 
     public Result getTopics() {
-        return ok(Json.toJson(Topic.getAll()));
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        return ok(Json.toJson(Topic.findByAuthor(loggedCaregiver)));
     }
     
     public Result addTopic() {
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
         DynamicForm addTopicForm = formFactory.form().bindFromRequest();
 
         if (addTopicForm.hasErrors()) {
@@ -197,7 +207,7 @@ public class AdminExerciseCtrl extends Controller {
         
         String topicDesc = addTopicForm.get("newTopic");
         
-        Topic topic = new Topic(topicDesc);
+        Topic topic = new Topic(topicDesc, loggedCaregiver);
         topic.save();
         
         return ok();
@@ -216,10 +226,20 @@ public class AdminExerciseCtrl extends Controller {
     }
 
     public Result getLevels() {
-        return ok(Json.toJson(Level.getAll()));
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        return ok(Json.toJson(Level.findByAuthor(loggedCaregiver)));
     }
     
     public Result addLevel() {
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
         DynamicForm addLevelForm = formFactory.form().bindFromRequest();
 
         if (addLevelForm.hasErrors()) {
@@ -228,7 +248,7 @@ public class AdminExerciseCtrl extends Controller {
         
         String levelDesc = addLevelForm.get("newLevel");
         
-        Level level = new Level(levelDesc);
+        Level level = new Level(levelDesc, loggedCaregiver);
         level.save();
         
         return ok();

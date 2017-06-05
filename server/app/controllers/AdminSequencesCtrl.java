@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import static java.lang.Integer.parseInt;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import models.Caregiver;
@@ -35,7 +36,55 @@ public class AdminSequencesCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         String sequenceName = registerSequenceForm.get("sequenceName");
-        Sequence sequence = new Sequence(sequenceName);
+        
+        List<Long> exerciseIds = new ArrayList<Long>();
+        int i = 0;
+        while(true) {
+            String key = "exercisesToAdd[" + i + "]";
+            if (registerSequenceForm.data().containsKey(key)) {
+                int answerId;
+                try {
+                    answerId = parseInt(registerSequenceForm.data().get(key));
+                } catch (NumberFormatException e) {
+                    answerId = -1;
+                }
+
+                exerciseIds.add((long)answerId);
+            } else {
+                break;
+            }
+            i++;
+        }
+        
+        List<Long> childrenIds = new ArrayList<Long>();
+        int j = 0;
+        while(true) {
+            String key = "childrenToAssign[" + j + "]";
+            if (registerSequenceForm.data().containsKey(key)) {
+                int childId;
+                try {
+                    childId = parseInt(registerSequenceForm.data().get(key));
+                } catch (NumberFormatException e) {
+                    childId = -1;
+                }
+
+                childrenIds.add((long)childId);
+            } else {
+                break;
+            }
+            j++;
+        }
+        
+        Sequence sequence = new Sequence(sequenceName, exerciseIds, Caregiver.findByUsername(SecurityController.getUser().username));
+        sequence.save();
+        
+        childrenIds.forEach((id) -> {
+            Child currentChild = Child.findByChildId((long)id);
+            if (currentChild != null) {
+                currentChild.getSequencesList().add(sequence);
+                currentChild.save();
+            } else Logger.debug("Child " + id + " does not exist!");
+        });
         
         String childId = registerSequenceForm.get("childId");
         if(childId != null && !"".equals(childId)) {
@@ -61,7 +110,7 @@ public class AdminSequencesCtrl extends Controller {
      */
     
     public Result getSequences() {
-        return ok(Json.toJson(Sequence.getAll()));
+        return ok(Json.toJson(Sequence.findByAuthor(Caregiver.findByUsername(SecurityController.getUser().getUsername()))));
     }
     
     /*
@@ -69,31 +118,17 @@ public class AdminSequencesCtrl extends Controller {
      */
     
     public Result getSequence(Long sequenceId) {
-        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
-        if (loggedCaregiver == null) {
-            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-        }
-        
-        List<Child> children = loggedCaregiver.getChildList();
-        Sequence sequence = Sequence.findById(sequenceId);
-        
-        boolean found = false;
-        for(Child child : children) {
-            if (child.getSequencesList().contains(sequence)) {
-                found = true;
-                break;
-            }
-        }
-        
-        if (!found) {
-            return badRequest(buildJsonResponse("error", "Invalid sequence ID."));
-        }
-        
+        //TODO check if the loggedin caregiver can see this sequence
+        Sequence sequence = Sequence.findById(sequenceId); 
         return  ok(Json.toJson(sequence));
     }
     
     public Result deleteSequence (Long sequenceId) {
         Sequence seq = Sequence.findById(sequenceId);
+        Child.find.all().forEach((c) -> {
+            c.getSequencesList().remove(seq);
+            c.save();
+        });
         seq.delete();
         
         return ok("Sequence deleted");

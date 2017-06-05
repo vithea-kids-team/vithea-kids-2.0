@@ -17,6 +17,8 @@ export class ExercisesComponent implements OnInit {
 
   private exercises: Array<Exercise>;
   private sequenceId: number = 0;
+  private sequence;
+  private loading : boolean = false;
 
   private textFilter = true;
   private imageFilter = true;
@@ -28,6 +30,7 @@ export class ExercisesComponent implements OnInit {
   }
 
   private fetchExercises() {
+    this.loading = true;
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
@@ -38,24 +41,36 @@ export class ExercisesComponent implements OnInit {
         } else {
           this.getExercises();
         }
+      },
+      err => {
+        console.error("Error loading exercises", err);
+        this.loading = false;
       });
   }
 
   private getSequenceExercises(id) {
     this.childrenService.getSequence(id).subscribe(
-      res => this.exercises = res.json().sequenceExercises,
+      res => {
+        this.sequence = res.json();
+        this.exercises = res.json().sequenceExercises;
+        this.loading = false;
+      },
       err => console.log("Error loading sequence exercises", err)
     )
   }
 
   private getExercises() {
     this.exercisesService.getExercises().subscribe(
-      result => this.exercises = result, 
+      result => {
+        this.exercises = result;
+        this.loading = false;
+      },
       err => console.error("Error loading exercises. ", err) 
     );
   }
 
   private deleteExercise(exerciseId) {
+    this.loading = true;
     this.exercisesService.deleteExercise(exerciseId).subscribe(
       res => this.fetchExercises(),
       err => console.log("Error deleting exercise", exerciseId)

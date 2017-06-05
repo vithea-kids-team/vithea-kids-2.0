@@ -231,7 +231,7 @@ public class Exercise extends Model {
             Logger.debug("Looking for exercises from: " + author.getCaregiverLogin().getUsername());
             return find
             .where()
-            .eq("author_id", author.getCaregiverLogin().getLoginId())
+            .eq("author_id", author.getCaregiverId())
             .findList();
     }
     

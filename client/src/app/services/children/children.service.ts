@@ -15,12 +15,12 @@ export class ChildrenService {
 
   getChildren(): Observable<Array<Child>> {
     return this.http.get('/listchildren')
-      .map(result => this.children = result.json());
+      .map(result => this.children = result && result.json());
   }
 
   getChild(id: number) : Observable<Child> {
     return this.http.get('/child/' + id)
-      .map(result => result.json());
+      .map(result => result && result.json());
   }
 
   addChildren(child: Child) : Observable<Response> {

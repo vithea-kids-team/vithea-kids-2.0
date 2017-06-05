@@ -205,15 +205,10 @@ public class AdminChildCtrl extends Controller {
             Logger.debug("Editing child with id " + childId + ": " + child.getChildLogin().getUsername());
 
             child.getChildLogin().setUsername(newUser.username);
-            
-            if (!newUser.password.isEmpty()) {
-                child.getChildLogin().setPassword(newUser.password);
-            }
-            
             child.setFirstName(newUser.firstName);
             child.setLastName(newUser.lastName);
             child.setGender(newUser.gender);
-            child.setBirthDate(newUser.birthDate);
+            //child.setBirthDate(newUser.birthDate);
 
             child.save();
             return ok(Json.toJson(child));

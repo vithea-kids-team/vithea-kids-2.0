@@ -18,52 +18,37 @@ export class ResourcesService {
   }
 
   constructor(private http: HttpApiClient) { 
-    this.fetchTopics();
-    this.fetchLevels();
-    this.fetchResources();
+    this.fetchTopics().subscribe();
+    this.fetchLevels().subscribe();
+    this.fetchResources().subscribe();
+    this.fetchAnimatedCharacters().subscribe();
   }
 
   fetchResources() {
      /* fetch resources */
-    this.http.get('/listresources')
-      .map(result => result.json())
-      .subscribe(
-        result => {
-          result.forEach((resource : Resource) => {
+    return this.http.get('/listresources')
+      .map(result => {
+        result && result.json().forEach((resource : Resource) => {
             this.resources[resource.resourceArea.toLowerCase()].push(resource);
           });
-        }, 
-        err => console.error("Error getting resources.")
-      )
-
-    this.http.get('/listanimatedcharacters')
-      .map(result => result.json())
-      .subscribe(
-        result => {
-          this.resources.animatedcharacter = result;
-        }, 
-        err => console.error("Error getting resources.")
-      )
+      });
   }
 
   fetchLevels() {
     /* fetch levels */
-    this.http.get('/listlevels')
-      .map(result => result.json())
-      .subscribe(
-        result => this.levels = result, 
-        err => console.error("Error getting levels.")
-      )
+    return this.http.get('/listlevels')
+      .map(result => this.levels = result && result.json());
   }
 
   fetchTopics() {
      /* fetch topics */
-    this.http.get('/listtopics')
-      .map(result => result.json())
-      .subscribe(
-        result => this.topics = result,
-        err => console.error("Error getting topics.")
-      );
+    return this.http.get('/listtopics')
+      .map(result => this.topics = result && result.json());
+  }
+
+  fetchAnimatedCharacters() {
+    return this.http.get('/listanimatedcharacters')
+      .map(result => this.resources.animatedcharacter = result && result.json());
   }
 
   uploadFiles(files, type, name?) {

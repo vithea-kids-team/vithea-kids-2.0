@@ -10,50 +10,75 @@ import { ResourcesService } from '../../services/resources/resources.service';
 })
 export class SettingsComponent {
 
-  newTopic : string;
-  newLevel : string;
+  private newTopic : string;
+  private newLevel : string;
+  private loading : boolean = false;
 
   constructor(private resourcesService : ResourcesService, private location : Location) { }
 
   addTopic() {
-    if(this.newTopic !== '') {
+    if(this.newTopic && this.newTopic !== '') {
+      this.loading = true;
       this.resourcesService.addTopic(this.newTopic).subscribe(
         res => {
           this.newTopic = '';
-          this.resourcesService.fetchTopics();
+          this.resourcesService.fetchTopics().subscribe(
+            res => this.loading = false
+          )
         },
-        err => console.error("Error adding topic", err)
+        err => {
+          console.error("Error adding topic", err);
+          this.loading = false;
+        }
       )
     }
   }
 
   removeTopic(topic : number) {
+    this.loading = true;
     this.resourcesService.removeTopic(topic).subscribe(
         res => {
-          this.resourcesService.fetchTopics();
+          this.resourcesService.fetchTopics().subscribe(
+            res => this.loading = false
+          );
         },
-        err => console.error("Error removing topic", err)
+        err => {
+          console.error("Error removing topic", err);
+          this.loading = false;
+        }
       )
   }
 
   addLevel() {
-    if(this.newLevel !== '') {
+    if(this.newLevel && this.newLevel !== '') {
+      this.loading = true;
       this.resourcesService.addLevel(this.newLevel).subscribe(
         res => {
           this.newLevel = '';
-          this.resourcesService.fetchLevels();
+          this.resourcesService.fetchLevels().subscribe(
+            res => this.loading = false
+          )
         },
-        err => console.error("Error adding level", err)
+        err => {
+          console.error("Error adding level", err);
+          this.loading = false;
+        }
       )
     }
   }
 
   removeLevel(level : number) {
-     this.resourcesService.removeLevel(level).subscribe(
+    this.loading = true;
+    this.resourcesService.removeLevel(level).subscribe(
         res => {
-          this.resourcesService.fetchLevels();
+          this.resourcesService.fetchLevels().subscribe(
+            res => this.loading = false
+          )
         },
-        err => console.error("Error removing level", err)
+        err => {
+          console.error("Error removing level", err);
+          this.loading = false;
+        }
       )
   }
 

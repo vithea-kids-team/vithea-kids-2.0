@@ -10,10 +10,16 @@ import { CaregiverService } from '../../services/caregiver/caregiver.service';
 export class LoginComponent {
 
   model: any = {};
+  loading: boolean = false;
 
   constructor(private caregiverService: CaregiverService) { }
 
   login() {
-    this.caregiverService.login(this.model.username, this.model.password);
+    this.loading = true;
+    this.caregiverService.login(this.model.username, this.model.password)
+    .subscribe(res => {
+      this.loading = false;
+    },
+    err => console.error(err));
   }
 }

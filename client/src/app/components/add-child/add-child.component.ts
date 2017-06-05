@@ -14,6 +14,7 @@ export class AddChildComponent implements OnInit {
 
   genders = ['Female', 'Male', 'Other'];
   model: Child = new Child();
+  loading: boolean = false;
   
   private myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy'
@@ -24,6 +25,7 @@ export class AddChildComponent implements OnInit {
   constructor(private childService: ChildrenService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.loading = true;
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
@@ -36,6 +38,7 @@ export class AddChildComponent implements OnInit {
                         month: d.getMonth() + 1, 
                         day: d.getDate()};       
               this.model = res;
+              this.loading = false;
             },
             err => console.log("Error getting child")
           );
@@ -44,7 +47,8 @@ export class AddChildComponent implements OnInit {
               this.selDate = {year: d.getFullYear(), 
                         month: d.getMonth() + 1, 
                         day: d.getDate()};
-              this.model.birthDate = d.toISOString();       
+              this.model.birthDate = d.toISOString();
+           this.loading = false;   
         }
       });
   }
@@ -59,7 +63,7 @@ export class AddChildComponent implements OnInit {
       );
     } else {
       this.childService.addChildren(this.model).subscribe(
-        res => this.router.navigate(['/children/'+ res.json().childId + '/preferences']),
+        res => this.router.navigate(['/children']),
         err => {
           console.error("Error registering new child. ", err);
         });

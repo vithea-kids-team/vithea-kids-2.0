@@ -17,7 +17,8 @@ import { PaginationService } from '../../services/pagination/pagination.service'
 export class SequencesComponent implements OnInit, OnChanges {
 
   private childId : number;
-  private sequences: Array<Sequence>
+  private sequences: Array<Sequence>;
+  private loading: boolean = false;
 
   // pager object
   pager: any = {};
@@ -37,6 +38,7 @@ export class SequencesComponent implements OnInit, OnChanges {
   }
 
   private fetchSequences() {
+     this.loading = true;
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
@@ -47,6 +49,9 @@ export class SequencesComponent implements OnInit, OnChanges {
         } else {
           this.getSequences();
         }
+      }, err => {
+        console.error("Error getting sequences", err);
+        this.loading = false;
       });
   }
 
@@ -57,8 +62,13 @@ export class SequencesComponent implements OnInit, OnChanges {
 
         // initialize to page 1
         this.setPage(1);
+
+        this.loading = false;
       }, 
-      err => console.error("Error loading child sequences. " + err) 
+      err => {
+        console.error("Error loading child sequences. " + err);
+        this.sequences = [];
+      } 
     );
   }
 
@@ -70,16 +80,23 @@ export class SequencesComponent implements OnInit, OnChanges {
 
         // initialize to page 1
         this.setPage(1);
+        this.loading = false;
       }, 
-      err => console.error("Error loading sequences. " + err) 
+      err => {
+        console.error("Error loading sequences. " + err);
+        this.sequences = [];
+      }
     );
-    return [];
   }
 
   private deleteSequence(sequenceId) {
+    this.loading = true;
     this.sequencesService.deleteSequence(sequenceId).subscribe(
       result => this.fetchSequences(),
-      err => console.log("Error deleting sequence")
+      err => {
+        console.log("Error deleting sequence");
+        this.loading = false;
+      }
     )
   }
 

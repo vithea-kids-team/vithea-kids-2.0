@@ -1,4 +1,5 @@
-<div class="container">
+<loader *ngIf="loading"></loader>
+<div class="container" *ngIf="!loading">
     <h2 *ngIf="!model.childId">{{ '_RegisterChildBtn_' | translate }}</h2>
     <h2 *ngIf="model.childId">{{ '_EditChildBtn_' | translate }}</h2>
     <form (ngSubmit)="createChild()" #childForm="ngForm" class="col-md-8">

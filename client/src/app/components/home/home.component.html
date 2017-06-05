@@ -1,13 +1,13 @@
 <div>
   <div class="home jumbotron centered">
     <p class="lead">
-      <img src="images/VITHEAkidsLogo.png" alt="VK"><br> Virtual Therapist for Autism Treatment on Children
+      <img src="images/VITHEAkidsLogo.png" alt="VK"><br> {{ '_VITHEAKids_' | translate }}
     </p>
     <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/signup']">Registar cuidador <span class="glyphicon glyphicon-ok"></span></a></p>
     <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/login']">Entrar <span class="glyphicon glyphicon-play"></span></a></p>
     <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/']">Baixar aplicação <span class="glyphicon glyphicon-download"></span></a></p>
     <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/children']">{{ '_Children_' | translate }} <span class="glyphicon glyphicon-user"></span></a></p>
     <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/exercises']">{{ '_Exercises_' | translate }} <span class="glyphicon glyphicon-pencil"></span></a></p>
-    <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/preferences']">{{ '_Preferences_' | translate }} <span class="glyphicon glyphicon-star"></span></a></p>
+    <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/sequences']">{{ '_Sequences_' | translate }} <span class="glyphicon glyphicon-th"></span></a></p>
   </div>
 </div>

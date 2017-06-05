@@ -12,12 +12,12 @@ export class ExercisesService {
 
   getExercises() {
     return this.http.get('/listexercises')
-            .map(result => result.json());
+            .map(result => result && result.json());
   }
 
   registerExercise(exercise) {
     return this.http.post('/registerexercise', exercise)
-            .map(result => result.json());
+            .map(result => result && result.json());
   }
 
   deleteExercise(exerciseId) {
@@ -26,7 +26,7 @@ export class ExercisesService {
 
   getExercise(id : number): Observable<Exercise> {
     return this.http.get('/exercise/' + id)
-      .map(result => result.json());
+      .map(result => result && result.json());
   }
 
 }

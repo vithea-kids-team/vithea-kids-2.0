@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import java.util.List;
 
 import com.avaje.ebean.Model;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Level extends Model {
@@ -17,9 +18,13 @@ public class Level extends Model {
 	private Long id;
 	
 	private String description;
+        
+        @ManyToOne
+        private Caregiver author;
 
-        public Level(String levelDesc) {
+        public Level(String levelDesc, Caregiver author) {
             this.description = levelDesc;
+            this.author = author;
         }
 
 	/**
@@ -63,6 +68,10 @@ public class Level extends Model {
 		.where()
 		.eq("id", levelId)
 		.findUnique();
-    }
+        }
+        
+        public static List<Level> findByAuthor(Caregiver caregiver) {
+            return find.where().eq("author_id", caregiver.getCaregiverId()).findList();
+        }
 	
 }

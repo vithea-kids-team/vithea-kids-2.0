@@ -1,0 +1,8 @@
+.grey {
+    color: gray;
+    font-style: italic;
+}
+
+.list-group-item-content {
+    background: aliceblue;
+}

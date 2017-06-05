@@ -17,6 +17,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -43,7 +44,7 @@ public class Child extends Model {
     @JsonUnwrapped
     private Login childLogin;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.REMOVE)
     private List<Sequence> sequencesList;
     
     @OneToMany(cascade = CascadeType.ALL)

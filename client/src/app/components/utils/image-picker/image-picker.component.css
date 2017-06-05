@@ -4,7 +4,9 @@ ul.thumbnails.image_picker_selector {
   list-style-position: outside;
   list-style-type: none;
   padding: 0px;
-  margin: 0px; }
+  margin: 0px;
+  display: flex;
+  flex-wrap: wrap;}
   ul.thumbnails.image_picker_selector ul {
     overflow: auto;
     list-style-image: none;
@@ -17,7 +19,7 @@ ul.thumbnails.image_picker_selector {
     float: none; }
   ul.thumbnails.image_picker_selector li {
     margin: 0px 12px 12px 0px;
-    float: left; }
+    }
     ul.thumbnails.image_picker_selector li .thumbnail {
       padding: 6px;
       border: 1px solid #dddddd;
@@ -31,4 +33,16 @@ ul.thumbnails.image_picker_selector {
 
 img {
   max-height: 50px;
+}
+
+@media screen and (max-width: 700px) {
+    ul.thumbnails.image_picker_selector li {
+      width: 30%;
+    }
+}
+
+@media screen and (min-width: 701px) {
+    ul.thumbnails.image_picker_selector li {
+      width: 13%;
+    }
 }

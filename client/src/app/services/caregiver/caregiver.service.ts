@@ -12,20 +12,19 @@ export class CaregiverService {
   private userObs : Observable<any>;
   private failedLogin : boolean = false;
   private loggedIn : boolean = false;
-  private username : string;
 
   constructor(private http: HttpApiClient, private router: Router) { }
 
   login(username, password) {
     return this.http
       .post('/login', JSON.stringify({ username, password }))
-      .subscribe(res => {
+      .map(res => {
           if (res) {
             this.failedLogin = false;
             this.loggedIn = true;
-            this.username = username;          
-            localStorage.setItem("Authorization", res.json().authToken)
-            this.router.navigate(['/children']);
+            localStorage.setItem('Username', username);
+            localStorage.setItem('Authorization', res.json().authToken)
+            this.router.navigate(['/home']);
           } else {
             this.failedLogin = true;
             console.error('Login error. No token returned');
@@ -41,7 +40,7 @@ export class CaregiverService {
     .subscribe(
       res => this.router.navigate(['/login']),
       err => {
-        console.error("Error registering new caregiver. "+ err);
+        console.error('Error registering new caregiver. '+ err);
       }
     );
   }
@@ -50,13 +49,13 @@ export class CaregiverService {
     return this.http.post('/logout', JSON.stringify(null))
     .subscribe(
       res => {
+        localStorage.removeItem('Username')
         localStorage.removeItem('Authorization');
         this.loggedIn = false;
-        this.username = undefined;
         this.router.navigate(['/home']);
       },
       err => {
-        console.error("Error loggin out. "+ err);
+        console.error('Error loggin out. '+ err);
       }
     );
   }
@@ -73,17 +72,7 @@ export class CaregiverService {
     return localStorage.getItem('Authorization');
   }
 
-  whoAmI(): Observable<any>{
-    if(!this.userObs){
-      this.userObs = this.http.get('/me')
-                                   .map(res => res.json());
-                                   /*.publishReplay(10)
-                                   .refCount();*/
-    }
-    return this.userObs;
-  }
-
   getUsername() {
-    return this.username;
+    return localStorage.getItem('Username');
   }
 }

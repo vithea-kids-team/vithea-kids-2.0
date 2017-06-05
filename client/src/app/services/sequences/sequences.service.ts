@@ -8,12 +8,12 @@ export class SequencesService {
 
   getSequences() {
     return this.http.get('/listsequences')
-            .map(result => result.json());
+            .map(result => result && result.json());
   }
 
   registerSequence(sequence) {
     return this.http.post('/registersequence', sequence)
-            .map(result => result.json());
+            .map(result => result && result.json());
   }
 
   deleteSequence(sequenceId) {
