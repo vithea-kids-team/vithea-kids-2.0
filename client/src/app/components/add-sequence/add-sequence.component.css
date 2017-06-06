@@ -6,3 +6,8 @@
 .list-group-item-content {
     background: aliceblue;
 }
+
+.list-group-item__empty {
+    border: none;
+    padding: 0;
+}

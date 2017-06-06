@@ -118,7 +118,7 @@ public class AdminChildCtrl extends Controller {
      
         Login existingUser = Login.findByUsername(registerChildForm.get("username"));
         if (existingUser != null) {
-            return badRequest(buildJsonResponse("error", "User already exists."));
+            return badRequest("Username already exists");
         } else {
             Login user = new Login(registerChildForm.get("username"), registerChildForm.get("password"));
             user.setEnabled(true);
@@ -285,6 +285,27 @@ public class AdminChildCtrl extends Controller {
         }
         
         return  ok(Json.toJson(child.getSequencesList()));
+    }
+    
+    public Result updatePreferences(Long childId) {
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
+        List<Child> children = loggedCaregiver.getChildList();
+        Child child = Child.findByChildId(childId);
+        if (!children.contains(child)) {
+            return badRequest(buildJsonResponse("error", "Invalid child id."));
+        }
+        
+        DynamicForm updatePreferencesForm = formFactory.form().bindFromRequest();
+
+        if (updatePreferencesForm.hasErrors()) {
+            return badRequest(updatePreferencesForm.errorsAsJson());
+        }
+        
+        return ok();
     }
     
     private static ObjectNode buildJsonResponse(String type, String message) {

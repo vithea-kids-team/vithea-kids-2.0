@@ -51,10 +51,10 @@
         </div>
       </div>
       <div class="panel-heading">
-        <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/edit']">
+        <!--<button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/edit']">
           <span class="glyphicon glyphicon-pencil"></span>
           {{ '_Edit_' | translate }}
-        </button>
+        </button>-->
         <button type="button" class="btn btn-primary" (click)="deleteExercise(exercise.exerciseId)">
           <span class="glyphicon glyphicon-trash"></span>
           {{ '_Delete_' | translate }}

@@ -1,3 +1,4 @@
+<em *ngIf="items?.length === 0">{{ '_UploadResources_' | translate }}</em>
 <ul class="thumbnails image_picker_selector">
     <li *ngFor="let item of items; let index = index;" (click)="toggleItem(item);">
         <div class="thumbnail" [class.selected]="item.selected">

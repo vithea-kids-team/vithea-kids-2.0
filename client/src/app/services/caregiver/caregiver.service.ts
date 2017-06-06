@@ -36,13 +36,7 @@ export class CaregiverService {
   }
 
   signUp(caregiver : Caregiver) {
-    return this.http.post('/signup', JSON.stringify(caregiver))
-    .subscribe(
-      res => this.router.navigate(['/login']),
-      err => {
-        console.error('Error registering new caregiver. '+ err);
-      }
-    );
+    return this.http.post('/signup', JSON.stringify(caregiver));
   }
 
   logout() {

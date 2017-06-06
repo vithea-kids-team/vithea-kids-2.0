@@ -11,7 +11,7 @@
           <label> {{ '_Topics_' | translate }} </label>
           <div>
             <ul class="list-group">
-              <li class="list-group-item" *ngIf="!resourcesService.topics || resourcesService.topics.length === 0"><em>{{ '_NoTopics_' | translate }}</em></li>
+              <li class="list-group-item list-group-item__empty" *ngIf="!resourcesService.topics || resourcesService.topics.length === 0"><em>{{ '_NoTopics_' | translate }}</em></li>
               <li class="list-group-item list-group-item-content" *ngFor=" let topic of resourcesService.topics">
                 <span>{{topic.topicDescription}}</span>
                 <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeTopic(topic.topicId)"><i class="glyphicon glyphicon-remove"></i></a>
@@ -31,7 +31,7 @@
           <label> {{ '_Levels_' | translate }} </label>
           <div>
             <ul class="list-group">
-              <li class="list-group-item" *ngIf="!resourcesService.levels || resourcesService.levels.length == 0"><em>{{ '_NoLevels_' | translate }}</em></li>
+              <li class="list-group-item list-group-item__empty" *ngIf="!resourcesService.levels || resourcesService.levels.length == 0"><em>{{ '_NoLevels_' | translate }}</em></li>
               <li class="list-group-item list-group-item-content" *ngFor=" let level of resourcesService.levels">
                 <span>{{level.levelDescription}}</span>
                 <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeLevel(level.levelId)"><i class="glyphicon glyphicon-remove"></i></a>

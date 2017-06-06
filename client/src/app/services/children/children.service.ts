@@ -49,14 +49,9 @@ export class ChildrenService {
         .map(res => res.json());
   }
 
-  setPersonalMessages(childId, greetingMessage, exerciseReinforcementMessage, sequenceReinforcementMessage) {
-    const messages = {
-      greetingMessage: greetingMessage,
-      exerciseReinforcementMessage: exerciseReinforcementMessage,
-      sequenceReinforcementMessage: sequenceReinforcementMessage
-    };
-
-    return this.http.post('/child/'+ childId + '/personalmessages', JSON.stringify(messages));
+  updatePreferences(child) {
+    console.log(child);
+    return this.http.post('/child/'+ child.childId + '/setpreferences', child);
   }
 
 }

@@ -15,6 +15,8 @@ export class AddChildComponent implements OnInit {
   genders = ['Female', 'Male', 'Other'];
   model: Child = new Child();
   loading: boolean = false;
+  loadingAdd: boolean = false;
+  error: string = undefined;
   
   private myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy'
@@ -54,10 +56,14 @@ export class AddChildComponent implements OnInit {
   }
 
   createChild() {
+    this.loadingAdd = true;
+    this.error = undefined;
     if (this.model.childId) {
       this.childService.editChild(this.model).subscribe(
         res => this.router.navigate(['/children/']),
         err => {
+          this.error = err._body;
+          this.loadingAdd = false;
           console.error("Error editing a child. ", err);
         }
       );
@@ -65,6 +71,8 @@ export class AddChildComponent implements OnInit {
       this.childService.addChildren(this.model).subscribe(
         res => this.router.navigate(['/children']),
         err => {
+          this.error = err._body;
+          this.loadingAdd = false;
           console.error("Error registering new child. ", err);
         });
     }

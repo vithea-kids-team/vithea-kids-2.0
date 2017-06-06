@@ -169,9 +169,11 @@ public class Caregiver extends Model {
     }
 	
 	public static Caregiver findByUsername(String username) { 
-        return find
+            Login l = Login.findByUsername(username);
+        return l != null ? find
 	        .where()
-	        .eq("caregiverlogin_id", Login.findByUsername(username).getLoginId())
-	        .findUnique();
+	        .eq("caregiverlogin_id", l.getLoginId())
+	        .findUnique()
+                : null;
     }
 }

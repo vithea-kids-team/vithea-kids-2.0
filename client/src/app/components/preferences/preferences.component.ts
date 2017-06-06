@@ -13,7 +13,6 @@ import { Child } from '../../models/child';
 export class PreferencesComponent implements OnInit {
 
   public child : Child;
-  public editRoute : string;
 
   constructor(private route: ActivatedRoute, private childrenService : ChildrenService) { }
 
@@ -23,7 +22,6 @@ export class PreferencesComponent implements OnInit {
     .subscribe(params => {
       const id : number = parseInt(params['childid']);
       if(id) {
-        this.editRoute = '/children/'+ id + '/preferences/edit' ;
         this.getChild(id);
       }
     });
@@ -38,8 +36,8 @@ export class PreferencesComponent implements OnInit {
     );
   }
 
-  setPersonalMessages() {
-    this.childrenService.setPersonalMessages(this.child.childId, this.child.personalMessagesList[0].message, this.child.personalMessagesList[1].message, this.child.personalMessagesList[2].message)
+  updatePreferences() {
+    this.childrenService.updatePreferences(this.child)
       .subscribe(res => this.getChild(this.child.childId),
       err => console.log("Error setting preferences."))
   }

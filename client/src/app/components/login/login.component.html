@@ -15,8 +15,8 @@
             {{ '_RequiredPassword_' | translate }}
         </div>
         <div style="height: 70px;">
-            <div *ngIf="caregiverService.failedToLogin() && !loading" class="alert alert-danger">
-            {{ '_InvalidUsernamePassword_' | translate }}
+            <div *ngIf="error && !loading" class="alert alert-danger">
+            {{ error | translate }}
             </div>
             <loader *ngIf="loading" [height]="50"></loader>
         </div>

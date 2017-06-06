@@ -34,71 +34,44 @@ export class HttpApiClient {
   get(url: string, options?: RequestOptionsArgs): Observable<Response> {
     options = this.addHeaders(options);
       return this.http.get(this.SERVER + url, options)
-      .map(res => {
-        return res;
-      })
-      .catch(e => {
-        if (e.status === 401) {
-          localStorage.removeItem('Authorization');
-          this.router.navigate(['/login']);
-          return Observable.of(null);
-        }
-      });
+      .map(
+            res => res,
+            e => this.handle401(e));
   }
   post(url: string, body: Object, options?: RequestOptionsArgs): Observable<Response> {
     options = this.addHeaders(options);
     return this.http.post(this.SERVER + url, body, options)
-          .catch(e => {
-              if (e.status === 401) {
-                localStorage.removeItem('Authorization');
-                this.router.navigate(['/login']);
-                return Observable.of(null);
-              }
-            });
+          .map(
+            res => res,
+            e => this.handle401(e));
   }
   put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
     return this.http.put(this.SERVER + url, body, options)
-          .catch(e => {
-            if (e.status === 401) {
-              localStorage.removeItem('Authorization');
-              this.router.navigate(['/login']);
-              return Observable.of(null);
-            }
-          });
+          .map(
+            res => res,
+            e => this.handle401(e));
   }
   delete(url: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
     return this.http.delete(this.SERVER + url, options)
-          .catch(e => {
-            if (e.status === 401) {
-              localStorage.removeItem('Authorization');
-              this.router.navigate(['/login']);
-              return Observable.of(null);
-            }
-          });
+          .map(
+            res => res,
+            e => this.handle401(e));
   }
   patch(url: string, body: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
     return this.http.patch(this.SERVER + url, body, options)
-        .catch(e => {
-          if (e.status === 401) {
-            localStorage.removeItem('Authorization');
-            this.router.navigate(['/login']);
-            return Observable.of(null);
-          }
-        });
+        .map(
+            res => res,
+            e => this.handle401(e));
   }
   head(url: string, options?: RequestOptionsArgs): Observable<Response>{
     options = this.addHeaders(options);
     return this.http.head(this.SERVER + url, options)
-        .catch(e => {
-            if (e.status === 401) {
-              localStorage.removeItem('Authorization');
-              this.router.navigate(['/login']);
-              return Observable.of(null);
-            }
-          });
+        .map(
+            res => res,
+            e => this.handle401(e));
   }
   upload(url: string, files:File[]): Observable<any> {
     return Observable.create(observer => {
@@ -122,5 +95,15 @@ export class HttpApiClient {
             xhr.setRequestHeader('Authorization',localStorage.getItem('Authorization'));
             xhr.send(formData);
         });
+  }
+
+  handle401(e) {
+    debugger;
+    if (e.status === 401 && !this.router.url.includes('login')) {
+      localStorage.removeItem('Authorization');
+      localStorage.removeItem('Username');
+      this.router.navigate(['/login']);
+    }
+    return e;
   }
 }

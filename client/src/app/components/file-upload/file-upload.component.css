@@ -1,3 +1,7 @@
+.file-uploader {
+    margin-top: 10px;
+}
+
 .file-uploader input {
     display: none;
 }

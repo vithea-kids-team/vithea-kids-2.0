@@ -12,7 +12,7 @@
       <div class="form-group" *ngIf="resourcesService.topics">
         <label for="topic"> {{ '_Topic_' | translate }} </label>
         <form class="input-group">
-          <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel">
+          <select class="form-control" id="topic" [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel" required>
             <option *ngFor="let topic of resourcesService.topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
           </select>
           <span class="input-group-btn">
@@ -26,7 +26,7 @@
       <div class="form-group" *ngIf="resourcesService.levels">
         <label for="level"> {{ '_Level_' | translate }}</label>
         <form class="input-group">
-          <select class="form-control" id="level" required [(ngModel)]="newExercise.level" name="level" #level="ngModel">
+          <select class="form-control" id="level" [(ngModel)]="newExercise.level" name="level" #level="ngModel" required>
             <option *ngFor="let level of resourcesService.levels" [value]="level.levelId">{{ level.levelDescription }}</option>
           </select>
           <span class="input-group-btn">
@@ -47,7 +47,7 @@
       <div class="form-group">
         <label for="stimulus"> {{ '_Stimulus_' | translate }}</label>
         <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
-        <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: scroll;">
+        <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
           <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false" [resourceType]="'stimuli'"> </image-picker>
         </div>
         <file-upload *ngIf="newExercise.type == 'text'" [label]="'_UploadStimulus_'" [resourceType]="'stimuli'"></file-upload>
@@ -56,10 +56,13 @@
       <label for="answer"> {{ '_Answer_' | translate }}</label>
       <div *ngIf="newExercise.type == 'text' ">
         <input type="text" class="form-control" id="rightAnswer" required [(ngModel)]="newExercise.rightAnswer" name="rightAnswer" #rightAnswer="ngModel">
+        <div *ngIf="!rightAnswer.valid && !rightAnswer.pristine" class="alert alert-danger">
+          {{ '_RequiredRightAnswer_' | translate }}
+        </div>
       </div>
       <div *ngIf="newExercise.type == 'image' ">
         <br>
-        <div style="max-height: 100px; overflow-y: scroll;">
+        <div style="max-height: 100px; overflow-y: auto;">
           <image-picker [(ngModel)]="rightAnswerImgs"  [multiSelect]="false" name="rightAnswerImgs" [resourceType]="'stimuli'"> </image-picker>
         </div>
         <file-upload [label]="'_UploadAnswer_'" [resourceType]="'stimuli'"></file-upload>
@@ -69,7 +72,7 @@
       <div *ngIf="newExercise.type == 'text' ">
         <div>
           <ul class="list-group">
-            <li class="list-group-item" *ngIf="!newExercise.answers || newExercise.answers.length == 0"><em>{{ '_NoDistractors_' | translate }}</em></li>
+            <li class="list-group-item list-group-item__empty" *ngIf="!newExercise.answers || newExercise.answers.length == 0"><em>{{ '_NoDistractors_' | translate }}</em></li>
             <li class="list-group-item list-group-item-content" *ngFor=" let answer of newExercise.answers; let index = index">
               <span>{{answer}}</span>
               <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeAnswer(index)"><i class="glyphicon glyphicon-remove"></i></a>
@@ -85,7 +88,7 @@
       </div>
       <div *ngIf="newExercise.type == 'image' ">
         <br>
-        <div style="max-height: 100px; overflow-y: scroll;">
+        <div style="max-height: 100px; overflow-y: auto;">
           <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs" [resourceType]="'stimuli'"> </image-picker>
         </div>
         <file-upload [label]="'_UploadOption_'" [resourceType]="'stimuli'"></file-upload>
@@ -93,7 +96,7 @@
       </div>
       <br />
       <div class="form-group">
-        <a *ngIf="!newExercise.exerciseId" (click)="registerExercise()" class="btn btn-primary">
+        <a *ngIf="!newExercise.exerciseId" (click)="registerExercise()" class="btn btn-primary" [class.disabled]="!exerciseForm.form.valid">
           <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> 
             {{ '_CreateExercise_' | translate }}
         </a>

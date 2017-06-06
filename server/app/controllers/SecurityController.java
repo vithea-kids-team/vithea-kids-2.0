@@ -31,7 +31,7 @@ public class SecurityController extends Controller {
         Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
 
         if (loginForm.hasErrors()) {
-            Logger.debug("\t Login form has errors, returning badRequest");
+            Logger.debug("\t Login form has errors, returning badRequest", loginForm.errorsAsJson());
             return badRequest(loginForm.errorsAsJson());
         }
 
@@ -42,7 +42,7 @@ public class SecurityController extends Controller {
 
         if (user == null) {
             Logger.debug("\t \t Invalid user, returning unauthorized");
-            return unauthorized();
+            return unauthorized("Invalid username or password");
         } else {
             String authToken = user.addSession();
             ObjectNode authTokenJson = Json.newObject();
@@ -72,14 +72,15 @@ public class SecurityController extends Controller {
         DynamicForm signUpForm = formFactory.form().bindFromRequest();
         
         if (signUpForm.hasErrors()) {
-            Logger.debug("\t \t Form has errors, returning");
+            Logger.debug("\t \t Form has errors, returning", signUpForm.errorsAsJson());
             return badRequest(signUpForm.errorsAsJson());
         }
 
-        Caregiver existingUser = Caregiver.findByEmail(signUpForm.get("email"));
-        if (existingUser != null) {
+        if (Caregiver.findByEmail(signUpForm.get("email")) != null) {
             Logger.debug("\t \t User already exists, returning bad request");
             return badRequest("User already exists");
+        } else if (Login.findByUsername(signUpForm.get("username")) != null) {
+            return badRequest("Username already exists");
         } else {
             Logger.debug("\t \t Creating user login...");
             Login userlogin = new Login(signUpForm.get("username"), signUpForm.get("password"));
