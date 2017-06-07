@@ -24,7 +24,6 @@ public class Reinforcement extends Model {
     
     @Column(nullable = true)
     @OneToOne(cascade = CascadeType.ALL)
-    @JsonUnwrapped
     private Resource reinforcementResource;
 
     public Reinforcement() {

@@ -54,14 +54,13 @@ export class PreferencesComponent implements OnInit {
         this.prefs.promptingSize = result.prompting.promptingSize;
         this.prefs.promptingScratch = result.prompting.promptingScratch;
         this.prefs.promptingHide = result.prompting.promptingHide;
-        this.prefs.reinforcementStrategy = result.prompting.promptingStrategy;
+        this.prefs.reinforcementStrategy = result.reinforcement.reinforcementStrategy;
         const reinf = result.reinforcement.reinforcementResource;
         if (reinf) {
           this.prefs.reinforcementResourceId = reinf.resourceId;
         this.prefs.reinforcementResourcePath = reinf.resourcePath;
         }
         this.prefs.emotions = result.emotions;
-
 
         this.reinforcementResources = this.resourcesService.getResourcesByType('reinforcement', this.prefs.reinforcementResourceId);
         this.animatedCharactersResources = this.resourcesService.getResourcesByType('animatedcharacter', this.prefs.animatedCharacterResourceId);
@@ -79,7 +78,7 @@ export class PreferencesComponent implements OnInit {
     const reinf = this.reinforcementResources.find((res) => {
       return res.selected
     });
-    this.prefs.reinforcementResourcePath = animchar ? animchar.resourceId : this.prefs.reinforcementResourcePath;
+    this.prefs.reinforcementResourceId = reinf ? reinf.resourceId : this.prefs.reinforcementResourceId;
 
     this.childrenService.updatePreferences(this.childId, this.prefs)
       .subscribe(res => this.getChildPreferences(this.childId),
@@ -91,5 +90,21 @@ export class PreferencesComponent implements OnInit {
     const lastItem = results[last];
     lastItem.selected = false;
     this.reinforcementResources.push(Object.assign({}, lastItem));
+  }
+
+  updatePromptingSize(e) {
+    this.prefs.promptingSize = e.target.checked;
+  }
+
+  updatePromptingColor(e) {
+    this.prefs.promptingColor = e.target.checked;
+  }
+
+  updatePromptingScratch(e) {
+    this.prefs.promptingScratch = e.target.checked;
+  }
+
+  updatePromptingHide(e) {
+    this.prefs.promptingHide = e.target.checked;
   }
 }

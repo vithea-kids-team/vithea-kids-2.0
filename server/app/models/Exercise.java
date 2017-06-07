@@ -93,7 +93,7 @@ public class Exercise extends Model {
             this.level = Level.findLevelById(level);
         }
         
-        if (!stimulusText.isEmpty()) {
+        if (stimulusText != null && !stimulusText.isEmpty()) {
             this.question = new Question(question, stimulusText);
         } else {
             this.question = new Question(question);

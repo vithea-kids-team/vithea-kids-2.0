@@ -26,7 +26,6 @@
             <label for="strategy"> {{ '_Strategy_' | translate }}</label>
             <br>
             <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_Always_' | translate}}</label>
-            <label class="radio-inline"><input type="radio" value="DIFFERENTIAL" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_Differential_' | translate}}</label>
             <label class="radio-inline"><input type="radio" value="AT_FIRST" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_FirstAttempt_' | translate}}</label>
             <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_Disabled_' | translate}}</label>
           </div>
@@ -48,17 +47,16 @@
             <br>
             <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Always_' | translate}}</label>
             <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_IfNeeded_' | translate}}</label>
-            <label class="radio-inline"><input type="radio" value="WITH_DELAY" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Delayed_' | translate}}</label>
             <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Disabled_' | translate}}</label>
           </div>
           <div class="form-group">
             <label for="strategy"> {{ '_Type_' | translate }}</label>
             <br>
             <div class="form-group checkbox-group">
-              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingSize" (change)="prefs.promptingSize" name="promptingType">{{'_OptionsSize_' | translate}}</label>
-              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingColor" (change)="prefs.promptingColor" name="promptingType">{{'_OptionsColor_' | translate}}</label>
-              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingScratch" (change)="prefs.promptingScratch" name="promptingType">{{'_CrossDistractors_' | translate}}</label>
-              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingHide" (change)="prefs.promptingHide" name="promptingType">{{'_DistractorsDisappear_' | translate}}</label>
+              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingSize" (change)="updatePromptingSize($event)" name="promptingType">{{'_OptionsSize_' | translate}}</label>
+              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingColor" (change)="updatePromptingColor($event)" name="promptingType">{{'_OptionsColor_' | translate}}</label>
+              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingScratch" (change)="updatePromptingScratch($event)" name="promptingType">{{'_CrossDistractors_' | translate}}</label>
+              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingHide" (change)="updatePromptingHide($event)" name="promptingType">{{'_DistractorsDisappear_' | translate}}</label>
             </div>
           </div>
         </div>
