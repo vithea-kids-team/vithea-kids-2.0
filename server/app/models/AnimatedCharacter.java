@@ -58,4 +58,8 @@ public class AnimatedCharacter extends Model {
     public static AnimatedCharacter findByName(String name) {
         return find.where().eq("name", name).findUnique();
     }
+    
+    public static AnimatedCharacter findByResourceId(Long resourceId) {
+        return find.where().eq("avatar_id", resourceId).findUnique();
+    }
 }

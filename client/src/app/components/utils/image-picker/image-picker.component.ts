@@ -18,8 +18,6 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 export class ImagePickerComponent implements ControlValueAccessor {
 
   @Input() multiSelect : boolean;
-  @Input() resourceType : string;
-  @Input() select: number;
 
   private _items: Array<Resource> = [];
 
@@ -27,23 +25,6 @@ export class ImagePickerComponent implements ControlValueAccessor {
 
   get items(): Array<Resource> {
     if (!this._items) this._items = [];
-    let resources = this.resourcesService.resources;
-    let type = this.resourceType.toLowerCase();
-
-    if (this._items.length === 0 && resources[type] && resources[type].length > 0) {  
-      for(let i = 0; i < resources[type].length; i++) {
-        //value copy
-        this._items.push(Object.assign({}, resources[type][i]));       
-      }
-    }
-
-    const selected : Resource = !!this.select && this._items.find((resource : Resource) => {
-      return resource.resourceId === this.select;
-    });
-
-    if (selected) {
-      selected.selected = true;
-    }
     
     return this._items;
   }

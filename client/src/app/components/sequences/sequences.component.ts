@@ -4,7 +4,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 
-import { Sequence } from '../../models/Sequence';
+import { Sequence } from '../../models/sequence';
 import { ChildrenService } from '../../services/children/children.service';
 import { SequencesService } from '../../services/sequences/sequences.service';
 import { PaginationService } from '../../services/pagination/pagination.service';

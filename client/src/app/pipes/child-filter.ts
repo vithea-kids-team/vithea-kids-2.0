@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Child } from '../models/Child';
+import { Child } from '../models/child';
 
 @Pipe({
     name: 'childFilter',

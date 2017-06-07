@@ -80,4 +80,21 @@ export class ResourcesService {
   removeLevel(level : number) {
     return this.http.delete('/removelevel/'+ level);
   }
+
+  getResourcesByType(type: string, selected : number = 0) {
+    let resources = this.resources;
+    type = type.toLowerCase();
+
+    let result = [];
+    if (resources[type] && resources[type].length > 0) {  
+      for(let i = 0; i < resources[type].length; i++) {
+        //value copy
+        result.push(Object.assign({}, resources[type][i]));
+        if (selected && resources[type][i].resourceId === selected) {
+          result[i].selected = true;
+        }
+      }
+    }
+    return result;
+  }
 }

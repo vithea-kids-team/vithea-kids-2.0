@@ -15,7 +15,10 @@ import models.Login;
 import models.PersonalMessage;
 import models.PersonalMessageType;
 import models.Prompting;
+import models.PromptingStrategy;
 import models.Reinforcement;
+import models.ReinforcementStrategy;
+import models.Resource;
 import models.Sequence;
 
 import play.Logger;
@@ -44,69 +47,6 @@ public class AdminChildCtrl extends Controller {
         return ok(Json.toJson(child.getPersonalMessagesList()));
     }
     
-
-    public Result setPersonalMessages(Long childId) {
-        DynamicForm registerPreferencesForm = formFactory.form().bindFromRequest();
-        
-        if (registerPreferencesForm.hasErrors()) {
-            return badRequest(registerPreferencesForm.errorsAsJson());
-        }
-        
-        Child child = Child.findByChildId(childId);
-        if (child == null) {
-            return badRequest("Child does not exist.");
-        }
-        
-        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
-        if (loggedCaregiver == null) {
-            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-        }
-        
-        if(loggedCaregiver.getChildList().contains(child)) {
-            String greetingMessage = registerPreferencesForm.get("greetingMessage");
-            String exerciseReinforcementMessage = registerPreferencesForm.get("exerciseReinforcementMessage");
-            String sequenceReinforcementMessage = registerPreferencesForm.get("sequenceReinforcementMessage");
-            
-            List<PersonalMessage> messages = child.getPersonalMessagesList();
-            
-            Optional<PersonalMessage> oldGreetingMessage = messages.stream()
-                .filter(item -> item.getMessageType() == PersonalMessageType.GREETING_MESSAGE)
-                .findFirst();
-            
-            if (oldGreetingMessage.isPresent()) {
-                oldGreetingMessage.get().setMessage(greetingMessage);
-            } else {
-                messages.add(new PersonalMessage(greetingMessage, PersonalMessageType.GREETING_MESSAGE));
-            }
-            
-            Optional<PersonalMessage> oldExerciseReinforcementMessage = messages.stream()
-                .filter(item -> item.getMessageType() == PersonalMessageType.EXERCISE_REINFORCEMENT)
-                .findFirst();
-            
-            if (oldExerciseReinforcementMessage.isPresent()) {
-                oldExerciseReinforcementMessage.get().setMessage(exerciseReinforcementMessage);
-            } else {
-                messages.add(new PersonalMessage(exerciseReinforcementMessage, PersonalMessageType.EXERCISE_REINFORCEMENT));
-            }
-            
-            Optional<PersonalMessage> oldSequenceReinforcementMessage = messages.stream()
-                .filter(item -> item.getMessageType() == PersonalMessageType.SEQUENCE_REINFORCEMENT)
-                .findFirst();
-            
-            if (oldSequenceReinforcementMessage.isPresent()) {
-                oldSequenceReinforcementMessage.get().setMessage(sequenceReinforcementMessage);
-            } else {
-                messages.add(new PersonalMessage(sequenceReinforcementMessage, PersonalMessageType.SEQUENCE_REINFORCEMENT));
-            }
-            
-            
-            child.save();
-            
-            return ok("New messages saved.");
-        }
-        
-        return badRequest("No permission to change child data");
-    }
     
     @Transactional
     public Result registerchild() {
@@ -287,6 +227,24 @@ public class AdminChildCtrl extends Controller {
         return  ok(Json.toJson(child.getSequencesList()));
     }
     
+    public static class UpdatePreferences {
+
+        public String greetingMessage;
+        public String exerciseReinforcementMessage;
+        public String sequenceReinforcementMessage;
+	public String animatedCharacterResourceId;
+        public String animatedCharacterResourcePath;
+	public String promptingStrategy;
+	public String promptingColor;
+	public String promptingSize;
+	public String promptingScratch;
+	public String promptingHide;
+	public String reinforcementStrategy;
+	public String reinforcementResourceId;
+        public String reinforcementResourcePath;
+	public String emotions;
+    }
+    
     public Result updatePreferences(Long childId) {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
         if (loggedCaregiver == null) {
@@ -299,13 +257,105 @@ public class AdminChildCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Invalid child id."));
         }
         
-        DynamicForm updatePreferencesForm = formFactory.form().bindFromRequest();
-
+        Form<UpdatePreferences> updatePreferencesForm = formFactory.form(UpdatePreferences.class).bindFromRequest();
+        
         if (updatePreferencesForm.hasErrors()) {
             return badRequest(updatePreferencesForm.errorsAsJson());
         }
         
+        UpdatePreferences prefs = updatePreferencesForm.get();
+        
+        this.setPersonalMessages(child, prefs.greetingMessage, prefs.exerciseReinforcementMessage, prefs.sequenceReinforcementMessage);
+        Logger.debug("Greeting message:" + prefs.greetingMessage);
+        Logger.debug("Exercise message:" + prefs.exerciseReinforcementMessage);
+        Logger.debug("Sequence message:" + prefs.sequenceReinforcementMessage);
+        
+        int animatedCharResourceId;
+        try {
+            animatedCharResourceId = Integer.parseInt(prefs.animatedCharacterResourceId);
+        }
+        catch (Exception e) {
+            animatedCharResourceId = -1;
+        }
+        
+        this.setAnimatedCharacter(child, (long)animatedCharResourceId);
+        
+        Prompting p = child.getPrompting();
+        p.setPromptingStrategy(PromptingStrategy.valueOf(prefs.promptingStrategy));
+        p.setPromptingColor(Boolean.parseBoolean(prefs.promptingColor));
+        p.setPromptingHide(Boolean.parseBoolean(prefs.promptingHide));
+        p.setPromptingScratch(Boolean.parseBoolean(prefs.promptingScratch));
+        p.setPromptingSize(Boolean.parseBoolean(prefs.promptingSize));
+        p.save();
+         
+        Logger.debug("Prompting startegy:" + prefs.promptingStrategy);
+        Logger.debug("Prompting color:" + prefs.promptingColor);
+        Logger.debug("Prompting size:" + prefs.promptingSize);
+        Logger.debug("Prompting scratch:" + prefs.promptingScratch);
+        Logger.debug("Prompting hide:" + prefs.promptingHide);
+        
+        int reinforcementResourceId;
+        try {
+            reinforcementResourceId = Integer.parseInt(prefs.reinforcementResourceId);
+        }
+        catch (Exception e) {
+            reinforcementResourceId = -1;
+        }
+        
+        Reinforcement r = child.getReinforcement();
+        r.setReinforcementResource(Resource.findById((long)reinforcementResourceId));
+        r.setReinforcementStrategy(ReinforcementStrategy.valueOf(prefs.reinforcementStrategy));
+        r.save();
+        
+        Logger.debug("Reinforcement startegy:" + prefs.reinforcementStrategy);
+        
+        child.setEmotions(Boolean.parseBoolean(prefs.emotions));
+        
+        Logger.debug("Emotions:" + prefs.emotions);
+        
+        child.save();
         return ok();
+    }
+    
+    public void setPersonalMessages(Child child, String greetingMessage, String exerciseReinforcementMessage, String sequenceReinforcementMessage) {
+        List<PersonalMessage> messages = child.getPersonalMessagesList();
+
+        Optional<PersonalMessage> oldGreetingMessage = messages.stream()
+            .filter(item -> item.getMessageType() == PersonalMessageType.GREETING_MESSAGE)
+            .findFirst();
+
+        if (oldGreetingMessage.isPresent()) {
+            oldGreetingMessage.get().setMessage(greetingMessage);
+        } else {
+            messages.add(new PersonalMessage(greetingMessage, PersonalMessageType.GREETING_MESSAGE));
+        }
+
+        Optional<PersonalMessage> oldExerciseReinforcementMessage = messages.stream()
+            .filter(item -> item.getMessageType() == PersonalMessageType.EXERCISE_REINFORCEMENT)
+            .findFirst();
+
+        if (oldExerciseReinforcementMessage.isPresent()) {
+            oldExerciseReinforcementMessage.get().setMessage(exerciseReinforcementMessage);
+        } else {
+            messages.add(new PersonalMessage(exerciseReinforcementMessage, PersonalMessageType.EXERCISE_REINFORCEMENT));
+        }
+
+        Optional<PersonalMessage> oldSequenceReinforcementMessage = messages.stream()
+            .filter(item -> item.getMessageType() == PersonalMessageType.SEQUENCE_REINFORCEMENT)
+            .findFirst();
+
+        if (oldSequenceReinforcementMessage.isPresent()) {
+            oldSequenceReinforcementMessage.get().setMessage(sequenceReinforcementMessage);
+        } else {
+            messages.add(new PersonalMessage(sequenceReinforcementMessage, PersonalMessageType.SEQUENCE_REINFORCEMENT));
+        }
+    }
+    
+    public void setAnimatedCharacter(Child child, Long animatedCharacterResourceId) {
+        AnimatedCharacter character = AnimatedCharacter.findByResourceId(animatedCharacterResourceId);
+        child.setAnimatedCharacter(character);
+        
+        Logger.debug("Animated char:" + character.getName());
     }
     
     private static ObjectNode buildJsonResponse(String type, String message) {

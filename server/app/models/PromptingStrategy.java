@@ -9,7 +9,7 @@ public enum PromptingStrategy {
     IF_NEEDED(1, "IfNeeded"),
     WITH_DELAY(2, "WithDelay"),
     OFF(3, "Off");
-    
+
     private final int id;
     private final String type;
     
@@ -26,5 +26,5 @@ public enum PromptingStrategy {
                .where()
                .eq("id", id)
                .findUnique();
-    }    
+    }
 }

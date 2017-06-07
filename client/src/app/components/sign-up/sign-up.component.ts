@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Caregiver } from '../../models/Caregiver';
+import { Caregiver } from '../../models/caregiver';
 import { Router } from '@angular/Router';
 
 import { CaregiverService } from '../../services/caregiver/caregiver.service';

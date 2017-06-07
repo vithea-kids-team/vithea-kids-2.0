@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpApiClient } from '../http/http-api-client.service';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
-import { Exercise } from '../../models/Exercise'
+import { Exercise } from '../../models/exercise'
 
 
 @Injectable()

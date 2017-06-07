@@ -25,6 +25,15 @@ export class AddExerciseComponent implements OnInit {
   constructor(private route: ActivatedRoute, private resourcesService: ResourcesService, private exercisesService : ExercisesService, private router: Router) {}
 
   ngOnInit() {
+
+    this.resourcesService.fetchResources().subscribe(
+      res => {
+        this.stimulusImgs = this.resourcesService.getResourcesByType('stimuli');
+        this.rightAnswerImgs = this.resourcesService.getResourcesByType('stimuli');
+        this.answersImgs = this.resourcesService.getResourcesByType('stimuli');
+      }
+    )
+
     this.newExercise.type = 'text';
     this.newExercise.answers = [];
     this.newExercise.answersImg = [];
@@ -99,6 +108,15 @@ export class AddExerciseComponent implements OnInit {
         this.newExercise.answersImg = [];
       }
     );
+  }
+
+  updateStimuli (results) {
+    const last = results.length - 1;
+    const lastItem = results[last];
+    lastItem.selected = false;
+    this.stimulusImgs.push(Object.assign({}, lastItem));
+    this.rightAnswerImgs.push(Object.assign({}, lastItem));
+    this.answersImgs.push(Object.assign({}, lastItem));
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Child } from '../../models/Child';
+import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
 import { ActivatedRoute, Params, Router } from '@angular/Router';
 import { Observable } from 'rxjs/Observable';

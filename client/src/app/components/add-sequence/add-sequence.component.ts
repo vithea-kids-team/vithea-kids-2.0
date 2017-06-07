@@ -3,9 +3,9 @@ import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/Router';
 
-import { Sequence } from '../../models/Sequence';
-import { Exercise } from '../../models/Exercise';
-import { Child } from '../../models/Child';
+import { Sequence } from '../../models/sequence';
+import { Exercise } from '../../models/exercise';
+import { Child } from '../../models/child';
 
 import { SequencesService } from '../../services/sequences/sequences.service';
 import { ExercisesService } from '../../services/exercises/exercises.service';

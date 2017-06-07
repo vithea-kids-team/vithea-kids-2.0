@@ -48,9 +48,9 @@
         <label for="stimulus"> {{ '_Stimulus_' | translate }}</label>
         <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
         <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
-          <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false" [resourceType]="'stimuli'"> </image-picker>
+          <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
         </div>
-        <file-upload *ngIf="newExercise.type == 'text'" [label]="'_UploadStimulus_'" [resourceType]="'stimuli'"></file-upload>
+        <file-upload *ngIf="newExercise.type == 'text'" [label]="'_UploadStimulus_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
       </div>
       <br>
       <label for="answer"> {{ '_Answer_' | translate }}</label>
@@ -63,9 +63,9 @@
       <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: auto;">
-          <image-picker [(ngModel)]="rightAnswerImgs"  [multiSelect]="false" name="rightAnswerImgs" [resourceType]="'stimuli'"> </image-picker>
+          <image-picker [(ngModel)]="rightAnswerImgs"  [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
         </div>
-        <file-upload [label]="'_UploadAnswer_'" [resourceType]="'stimuli'"></file-upload>
+        <file-upload [label]="'_UploadAnswer_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
       </div>
       <br>
       <label for="answers"> {{ '_Distractors_' | translate }}</label>
@@ -89,9 +89,9 @@
       <div *ngIf="newExercise.type == 'image' ">
         <br>
         <div style="max-height: 100px; overflow-y: auto;">
-          <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs" [resourceType]="'stimuli'"> </image-picker>
+          <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs"> </image-picker>
         </div>
-        <file-upload [label]="'_UploadOption_'" [resourceType]="'stimuli'"></file-upload>
+        <file-upload [label]="'_UploadOption_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
         <br />
       </div>
       <br />

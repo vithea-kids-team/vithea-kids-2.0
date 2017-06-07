@@ -20,8 +20,7 @@ GET         /vithea-kids-api/listchildren           controllers.AdminChildCtrl.g
 GET         /vithea-kids-api/child/:child           controllers.AdminChildCtrl.getChild(child:Long)
 DELETE      /vithea-kids-api/deletechild/:child     controllers.AdminChildCtrl.deleteChild(child:Long)
 GET         /vithea-kids-api/child/:child/sequences controllers.AdminChildCtrl.getChildSequences(child:Long)
-GET         /vithea-kids-api/child/:child/personalmessages  controllers.AdminChildCtrl.getPersonalMessages(child:Long)
-POST        /vithea-kids-api/child/:child/personalmessages  controllers.AdminChildCtrl.setPersonalMessages(child:Long)
+POST        /vithea-kids-api/child/:child/updatepreferences  controllers.AdminChildCtrl.updatePreferences(child:Long)
 # Exercise
 POST        /vithea-kids-api/registerexercise           	controllers.AdminExerciseCtrl.registerExercise
 GET         /vithea-kids-api/exercise/:exercise         controllers.AdminExerciseCtrl.getExercise(exercise:Long)

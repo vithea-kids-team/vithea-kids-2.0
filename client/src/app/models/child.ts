@@ -12,7 +12,12 @@ export class Child {
 	public enabled : boolean
 	public personalMessagesList
 	public sequencesList 
-	public animatedCharacter
+	public animatedCharacter : {
+		name: string,
+		resoureceArea: string,
+		resourceId: number,
+		resourcePath: string
+	}
 	public prompting : {
 		promptingStrategy: string,
 		promptingColor: boolean,

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable} from 'rxjs/Observable';
 import { HttpApiClient } from '../http/http-api-client.service';
 import { Router } from '@angular/Router';
-import { Caregiver } from '../../models/Caregiver';
+import { Caregiver } from '../../models/caregiver';
 
 
 @Injectable()

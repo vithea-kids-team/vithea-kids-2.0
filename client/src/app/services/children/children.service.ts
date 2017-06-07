@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
 import { HttpApiClient } from '../http/http-api-client.service';
-import { Child } from '../../models/Child'
+import { Child } from '../../models/child'
+import { Preferences } from '../../models/preferences'
 
 @Injectable()
 export class ChildrenService {
@@ -44,14 +45,8 @@ export class ChildrenService {
       return this.http.get('/sequences/' + id);
   }
 
-  getChildMessages(id : number) {
-      return this.http.get('/child/'+ id + '/personalmessages')
-        .map(res => res.json());
-  }
-
-  updatePreferences(child) {
-    console.log(child);
-    return this.http.post('/child/'+ child.childId + '/setpreferences', child);
+  updatePreferences(childId:number, childPreferences: Preferences) : Observable<Response> {
+    return this.http.post('/child/'+ childId + '/updatepreferences', childPreferences);
   }
 
 }

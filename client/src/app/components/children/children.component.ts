@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { Child } from '../../models/Child';
+import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
 
 @Component({

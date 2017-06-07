@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 
-import { Exercise } from '../../models/Exercise';
+import { Exercise } from '../../models/exercise';
 import { ExercisesService } from '../../services/exercises/exercises.service';
 import { ChildrenService } from '../../services/children/children.service';
 
