@@ -76,7 +76,7 @@ public class Resource extends Model {
             Logger.debug("Looking for resources from: " + owner.getCaregiverLogin().getUsername());
             return find
             .where()
-            .eq("owner_id", owner.getCaregiverLogin().getLoginId())
+            .eq("owner_id", owner.getCaregiverId())
             .findList();
     }
 
