@@ -20,9 +20,12 @@ export class PreferencesComponent implements OnInit {
   private animatedCharactersResources;
   private reinforcementResources;
 
+  private loading : boolean = false;
+
   constructor(private route: ActivatedRoute, private childrenService : ChildrenService, private resourcesService : ResourcesService) { }
 
   ngOnInit() {
+    this.loading = true;
     this.route.params
     .switchMap((params: Params) => Observable.of(params))
     .subscribe(params => {
@@ -30,6 +33,8 @@ export class PreferencesComponent implements OnInit {
       if(id) {
         this.childId = id;
         this.getChildPreferences(id);
+      } else {
+        this.loading = false;
       }
     });
   }
@@ -64,12 +69,17 @@ export class PreferencesComponent implements OnInit {
 
         this.reinforcementResources = this.resourcesService.getResourcesByType('reinforcement', this.prefs.reinforcementResourceId);
         this.animatedCharactersResources = this.resourcesService.getResourcesByType('animatedcharacter', this.prefs.animatedCharacterResourceId);
+        this.loading = false;
       }, 
-      err => console.error("Error loading child sequences. " + err) 
+      err => {
+        this.loading = false;
+        console.error("Error loading child sequences. " + err);
+      } 
     );
   }
 
   updatePreferences() {
+    this.loading = true;
     const animchar = this.animatedCharactersResources.find((res) => {
       return res.selected
     });
@@ -82,7 +92,10 @@ export class PreferencesComponent implements OnInit {
 
     this.childrenService.updatePreferences(this.childId, this.prefs)
       .subscribe(res => this.getChildPreferences(this.childId),
-      err => console.log("Error setting preferences."))
+      err => {
+        console.log("Error setting preferences.");
+        this.loading = false;
+      })
   }
 
   updateReinforcement(results) {

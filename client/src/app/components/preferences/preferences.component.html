@@ -1,5 +1,5 @@
-<loader *ngIf="!prefs"> </loader>
-<form *ngIf="prefs" (ngSubmit)="updatePreferences()">
+<loader *ngIf="loading"> </loader>
+<form *ngIf="prefs && !loading" (ngSubmit)="updatePreferences()">
   <div class="container">
     <h2>{{ '_Preferences_' | translate }}</h2>
       <h3>{{ '_PersonalMessages_' | translate }}</h3>

@@ -40,14 +40,14 @@ export class CaregiverService {
   }
 
   logout() {
+    localStorage.removeItem('Username')
+    localStorage.removeItem('Authorization');
+    this.loggedIn = false;
+    this.router.navigate(['/home']);
+
     return this.http.post('/logout', JSON.stringify(null))
     .subscribe(
-      res => {
-        localStorage.removeItem('Username')
-        localStorage.removeItem('Authorization');
-        this.loggedIn = false;
-        this.router.navigate(['/home']);
-      },
+      res => res,
       err => {
         console.error('Error loggin out. '+ err);
       }
