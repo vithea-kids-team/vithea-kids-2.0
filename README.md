@@ -21,6 +21,9 @@ In the 'client' folder to start serving vithea-kids-caregiver:
 In the 'server' folder to deploy vithea-kids-api:
 `activator dist`
 
+In the 'client' folder to deploy vithea-kids-caregiver:
+`ng build --e=prod --t=production`
+
 ## Contributing
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
