@@ -8,9 +8,9 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "images",
-        "i18n",
-        "favicon.ico"
+        "vithea-kids/assets/images",
+        "vithea-kids/assets/i18n",
+        "vithea-kids/assets/favicon.ico"
       ],
       "index": "index.html",
       "main": "main.ts",

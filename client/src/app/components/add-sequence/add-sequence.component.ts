@@ -18,13 +18,13 @@ import { ChildrenService } from '../../services/children/children.service';
 })
 export class AddSequenceComponent implements OnInit {
 
-  private newSequence = new Sequence();
-  private exercises : Array<Exercise>;
-  private children : Array<Child>;
-  private addedExercises : Array<Exercise> = [];
-  private addedChildren : Array<Child> = [];
+  public newSequence = new Sequence();
+  public exercises : Array<Exercise>;
+  public children : Array<Child>;
+  public addedExercises : Array<Exercise> = [];
+  public addedChildren : Array<Child> = [];
 
-  constructor(private route: ActivatedRoute, private sequencesService : SequencesService, private exercisesService : ExercisesService, private childrenService : ChildrenService, private router: Router) { }
+  constructor(public route: ActivatedRoute, public sequencesService : SequencesService, public exercisesService : ExercisesService, public childrenService : ChildrenService, public router: Router) { }
 
   ngOnInit() {
      this.route.params

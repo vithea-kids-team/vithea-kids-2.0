@@ -13,7 +13,7 @@ export class LoginComponent {
   loading: boolean = false;
   error: string = undefined;
 
-  constructor(private caregiverService: CaregiverService) { }
+  constructor(public caregiverService: CaregiverService) { }
 
   login() {
     this.loading = true;

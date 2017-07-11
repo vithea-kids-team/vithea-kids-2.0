@@ -8,10 +8,10 @@ import { ResourcesService } from '../../services/resources/resources.service';
 })
 export class AdminComponent implements OnInit {
 
-  private avatarName: string = '';
-  private animatedCharactersResources;
+  public avatarName: string = '';
+  public animatedCharactersResources;
 
-  constructor(private resourcesService : ResourcesService) { }
+  constructor(public resourcesService : ResourcesService) { }
 
   ngOnInit() {
     this.resourcesService.fetchAnimatedCharacters().subscribe(

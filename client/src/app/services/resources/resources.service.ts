@@ -17,7 +17,7 @@ export class ResourcesService {
     animatedcharacter: []
   }
 
-  constructor(private http: HttpApiClient) { 
+  constructor(public http: HttpApiClient) { 
     this.fetchTopics().subscribe();
     this.fetchLevels().subscribe();
     this.fetchResources().subscribe();

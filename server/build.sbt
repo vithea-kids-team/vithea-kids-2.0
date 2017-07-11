@@ -1,6 +1,6 @@
-name := """vithea-kids-api"""
+name := """vithea-kids"""
 
-version := "1.0-SNAPSHOT"
+version := "2.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
@@ -16,6 +16,9 @@ libraryDependencies ++= Seq(
 
 lazy val myProject = (project in file("."))
   .enablePlugins(PlayJava, PlayEbean)
+
+import com.typesafe.sbt.packager.MappingsHelper._
+    mappings in Universal ++= directory(baseDirectory.value / "public")
 
 // Compile the project before generating Eclipse files, so that generated .scala or .class files for views and routes are present
 EclipseKeys.preTasks := Seq(compile in Compile)

@@ -16,7 +16,7 @@ import { AdminComponent } from './components/admin/admin.component';
 
 import { GuardService } from './services/guard/guard.service';
 
-export const appName = 'vithea-kids-admin';
+export const appName = 'vithea-kids';
 
 export const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},

@@ -9,11 +9,11 @@ import { ChildrenService } from '../../services/children/children.service';
 })
 export class ChildrenComponent implements OnInit, OnChanges {
 
-  private children: Array<Child>;
-  private searchBy: string = '';
-  private loading:boolean = false;
+  public children: Array<Child>;
+  public searchBy: string = '';
+  public loading:boolean = false;
 
-  constructor(private service: ChildrenService) { }
+  constructor(public service: ChildrenService) { }
 
   ngOnInit() {
     this.getChildren();

@@ -15,14 +15,14 @@ import { ExercisesService } from '../../services/exercises/exercises.service'
 })
 export class AddExerciseComponent implements OnInit {
 
-  private newExercise = new Exercise();
-  private newAnswer : string = '';
-  private stimulusImgs = [];
-  private rightAnswerImgs = [];
-  private answersImgs = [];
+  public newExercise = new Exercise();
+  public newAnswer : string = '';
+  public stimulusImgs = [];
+  public rightAnswerImgs = [];
+  public answersImgs = [];
 
 
-  constructor(private route: ActivatedRoute, private resourcesService: ResourcesService, private exercisesService : ExercisesService, private router: Router) {}
+  constructor(public route: ActivatedRoute, public resourcesService: ResourcesService, public exercisesService : ExercisesService, public router: Router) {}
 
   ngOnInit() {
 

@@ -16,7 +16,7 @@ export class FileUploadComponent {
 
   @ViewChild('input') input; 
 
-  constructor(private resourcesService : ResourcesService) { }
+  constructor(public resourcesService : ResourcesService) { }
 
   toggleFileUpload() {
     this.input.nativeElement.click();

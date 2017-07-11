@@ -6,8 +6,8 @@ import views.html.*;
 
 public class HomeController extends Controller {
 
-    public Result index() {
-        return ok(index.render("Server side"));
+    public Result index(String route) {
+        return ok(index.render());
     }
 
 }

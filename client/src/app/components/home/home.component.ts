@@ -8,7 +8,7 @@ import { CaregiverService } from '../../services/caregiver/caregiver.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private caregiverService : CaregiverService) { }
+  constructor(public caregiverService : CaregiverService) { }
 
   ngOnInit() {
   }

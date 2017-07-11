@@ -9,9 +9,9 @@ export class HttpApiClient {
 
   SERVER : string = 'vithea-kids-api';
   
-  constructor(private http: Http, public router : Router) {}
+  constructor(public http: Http, public router : Router) {}
   
-  private addHeaders(options?: RequestOptionsArgs) {
+  public addHeaders(options?: RequestOptionsArgs) {
     if(options == null || options == undefined) {
       options = { headers: new Headers() };
     }

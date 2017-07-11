@@ -33,7 +33,7 @@ public class AdminCtrl extends Controller {
                     File file = resource.getFile();
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     String folderPath = "images/animatedcharacter/" + timestamp.getTime() + StringUtils.stripAccents(fileName);
-                    String path = "../client/src/" + folderPath;
+                    String path = "public/" + folderPath;
                     
                     Boolean uploaded = file.renameTo(new File(path));
                     

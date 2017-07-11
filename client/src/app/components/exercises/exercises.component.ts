@@ -15,21 +15,21 @@ import { ChildrenService } from '../../services/children/children.service';
 })
 export class ExercisesComponent implements OnInit {
 
-  private exercises: Array<Exercise>;
-  private sequenceId: number = 0;
-  private sequence;
-  private loading : boolean = false;
+  public exercises: Array<Exercise>;
+  public sequenceId: number = 0;
+  public sequence;
+  public loading : boolean = false;
 
-  private textFilter = true;
-  private imageFilter = true;
+  public textFilter = true;
+  public imageFilter = true;
   
-  constructor(private route: ActivatedRoute, private exercisesService : ExercisesService, private childrenService : ChildrenService) { }
+  constructor(public route: ActivatedRoute, public exercisesService : ExercisesService, public childrenService : ChildrenService) { }
 
   ngOnInit() {  
     this.fetchExercises();
   }
 
-  private fetchExercises() {
+  public fetchExercises() {
     this.loading = true;
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
@@ -48,7 +48,7 @@ export class ExercisesComponent implements OnInit {
       });
   }
 
-  private getSequenceExercises(id) {
+  public getSequenceExercises(id) {
     this.childrenService.getSequence(id).subscribe(
       res => {
         this.sequence = res.json();
@@ -59,7 +59,7 @@ export class ExercisesComponent implements OnInit {
     )
   }
 
-  private getExercises() {
+  public getExercises() {
     this.exercisesService.getExercises().subscribe(
       result => {
         this.exercises = result;
@@ -69,7 +69,7 @@ export class ExercisesComponent implements OnInit {
     );
   }
 
-  private deleteExercise(exerciseId) {
+  public deleteExercise(exerciseId) {
     this.loading = true;
     this.exercisesService.deleteExercise(exerciseId).subscribe(
       res => this.fetchExercises(),

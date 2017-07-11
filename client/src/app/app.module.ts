@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend } from '@angular/http';
 import { RouterModule, Routes } from '@angular/Router';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
-import { SpinnerComponent } from 'angular2-spinner';
+import { SpinnerComponent } from './vendor/angular2-spinner';
 import { MyDatePickerModule } from 'mydatepicker';
 
 import { AppComponent } from './components/app.component';
@@ -40,7 +40,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { AdminComponent } from './components/admin/admin.component';
 
 export function translateFactory(http : Http) {
-  return  new TranslateStaticLoader(http, './i18n', '.json');
+  return  new TranslateStaticLoader(http, './vithea-kids/assets/i18n', '.json');
 }
 
 @NgModule({

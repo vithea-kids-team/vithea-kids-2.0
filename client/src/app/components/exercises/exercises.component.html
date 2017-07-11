@@ -42,10 +42,10 @@
       <div class="panel-body">
         <h3>{{exercise.question?.questionDescription}}</h3>
         <h3>{{exercise.question?.stimulusText}}</h3>
-        <img *ngIf="exercise.question?.stimulus" class="thumbnail" [src]="exercise.question?.stimulus?.resourcePath">
+        <img *ngIf="exercise.question?.stimulus" class="thumbnail" [src]="'vithea-kids/assets/' + exercise.question?.stimulus?.resourcePath">
         <h4>{{exercise.topic?.topicDescription}} {{exercise.level?.levelDescription}}</h4>
         <div class="col-md-6 col-sm-6" *ngFor="let distractor of exercise.answers">{{distractor?.answerDescription}}
-          <img *ngIf="distractor.stimulus" class="thumbnail" [src]="distractor.stimulus?.resourcePath">
+          <img *ngIf="distractor.stimulus" class="thumbnail" [src]="'vithea-kids/assets/' + distractor.stimulus?.resourcePath">
           <span class="pull-right glyphicon glyphicon-check" *ngIf="distractor.answerId == exercise.rightAnswer?.answerId"></span>
           <span class="pull-right glyphicon glyphicon-unchecked" *ngIf="distractor.answerId != exercise.rightAnswer?.answerId"></span>
         </div>

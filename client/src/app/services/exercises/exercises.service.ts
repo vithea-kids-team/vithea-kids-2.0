@@ -8,7 +8,7 @@ import { Exercise } from '../../models/exercise'
 @Injectable()
 export class ExercisesService {
 
-  constructor (private http : HttpApiClient) {}
+  constructor (public http : HttpApiClient) {}
 
   getExercises() {
     return this.http.get('/listexercises')

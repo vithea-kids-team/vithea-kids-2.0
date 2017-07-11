@@ -14,15 +14,15 @@ import { Preferences } from '../../models/preferences';
 })
 export class PreferencesComponent implements OnInit {
 
-  private prefs : Preferences;
-  private childId : number;
+  public prefs : Preferences;
+  public childId : number;
 
-  private animatedCharactersResources;
-  private reinforcementResources;
+  public animatedCharactersResources;
+  public reinforcementResources;
 
-  private loading : boolean = false;
+  public loading : boolean = false;
 
-  constructor(private route: ActivatedRoute, private childrenService : ChildrenService, private resourcesService : ResourcesService) { }
+  constructor(public route: ActivatedRoute, public childrenService : ChildrenService, public resourcesService : ResourcesService) { }
 
   ngOnInit() {
     this.loading = true;

@@ -4,7 +4,7 @@ import { HttpApiClient } from '../http/http-api-client.service';
 @Injectable()
 export class SequencesService {
 
-  constructor(private http : HttpApiClient) { }
+  constructor(public http : HttpApiClient) { }
 
   getSequences() {
     return this.http.get('/listsequences')

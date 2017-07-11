@@ -2,6 +2,6 @@
   "/vithea-kids-api": {
     "target": "http://localhost:9000/",
     "secure": false,
-	"logLevel": "debug"
+	  "logLevel": "debug"
   }
 }

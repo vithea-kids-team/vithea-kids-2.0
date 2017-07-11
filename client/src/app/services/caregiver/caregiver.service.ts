@@ -9,11 +9,11 @@ import { Caregiver } from '../../models/caregiver';
 @Injectable()
 export class CaregiverService {
 
-  private userObs : Observable<any>;
-  private failedLogin : boolean = false;
-  private loggedIn : boolean = false;
+  public userObs : Observable<any>;
+  public failedLogin : boolean = false;
+  public loggedIn : boolean = false;
 
-  constructor(private http: HttpApiClient, private router: Router) { }
+  constructor(public http: HttpApiClient, public router: Router) { }
 
   login(username, password) {
     return this.http

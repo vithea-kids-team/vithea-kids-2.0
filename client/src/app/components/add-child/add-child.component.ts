@@ -18,13 +18,13 @@ export class AddChildComponent implements OnInit {
   loadingAdd: boolean = false;
   error: string = undefined;
   
-  private myDatePickerOptions: IMyDpOptions = {
+  public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy'
   };
   
-  private selDate: IMyDate;
+  public selDate: IMyDate;
 
-  constructor(private childService: ChildrenService, private router: Router, private route: ActivatedRoute) { }
+  constructor(public childService: ChildrenService, public router: Router, public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.loading = true;

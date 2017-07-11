@@ -5,5 +5,6 @@ export class Caregiver {
 	public gender: string
 	public username: string 
 	public password: string
+	public confirmpassword: string
     public email: string
 }

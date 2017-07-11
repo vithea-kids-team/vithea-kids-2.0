@@ -19,7 +19,7 @@ export class ImagePickerComponent implements ControlValueAccessor {
 
   @Input() multiSelect : boolean;
 
-  private _items: Array<Resource> = [];
+  public _items: Array<Resource> = [];
 
   constructor(public resourcesService: ResourcesService) {}
 

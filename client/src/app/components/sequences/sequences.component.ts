@@ -16,9 +16,9 @@ import { PaginationService } from '../../services/pagination/pagination.service'
 })
 export class SequencesComponent implements OnInit, OnChanges {
 
-  private childId : number;
-  private sequences: Array<Sequence>;
-  private loading: boolean = false;
+  public childId : number;
+  public sequences: Array<Sequence>;
+  public loading: boolean = false;
 
   // pager object
   pager: any = {};
@@ -26,8 +26,8 @@ export class SequencesComponent implements OnInit, OnChanges {
   // paged items
   pagedItems: any[];
 
-  constructor(private route: ActivatedRoute, private childrenService : ChildrenService, 
-      private sequencesService : SequencesService, private paginationService : PaginationService) { }
+  constructor(public route: ActivatedRoute, public childrenService : ChildrenService, 
+      public sequencesService : SequencesService, public paginationService : PaginationService) { }
 
   ngOnInit() {
     this.fetchSequences();
@@ -37,7 +37,7 @@ export class SequencesComponent implements OnInit, OnChanges {
     this.fetchSequences();
   }
 
-  private fetchSequences() {
+  public fetchSequences() {
      this.loading = true;
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
@@ -55,7 +55,7 @@ export class SequencesComponent implements OnInit, OnChanges {
       });
   }
 
-  private getChildSequences(id) {
+  public getChildSequences(id) {
     this.childrenService.getChildSequences(id).subscribe(
       result => {
         this.sequences = result;
@@ -73,7 +73,7 @@ export class SequencesComponent implements OnInit, OnChanges {
   }
 
 
-  private getSequences() {
+  public getSequences() {
     this.sequencesService.getSequences().subscribe(
       result => {
         this.sequences = result;
@@ -89,7 +89,7 @@ export class SequencesComponent implements OnInit, OnChanges {
     );
   }
 
-  private deleteSequence(sequenceId) {
+  public deleteSequence(sequenceId) {
     this.loading = true;
     this.sequencesService.deleteSequence(sequenceId).subscribe(
       result => this.fetchSequences(),

@@ -19,7 +19,7 @@ export class SignUpComponent {
   loading : boolean = false;
   error : string = undefined;
 
-  constructor(private caregiverService: CaregiverService, private router: Router) { }
+  constructor(public caregiverService: CaregiverService, public router: Router) { }
 
   createCaregiver() {
     this.loading = true;

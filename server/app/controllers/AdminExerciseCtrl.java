@@ -279,7 +279,7 @@ public class AdminExerciseCtrl extends Controller {
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
                     String folderPath = "images/" + type +"/" + timestamp.getTime() + StringUtils.stripAccents(fileName);
-                    String path = "../client/src/" + folderPath;
+                    String path = "public/" + folderPath;
                     
                     Boolean uploaded = file.renameTo(new File(path));
                     

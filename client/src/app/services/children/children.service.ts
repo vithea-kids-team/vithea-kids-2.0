@@ -12,7 +12,7 @@ export class ChildrenService {
   currentChild: any
   currentSequence: any
 
-  constructor(private http: HttpApiClient) { }
+  constructor(public http: HttpApiClient) { }
 
   getChildren(): Observable<Array<Child>> {
     return this.http.get('/listchildren')

@@ -10,11 +10,11 @@ import { ResourcesService } from '../../services/resources/resources.service';
 })
 export class SettingsComponent {
 
-  private newTopic : string;
-  private newLevel : string;
-  private loading : boolean = false;
+  public newTopic : string;
+  public newLevel : string;
+  public loading : boolean = false;
 
-  constructor(private resourcesService : ResourcesService, private location : Location) { }
+  constructor(public resourcesService : ResourcesService, public location : Location) { }
 
   addTopic() {
     if(this.newTopic && this.newTopic !== '') {
