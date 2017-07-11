@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- VITHEA-Kids  -->
+
+    <!-- <string name="title_VitheaKids_activity">VITHEA-Kids: módulo da criança</string> -->
+    <string name="title_VitheaKids_activity">VITHEA-Kids</string>
+    <string name="action_settings">Preferências</string>
+    <string name="not_available_yet">Esta funcionalidade ainda não se encontra disponível</string>
+    <string name="loading_exercises">A carregar os exercícios&#8230;</string>
+    <string name="loading_image">A carregar a imagem&#8230;</string>
+    <string name="loading_login">A iniciar sessão&#8230;</string>
+
+    <string name="resultsTitle">Resultados</string>
+    <string name="total_exercises">Total de exercícios resolvidos:</string>
+    <string name="skipped_exercises">Exercícios ignorados:</string>
+    <string name="correct_exercises">Exercícios respondidos correctamente:</string>
+    <string name="avg_distractor_hits">Número médio de resposta erradas por exercício:</string>
+
+    <string name="are_you_sure_msg">Tem a certeza de que pretende sair?</string>
+    <string name="cancel_msg">Não</string>
+    <string name="yes_msg">Sim</string>
+
+    <string name="prompting_option_text_on">Ajuda: On</string>
+    <string name="prompting_option_text_off">Ajuda: Off</string>
+    <string name="reinforcement_option_text_on">Reforço: On</string>
+    <string name="reinforcement_option_text_off">Reforço: Off</string>
+    <string name="prompting_option_text">Ligar/Desligar Ajuda</string>
+    <string name="reinforcement_option_text">Ligar/Desligar Reforço</string>
+    <string name="end_exercises_option_text">Terminar sessão de exercícios</string>
+    <string name="home_option_text">Voltar ao início</string>
+
+
+    <!-- VITHEA-Kids - Placeholders -->
+    <string name="question">Question question question question?</string>
+    <string name="answerA">Answer A</string>
+    <string name="answerB">Answer B</string>
+    <string name="answerC">Answer C</string>
+    <string name="answerD">Answer D</string>
+
+    <!-- VITHEA / common  -->
+    <string name="hello">Hello World, EdgarMActivity!</string>
+    <string name="app_name">VITHEA Kids</string>
+    <string name="sendbtn">sendbtn</string>
+    <string name="micwrapper">micwrapper</string>
+    <string name="micbtn">micbtn</string>
+    <string name="home">home</string>
+    <string name="login_user_name">Nome de Utilizador</string>
+    <string name="login_password">Palavra-passe</string>
+    <string name="post">Entrar</string>
+    <string name="title_Vithea_activity">Terapeuta Virtual</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <!-- config info -->
+    <string name="web_server_addr">https://vithea.l2f.inesc-id.pt/vithea/resources/</string>
+    <string name="rtsp_server_addr"></string>
+    <string name="login_failed">O nome de utilizador ou a palavra-passe introduzidos estão incorrectos</string>
+    <string name="mediaViewControl">Está a ser mostrado um vídeo - Para mostrar a interface de controlo do vídeo, carregue na imagem de baixo</string>
+    <string name="exit_aplication">Sair da aplicação</string>
+    <string name="exit">Sair</string>
+    <string name="InvalidUsername">Nome de utilizador inválido</string>
+    <string name="InvalidPassword">Palavra-passe inválida</string>
+    <string name="APP_PREFERENCES">AppPreferences</string>
+    <string name="exercise">Escolhe a resposta certa</string>
+</resources>

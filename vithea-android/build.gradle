@@ -1,0 +1,69 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:2.3.2'
+	}
+}
+
+allprojects {
+	repositories {
+		jcenter()
+	}
+}
+
+apply plugin: 'com.android.application'
+
+dependencies {
+	compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+android {
+	compileSdkVersion 25
+	buildToolsVersion '25.0.0'
+
+	defaultConfig {
+		targetSdkVersion 25
+	}
+
+	lintOptions {
+		abortOnError false
+	}
+
+	buildTypes {
+		debug {
+			jniDebuggable true
+		}
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-unity.txt'
+
+		}
+	}
+	
+	packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+		exclude 'META-INF/license.txt'
+		exclude 'META-INF/notice.txt'
+    }
+}
+
+dependencies {
+    compile files('libs/commons-codec-1.3.jar')
+    compile files('libs/commons-logging-1.1.1.jar')
+    compile files('libs/httpclient-4.0.1.jar')
+    compile files('libs/httpcore-4.0.1.jar')
+    compile files('libs/jackson-annotations-2.2.2.jar')
+    compile files('libs/jackson-core-2.2.2.jar')
+    compile files('libs/jackson-databind-2.2.2.jar')
+    compile files('libs/json-20080701.jar')
+    compile files('libs/spring-android-core-1.0.1.RELEASE.jar')
+    compile files('libs/spring-android-rest-template-1.0.1.RELEASE.jar')
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+	compile 'com.jakewharton:butterknife:8.5.1'
+	annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}

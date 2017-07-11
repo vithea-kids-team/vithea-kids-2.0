@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/exercise_bg_color">
+            
+        <TextView 
+	        android:id="@+id/questionText"
+	        android:text="@string/question"	        
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+	        android:layout_marginLeft="20dp"
+	        android:layout_marginTop="10dp"
+	        android:layout_marginBottom="5dp"
+	        android:textSize="20sp"	        
+	         />
+
+	<ImageView
+		android:id="@+id/stimulusImage"
+		android:layout_width="wrap_content"
+		android:maxWidth="500dp"
+		android:layout_height="300dp"
+		android:maxHeight="200dp"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="5dp"
+		android:layout_below="@id/questionText"
+		/>
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/stimulusImage">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <!--Primeira escolha multipla-->
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_below="@id/stimulusImage"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@color/exercise_button_color"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+            <!--Segunda escolha multipla-->
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@color/exercise_button_color"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <!--Terceira escolha multipla-->
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@color/exercise_button_color"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <!--Quarta escolha multipla-->
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@color/exercise_button_color"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+        </TableRow>
+    </TableLayout>
+	<ImageView
+		android:id="@+id/myI"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"/>
+</RelativeLayout>

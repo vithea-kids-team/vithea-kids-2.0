@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/exercise_bg_color">
+
+	<TextView
+		android:id="@+id/questionText"
+		android:layout_width="400dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginTop="10dp"
+		android:text="assafsfsdfsd"
+		android:layout_marginBottom="5dp"
+		android:textSize="20sp"
+		/>
+
+	<TextView
+		android:id="@+id/stimulusText"
+		android:layout_width="400dp"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="20dp"
+		android:layout_marginTop="10dp"
+		android:layout_marginBottom="5dp"
+		android:textSize="20sp"
+		android:text="sfsdfsdfsdf"
+		android:layout_below="@id/questionText"
+		/>
+
+	<GridLayout
+		android:id="@+id/first"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:stretchMode="columnWidth"
+		android:numColumns="2"
+		android:scaleType="fitXY">
+
+		<ImageView
+			android:id="@+id/play_stop_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_column="0"
+			android:layout_marginRight="20dp"
+			android:src="@drawable/app_icon"
+			/>
+
+		<ImageView
+			android:id="@+id/boombox"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:adjustViewBounds="true"
+			android:layout_column="1"
+			android:scaleType="fitXY"
+			android:src="@drawable/app_icon"
+
+			/>
+
+	</GridLayout>
+
+	<GridLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:stretchMode="columnWidth"
+		android:layout_below="@+id/first"
+		android:numColumns="2"
+		android:scaleType="fitXY">
+
+		<ImageView
+			android:id="@+id/play_stop_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_column="0"
+			android:layout_marginRight="20dp"
+			android:src="@drawable/app_icon"
+			/>
+
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:adjustViewBounds="true"
+			android:layout_column="1"
+			android:scaleType="fitXY"
+			android:src="@drawable/app_icon"
+			android:id="@+id/boombox"
+			/>
+
+	</GridLayout>
+
+
+	<!--<TableLayout-->
+		<!--android:id="@+id/tableLayout1"-->
+		<!--android:layout_width="wrap_content"-->
+		<!--android:layout_height="match_parent">-->
+
+		<!--<TableRow-->
+			<!--android:id="@+id/tableRow1"-->
+			<!--android:layout_width="fill_parent"-->
+			<!--android:layout_height="match_parent">-->
+
+			<!--&lt;!&ndash;Primeira escolha multipla&ndash;&gt;-->
+
+			<!--<WebView-->
+				<!--android:id="@+id/option1"-->
+				<!--android:layout_height="100dp"-->
+				<!--android:layout_width="100dp"-->
+				<!--android:layout_marginBottom="5dp"-->
+				<!--android:layout_marginTop="5dp"-->
+				<!--android:visibility="invisible" />-->
+
+			<!--&lt;!&ndash;Segunda escolha multipla&ndash;&gt;-->
+			<!--<WebView-->
+				<!--android:id="@+id/option2"-->
+				<!--android:layout_height="100dp"-->
+				<!--android:layout_width="100dp"-->
+				<!--android:layout_marginBottom="5dp"-->
+				<!--android:layout_marginTop="5dp"-->
+				<!--android:visibility="invisible" />-->
+		<!--</TableRow>-->
+
+		<!--<TableRow-->
+			<!--android:id="@+id/tableRow2"-->
+			<!--android:layout_width="fill_parent"-->
+			<!--android:layout_height="match_parent">-->
+
+			<!--&lt;!&ndash;Terceira escolha multipla&ndash;&gt;-->
+			<!--<WebView-->
+				<!--android:id="@+id/option3"-->
+				<!--android:layout_height="100dp"-->
+				<!--android:layout_width="100dp"-->
+				<!--android:layout_marginBottom="5dp"-->
+				<!--android:layout_marginTop="5dp"-->
+				<!--android:visibility="invisible" />-->
+			<!--&lt;!&ndash;Quarta escolha multipla&ndash;&gt;-->
+			<!--<WebView-->
+				<!--android:id="@+id/option4"-->
+				<!--android:layout_height="100dp"-->
+				<!--android:layout_width="100dp"-->
+				<!--android:layout_marginBottom="5dp"-->
+				<!--android:layout_marginTop="5dp"-->
+				<!--android:visibility="invisible" />-->
+
+		<!--</TableRow>-->
+
+	<!--</TableLayout>-->
+
+
+</RelativeLayout>

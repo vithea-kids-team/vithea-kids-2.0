@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- VITHEA-Kids -->
+    
+    <!-- Resources Url -->
+    <string name="resources_addr_kids">https://vithea.l2f.inesc-id.pt/vithea-kids/assets/</string>
+    <!-- Services Url -->
+    <string name="ws_uri">https://vithea.l2f.inesc-id.pt/vithea-kids-api/</string>
+
+    <!-- Endpoints -->
+    <string name="child_login_uri">login</string>
+    <string name="greeting_message">getchildapp</string>
+
+</resources>

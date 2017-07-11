@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources> 
+    
+    <string name="category_types">Tipos de exercício</string>
+
+    <string-array name="types_of_exercise">
+        <item>Escolher palavra</item>
+        <!-- <item>Escolher imagem</item> -->
+    </string-array>
+
+    <string name="sequences_of_exercise">
+        Escolhe uma aula
+    </string>
+
+    <string-array name="types_of_exercise_images">
+        <item>@drawable/choose_word</item>
+        <!-- <item>@drawable/choose_image</item> -->
+    </string-array>
+    
+    
+    <string name="category_levels">Níveis</string>
+    
+    <string-array name="levels">
+        <item>Introdutório</item>
+        <item>Intermédio</item>
+        <item>Avançado</item>
+    </string-array>
+    
+    
+    <string name="category_topics">Temas</string>   
+     
+    <string-array name="topics">
+        <item>Alimentos</item>
+        <item>Objectos</item>
+        <item>Animais</item>
+        <item>Transportes</item>
+    </string-array>
+    
+</resources>
