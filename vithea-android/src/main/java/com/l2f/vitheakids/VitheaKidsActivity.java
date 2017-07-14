@@ -71,7 +71,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private ListView lv;
     private BaseAdapter mAdapter;
 
-
     // Bundle info
     public String userName;
     public String password;
@@ -107,8 +106,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         setContentView(R.layout.main);
 
-        init();
-        initViews();
+        init();         // conf unity player // TODO change InitUnityCharacter()
+        initViews();    // conf views and layouts
 
         new FetchChildInfo(VitheaKidsActivity.this).execute();
     }
@@ -117,6 +116,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         characterContainer = findViewById(R.id.characterContainer);
 
+        // Orientations
         if (getResources().getConfiguration().orientation  == Configuration.ORIENTATION_PORTRAIT) {
             int height = (int) (CanvasUtil.getHeight(getWindowManager().getDefaultDisplay()) * 0.45);
             characterContainer.getLayoutParams().height = height;
@@ -215,7 +215,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         mUnityPlayer.windowFocusChanged(hasFocus);
     }
 
-    // For some reason the multiple keyevent type is not supported by the ndk.
+    // For some reason the multiple key event type is not supported by the ndk.
     // Force event injection by overriding dispatchKeyEvent().
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -274,16 +274,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
         rightFrameLayout.addView(view);
         Log.d("DEBUG", "list view by inflater" + view);
 
-
         // Setup adapter
         lv = (ListView) findViewById(R.id.list_by_type); //exercise_menu_layout
         mAdapter = new ExerciseMenuListWithoutImageAdapter(this); //util folder
 
-        //load data
+        // Load data
         int i = 0;
         for (SequenceExercises sInfo : this.child.getSequencesList()) {
             Log.d("sequenceName", sInfo.getName());
-            //shows only sequences with exercises
+            // Shows only sequences with exercises
             if (sInfo.getSequenceExercises().size() > 0) {
                 ((ExerciseMenuListWithoutImageAdapter) mAdapter).add(sInfo.getName());
             }
@@ -302,13 +301,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 currentSequenceId = seq.getSequenceId();
                 exercises = seq.getSequenceExercises();
                 currentExercisePosition = 0;
-                inExercise = true;
-                inHomeScreen = false;
-                inSequenceScreen = false;
+                inExercise = true;          // Start exercises
+                inHomeScreen = false;       // Not in home screen
+                inSequenceScreen = false;   // Not in sequence screen
 
-                setExerciseView();
-                setNavigationView();
-
+                setExerciseView();          // Draw view exercise
+                setNavigationView();        // Button - skip, finish, etc
             }
         });
 
@@ -337,95 +335,31 @@ public class VitheaKidsActivity extends AppCompatActivity {
         if (child != null) {
             Exercise exercise = exercises.get(currentExercisePosition);
 
+            // TODO TYPE OF EXERCISES - in the future factory?
             if (exercise.getType().equals("TEXT")) {
-                setSimpleMultipleChoiceExerciseView(exercise, container);
+                setSimpleMultipleChoiceExerciseView(exercise, container); //text
             } else if (exercise.getType().equals("IMAGE")) {
                 setImageMultipleChoiceExerciseView(exercise, container);
             }
 
-            //exercises navigation
+            // Exercises navigation
             View navigationView = linflater.inflate(R.layout.navigation_view, null);
             container.addView(navigationView);
 
-            // Send to Catarina
+            // Send to Animated Character
             new ReadTask().execute(exercise.getQuestion().getQuestionDescription());
             lastInstruction = exercise.getQuestion().getQuestionDescription();
         }
     }
 
-    /***
-     * Multiple images
-     * @param exercise
-     * @param container
-     */
-    private void setImageMultipleChoiceExerciseView(Exercise exercise, LinearLayout container) {
-        View ex_view = (View) linflater.inflate(R.layout.exercise_multiple_images, null);
-        container.addView(ex_view);
-
-        // Question
-        TextView questionText = (TextView) findViewById(R.id.questionText);
-        questionText.setText(exercise.getQuestion().getQuestionDescription());
-
-        // Stimulus
-        TextView stimulusText = (TextView) findViewById(R.id.stimulusText);
-        String stimulusTextContent = exercise.getQuestion().getStimulusText();
-        stimulusText.setText(stimulusTextContent == null ? "" : stimulusTextContent);
-
-        ImageView first = (ImageView) findViewById(R.id.first);
-        ImageView second = (ImageView) findViewById(R.id.second);
-        ImageView thirst = (ImageView) findViewById(R.id.thirst);
-        ImageView four = (ImageView) findViewById(R.id.four);
-
-        List<ImageView> optionsList = new ArrayList<ImageView>(Arrays.asList(first, second, thirst, four));
-
-        Collections.shuffle(optionsList);
-
-        // Options
-        List<Answer> answers = exercise.getAnswers();
-        if (!answers.isEmpty()) {
-            for (int i = 0; i < answers.size() && i < 4; i++) {
-                ImageView option = optionsList.get(i);
-                Answer answer = answers.get(i);
-
-                Resource answerImage = exercise.getAnswers().get(i).getStimulus();
-                String path = answerImage != null ? answerImage.getResourcePath() : "";
-
-                if (!path.isEmpty()) {
-
-                    String domain = getString(R.string.resources_addr_kids);
-                    path = domain + path;
-
-                    new LoadImageTask(this, option).execute(path);
-
-                }
-
-                option.setVisibility(View.VISIBLE);
-
-                if (answer.getAnswerId() == exercise.getRightAnswer().getAnswerId()) {
-                    //right answer
-                    option.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            rightAnswerHandler(v, child);
-                        }
-                    });
-                } else {
-                    option.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            distractorHandler(v);
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    /***
+    /**
      * One image with four button options
      * @param exercise
      * @param container
      */
-
     public void setSimpleMultipleChoiceExerciseView(Exercise exercise, LinearLayout container) {
+
+        // Layout
         View ex_view = (View) linflater.inflate(R.layout.exercise_words_layout, null);
         container.addView(ex_view);
 
@@ -446,13 +380,21 @@ public class VitheaKidsActivity extends AppCompatActivity {
             new LoadImageTask(this, img).execute(path);
         }
 
-
         Button b1 = (Button) findViewById(R.id.button1);
         Button b2 = (Button) findViewById(R.id.button2);
         Button b3 = (Button) findViewById(R.id.button3);
         Button b4 = (Button) findViewById(R.id.button4);
 
         List<Button> buttonList = new ArrayList<Button>(Arrays.asList(b1, b2, b3, b4));
+
+        // TODO review number answers aligned
+
+        // Devia primeiro ver numero opcoes - answers.size()
+        // Shuffle de acordo com essas opcoes - Collections.shuffle(answers);
+        // Button btn = buttonList.get(i);
+        // Answer answer = answers.get(i);
+        // btn.setText(answer.getAnswerDescription().toUpperCase());
+        // btn.setVisibility(View.VISIBLE);
 
         Collections.shuffle(buttonList);
 
@@ -483,14 +425,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
             }
         }
 
+        // TODO review this to be coherent to less than 4 answers
         currentAnswers = new ArrayList<String>(Arrays.asList(
                 b1.getText().toString().toUpperCase(),
                 b2.getText().toString().toUpperCase(),
                 b3.getText().toString().toUpperCase(),
                 b4.getText().toString().toUpperCase()));
 
-
         // Prompting
+        // TODO REVIEW
         if (child.getPrompting() != null ) {
             if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                 if (child.getPrompting().getPromptingColor()) {
@@ -518,6 +461,73 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     }
 
+    /***
+     * Multiple images
+     * @param exercise
+     * @param container
+     */
+    private void setImageMultipleChoiceExerciseView(Exercise exercise, LinearLayout container) {
+        View ex_view = (View) linflater.inflate(R.layout.exercise_multiple_images, null);
+        container.addView(ex_view);
+
+        // Question
+        TextView questionText = (TextView) findViewById(R.id.questionText);
+        questionText.setText(exercise.getQuestion().getQuestionDescription());
+
+        // Stimulus
+        TextView stimulusText = (TextView) findViewById(R.id.stimulusText);
+        String stimulusTextContent = exercise.getQuestion().getStimulusText();
+        stimulusText.setText(stimulusTextContent == null ? "" : stimulusTextContent);
+
+        // TODO REVIEW number answers
+
+        ImageView first = (ImageView) findViewById(R.id.first);
+        ImageView second = (ImageView) findViewById(R.id.second);
+        ImageView thirst = (ImageView) findViewById(R.id.thirst);
+        ImageView four = (ImageView) findViewById(R.id.four);
+
+        List<ImageView> optionsList = new ArrayList<ImageView>(Arrays.asList(first, second, thirst, four));
+
+        Collections.shuffle(optionsList);
+
+        // Options
+        List<Answer> answers = exercise.getAnswers();
+        if (!answers.isEmpty()) {
+            for (int i = 0; i < answers.size() && i < 4; i++) {
+                ImageView option = optionsList.get(i);
+                Answer answer = answers.get(i);
+
+                Resource answerImage = exercise.getAnswers().get(i).getStimulus();
+                String path = answerImage != null ? answerImage.getResourcePath() : "";
+
+                if (!path.isEmpty()) {
+
+                    String domain = getString(R.string.resources_addr_kids);
+                    path = domain + path;
+
+                    new LoadImageTask(this, option).execute(path);
+                }
+
+                option.setVisibility(View.VISIBLE);
+
+                if (answer.getAnswerId() == exercise.getRightAnswer().getAnswerId()) {
+                    //right answer
+                    option.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            rightAnswerHandler(v, child);
+                        }
+                    });
+                } else {
+                    option.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            distractorHandler(v);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
     public void setReinforcementView() {
         String imgURL;
 
@@ -528,7 +538,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
         }
 
         if (!imgURL.isEmpty()) {
-            hideActionBar();
+
+            hideActionBar(); // TODO maybe not hide?
+
             // Clear rightFrameLayout
             LinearLayout rightFrameLayout = (LinearLayout) findViewById(R.id.rightFrame);
             rightFrameLayout.removeAllViews();
@@ -551,9 +563,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
             ImageView image = (ImageView) findViewById(R.id.reinforcement_image);
             new LoadImageTask(this, image).execute(path);
 
+            // equivalent to next button
             ImageButton closeReinforcement = (ImageButton) findViewById(R.id.closeReinforcement);
             closeReinforcement.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
                     nextExerciseHandler();
@@ -562,6 +574,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
         }
     }
 
+
+    // last screen when show basic stats
     public void setFinalResultsView() {
 
         // Clear rightFrameLayout
@@ -650,8 +664,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
 	}*/
 
     public void setNavigationView() {
+
         ImageButton next = (ImageButton) findViewById(R.id.nextExerciseButton);
-        ImageButton previous = (ImageButton) findViewById(R.id.previousExerciseButton);
+        ImageButton previous = (ImageButton) findViewById(R.id.previousExerciseButton); // TODO THINK
         ImageButton end = (ImageButton) findViewById(R.id.endExerciseButton);
 
         Boolean isLastExercise = currentExercisePosition == exercises.size() - 1;
@@ -687,7 +702,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
 
     private void previousHandler() {
@@ -706,12 +720,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
     protected void rightAnswerHandler(View v, Child child) {
 
         inExercise = false;
-        playMessage(child, "EXERCISE_REINFORCEMENT");
+        playMessage(child, "EXERCISE_REINFORCEMENT"); // TODO Only reinforcement?
         playReinforcement(child);
         attempts = 0;
     }
 
-    private void playReinforcement(Child child) {
+    private void playReinforcement(Child child) { // TODO child.getReinforcement() - efficiency
         switch (child.getReinforcement().getReinforcementStrategy()) {
             case "ALWAYS":
                 setReinforcementView();
@@ -721,7 +735,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
                     setReinforcementView();
                 }
                 break;
-            case "OFF":
+            case "OFF": // TODO OFF Reinforcement
             default:
                 nextExerciseHandler();
                 break;
@@ -739,13 +753,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
             }
         }
 
+        // if generic, must check if it should say it woth joy or sadness
         if (!sentence.isEmpty()) {
             if (child.getEmotions()) {
                 new ReadTask().execute(sentence, "joy");
             } else {
                 new ReadTask().execute(sentence);
             }
-
             lastInstruction = sentence;
         }
     }
@@ -753,6 +767,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
     protected void distractorHandler(View v) {
         attempts++;
 
+        // TODO REVIEW AND REFACTOR PROMPTING
         // Prompting
         if (child.getPrompting() != null ) {
             Exercise exercise = exercises.get(currentExercisePosition);
@@ -791,7 +806,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 //                    }
         }
 
-        new ReadTask().execute("Tenta outra vez.");
+        new ReadTask().execute("Tenta outra vez."); // TODO Manter ou não ? Devia estar em string?
     }
 
     protected void nextExerciseHandler() {
@@ -809,6 +824,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
     }
 
     protected void endHandler() {
+        // TODO Send log and show results
         //new SendLogs(this, currentSequenceLog).execute();
         //setFinalResultsView();
 
@@ -822,6 +838,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
         setSequenceSelectionView();
     }
 
+    // logout
+    // TODO Verify why sometimes new child inherit stuff from the last child
     private void exitHandler() {
         this.child = null;
         SharedPreferences settings = this.getSharedPreferences(getString(R.string.APP_PREFERENCES), MODE_PRIVATE);
@@ -962,13 +980,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
     //
 
     @Override
+    // TODO Toggle reinforcement / prompting ?
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (!inHomeScreen) {
-
             if (!inSequenceScreen && id == R.id.end_option) {
                 endHandler();
                 //return true;

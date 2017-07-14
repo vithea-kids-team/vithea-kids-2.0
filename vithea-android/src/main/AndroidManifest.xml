@@ -28,21 +28,25 @@
     </application>
     <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="25" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-feature android:glEsVersion="0x00020000" />
     <supports-gl-texture android:name="GL_EXT_texture_compression_dxt1" />
     <supports-gl-texture android:name="GL_EXT_texture_compression_dxt5" />
     <supports-gl-texture android:name="GL_EXT_texture_compression_s3tc" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen.multitouch" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen.multitouch.distinct" android:required="false" />
+
+    <!--REMOVER por enquanto-->
+    <!--<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
+    <!--<uses-feature android:name="android.hardware.microphone" android:required="false" />-->
+
+    <!--REMOVER-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.CAMERA" />-->
+    <!--<uses-feature android:name="android.hardware.camera" android:required="false" />-->
+    <!--<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />-->
+    <!--<uses-feature android:name="android.hardware.camera.front" android:required="false" />-->
 </manifest>

@@ -3,11 +3,9 @@ package com.l2f.vitheakids.model;
 public class LoginInfo {
 	
 	private String greetingMsg;
-	
 	private String exListMsg;
 	
 	public LoginInfo() {
-		
 	}
 
 	/**
@@ -37,6 +35,4 @@ public class LoginInfo {
 	public void setExListMsg(String exListMsg) {
 		this.exListMsg = exListMsg;
 	}
-	
-	
 }

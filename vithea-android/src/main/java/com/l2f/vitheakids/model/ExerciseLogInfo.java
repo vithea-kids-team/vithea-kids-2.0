@@ -3,24 +3,17 @@ package com.l2f.vitheakids.model;
 public class ExerciseLogInfo {
 	
 	private SimpleMultipleChoice exercise;
-	
 	private boolean correct;
-	
 	private boolean skipped;
-	
 	private int distractorHitsCount;
-	
 	private boolean usingPrompting;
-	
 	private boolean usingReinforcement;
 	
 	public ExerciseLogInfo() {
-		
 		distractorHitsCount = 0;
 	}
 	
 	public ExerciseLogInfo(SimpleMultipleChoice exercise) {
-		
 		this.exercise = exercise;
 		distractorHitsCount = 0;
 	}
@@ -30,7 +23,7 @@ public class ExerciseLogInfo {
 		
 		return "Exercise log:" +
 				"\n\tId: " + this.exercise.getExerciseId() +
-				" \n\tSkipped: " + this.skipped +
+				"\n\tSkipped: " + this.skipped +
 				"\n\tCorrect: " + this.correct +
 				"\n\tDistractors Count: " + this.distractorHitsCount;
 	}
@@ -122,6 +115,4 @@ public class ExerciseLogInfo {
 	public void setUsingReinforcement(boolean usingReinforcement) {
 		this.usingReinforcement = usingReinforcement;
 	}
-
-	
 }

@@ -29,6 +29,8 @@ import com.l2f.vitheakids.VitheaKidsActivity;
 import com.l2f.vitheakids.model.SequenceLogInfo;
 import com.l2f.vitheakids.security.Protection;
 
+// TODO Activate Logs
+
 public class SendLogs extends AsyncTask<Void, Void, Void> {
 	
 	private String TAG = VitheaKidsActivity.class.getSimpleName() + ": " + SendLogs.class.getName();

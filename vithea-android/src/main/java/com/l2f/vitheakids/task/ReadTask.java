@@ -12,13 +12,15 @@ public class ReadTask extends AsyncTask<String, Void, Void> {
 
 		if (params.length > 1 && !params[0].isEmpty() && !params[1].isEmpty()) {
 			UnityPlayer.UnitySendMessage("GameManager", "SayThisWithEmotion", params[0] + ";" + params[1] +";1");
+            // joy; amazed; sad ?
 		} else if (!params[0].isEmpty()) {
 			UnityPlayer.UnitySendMessage("GameManager", "SayThis", params[0]);
 		}
 		
 		return null;
 	}
-	
+
+	// trick for Catarina slowing down the speech
 	private void slowDown(long ms) {
 		try {
 			Log.d(this.getClass().getName(), "ZZZZZZZZZ...");

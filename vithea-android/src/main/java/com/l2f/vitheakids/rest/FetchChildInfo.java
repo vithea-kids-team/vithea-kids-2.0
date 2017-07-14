@@ -40,8 +40,9 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
         String exerciseInfo = response.getBody();
 
         ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true);
-      //  mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        // mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
+        // String JSON -> class
         Child allExercises = null;
         try {
             allExercises = mapper.readValue(exerciseInfo,Child.class);
@@ -49,23 +50,24 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return allExercises;
+        return allExercises; // retorno daqui entra no onPostExecute
     }
 
     @Override
     protected void onPostExecute(Child child) {
 
+        // why child could be null?
         if (child != null){
             AnimatedCharacter animatedCharacter = child.getAnimatedCharacter();
             if (animatedCharacter != null) {
-                new SwitchCharacterTask().execute(animatedCharacter.getName(), "john2");
+                new SwitchCharacterTask().execute(animatedCharacter.getName(), "john2"); // ??????
             }
 
             //Greeting Message
             ((VitheaKidsActivity) activity).playMessage(child, "GREETING_MESSAGE");
 
-            ((VitheaKidsActivity) activity).child = child;
-            ((VitheaKidsActivity) activity).setSequenceSelectionView();
+            ((VitheaKidsActivity) activity).child = child;              // store info of the child
+            ((VitheaKidsActivity) activity).setSequenceSelectionView(); // change screen
         }
     }
 }
