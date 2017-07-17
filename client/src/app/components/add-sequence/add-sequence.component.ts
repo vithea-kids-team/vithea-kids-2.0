@@ -24,7 +24,8 @@ export class AddSequenceComponent implements OnInit {
   public addedExercises : Array<Exercise> = [];
   public addedChildren : Array<Child> = [];
 
-  constructor(public route: ActivatedRoute, public sequencesService : SequencesService, public exercisesService : ExercisesService, public childrenService : ChildrenService, public router: Router) { }
+  constructor(public route: ActivatedRoute, public sequencesService : SequencesService, public exercisesService : ExercisesService, 
+    public childrenService : ChildrenService, public router: Router) { }
 
   ngOnInit() {
      this.route.params

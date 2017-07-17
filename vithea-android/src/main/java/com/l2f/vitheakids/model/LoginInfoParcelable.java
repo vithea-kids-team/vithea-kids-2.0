@@ -6,9 +6,7 @@ import android.os.Parcelable;
 public class LoginInfoParcelable extends LoginInfo implements Parcelable {
 
 	public LoginInfoParcelable() {
-		
 	}
-	
 	public LoginInfoParcelable(LoginInfo li) {
 		super();
 		super.setGreetingMsg(li.getGreetingMsg());
@@ -17,7 +15,6 @@ public class LoginInfoParcelable extends LoginInfo implements Parcelable {
 	
 
 	public LoginInfoParcelable(Parcel in) {
-		
 		super.setGreetingMsg(in.readString());
 		super.setExListMsg(in.readString());		
 	}

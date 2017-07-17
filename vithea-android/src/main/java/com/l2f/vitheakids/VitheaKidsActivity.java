@@ -458,7 +458,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 }
             }
         }
-
     }
 
     /***

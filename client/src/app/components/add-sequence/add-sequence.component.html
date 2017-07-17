@@ -1,66 +1,85 @@
 <div class="container">
     <h2>{{ '_CreateSequence_' | translate }}</h2>
-    <form (ngSubmit)="registerSequence()" class="col-md-8">
-        <div class="form-group">
-            <label for="sequenceName">{{ '_SequenceName_' | translate }}</label>
-            <input type="text" class="form-control" id="sequenceName" [(ngModel)]="newSequence.sequenceName" name="sequenceName">
+
+    <form ngSubmit="registerSequence()" #sequenceForm="ngForm" class="col-md-8">
+        <div class="row">
+            <div class="col-md-12 col-sm-12" style="padding-left:0">
+                <div class="form-group">
+                    <label for="sequenceName">{{ '_SequenceName_' | translate }}</label>
+                    <input type="text" class="form-control" id="sequenceName" required [(ngModel)]="newSequence.sequenceName" name="sequenceName">
+                </div>
+            </div>
         </div>
 
-        <h3>{{ '_AddExercisesToSequence_' | translate }}</h3>
-        <loader *ngIf="!exercises"></loader>
-        <div *ngIf="exercises?.length > 0 || addedExercises?.length > 0">
-          <div>
-            <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
-              <label>{{ '_ExercisesToAdd_' | translate }}</label>
-              <ul class="list-group">
-                  <li class="list-group-item list-group-item__empty" *ngIf="exercises?.length === 0">{{ '_NoExercisesToAdd_' | translate }}</li>
-                  <li class="list-group-item list-group-item-content" *ngFor=" let exercise of exercises; let index = index">
-                  <span>{{exercise.question?.questionDescription}}</span>
-                  <span class="grey">{{exercise.type | translate}}</span>
-                  <a class="btn btn-secondary pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
-                  </li>
-              </ul>
-            </form>
-            <div class="col-md-6 col-sm-6" style="padding-right:0">
-                <label>{{ '_SequenceExercises_' | translate }}</label>
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item__empty" *ngIf="addedExercises.length === 0"><em>{{ '_AddExercisesToSequence_' | translate }}</em></li>
-                  <li class="list-group-item list-group-item-content" *ngFor=" let exercise of addedExercises; let index = index">
-                    <span>{{exercise.question?.questionDescription}}</span>
-                    <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
-                  </li>
-                </ul>
-              </div>
-          </div>
+        <div class="row">
+            <h3>{{ '_AddExercisesToSequence_' | translate }}</h3>
+            <loader *ngIf="!exercises"></loader>
+            <div *ngIf="exercises?.length > 0 || addedExercises?.length > 0">
+                <div>
+                    <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
+                        <label>{{ '_ExercisesToAdd_' | translate }}</label>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item__empty" *ngIf="exercises?.length === 0">{{ '_NoExercisesToAdd_' | translate }}</li>
+                            <li class="list-group-item list-group-item-content" *ngFor=" let exercise of exercises; let index = index">
+                                <span>{{exercise.question?.questionDescription}}</span>
+                                <span class="grey">{{exercise.type | translate}}</span>
+                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                            </li>
+                        </ul>
+                    </form>
+                    <div class="col-md-6 col-sm-6" style="padding-right:0">
+                        <label>{{ '_SequenceExercises_' | translate }}</label>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item__empty" *ngIf="addedExercises.length === 0"><em>{{ '_AddExercisesToSequence_' | translate }}</em></li>
+                            <li class="list-group-item list-group-item-content" *ngFor=" let exercise of addedExercises; let index = index">
+                                <span>{{exercise.question?.questionDescription}}</span>
+                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3>{{ '_AssignChildrenToSequence_' | translate }}</h3>
-        <loader *ngIf="!children"></loader>
-        <div *ngIf="children?.length > 0 || addedChildren?.length > 0">
-          <div>
-            <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
-              <label>{{ '_ChildrenToAdd_' | translate }}</label>
-              <ul class="list-group">
-                  <li class="list-group-item list-group-item__empty" *ngIf="children?.length === 0">{{ '_NoChildrenToAdd_' | translate }}</li>
-                  <li class="list-group-item list-group-item-content" *ngFor=" let child of children; let index = index">
-                  <span>{{child.firstName}} {{child.lastName}}</span>
-                  <a class="btn btn-secondary pull-right" style="padding:0" (click)="addChild(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
-                  </li>
-              </ul>
-            </form>
-            <div class="col-md-6 col-sm-6" style="padding-right:0">
-                <label>{{ '_SequenceChildren_' | translate }}</label>
-                <ul class="list-group">
-                  <li class="list-group-item list-group-item__empty" *ngIf="addedChildren.length === 0"><em>{{ '_AssignChildrenToSequence_' | translate }}</em></li>
-                  <li class="list-group-item list-group-item-content" *ngFor=" let child of addedChildren; let index = index">
-                    <span>{{child.firstName}} {{child.lastName}}</span>
-                    <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeChild(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
-                  </li>
-                </ul>
-              </div>
-          </div>
+
+        <div class="row">
+            <h3>{{ '_AssignChildrenToSequence_' | translate }}</h3>
+            <loader *ngIf="!children"></loader>
+            <div *ngIf="children?.length > 0 || addedChildren?.length > 0">
+                <div>
+                    <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
+                        <label>{{ '_ChildrenToAdd_' | translate }}</label>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item__empty" *ngIf="children?.length === 0">{{ '_NoChildrenToAdd_' | translate }}</li>
+                            <li class="list-group-item list-group-item-content" *ngFor=" let child of children; let index = index">
+                                <span>{{child.firstName}} {{child.lastName}}</span>
+                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="addChild(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                            </li>
+                        </ul>
+                    </form>
+                    <div class="col-md-6 col-sm-6" style="padding-right:0">
+                        <label>{{ '_SequenceChildren_' | translate }}</label>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item__empty" *ngIf="addedChildren.length === 0"><em>{{ '_AssignChildrenToSequence_' | translate }}</em></li>
+                            <li class="list-group-item list-group-item-content" *ngFor=" let child of addedChildren; let index = index">
+                                <span>{{child.firstName}} {{child.lastName}}</span>
+                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeChild(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-          <button type="submit" class="btn btn-primary">{{'_CreateSequence_' | translate }}</button>
+
+        <div class="row">
+            <a *ngIf="!newSequence.sequenceId" type="button" (click)="registerSequence()" class="btn btn-primary" [class.disabled]="!sequenceForm.form.valid">
+                <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}
+            </a>
+            <a *ngIf="newSequence.sequenceId" type="button" (click)="editSequence()" class="btn btn-primary">
+                <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_EditSequence_' | translate }}
+            </a>
+            <button [routerLink]="['/sequences']" type="button" class="btn btn-secondary"> 
+                  <span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
+            </button>
         </div>
     </form>
 </div>
