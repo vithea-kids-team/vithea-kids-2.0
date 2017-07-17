@@ -52,8 +52,10 @@ export class PreferencesComponent implements OnInit {
         this.prefs.sequenceReinforcementMessage = result.personalMessagesList.find((msg) => {
             return msg.messageType === 'SEQUENCE_REINFORCEMENT';
           }).message;
-        this.prefs.animatedCharacterResourceId = result.animatedCharacter.resourceId;
-        this.prefs.animatedCharacterResourcePath = result.animatedCharacter.resourcePath;
+        if(result.animatedCharacter){  
+          this.prefs.animatedCharacterResourceId = result.animatedCharacter.resourceId;
+          this.prefs.animatedCharacterResourcePath = result.animatedCharacter.resourcePath;
+        }
         this.prefs.promptingStrategy = result.prompting.promptingStrategy;
         this.prefs.promptingColor = result.prompting.promptingColor;
         this.prefs.promptingSize = result.prompting.promptingSize;
