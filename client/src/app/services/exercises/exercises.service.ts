@@ -1,32 +1,35 @@
 import { Injectable } from '@angular/core';
-import { HttpApiClient } from '../http/http-api-client.service';
 import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
+import { HttpApiClient } from '../http/http-api-client.service';
 import { Exercise } from '../../models/exercise'
 
 
 @Injectable()
 export class ExercisesService {
 
-  constructor (public http : HttpApiClient) {}
+  exercises: Array<any>
 
-  getExercises() {
-    return this.http.get('/listexercises')
-            .map(result => result && result.json());
+  constructor (public http: HttpApiClient) {}
+
+  getExercises(): Observable<Array<Exercise>> {
+    return this.http.get('/listexercises').map(result => this.exercises = result && result.json());
   }
 
-  registerExercise(exercise) {
-    return this.http.post('/registerexercise', exercise)
-            .map(result => result && result.json());
+  getExercise(id: number): Observable<Exercise> {
+    return this.http.get('/exercise/' + id).map(result => result && result.json());
   }
 
-  deleteExercise(exerciseId) {
-    return this.http.delete('/deleteexercise/'+ exerciseId);
+  addExercise(exercise: Exercise): Observable<Response> {
+    return this.http.post('/registerexercise', exercise);
   }
 
-  getExercise(id : number): Observable<Exercise> {
-    return this.http.get('/exercise/' + id)
-      .map(result => result && result.json());
+  editExercise(exercise: Exercise): Observable<Response> {
+    return this.http.post('/editexercise/' + exercise.exerciseId, exercise);
+  }
+
+  deleteExercise(id: number) {
+    return this.http.delete('/deleteexercise/' + id);
   }
 
 }

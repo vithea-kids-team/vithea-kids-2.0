@@ -14,23 +14,23 @@ import { Preferences } from '../../models/preferences';
 })
 export class PreferencesComponent implements OnInit {
 
-  public prefs : Preferences;
-  public childId : number;
+  public prefs: Preferences;
+  public childId: number;
 
   public animatedCharactersResources;
   public reinforcementResources;
 
-  public loading : boolean = false;
+  public loading = false;
 
-  constructor(public route: ActivatedRoute, public childrenService : ChildrenService, public resourcesService : ResourcesService) { }
+  constructor(public route: ActivatedRoute, public childrenService: ChildrenService, public resourcesService: ResourcesService) { }
 
   ngOnInit() {
     this.loading = true;
     this.route.params
     .switchMap((params: Params) => Observable.of(params))
     .subscribe(params => {
-      const id : number = parseInt(params['childid']);
-      if(id) {
+      const id: number = parseInt(params['childid'], 10);
+      if (id) {
         this.childId = id;
         this.getChildPreferences(id);
       } else {
@@ -39,7 +39,7 @@ export class PreferencesComponent implements OnInit {
     });
   }
 
-  getChildPreferences(id : number) {
+  getChildPreferences(id: number) {
      this.childrenService.getChild(id).subscribe(
       result => {
         this.prefs = new Preferences();
@@ -52,7 +52,7 @@ export class PreferencesComponent implements OnInit {
         this.prefs.sequenceReinforcementMessage = result.personalMessagesList.find((msg) => {
             return msg.messageType === 'SEQUENCE_REINFORCEMENT';
           }).message;
-        if(result.animatedCharacter){  
+        if (result.animatedCharacter) {
           this.prefs.animatedCharacterResourceId = result.animatedCharacter.resourceId;
           this.prefs.animatedCharacterResourcePath = result.animatedCharacter.resourcePath;
         }
@@ -72,11 +72,11 @@ export class PreferencesComponent implements OnInit {
         this.reinforcementResources = this.resourcesService.getResourcesByType('reinforcement', this.prefs.reinforcementResourceId);
         this.animatedCharactersResources = this.resourcesService.getResourcesByType('animatedcharacter', this.prefs.animatedCharacterResourceId);
         this.loading = false;
-      }, 
+      },
       err => {
         this.loading = false;
-        console.error("Error loading child sequences. " + err);
-      } 
+        console.error('Error loading child sequences.' + err);
+      }
     );
   }
 
@@ -95,7 +95,7 @@ export class PreferencesComponent implements OnInit {
     this.childrenService.updatePreferences(this.childId, this.prefs)
       .subscribe(res => this.getChildPreferences(this.childId),
       err => {
-        console.log("Error setting preferences.");
+        console.log('Error setting preferences.');
         this.loading = false;
       })
   }

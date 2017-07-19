@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {Location} from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { ResourcesService } from '../../services/resources/resources.service';
 
@@ -8,75 +8,102 @@ import { ResourcesService } from '../../services/resources/resources.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
 
-  public newTopic : string;
-  public newLevel : string;
-  public loading : boolean = false;
+  public topics = [];
+  public levels = [];
+  public newTopic: string;
+  public newLevel: string;
+  public loading = false;
 
-  constructor(public resourcesService : ResourcesService, public location : Location) { }
+  constructor(public resourcesService: ResourcesService, public location: Location) { }
+
+  ngOnInit() {
+    this.resourcesService.fetchLevels().subscribe(
+      res => {
+        this.levels = res;
+      }
+    )
+    this.resourcesService.fetchTopics().subscribe(
+      res => {
+        this.topics = res;
+        }
+      )
+    }
 
   addTopic() {
-    if(this.newTopic && this.newTopic !== '') {
+    if (this.newTopic && this.newTopic !== '') {
       this.loading = true;
       this.resourcesService.addTopic(this.newTopic).subscribe(
         res => {
           this.newTopic = '';
           this.resourcesService.fetchTopics().subscribe(
-            res => this.loading = false
+            res => {
+              this.topics = res;
+              this.loading = false
+            }
           )
         },
         err => {
-          console.error("Error adding topic", err);
+          console.error('Error adding topic', err);
           this.loading = false;
         }
       )
     }
   }
 
-  removeTopic(topic : number) {
+  removeTopic(topic: number) {
     this.loading = true;
     this.resourcesService.removeTopic(topic).subscribe(
         res => {
           this.resourcesService.fetchTopics().subscribe(
-            res => this.loading = false
+          res => {
+              this.topics = res;
+              this.loading = false
+            }
           );
         },
         err => {
-          console.error("Error removing topic", err);
+          console.error('Error removing topic', err);
           this.loading = false;
         }
       )
   }
 
   addLevel() {
-    if(this.newLevel && this.newLevel !== '') {
+    if (this.newLevel && this.newLevel !== '') {
       this.loading = true;
       this.resourcesService.addLevel(this.newLevel).subscribe(
         res => {
           this.newLevel = '';
           this.resourcesService.fetchLevels().subscribe(
-            res => this.loading = false
+          res => {
+              this.levels = res;
+              this.loading = false
+            }
           )
         },
         err => {
-          console.error("Error adding level", err);
+          console.error('Error adding level', err);
           this.loading = false;
         }
       )
     }
   }
 
-  removeLevel(level : number) {
+  removeLevel(level: number) {
     this.loading = true;
     this.resourcesService.removeLevel(level).subscribe(
         res => {
           this.resourcesService.fetchLevels().subscribe(
-            res => this.loading = false
+          res => {
+              this.levels = res;
+              this.loading = false
+            }
           )
         },
         err => {
-          console.error("Error removing level", err);
+          console.error('Error removing level', err);
           this.loading = false;
         }
       )

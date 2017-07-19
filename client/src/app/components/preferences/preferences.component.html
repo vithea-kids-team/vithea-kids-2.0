@@ -1,87 +1,86 @@
+<!-- FIXME: GUARDAR INFORMACAO -->
 <loader *ngIf="loading"> </loader>
 <form *ngIf="prefs && !loading" (ngSubmit)="updatePreferences()">
-  <div class="container">
-    <h2>{{ '_Preferences_' | translate }}</h2>
-      <h3>{{ '_PersonalMessages_' | translate }}</h3>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="form-group">
-            <label>{{ 'GREETING_MESSAGE' | translate}}</label>
-            <input type="text" class="form-control" name="GREETING_MESSAGE" [(ngModel)]="prefs.greetingMessage">
-          </div>
-          <div class="form-group">
-            <label>{{ 'EXERCISE_REINFORCEMENT' | translate}}</label>
-            <input type="text" class="form-control" name="EXERCISE_REINFORCEMENT" [(ngModel)]="prefs.exerciseReinforcementMessage">
-          </div>
-          <div class="form-group">
-            <label>{{ 'SEQUENCE_REINFORCEMENT' | translate}}</label>
-            <input type="text" class="form-control" name="SEQUENCE_REINFORCEMENT" [(ngModel)]="prefs.sequenceReinforcementMessage">
-          </div>                 
-        </div>
-      </div>
-      <h3>{{ '_Reinforcements_' | translate }}</h3>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="form-group">
-            <label for="strategy"> {{ '_Strategy_' | translate }}</label>
-            <br>
-            <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_Always_' | translate}}</label>
-            <label class="radio-inline"><input type="radio" value="AT_FIRST" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_FirstAttempt_' | translate}}</label>
-            <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_Disabled_' | translate}}</label>
-          </div>
-        </div>
-        <div class="panel-body">
-          <label for="reinforcement"> {{ '_Reinforcement_' | translate }}</label>
-          <br>
-          <div style="max-height: 100px; overflow-y: auto;">
-            <image-picker [(ngModel)]="reinforcementResources" [multiSelect]="false" name="reinforcementResources"> </image-picker>
-          </div>
-          <file-upload [label]="'_UploadReinforcement_'" [resourceType]="'reinforcement'" (results)="updateReinforcement($event)"></file-upload>
-        </div>
-      </div>
-      <h3>{{ '_Prompting_' | translate }}</h3>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="form-group">
-            <label for="strategy"> {{ '_Strategy_' | translate }}</label>
-            <br>
-            <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Always_' | translate}}</label>
-            <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_IfNeeded_' | translate}}</label>
-            <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Disabled_' | translate}}</label>
-          </div>
-          <div class="form-group">
-            <label for="strategy"> {{ '_Type_' | translate }}</label>
-            <br>
-            <div class="form-group checkbox-group">
-              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingSize" (change)="updatePromptingSize($event)" name="promptingType">{{'_OptionsSize_' | translate}}</label>
-              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingColor" (change)="updatePromptingColor($event)" name="promptingType">{{'_OptionsColor_' | translate}}</label>
-              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingScratch" (change)="updatePromptingScratch($event)" name="promptingType">{{'_CrossDistractors_' | translate}}</label>
-              <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingHide" (change)="updatePromptingHide($event)" name="promptingType">{{'_DistractorsDisappear_' | translate}}</label>
+    <div class="container">
+        <h2>{{ '_Preferences_' | translate }}</h2>
+        <h3>{{ '_PersonalMessages_' | translate }}</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label>{{ 'GREETING_MESSAGE' | translate}}</label>
+                    <input type="text" class="form-control" name="GREETING_MESSAGE" [(ngModel)]="prefs.greetingMessage">
+                </div>
+                <div class="form-group">
+                    <label>{{ 'EXERCISE_REINFORCEMENT' | translate}}</label>
+                    <input type="text" class="form-control" name="EXERCISE_REINFORCEMENT" [(ngModel)]="prefs.exerciseReinforcementMessage">
+                </div>
+                <div class="form-group">
+                    <label>{{ 'SEQUENCE_REINFORCEMENT' | translate}}</label>
+                    <input type="text" class="form-control" name="SEQUENCE_REINFORCEMENT" [(ngModel)]="prefs.sequenceReinforcementMessage">
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <h3>{{ '_AnimatedCharacter_' | translate }}</h3>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div style="max-height: 100px; overflow-y: auto;">
-            <image-picker [(ngModel)]="animatedCharactersResources" [multiSelect]="false" name="animatedCharacter"> </image-picker>
-          </div>
-          <div class="form-group">
-            <label for="emotions"> {{ '_Emotions_' | translate }}</label>
-            <br>
-            <label class="radio-inline"><input type="radio" [value]="true" [(ngModel)]="prefs.emotions" name="emotions">{{'_EmotionsOn_' | translate}}</label>
-            <label class="radio-inline"><input type="radio" [value]="false" [(ngModel)]="prefs.emotions" name="emotions">{{'_EmotionsOff_' | translate}}</label>
-          </div>
+        <h3>{{ '_Reinforcements_' | translate }}</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="strategy"> {{ '_Strategy_' | translate }}</label>
+                    <br>
+                    <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_Always_' | translate}}</label>
+                    <label class="radio-inline"><input type="radio" value="AT_FIRST" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_FirstAttempt_' | translate}}</label>
+                    <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_Disabled_' | translate}}</label>
+                </div>
+            </div>
+            <div class="panel-body">
+                <label for="reinforcement"> {{ '_Reinforcement_' | translate }}</label>
+                <br>
+                <div style="max-height: 100px; overflow-y: auto;">
+                    <image-picker [(ngModel)]="reinforcementResources" [multiSelect]="false" name="reinforcementResources"> </image-picker>
+                </div>
+                <file-upload [label]="'_UploadReinforcement_'" [resourceType]="'reinforcement'" (results)="updateReinforcement($event)"></file-upload>
+            </div>
         </div>
-      </div>
-  </div>
-  <div class="panel-heading">
-    <button type="submit" class="btn btn-primary">
-      <span class="glyphicon glyphicon-pencil"></span>
-      {{ '_Save_' | translate }}
-    </button>
-  </div>
-</form>
+        <h3>{{ '_Prompting_' | translate }}</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="strategy"> {{ '_Strategy_' | translate }}</label>
+                    <br>
+                    <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Always_' | translate}}</label>
+                    <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_IfNeeded_' | translate}}</label>
+                    <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Disabled_' | translate}}</label>
+                </div>
+                <div class="form-group">
+                    <label for="strategy"> {{ '_Type_' | translate }}</label>
+                    <br>
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingSize" (change)="updatePromptingSize($event)" name="promptingType">{{'_OptionsSize_' | translate}}</label>
+                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingColor" (change)="updatePromptingColor($event)" name="promptingType">{{'_OptionsColor_' | translate}}</label>
+                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingScratch" (change)="updatePromptingScratch($event)" name="promptingType">{{'_CrossDistractors_' | translate}}</label>
+                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingHide" (change)="updatePromptingHide($event)" name="promptingType">{{'_DistractorsDisappear_' | translate}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>{{ '_AnimatedCharacter_' | translate }}</h3>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div style="max-height: 100px; overflow-y: auto;">
+                    <image-picker [(ngModel)]="animatedCharactersResources" [multiSelect]="false" name="animatedCharacter"> </image-picker>
+                </div>
+                <div class="form-group">
+                    <label for="emotions"> {{ '_Emotions_' | translate }}</label>
+                    <br>
+                    <label class="radio-inline"><input type="radio" [value]="true" [(ngModel)]="prefs.emotions" name="emotions">{{'_EmotionsOn_' | translate}}</label>
+                    <label class="radio-inline"><input type="radio" [value]="false" [(ngModel)]="prefs.emotions" name="emotions">{{'_EmotionsOff_' | translate}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-heading">
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-ok"></span> {{ '_SaveChangesBtn_' | translate }}
+        </button>
 
-        
+    </div>
+</form>

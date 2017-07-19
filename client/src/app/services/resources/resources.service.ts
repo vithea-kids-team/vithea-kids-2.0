@@ -17,7 +17,7 @@ export class ResourcesService {
     animatedcharacter: []
   }
 
-  constructor(public http: HttpApiClient) { 
+  constructor(public http: HttpApiClient) {
     this.fetchTopics().subscribe();
     this.fetchLevels().subscribe();
     this.fetchResources().subscribe();
@@ -53,42 +53,42 @@ export class ResourcesService {
 
   uploadFiles(files, type, name?) {
     if (type === 'animatedcharacter') {
-      return this.http.upload('/uploadanimatedcharacter/'+ name, files);
+      return this.http.upload('/uploadanimatedcharacter/' + name, files);
     } else {
       return this.http.upload('/uploadresources/' + type, files);
     }
   }
 
-  addTopic(newTopic : string) {
+  addTopic(newTopic: string) {
     let body = {
       newTopic: newTopic
     };
     return this.http.put('/addtopic', JSON.stringify(body));
   }
 
-  addLevel(newLevel : string) {
+  addLevel(newLevel: string) {
     let body = {
       newLevel: newLevel
     };
     return this.http.put('/addlevel', JSON.stringify(body));
   }
 
-  removeTopic(topic : number) {
-    return this.http.delete('/removetopic/'+ topic);
+  removeTopic(topic: number) {
+    return this.http.delete('/removetopic/' + topic);
   }
 
-  removeLevel(level : number) {
-    return this.http.delete('/removelevel/'+ level);
+  removeLevel(level: number) {
+    return this.http.delete('/removelevel/' + level);
   }
 
-  getResourcesByType(type: string, selected : number = 0) {
+  getResourcesByType(type: string, selected = 0) {
     let resources = this.resources;
     type = type.toLowerCase();
 
     let result = [];
-    if (resources[type] && resources[type].length > 0) {  
-      for(let i = 0; i < resources[type].length; i++) {
-        //value copy
+    if (resources[type] && resources[type].length > 0) {
+      for (let i = 0; i < resources[type].length; i++) {
+        // value copy
         result.push(Object.assign({}, resources[type][i]));
         if (selected && resources[type][i].resourceId === selected) {
           result[i].selected = true;

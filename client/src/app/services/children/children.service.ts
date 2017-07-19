@@ -15,29 +15,27 @@ export class ChildrenService {
   constructor(public http: HttpApiClient) { }
 
   getChildren(): Observable<Array<Child>> {
-    return this.http.get('/listchildren')
-      .map(result => this.children = result && result.json());
+    return this.http.get('/listchildren').map(result => this.children = result && result.json());
   }
 
-  getChild(id: number) : Observable<Child> {
-    return this.http.get('/child/' + id)
-      .map(result => result && result.json());
+  getChild(id: number): Observable<Child> {
+    return this.http.get('/child/' + id).map(result => result && result.json());
   }
 
-  addChildren(child: Child) : Observable<Response> {
+  addChildren(child: Child): Observable<Response> {
     return this.http.post('/registerchild', child);
   }
 
-  editChild(child:Child) : Observable<Response> {
-    return this.http.post('/editchild/'+ child.childId, child);
+  editChild(child: Child): Observable<Response> {
+    return this.http.post('/editchild/' + child.childId, child);
   }
 
   deleteChild(id: number) {
     return this.http.delete('/deletechild/' + id);
   }
 
-  getChildSequences(id: number) {     
-    return this.http.get('/child/'+ id + '/sequences')
+  getChildSequences(id: number) {
+    return this.http.get('/child/' + id + '/sequences')
       .map(res => res.json());
   }
 
@@ -45,8 +43,8 @@ export class ChildrenService {
       return this.http.get('/sequences/' + id);
   }
 
-  updatePreferences(childId:number, childPreferences: Preferences) : Observable<Response> {
-    return this.http.post('/child/'+ childId + '/updatepreferences', childPreferences);
+  updatePreferences(childId:number, childPreferences: Preferences): Observable<Response> {
+    return this.http.post('/child/' + childId + '/updatepreferences', childPreferences);
   }
 
 }

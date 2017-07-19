@@ -19,19 +19,19 @@ import { ChildrenService } from '../../services/children/children.service';
 export class AddSequenceComponent implements OnInit {
 
   public newSequence = new Sequence();
-  public exercises : Array<Exercise>;
-  public children : Array<Child>;
-  public addedExercises : Array<Exercise> = [];
-  public addedChildren : Array<Child> = [];
+  public exercises: Array<Exercise>;
+  public children: Array<Child>;
+  public addedExercises: Array<Exercise> = [];
+  public addedChildren: Array<Child> = [];
 
-  constructor(public route: ActivatedRoute, public sequencesService : SequencesService, public exercisesService : ExercisesService, 
-    public childrenService : ChildrenService, public router: Router) { }
+  constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService : ExercisesService, 
+    public childrenService: ChildrenService, public router: Router) { }
 
   ngOnInit() {
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
-        const id : number = parseInt(params['childid']);
+        const id : number = parseInt(params['childid'], 10);
         if(id) {
           this.newSequence.childId = id;
         }
@@ -49,17 +49,17 @@ export class AddSequenceComponent implements OnInit {
     this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
       return child.childId;
     });
-    
+
     this.sequencesService.registerSequence(this.newSequence)
       .subscribe(res => {
          if (this.newSequence.childId) {
-          this.router.navigate(['/children/'+ this.newSequence.childId + '/sequences']);
+          this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
         }
         else {
           this.router.navigate(['/sequences']);
         }
       },
-      err => console.log("Error creating sequence."));
+      err => console.log('Error creating sequence.'));
   }
 
   loadExercisesToAdd() {
@@ -67,7 +67,7 @@ export class AddSequenceComponent implements OnInit {
       result => {
         this.exercises = result;
       },
-      err => console.error("Error loading exercises for adding to sequence. ", err) 
+      err => console.error('Error loading exercises for adding to sequence.', err)
     );
   }
 
@@ -76,26 +76,26 @@ export class AddSequenceComponent implements OnInit {
       result => {
         this.children = result;
       },
-      err => console.error("Error loading children for assigning to sequence. ", err) 
+      err => console.error('Error loading children for assigning to sequence.', err)
     );
   }
 
-  removeExercise(index : number) {
+  removeExercise(index: number) {
     this.exercises.push(this.addedExercises[index]);
     this.addedExercises.splice(index, 1);
   }
 
-  addExercise(index : number) {
+  addExercise(index: number) {
     this.addedExercises.push(this.exercises[index]);
     this.exercises.splice(index, 1);
   }
 
-  removeChild(index : number) {
+  removeChild(index: number) {
     this.children.push(this.addedChildren[index]);
     this.addedChildren.splice(index, 1);
   }
 
-  addChild(index : number) {
+  addChild(index: number) {
     this.addedChildren.push(this.children[index]);
     this.children.splice(index, 1);
   }

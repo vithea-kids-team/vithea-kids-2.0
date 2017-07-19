@@ -80,14 +80,14 @@ export function translateFactory(http : Http) {
     AdminComponent
   ],
   providers: [
-    GuardService,    
+    GuardService,
     HttpApiClient,
     ChildrenService,
     ExercisesService,
     CaregiverService,
     SequencesService,
     ResourcesService,
-    PaginationService  
+    PaginationService
   ],
   bootstrap: [AppComponent]
 })

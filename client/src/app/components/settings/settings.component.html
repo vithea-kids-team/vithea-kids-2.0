@@ -1,50 +1,49 @@
 <div class="container">
-  <a (click)="goBack()" class="btn btn-secondary pull-right">
-    <span class="glyphicon glyphicon-arrow-left" style="font-size: large;" aria-hidden="true"></span> 
-    {{ '_GoBack_' | translate }}
-  </a>
-  <h2>{{ '_Settings_' | translate }}</h2>
-  <loader *ngIf="loading"></loader>
-  <div *ngIf="!loading">
-    <form class="col-md-8">
-        <div class="form-group">
-          <label> {{ '_Topics_' | translate }} </label>
-          <div>
-            <ul class="list-group">
-              <li class="list-group-item list-group-item__empty" *ngIf="!resourcesService.topics || resourcesService.topics.length === 0"><em>{{ '_NoTopics_' | translate }}</em></li>
-              <li class="list-group-item list-group-item-content" *ngFor=" let topic of resourcesService.topics">
-                <span>{{topic.topicDescription}}</span>
-                <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeTopic(topic.topicId)"><i class="glyphicon glyphicon-remove"></i></a>
-              </li>
-            </ul>
-            <form class="input-group">
-              <input class="form-control" [(ngModel)]="newTopic" name="newTopic">
-              <span class="input-group-btn">
+    <a (click)="goBack()" class="btn btn-secondary pull-right">
+        <span class="glyphicon glyphicon-arrow-left" style="font-size: large;" aria-hidden="true"></span> {{ '_GoBack_' | translate }}
+    </a>
+    <h2>{{ '_Settings_' | translate }}</h2>
+    <loader *ngIf="loading"></loader>
+    <div *ngIf="!loading">
+        <form class="col-md-8">
+            <div class="form-group">
+                <label> {{ '_Topics_' | translate }} </label>
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item__empty" *ngIf="!topics || topics.length === 0"><em>{{ '_NoTopics_' | translate }}</em></li>
+                        <li class="list-group-item list-group-item-content" *ngFor=" let topic of topics">
+                            <span>{{topic.topicDescription}}</span>
+                            <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeTopic(topic.topicId)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </li>
+                    </ul>
+                    <form class="input-group">
+                        <input class="form-control" [(ngModel)]="newTopic" name="newTopic">
+                        <span class="input-group-btn">
                 <button class="btn btn-primary" (click)="addTopic()"><i class="glyphicon glyphicon-plus"></i></button>
               </span>
-            </form>
-          </div>
-        </div>
-    </form>
-    <form class="col-md-8">
-        <div class="form-group">
-          <label> {{ '_Levels_' | translate }} </label>
-          <div>
-            <ul class="list-group">
-              <li class="list-group-item list-group-item__empty" *ngIf="!resourcesService.levels || resourcesService.levels.length == 0"><em>{{ '_NoLevels_' | translate }}</em></li>
-              <li class="list-group-item list-group-item-content" *ngFor=" let level of resourcesService.levels">
-                <span>{{level.levelDescription}}</span>
-                <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeLevel(level.levelId)"><i class="glyphicon glyphicon-remove"></i></a>
-              </li>
-            </ul>
-            <form class="input-group">
-              <input class="form-control" [(ngModel)]="newLevel" name="newLevel">
-              <span class="input-group-btn">
-                <button class="btn btn-primary" (click)="addLevel()"><i class="glyphicon glyphicon-plus"></i></button>
-              </span>
-            </form>
-          </div>
-        </div>
-    </form>
-  </div>
+                    </form>
+                </div>
+            </div>
+        </form>
+        <form class="col-md-8">
+            <div class="form-group">
+                <label> {{ '_Levels_' | translate }} </label>
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item__empty" *ngIf="!levels || levels.length == 0"><em>{{ '_NoLevels_' | translate }}</em></li>
+                        <li class="list-group-item list-group-item-content" *ngFor=" let level of levels">
+                            <span>{{level.levelDescription}}</span>
+                            <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeLevel(level.levelId)"><i class="glyphicon glyphicon-remove"></i></a>
+                        </li>
+                    </ul>
+                    <form class="input-group">
+                        <input class="form-control" [(ngModel)]="newLevel" name="newLevel">
+                        <span class="input-group-btn">
+                          <button class="btn btn-primary" (click)="addLevel()"><i class="glyphicon glyphicon-plus"></i></button>
+                      </span>
+                    </form>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

@@ -14,14 +14,14 @@ export class AddChildComponent implements OnInit {
 
   genders = ['Female', 'Male', 'Other'];
   model: Child = new Child();
-  loading: boolean = false;
-  loadingAdd: boolean = false;
+  loading = false;
+  loadingAdd = false;
   error: string = undefined;
-  
+
   public myDatePickerOptions: IMyDpOptions = {
         dateFormat: 'dd/mm/yyyy'
   };
-  
+
   public selDate: IMyDate;
 
   constructor(public childService: ChildrenService, public router: Router, public route: ActivatedRoute) { }
@@ -31,26 +31,23 @@ export class AddChildComponent implements OnInit {
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
-        const id : number = parseInt(params['childid']);
-        if(id) {
+        const id: number = parseInt(params['childid'], 10);
+        if (id) {
           this.childService.getChild(id).subscribe(
             res => {
+                this.model = res;
               let d = new Date(res.birthDate);
-              this.selDate = {year: d.getFullYear(), 
-                        month: d.getMonth() + 1, 
-                        day: d.getDate()};       
-              this.model = res;
+              this.selDate = {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
+              this.model.birthDate = d.toISOString();
               this.loading = false;
             },
-            err => console.log("Error getting child")
+            err => console.log('Error getting child')
           );
         } else {
           let d = new Date();
-              this.selDate = {year: d.getFullYear(), 
-                        month: d.getMonth() + 1, 
-                        day: d.getDate()};
+              this.selDate = {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
               this.model.birthDate = d.toISOString();
-           this.loading = false;   
+              this.loading = false;
         }
       });
   }
@@ -64,7 +61,7 @@ export class AddChildComponent implements OnInit {
         err => {
           this.error = err._body;
           this.loadingAdd = false;
-          console.error("Error editing a child. ", err);
+          console.error('Error editing a child.', err);
         }
       );
     } else {
@@ -73,7 +70,7 @@ export class AddChildComponent implements OnInit {
         err => {
           this.error = err._body;
           this.loadingAdd = false;
-          console.error("Error registering new child. ", err);
+          console.error('Error registering new child.', err);
         });
     }
   }

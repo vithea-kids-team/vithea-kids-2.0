@@ -1,3 +1,5 @@
+<!-- TODO: Adicionar as coisas para editar -->
+<!-- FIXME: Guardar alterações -->
 <div class="container">
     <h2>{{ '_CreateSequence_' | translate }}</h2>
 
@@ -70,12 +72,18 @@
             </div>
         </div>
 
+        <div style="height: 70px;">
+            <div *ngIf="error" class="alert alert-danger"> {{ error | translate }} </div>
+            <loader *ngIf="loadingAdd" [height]="50"></loader>
+        </div>
+
+        <!-- FIXME: Correct label save changes -->
         <div class="row">
             <a *ngIf="!newSequence.sequenceId" type="button" (click)="registerSequence()" class="btn btn-primary" [class.disabled]="!sequenceForm.form.valid">
                 <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}
             </a>
             <a *ngIf="newSequence.sequenceId" type="button" (click)="editSequence()" class="btn btn-primary">
-                <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_EditSequence_' | translate }}
+                <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
             <button [routerLink]="['/sequences']" type="button" class="btn btn-secondary"> 
                   <span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span> {{'_Cancel_' | translate }}

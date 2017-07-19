@@ -10,5 +10,5 @@ export class Exercise {
     public rightAnswerImg: any
     public answers: Array<string>
     public answersImg: Array<string>
-    public sequenceId : number
+    public sequenceId: number
 }
