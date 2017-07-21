@@ -39,6 +39,7 @@ public final class Api {
     private static final String AUTHORIZATION = "Authorization";
 
     public static ResponseEntity<String> get(String url, Activity act) {
+
         // Prepare acceptable media type
         List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
         acceptableMediaTypes.add(MediaType.APPLICATION_XML);
@@ -132,7 +133,6 @@ public final class Api {
 
         return response;
     }
-
 
     public static String getToken(Activity act){
         SharedPreferences pref = act.getSharedPreferences("AppPreferences", MODE_PRIVATE);

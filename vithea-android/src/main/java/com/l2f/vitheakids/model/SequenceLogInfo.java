@@ -9,22 +9,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+/**
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
+ */
+
 public class SequenceLogInfo {
 	
 	private String username;
-	
 	private Date timestamp;
-	
 	private List<ExerciseLogInfo> exercisesDetails;
-	
 	private int totalCount;
-	
 	private int correctCount;
-	
 	private int skippedCount;
-	
 	private float distractorHitsAvg;
-	
 	private Long sequenceId;
 	
 	public SequenceLogInfo() {
@@ -46,27 +43,21 @@ public class SequenceLogInfo {
 				"\n\tCorrect Count: " + this.correctCount +
 				"\n\tDistractors Avg: " + this.distractorHitsAvg;
 	}
-	
-	
 	public String toJSON() {
 		
 		ObjectMapper mapper = new ObjectMapper();
-		
 		ObjectNode node = mapper.createObjectNode();
 		ObjectNode subNode;
-		
 		ArrayNode array = node.putArray("exercisesDetails");
 		
 		for(ExerciseLogInfo eli : exercisesDetails) {
-			
 			subNode = new ObjectMapper().createObjectNode();
 			subNode.put("exerciseId", eli.getExercise().getExerciseId());
-			subNode.put("correct", eli.isCorrect());
-			subNode.put("skipped", eli.isSkipped());
+			subNode.put("correct", eli.getCorrect());
+			subNode.put("skipped", eli.getSkipped());
 			subNode.put("distractorHitsCount", eli.getDistractorHitsCount());
-			subNode.put("usingPrompting", eli.isUsingPrompting());
-			subNode.put("usingReinforcement", eli.isUsingReinforcement());
-			
+			subNode.put("usingPrompting", eli.getUsingPrompting());
+			subNode.put("usingReinforcement", eli.getUsingReinforcement());
 			array.add(subNode);
 		}
 		
@@ -92,7 +83,6 @@ public class SequenceLogInfo {
 	public void incCorrectCount() {
 		correctCount++;
 	}
-	
 	public void incSkippedCount() {
 		skippedCount++;
 	}
@@ -103,6 +93,48 @@ public class SequenceLogInfo {
 	public String getUsername() {
 		return username;
 	}
+    /**
+     * @return the timestamp
+     */
+    public Date getTimestamp() {
+        return timestamp;
+    }
+    /**
+     * @return the exercisesDetails
+     */
+    public List<ExerciseLogInfo> getExercisesDetails() {
+        return exercisesDetails;
+    }
+    /**
+     * @return the totalCount
+     */
+    public int getTotalCount() {
+        return totalCount;
+    }
+    /**
+     * @return the correctCount
+     */
+    public int getCorrectCount() {
+        return correctCount;
+    }
+    /**
+     * @return the skippedCount
+     */
+    public int getSkippedCount() {
+        return skippedCount;
+    }
+    /**
+     * @return the distractorHitsAvg
+     */
+    public float getDistractorHitsAvg() {
+        return distractorHitsAvg;
+    }
+    /**
+     * @return the sequenceId
+     */
+    public Long getSequenceId() {
+        return sequenceId;
+    }
 
 	/**
 	 * @param username the username to set
@@ -110,98 +142,42 @@ public class SequenceLogInfo {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	/**
-	 * @return the timestamp
-	 */
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
 	/**
 	 * @param timestamp the timestamp to set
 	 */
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-
-	/**
-	 * @return the exercisesDetails
-	 */
-	public List<ExerciseLogInfo> getExercisesDetails() {
-		return exercisesDetails;
-	}
-
 	/**
 	 * @param exercisesDetails the exercisesDetails to set
 	 */
 	public void setExercisesDetails(List<ExerciseLogInfo> exercisesDetails) {
 		this.exercisesDetails = exercisesDetails;
 	}
-
-	/**
-	 * @return the totalCount
-	 */
-	public int getTotalCount() {
-		return totalCount;
-	}
-
 	/**
 	 * @param totalCount the totalCount to set
 	 */
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
-
-	/**
-	 * @return the correctCount
-	 */
-	public int getCorrectCount() {
-		return correctCount;
-	}
-
 	/**
 	 * @param correctCount the correctCount to set
 	 */
 	public void setCorrectCount(int correctCount) {
 		this.correctCount = correctCount;
 	}
-
-	/**
-	 * @return the skippedCount
-	 */
-	public int getSkippedCount() {
-		return skippedCount;
-	}
-
 	/**
 	 * @param skippedCount the skippedCount to set
 	 */
 	public void setSkippedCount(int skippedCount) {
 		this.skippedCount = skippedCount;
 	}
-
-	/**
-	 * @return the distractorHitsAvg
-	 */
-	public float getDistractorHitsAvg() {
-		return distractorHitsAvg;
-	}
-
 	/**
 	 * @param distractorHitsAvg the distractorHitsAvg to set
 	 */
 	public void setDistractorHitsAvg(float distractorHitsAvg) {
 		this.distractorHitsAvg = distractorHitsAvg;
 	}
-	
-	/**
-	 * @return the sequenceId
-	 */
-	public Long getSequenceId() {
-		return sequenceId;
-	}
-
 	/**
 	 * @param sequenceId the sequenceId to set
 	 */
@@ -209,5 +185,4 @@ public class SequenceLogInfo {
 		this.sequenceId = sequenceId;
 	}
 
-	
 }

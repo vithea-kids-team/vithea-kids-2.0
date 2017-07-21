@@ -2,16 +2,17 @@ package com.l2f.vitheakids.model;
 
 /**
  * Created by silvi on 20/04/2017.
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
  */
 
 public class Topic {
+
     private Long topicId;
     private String topicDescription;
 
-    public Long getId() {
+    public Long getTopicId() {
         return topicId;
     }
-
     public String getTopicDescription() {
         return topicDescription;
     }
@@ -19,9 +20,8 @@ public class Topic {
     public void setTopicDescription(String topicDescription) {
         this.topicDescription = topicDescription;
     }
-
     public void setTopicId(Long id) {
         this.topicId = id;
-
     }
+
 }

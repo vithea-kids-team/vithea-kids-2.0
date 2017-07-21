@@ -1,16 +1,15 @@
 package com.l2f.vitheakids.model;
 
+/**
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
+ */
 
 public class ExerciseTypeRecord {
 	
 	private String exerciseTypeName;
-	
 	private int exerciseTypeImage;
-	
-	public ExerciseTypeRecord() {
-		
-	}
 
+	public ExerciseTypeRecord() {}
 	public ExerciseTypeRecord(String exerciseTypeName, int exerciseTypeImage) {
 		super();
 		this.exerciseTypeName = exerciseTypeName;
@@ -23,6 +22,13 @@ public class ExerciseTypeRecord {
 	public String getExerciseTypeName() {
 		return exerciseTypeName;
 	}
+    /**
+     * @return the exerciseTypeImage
+     */
+    public int getExerciseTypeImage() {
+        return exerciseTypeImage;
+    }
+
 
 	/**
 	 * @param exerciseTypeName the exerciseTypeName to set
@@ -30,20 +36,11 @@ public class ExerciseTypeRecord {
 	public void setExerciseTypeName(String exerciseTypeName) {
 		this.exerciseTypeName = exerciseTypeName;
 	}
-
-	/**
-	 * @return the exerciseTypeImage
-	 */
-	public int getExerciseTypeImage() {
-		return exerciseTypeImage;
-	}
-
 	/**
 	 * @param exerciseTypeImage the exerciseTypeImage to set
 	 */
 	public void setExerciseTypeImage(int exerciseTypeImage) {
 		this.exerciseTypeImage = exerciseTypeImage;
 	}
-	
 
 }

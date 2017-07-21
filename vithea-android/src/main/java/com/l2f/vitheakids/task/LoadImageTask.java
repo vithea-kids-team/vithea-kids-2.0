@@ -10,6 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
+ */
+
 public class LoadImageTask extends AsyncTask<String, Void, Void> {
 	private Bitmap imgLoad;
 	private ImageView imgView;
@@ -30,9 +34,7 @@ public class LoadImageTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 		
 		Log.d("LoadImageTask", params[0]);
-		
 		imgLoad = LoadImageFromWeb(params[0]);
-		
 		return null;
 	}
 	

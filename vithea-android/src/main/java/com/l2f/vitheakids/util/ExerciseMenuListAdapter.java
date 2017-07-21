@@ -23,8 +23,7 @@ public class ExerciseMenuListAdapter extends BaseAdapter {
 		mContext = context;
 		inflater = LayoutInflater.from(mContext);
 	}
-	
-	
+
 	public ExerciseMenuListAdapter(Context context, List<ExerciseTypeRecord> values) {
 		mContext = context;
 		inflater = LayoutInflater.from(mContext);
@@ -40,7 +39,6 @@ public class ExerciseMenuListAdapter extends BaseAdapter {
 		TextView exerciseTypeName;
 
 	}
-	
 	
 	public void add(ExerciseTypeRecord listItem) {
 		list.add(listItem);
@@ -104,7 +102,4 @@ public class ExerciseMenuListAdapter extends BaseAdapter {
 		
 		
 	}
-	
-	
-
 }

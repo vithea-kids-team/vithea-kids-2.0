@@ -3,6 +3,9 @@ package com.l2f.vitheakids.security;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
+ */
 
 public class Protection {
 	
@@ -27,8 +30,7 @@ public class Protection {
         }
         return hexOutput;
     }
-	
-	
+
 	public static String cypher(String pwd) {
 
         if (md != null) {

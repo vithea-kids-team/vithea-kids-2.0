@@ -11,19 +11,20 @@ import org.springframework.web.client.HttpClientErrorException;
 import com.l2f.vitheakids.VitheaKidsActivity;
 import com.l2f.vitheakids.util.Api;
 
+/**
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
+ */
+
 public class FetchChildLogin extends AsyncTask<Void, Void, ResponseEntity<String>> {
 
 	private static final String TAG = VitheaKidsActivity.class.getSimpleName() + ": " + FetchChildLogin.class.getName();
-
 
 	private final TaskListener listener;
 	private final  MultiValueMap<String, Object> body;
 	private final String url;
 	private final Activity activity;
 
-
 	public FetchChildLogin(MultiValueMap<String, Object> body, TaskListener listener, String url, Activity activity) {
-
 		this.listener = listener;
 		this.body = body;
 		this.url = url;
@@ -48,7 +49,6 @@ public class FetchChildLogin extends AsyncTask<Void, Void, ResponseEntity<String
 			Log.e(TAG, e.getLocalizedMessage(), e);
 			e.printStackTrace();
 		}
-
 		return response;
 	}
 

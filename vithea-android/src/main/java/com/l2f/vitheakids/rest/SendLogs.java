@@ -29,6 +29,10 @@ import com.l2f.vitheakids.VitheaKidsActivity;
 import com.l2f.vitheakids.model.SequenceLogInfo;
 import com.l2f.vitheakids.security.Protection;
 
+/**
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
+ */
+
 // TODO Activate Logs
 
 public class SendLogs extends AsyncTask<Void, Void, Void> {
@@ -75,8 +79,7 @@ public class SendLogs extends AsyncTask<Void, Void, Void> {
 //		MultiValueMap<String, SequenceLogInfo> body = new LinkedMultiValueMap<String, SequenceLogInfo>();
 		body.add("test", "hello");
 	/*	body.add("sequenceLog", logs);*/
-		
-		
+
 	/*	Log.d(TAG, this.sequenceToSave.toString());*/
 		
 		/*HttpEntity<?> requestEntity = new HttpEntity<Object>(body,
@@ -100,8 +103,6 @@ public class SendLogs extends AsyncTask<Void, Void, Void> {
 		messageConverters.add(new StringHttpMessageConverter());
 		messageConverters.add(new MappingJackson2HttpMessageConverter());
 		messageConverters.add(new ByteArrayHttpMessageConverter());
-		
-		
 
 		restTemplate.setMessageConverters(messageConverters);
 

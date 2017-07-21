@@ -33,7 +33,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 
+/**
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
+ */
+
 public class LoginActivity extends Activity implements TaskListener {
+
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private ProgressDialog progressDialog;
@@ -124,6 +129,7 @@ public class LoginActivity extends Activity implements TaskListener {
         _loginButton.setEnabled(true);
     }
 
+    // TODO Add the verification if the username is not from a child, but a caregiver
     public boolean validate() {
         boolean valid = true;
 

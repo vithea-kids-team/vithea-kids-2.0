@@ -23,7 +23,6 @@ public class ExerciseMenuListWithoutImageAdapter extends BaseAdapter {
 		inflater = LayoutInflater.from(mContext);
 	}
 
-
 	public ExerciseMenuListWithoutImageAdapter(Context context, List<String> values) {
 		mContext = context;
 		inflater = LayoutInflater.from(mContext);
@@ -95,7 +94,5 @@ public class ExerciseMenuListWithoutImageAdapter extends BaseAdapter {
 		holder.exerciseTypeName.setText(curr);
 		
 		return newView;
-		
-		
 	}
 }

@@ -1,6 +1,5 @@
 package com.l2f.vitheakids.util;
 
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;

@@ -1,5 +1,9 @@
 package com.l2f.vitheakids.model;
 
+/**
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
+ */
+
 public class LoginInfo {
 	
 	private String greetingMsg;
@@ -14,6 +18,13 @@ public class LoginInfo {
 	public String getGreetingMsg() {
 		return greetingMsg;
 	}
+    /**
+     * @return the exListMsg
+     */
+    public String getExListMsg() {
+        return exListMsg;
+    }
+
 
 	/**
 	 * @param greetingMsg the greetingMsg to set
@@ -21,14 +32,6 @@ public class LoginInfo {
 	public void setGreetingMsg(String greetingMsg) {
 		this.greetingMsg = greetingMsg;
 	}
-
-	/**
-	 * @return the exListMsg
-	 */
-	public String getExListMsg() {
-		return exListMsg;
-	}
-
 	/**
 	 * @param exListMsg the exListMsg to set
 	 */

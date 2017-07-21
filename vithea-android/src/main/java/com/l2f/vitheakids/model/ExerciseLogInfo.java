@@ -12,7 +12,6 @@ public class ExerciseLogInfo {
 	public ExerciseLogInfo() {
 		distractorHitsCount = 0;
 	}
-	
 	public ExerciseLogInfo(SimpleMultipleChoice exercise) {
 		this.exercise = exercise;
 		distractorHitsCount = 0;
@@ -20,7 +19,6 @@ public class ExerciseLogInfo {
 	
 	@Override
 	public String toString() {
-		
 		return "Exercise log:" +
 				"\n\tId: " + this.exercise.getExerciseId() +
 				"\n\tSkipped: " + this.skipped +
@@ -38,6 +36,36 @@ public class ExerciseLogInfo {
 	public SimpleMultipleChoice getExercise() {
 		return exercise;
 	}
+	/**
+	 * @return the correct
+	 */
+	public boolean getCorrect() {
+		return correct;
+	}
+    /**
+     * @return the skipped
+     */
+    public boolean getSkipped() {
+        return skipped;
+    }
+    /**
+     * @return the distractorHitsCount
+     */
+    public int getDistractorHitsCount() {
+        return distractorHitsCount;
+    }
+    /**
+     * @return the usingPrompting
+     */
+    public boolean getUsingPrompting() {
+        return usingPrompting;
+    }
+    /**
+     * @return the usingReinforcement
+     */
+    public boolean getUsingReinforcement() {
+        return usingReinforcement;
+    }
 
 	/**
 	 * @param exercise the exercise to set
@@ -45,74 +73,35 @@ public class ExerciseLogInfo {
 	public void setExercise(SimpleMultipleChoice exercise) {
 		this.exercise = exercise;
 	}
-
-	/**
-	 * @return the correct
-	 */
-	public boolean isCorrect() {
-		return correct;
-	}
-
 	/**
 	 * @param correct the correct to set
 	 */
 	public void setCorrect(boolean correct) {
 		this.correct = correct;
 	}
-
-	/**
-	 * @return the skipped
-	 */
-	public boolean isSkipped() {
-		return skipped;
-	}
-
 	/**
 	 * @param skipped the skipped to set
 	 */
 	public void setSkipped(boolean skipped) {
 		this.skipped = skipped;
 	}
-
-	/**
-	 * @return the distractorHitsCount
-	 */
-	public int getDistractorHitsCount() {
-		return distractorHitsCount;
-	}
-
 	/**
 	 * @param distractorHitsCount the distractorHitsCount to set
 	 */
 	public void setDistractorHitsCount(int distractorHitsCount) {
 		this.distractorHitsCount = distractorHitsCount;
 	}
-	
-	/**
-	 * @return the usingPrompting
-	 */
-	public boolean isUsingPrompting() {
-		return usingPrompting;
-	}
-
 	/**
 	 * @param usingPrompting the usingPrompting to set
 	 */
 	public void setUsingPrompting(boolean usingPrompting) {
-		this.usingPrompting = usingPrompting;
+        this.usingPrompting = usingPrompting;
 	}
-
-	/**
-	 * @return the usingReinforcement
-	 */
-	public boolean isUsingReinforcement() {
-		return usingReinforcement;
-	}
-
 	/**
 	 * @param usingReinforcement the usingReinforcement to set
 	 */
 	public void setUsingReinforcement(boolean usingReinforcement) {
 		this.usingReinforcement = usingReinforcement;
 	}
+
 }

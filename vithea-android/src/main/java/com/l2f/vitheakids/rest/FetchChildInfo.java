@@ -23,6 +23,7 @@ import com.l2f.vitheakids.util.Api;
 
 /**
  * Created by Claudia on 06/02/2017.
+ * Updated by Soraia Meneses Alarcão on 21/07/2017
  */
 
 public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
@@ -65,7 +66,6 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
 
             //Greeting Message
             ((VitheaKidsActivity) activity).playMessage(child, "GREETING_MESSAGE");
-
             ((VitheaKidsActivity) activity).child = child;              // store info of the child
             ((VitheaKidsActivity) activity).setSequenceSelectionView(); // change screen
         }
