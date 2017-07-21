@@ -1,6 +1,7 @@
 import { Resource } from './resource';
 
 export class Preferences {
+    public preferencesId: number;
     public greetingMessage: string;
     public exerciseReinforcementMessage: string;
     public sequenceReinforcementMessage: string;

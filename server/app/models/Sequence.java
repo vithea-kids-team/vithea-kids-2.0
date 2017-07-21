@@ -38,7 +38,7 @@ public class Sequence extends Model {
         this.name = name;
         this.author = author;
         
-        exerciseIds.stream().map((d) -> Exercise.findById(d)).forEachOrdered((ex) -> {
+        exerciseIds.stream().map((d) -> Exercise.findExerciseById(d)).forEachOrdered((ex) -> {
             exerciseList.add(ex);
         });
     }

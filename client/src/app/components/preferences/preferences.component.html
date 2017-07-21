@@ -76,11 +76,9 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="panel-heading">
-        <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-ok"></span> {{ '_SaveChangesBtn_' | translate }}
-        </button>
 
+        <a [routerLink]="['/children']" type="button" (click)="updatePreferences()" class="btn btn-primary">
+            <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span>
+        </a>
     </div>
 </form>

@@ -1,31 +1,27 @@
 package controllers;
 
-import com.avaje.ebean.Ebean;
-import play.mvc.*;
-import play.libs.Json;
-import play.data.FormFactory;
-import play.Logger;
-import play.mvc.Http.MultipartFormData;
-import play.mvc.Http.MultipartFormData.*;
-
-import javax.inject.Inject;
-
-import java.util.*;
-
-import models.Topic;
-import models.Level;
-import models.Exercise;
-import models.Caregiver;
-import models.Resource;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import static java.lang.Integer.parseInt;
 import java.sql.Timestamp;
+import java.util.*;
+import javax.inject.Inject;
+import models.Caregiver;
+import models.Exercise;
+import models.Level;
+import models.Resource;
 import models.ResourceArea;
 import models.Sequence;
+import models.Topic;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 import play.data.DynamicForm;
+import play.data.Form;
+import play.data.FormFactory;
+import play.libs.Json;
+import play.mvc.*;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 
 @Security.Authenticated(Secured.class)
 public class AdminExerciseCtrl extends Controller {
@@ -132,35 +128,55 @@ public class AdminExerciseCtrl extends Controller {
 
         return ok(Json.toJson(exercise));
     }
-
-    public Result editExercise(long exerciseId) {
-        return ok("yey");
+    
+    /**
+    * EDIT FORM
+    */
+    public static class EditExercise {
+        public String type;
+        public String topic;
+        public String level;
+        public String question;
+        // stimulus 
+        public String rightAnswer;
+        // distractors
     }
 
-    public Result deleteExercise(long exerciseId) {
-        Exercise exercise = Exercise.findById(exerciseId);
+    /**
+     * EditExercise action
+     *
+     * @param exerciseId
+     * @return
+     */
+    public Result editExercise(long exerciseId) {
+        Form<EditExercise> editExerciseForm = formFactory.form(EditExercise.class).bindFromRequest();
 
+        Logger.debug("DEBUG:" + editExerciseForm);
+
+        EditExercise newExercise = editExerciseForm.get();
+        Logger.debug("DEBUG:" + newExercise.rightAnswer + " " + newExercise.level  + " " + newExercise.question + " " + newExercise.topic + " " + newExercise.type);
+
+        if (editExerciseForm.hasErrors()) {
+            return badRequest(editExerciseForm.errorsAsJson());
+        }
+        
+       // Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, String answer, List<String> distractors
+        
+        Exercise exercise = Exercise.findExerciseById(exerciseId);
+        
         if (exercise == null) {
             return badRequest(buildJsonResponse("error", "Exercise doesn't exist"));
+        } else {
+            Logger.debug("Editing exercise with id " + exerciseId); // + ": " + exercise.getQuestion());
+            
+            
+            
+            
+            
+            return ok("yey");
         }
-
-        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
-        if (loggedCaregiver == null) {
-            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-        }
-        
-        Sequence.getAll().forEach((seq) -> {
-            seq.getSequenceExercises().remove(exercise);
-            seq.save();
-        });
-        
-        Logger.debug("Deleting " + loggedCaregiver.getCaregiverLogin().getUsername() + "'s' exercise. ");
-
-        exercise.delete();
-
-        return ok(buildJsonResponse("success", "Exercise deleted successfully"));
+            
     }
-    
     
     public Result getExercise(Long exercise) {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
@@ -168,11 +184,10 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
-        Exercise ex = Exercise.findById(exercise);
+        Exercise ex = Exercise.findExerciseById(exercise);
         Logger.debug("Exercise found");
         return ok(Json.toJson(ex));
     }
-
     public Result getExercises() {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
         if (loggedCaregiver == null) {
@@ -183,7 +198,6 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug(exercises.size() + " exercises registered.");
         return ok(Json.toJson(exercises));
     }
-
     public Result getTopics() {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
         if (loggedCaregiver == null) {
@@ -191,7 +205,22 @@ public class AdminExerciseCtrl extends Controller {
         }
         return ok(Json.toJson(Topic.findByAuthor(loggedCaregiver)));
     }
-    
+    public Result getLevels() {
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        return ok(Json.toJson(Level.findByAuthor(loggedCaregiver)));
+    }
+    public Result getResources() {
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
+        return ok(Json.toJson(Resource.findByOwner(loggedCaregiver)));
+    }
+
     public Result addTopic() {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
         
@@ -212,27 +241,6 @@ public class AdminExerciseCtrl extends Controller {
         
         return ok();
     }
-    
-    public Result removeTopic(Long topic) {
-        Topic existingTopic = Topic.findTopicById(topic);
-        existingTopic.delete();
-        return ok();
-    }
-    
-    public Result removeLevel(Long level) {
-        Level existingLevel = Level.findLevelById(level);
-        existingLevel.delete();
-        return ok();
-    }
-
-    public Result getLevels() {
-        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
-        if (loggedCaregiver == null) {
-            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-        }
-        return ok(Json.toJson(Level.findByAuthor(loggedCaregiver)));
-    }
-    
     public Result addLevel() {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
         
@@ -253,16 +261,6 @@ public class AdminExerciseCtrl extends Controller {
         
         return ok();
     }
-
-    public Result getResources() {
-        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
-        if (loggedCaregiver == null) {
-            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-        }
-        Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
-        return ok(Json.toJson(Resource.findByOwner(loggedCaregiver)));
-    }
-
     public Result uploadResources(String type) {
         Logger.debug("Uploading " + type);
         MultipartFormData<File> body = request().body().asMultipartFormData();
@@ -312,6 +310,42 @@ public class AdminExerciseCtrl extends Controller {
         }
         return null;
     }
+
+    
+    public Result removeTopic(Long topic) {
+        Topic existingTopic = Topic.findTopicById(topic);
+        existingTopic.delete();
+        return ok();
+    }
+    public Result removeLevel(Long level) {
+        Level existingLevel = Level.findLevelById(level);
+        existingLevel.delete();
+        return ok();
+    }
+    public Result deleteExercise(long exerciseId) {
+        Exercise exercise = Exercise.findExerciseById(exerciseId);
+
+        if (exercise == null) {
+            return badRequest(buildJsonResponse("error", "Exercise doesn't exist"));
+        }
+
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
+        Sequence.getAll().forEach((seq) -> {
+            seq.getSequenceExercises().remove(exercise);
+            seq.save();
+        });
+        
+        Logger.debug("Deleting " + loggedCaregiver.getCaregiverLogin().getUsername() + "'s' exercise. ");
+
+        exercise.delete();
+
+        return ok(buildJsonResponse("success", "Exercise deleted successfully"));
+    }
+    
 
     public static ObjectNode buildJsonResponse(String type, String message) {
         ObjectNode wrapper = Json.newObject();

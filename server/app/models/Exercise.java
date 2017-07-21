@@ -1,7 +1,10 @@
 package models;
 
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.*;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,13 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-
-import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.JoinTable;
-
 import play.Logger;
 
 @Entity
@@ -80,7 +76,6 @@ public class Exercise extends Model {
         
         this.answers = answers;
     }
-
     public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, String stimulusText, long answerResourceId, List<Long> distractorsResourcesIds) {
         this.author = loggedCaregiver;
         this.type = ExerciseType.IMAGE;
@@ -116,21 +111,36 @@ public class Exercise extends Model {
     }
     
     public Long getExerciseId() {
-            return id;
+        return id;
+    }
+    public Topic getTopic() {
+        return topic;
+    }
+    public Level getLevel() {
+        return level;
+    }
+    public Question getQuestion() {
+            return question;
+    }
+    public Answer getRightAnswer() {
+            return rightAnswer;
+    }
+    public List<Answer> getAnswers() {
+            return answers;
+    }
+    public Caregiver getAuthor() {
+            return author;
+    }
+    public ExerciseType getType() {
+        return type;
     }
 
     public void setExerciseId(Long exerciseId) {
-            this.id = exerciseId;
+        this.id = exerciseId;
     }
-
-    public Topic getTopic() {
-            return topic;
-    }
-
     public void setTopic(Topic topic) {
-            this.topic = topic;
+        this.topic = topic;
     }
-
     public void setTopic(Long topicId) {
             Topic topic = Topic.findTopicById(topicId);
             if (topic == null)
@@ -138,15 +148,9 @@ public class Exercise extends Model {
             Logger.debug("New exercise :: setTopic: " + topic.getTopicDescription());
             this.topic = topic;
     }
-
-    public Level getLevel() {
-            return level;
-    }
-
     public void setLevel(Level level) {
             this.level = level;
     }
-
     public void setLevel(Long levelId) {
             Level level = Level.findLevelById(levelId);
             if (level == null)
@@ -154,15 +158,9 @@ public class Exercise extends Model {
             Logger.debug("New exercise :: setLevel: " + level.getLevelDescription());
             this.level = level;
     }
-
-    public Question getQuestion() {
-            return question;
-    }
-
     public void setQuestion(Question question) {
             this.question = question;
     }
-
     public void setQuestion(String questionDescription, Long stimulus) {
             Question question = new Question(questionDescription);
             if(stimulus != 0)
@@ -171,15 +169,9 @@ public class Exercise extends Model {
             Logger.debug("New exercise :: setQuestion: " + question.getQuestionDescription() + " (" + question.getQuestionId() + ")");
             this.question = question;
     }
-
-    public Answer getRightAnswer() {
-            return rightAnswer;
-    }
-
     public void setRightAnswer(Answer rightAnswer) {
             this.rightAnswer = rightAnswer;
     }
-
     public void setRightAnswer(String rightAnswerDescription, Long resource) {
             Answer rightAnswer = new Answer(rightAnswerDescription);
             rightAnswer.setStimulus(resource);
@@ -188,11 +180,6 @@ public class Exercise extends Model {
             this.rightAnswer = rightAnswer;
             this.answers.add(rightAnswer);
     }
-
-    public List<Answer> getAnswers() {
-            return answers;
-    }
-
     public void setAnswers(List<String> answerDescriptions, List<Long> answerStimulus) {
             Iterator<String> i = answerDescriptions.iterator(); 
             Iterator<Long> j = answerStimulus.iterator();		
@@ -206,27 +193,14 @@ public class Exercise extends Model {
                     this.answers.add(answer);
             }		
     }
-
-    public Caregiver getAuthor() {
-            return author;
-    }
-
     public void setAuthor(Caregiver author) {
             this.author = author;
     }
-
-    public ExerciseType getType() {
-        return type;
-    }
-
     public void setType(ExerciseType type) {
         this.type = type;
     }
 
-    
-    
     public static final Finder<Long, Exercise> find = new Finder<>(Exercise.class);
-
     public static List<Exercise> findByAuthor(Caregiver author) {
             Logger.debug("Looking for exercises from: " + author.getCaregiverLogin().getUsername());
             return find
@@ -234,8 +208,7 @@ public class Exercise extends Model {
             .eq("author_id", author.getCaregiverId())
             .findList();
     }
-    
-    public static Exercise findById(Long id) {
+    public static Exercise findExerciseById(Long id) {
             Logger.debug("Looking for exercise " + id);
             return find
             .where()

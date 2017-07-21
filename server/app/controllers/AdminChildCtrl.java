@@ -1,14 +1,10 @@
 package controllers;
 
-import javax.inject.Inject;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import javax.inject.Inject;
 import models.AnimatedCharacter;
-
 import models.Caregiver;
 import models.Child;
 import models.Login;
@@ -19,17 +15,14 @@ import models.PromptingStrategy;
 import models.Reinforcement;
 import models.ReinforcementStrategy;
 import models.Resource;
-import models.Sequence;
-
 import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-
-import play.data.DynamicForm;
-import play.db.ebean.Transactional;
 import play.mvc.Security;
 
 @Security.Authenticated(Secured.class)
@@ -46,7 +39,6 @@ public class AdminChildCtrl extends Controller {
     
         return ok(Json.toJson(child.getPersonalMessagesList()));
     }
-    
     
     @Transactional
     public Result registerchild() {
@@ -101,21 +93,15 @@ public class AdminChildCtrl extends Controller {
         }
     }
 
-    /*
-	 * EDIT FORM
-     */
+    /**
+    * EDIT FORM
+    */
     public static class EditChild {
-
         public String username;
-
         public String firstName;
-        
         public String password;
-
         public String lastName;
-
         public String birthDate;
-
         public String gender;
     }
 
@@ -148,7 +134,7 @@ public class AdminChildCtrl extends Controller {
             child.setFirstName(newUser.firstName);
             child.setLastName(newUser.lastName);
             child.setGender(newUser.gender);
-            //child.setBirthDate(newUser.birthDate);
+            child.setBirthDate(newUser.birthDate);
 
             child.save();
             return ok(Json.toJson(child));
@@ -208,10 +194,9 @@ public class AdminChildCtrl extends Controller {
         return ok(Json.toJson(child));
     }
     
-    /*
+    /**
      * GetChildSequences action
      */
-    
     public Result getChildSequences(Long childId) {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
         if (loggedCaregiver == null) {
@@ -244,7 +229,6 @@ public class AdminChildCtrl extends Controller {
         public String reinforcementResourcePath;
 	public String emotions;
     }
-    
     public Result updatePreferences(Long childId) {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
         if (loggedCaregiver == null) {
@@ -350,7 +334,6 @@ public class AdminChildCtrl extends Controller {
             messages.add(new PersonalMessage(sequenceReinforcementMessage, PersonalMessageType.SEQUENCE_REINFORCEMENT));
         }
     }
-    
     public void setAnimatedCharacter(Child child, Long animatedCharacterResourceId) {
         AnimatedCharacter character = AnimatedCharacter.findByResourceId(animatedCharacterResourceId);
         child.setAnimatedCharacter(character);
