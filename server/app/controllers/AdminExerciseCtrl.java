@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
 import java.sql.Timestamp;
 import java.util.*;
 import javax.inject.Inject;
@@ -16,7 +17,6 @@ import models.Topic;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.data.DynamicForm;
-import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.*;
@@ -73,7 +73,6 @@ public class AdminExerciseCtrl extends Controller {
                 distractors.add(registerExerciseForm.data().get(key));
             });
 
-
             exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusId, answer, distractors);
    
         } else if(registerExerciseForm.get("type").equals("image")) {
@@ -86,6 +85,24 @@ public class AdminExerciseCtrl extends Controller {
             
             String stimulusText = registerExerciseForm.get("stimulusText");
             
+            List<Long> distractorsResourcesIds = new ArrayList<>();
+            Map<String, String> data = registerExerciseForm.data();
+            int numberDistractors = data.size();
+            System.out.println(data);
+            for(int i = 0; i < numberDistractors; i++){
+                String key = "answersImg[" + i + "]";
+                if(data.containsKey(key)){
+                    int answerId;
+                    try {
+                        answerId = parseInt(data.get(key));
+                    } catch (NumberFormatException e) {
+                        answerId = -1;
+                    }
+                    distractorsResourcesIds.add((long)answerId);
+                }
+            }
+            
+            /*
             List<Long> distractorsResourcesIds = new ArrayList<Long>();
             int i = 0;
             while(true) {
@@ -103,8 +120,7 @@ public class AdminExerciseCtrl extends Controller {
                     break;
                 }
                 i++;
-            }
-            
+            }*/
             exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds);
         }
         
@@ -129,18 +145,6 @@ public class AdminExerciseCtrl extends Controller {
         return ok(Json.toJson(exercise));
     }
     
-    /**
-    * EDIT FORM
-    */
-    public static class EditExercise {
-        public String type;
-        public String topic;
-        public String level;
-        public String question;
-        // stimulus 
-        public String rightAnswer;
-        // distractors
-    }
 
     /**
      * EditExercise action
@@ -149,33 +153,119 @@ public class AdminExerciseCtrl extends Controller {
      * @return
      */
     public Result editExercise(long exerciseId) {
-        Form<EditExercise> editExerciseForm = formFactory.form(EditExercise.class).bindFromRequest();
+        DynamicForm editExerciseForm = formFactory.form().bindFromRequest();
 
         Logger.debug("DEBUG:" + editExerciseForm);
-
-        EditExercise newExercise = editExerciseForm.get();
-        Logger.debug("DEBUG:" + newExercise.rightAnswer + " " + newExercise.level  + " " + newExercise.question + " " + newExercise.topic + " " + newExercise.type);
 
         if (editExerciseForm.hasErrors()) {
             return badRequest(editExerciseForm.errorsAsJson());
         }
-        
-       // Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, String answer, List<String> distractors
-        
+               
         Exercise exercise = Exercise.findExerciseById(exerciseId);
         
         if (exercise == null) {
             return badRequest(buildJsonResponse("error", "Exercise doesn't exist"));
         } else {
-            Logger.debug("Editing exercise with id " + exerciseId); // + ": " + exercise.getQuestion());
+            Logger.debug("Editing exercise with id " + exerciseId);
+            
+            // topic
+            long topic;
+            try {
+                topic = parseLong(editExerciseForm.get("topic"));
+            } catch (NumberFormatException e) {
+                topic = -1;
+            }
+            exercise.setTopic(topic);
+            
+            // level
+            long level;
+            try {
+                level = parseLong(editExerciseForm.get("level"));
+            } catch (NumberFormatException e) {
+                level = -1;
+            }
+            exercise.setLevel(level);
+            
+            // question
+            String question = editExerciseForm.get("question");
+            exercise.getQuestion().setQuestionDescription(question);
+           
+        
+            // stimulus, answer, and distractors for text
+            if(editExerciseForm.get("type").equals("text")) {
+                
+                // right answer
+                //String answer = editExerciseForm.get("rightAnswer");
+
+                
+                // distractors
+                List<String> distractors = new ArrayList();
+                editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("answers"))).forEachOrdered((key) -> {
+                    distractors.add(editExerciseForm.data().get(key));
+                });
+                
+                // stimulus
+                long stimulusId;
+                try {
+                    stimulusId = parseLong(editExerciseForm.get("stimulus"));
+                } catch (NumberFormatException e) {
+                    stimulusId = -1;
+                }
+                exercise.getQuestion().setStimulus(stimulusId);
+                
+            }
+            // stimulus, answer and distractors for image
+            else if(editExerciseForm.get("type").equals("image")) {
+                
+                String rightAnswerDescription;
+                int answerResourceId;
+                try {
+                    rightAnswerDescription = editExerciseForm.get("rightAnswer");
+                    answerResourceId = parseInt(editExerciseForm.get("rightAnswer"));
+                } catch (NumberFormatException e) {
+                    rightAnswerDescription = "";
+                    answerResourceId = -1;
+                }
+                
+                // distractors
+                List<Long> distractorsResourcesIds = new ArrayList<>();
+                List<String> distractorResourcesDecription = new ArrayList<>();
+                Map<String, String> data = editExerciseForm.data();
+                int numberDistractors = data.size();
+                for(int i = 0; i < numberDistractors; i++){
+                    String key = "answersImg[" + i + "]";
+                    if(data.containsKey(key)){
+                        int answerId;
+                        String answerDescription;
+                        try {
+                            answerDescription = data.get(key);
+                            answerId = parseInt(data.get(key));
+                        } catch (NumberFormatException e) {
+                            answerDescription = "";
+                            answerId = -1;
+                        }
+                        distractorResourcesDecription.add(answerDescription);
+                        distractorsResourcesIds.add((long)answerId);
+                    }
+                }
+            
+                // stimulus 
+                String stimulusText = editExerciseForm.get("stimulusText");
+                
+                // store
+                exercise.setRightAnswer(rightAnswerDescription, (long) answerResourceId);
+                exercise.setAnswers(distractorResourcesDecription, distractorsResourcesIds);
+                exercise.getQuestion().setStimulusText(stimulusText);
+
+            }
             
             
             
             
             
-            return ok("yey");
+            exercise.save();
+            return ok(Json.toJson(exercise));        
         }
-            
     }
     
     public Result getExercise(Long exercise) {

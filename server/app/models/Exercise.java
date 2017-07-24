@@ -51,6 +51,7 @@ public class Exercise extends Model {
         
         if (topic != -1) {
             this.topic = Topic.findTopicById(topic);
+            System.out.println(this.topic);
         }
         
         if (level != -1) {
@@ -63,7 +64,6 @@ public class Exercise extends Model {
         } else {
             this.question = new Question(question);
         }
-        
         
         List<Answer> answers = new ArrayList();
         
@@ -120,16 +120,16 @@ public class Exercise extends Model {
         return level;
     }
     public Question getQuestion() {
-            return question;
+        return question;
     }
     public Answer getRightAnswer() {
-            return rightAnswer;
+        return rightAnswer;
     }
     public List<Answer> getAnswers() {
-            return answers;
+       return answers;
     }
     public Caregiver getAuthor() {
-            return author;
+        return author;
     }
     public ExerciseType getType() {
         return type;

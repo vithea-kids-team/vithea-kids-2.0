@@ -9,14 +9,14 @@ import { ResourcesService } from '../../services/resources/resources.service';
 })
 export class FileUploadComponent {
 
-  @Input() label : string;
-  @Input() name : string;
-  @Input() resourceType : string;
+  @Input() label: string;
+  @Input() name: string;
+  @Input() resourceType: string;
   @Output() results = new EventEmitter<any>();
 
-  @ViewChild('input') input; 
+  @ViewChild('input') input;
 
-  constructor(public resourcesService : ResourcesService) { }
+  constructor(public resourcesService: ResourcesService) { }
 
   toggleFileUpload() {
     this.input.nativeElement.click();
@@ -33,9 +33,8 @@ export class FileUploadComponent {
               }
             )
           },
-          err => console.error("Error uploading file", err)
+          err => console.error('Error uploading file', err)
         )
     }
   }
-
 }

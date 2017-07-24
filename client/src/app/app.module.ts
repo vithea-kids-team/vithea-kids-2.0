@@ -39,8 +39,8 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdminComponent } from './components/admin/admin.component';
 
-export function translateFactory(http : Http) {
-  return  new TranslateStaticLoader(http, './vithea-kids/assets/i18n', '.json');
+export function translateFactory(https: Http) {
+  return  new TranslateStaticLoader(https, './vithea-kids/assets/i18n', '.json');
 }
 
 @NgModule({
