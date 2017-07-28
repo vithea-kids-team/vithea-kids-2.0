@@ -22,6 +22,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -564,12 +565,16 @@ public class VitheaKidsActivity extends AppCompatActivity {
     public void setNavigationView() {
 
         ImageButton next = (ImageButton) findViewById(R.id.nextExerciseButton);
-        ImageButton previous = (ImageButton) findViewById(R.id.previousExerciseButton); // TODO THINK
+        TextView nextText = (TextView) findViewById(R.id.nextExerciseTextView);
+        ImageButton previous = (ImageButton) findViewById(R.id.previousExerciseButton);
+        TextView previousText = (TextView) findViewById(R.id.previousExerciseTextView);
         ImageButton end = (ImageButton) findViewById(R.id.endExerciseButton);
+        TextView endText = (TextView) findViewById(R.id.endExerciseTextView);
 
         Boolean isLastExercise = currentExercisePosition == exercises.size() - 1;
         if (isLastExercise && next != null) {
             next.setVisibility(View.INVISIBLE);
+            nextText.setVisibility(View.INVISIBLE);
             end.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -579,6 +584,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
             });
         } else {
             end.setVisibility(View.INVISIBLE);
+            endText.setVisibility(View.INVISIBLE);
             next.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -591,6 +597,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         Boolean isFirstExercise = currentExercisePosition == 0;
         if (isFirstExercise && previous != null) {
             previous.setVisibility(View.INVISIBLE);
+            previousText.setVisibility(View.INVISIBLE);
         } else {
             previous.setOnClickListener(new View.OnClickListener() {
 

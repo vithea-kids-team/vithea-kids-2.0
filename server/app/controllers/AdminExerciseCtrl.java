@@ -401,7 +401,6 @@ public class AdminExerciseCtrl extends Controller {
         return null;
     }
 
-    
     public Result removeTopic(Long topic) {
         Topic existingTopic = Topic.findTopicById(topic);
         existingTopic.delete();
@@ -436,7 +435,6 @@ public class AdminExerciseCtrl extends Controller {
         return ok(buildJsonResponse("success", "Exercise deleted successfully"));
     }
     
-
     public static ObjectNode buildJsonResponse(String type, String message) {
         ObjectNode wrapper = Json.newObject();
         ObjectNode msg = Json.newObject();
@@ -444,6 +442,5 @@ public class AdminExerciseCtrl extends Controller {
         wrapper.set(type, msg);
         return wrapper;
     }
-
 
 }
