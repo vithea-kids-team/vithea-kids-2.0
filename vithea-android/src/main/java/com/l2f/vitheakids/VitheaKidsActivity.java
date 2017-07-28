@@ -89,8 +89,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private boolean inExercise;
     private boolean inHomeScreen;
     private boolean inSequenceScreen;
-    private boolean promptingActive;
-    private boolean reinforcementActive;
+    public boolean promptingActive;
+    public boolean reinforcementActive;
     private List<String> currentAnswers;
     private Button rightAnswerButton;
     private String lastInstruction;
@@ -100,6 +100,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private ActionBar actionBar;
 
 // *************************************************************************************************
+
+    public void initActivePrompting(Boolean state){
+        promptingActive = state;
+    }
+    public void initActiveReinforcement(Boolean state){
+        reinforcementActive = state;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,7 +257,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Inflate view
-        View view = (View) linflater.inflate(R.layout.exercise_menu_layout, null);
+        View view = linflater.inflate(R.layout.exercise_menu_layout, null);
         rightFrameLayout.addView(view);
         Log.d("DEBUG", "list view by inflater" + view);
 
@@ -315,9 +322,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
             // TODO TYPE OF EXERCISES - in the future factory?
             if (exercise.getType().equals("TEXT")) {
-                setSimpleMultipleChoiceExerciseView(exercise, container); //text
+                setSimpleMultipleChoiceExerciseView(exercise, container);   //text
             } else if (exercise.getType().equals("IMAGE")) {
-                setImageMultipleChoiceExerciseView(exercise, container);
+                setImageMultipleChoiceExerciseView(exercise, container);    // image
             }
 
             // Exercises navigation
@@ -400,7 +407,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // Prompting
         // TODO REVIEW
-        if (child.getPrompting() != null ) {
+        if (promptingActive && child.getPrompting() != null ) {
             if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                 if (child.getPrompting().getPromptingColor()) {
                     rightAnswerButton.setBackgroundColor(Color.BLUE);
@@ -495,7 +502,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
             imgURL = "";
         }
 
-        if (!imgURL.isEmpty()) {
+        if (reinforcementActive && !imgURL.isEmpty()) {
             hideActionBar(); // TODO maybe not hide?
 
             // Clear rightFrameLayout
@@ -614,7 +621,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
     protected void rightAnswerHandler(View v, Child child) {
         inExercise = false;
         playMessage(child, "EXERCISE_REINFORCEMENT"); // TODO Only reinforcement?
-        playReinforcement(child);
+        if(reinforcementActive) playReinforcement(child);
         attempts = 0;
     }
     private void playReinforcement(Child child) { // TODO child.getReinforcement() - efficiency
@@ -644,7 +651,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
             }
         }
 
-        // if generic, must check if it should say it woth joy or sadness
+        // if generic, must check if it should say it worth joy or sadness
         if (!sentence.isEmpty()) {
             if (child.getEmotions()) {
                 new ReadTask().execute(sentence, "joy");
@@ -659,7 +666,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // TODO REVIEW AND REFACTOR PROMPTING
         // Prompting
-        if (child.getPrompting() != null ) {
+        if (promptingActive && child.getPrompting() != null ) {
             Exercise exercise = exercises.get(currentExercisePosition);
             Boolean isTextExercise = exercise.getType().equals("TEXT");
             if (child.getPrompting().getPromptingStrategy().equals("IF_NEEDED")) {
@@ -721,7 +728,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         //setFinalResultsView();
 
         //Sequence reinforcement
-        playMessage(child, "SEQUENCE_REINFORCEMENT");
+        if(reinforcementActive) playMessage(child, "SEQUENCE_REINFORCEMENT");
 
         setSequenceSelectionView();
     }
@@ -741,6 +748,23 @@ public class VitheaKidsActivity extends AppCompatActivity {
         Intent i = new Intent(this, LoginActivity.class);
         VitheaKidsActivity.this.startActivity(i);
     }
+    private void reinforcementHandler(MenuItem item){
+        reinforcementActive = !(reinforcementActive);
+        if(reinforcementActive){
+            item.setTitle("Ligar Reforço");
+        }
+        else item.setTitle("Desligar Reforço");
+        setExerciseView();
+    }
+    private void promptingHandler(MenuItem item){
+        promptingActive = !(promptingActive);
+        if(promptingActive){
+            item.setTitle("Ligar Ajuda");
+        }
+        else item.setTitle("Desligar Ajuda");
+        setExerciseView();
+    }
+
 
 // **** Menu ***************************************************************************************
 
@@ -748,6 +772,14 @@ public class VitheaKidsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem itemPrompting = menu.findItem(R.id.prompting_option);
+        MenuItem itemReinforcement = menu.findItem(R.id.reinforcement_option);
+
+        if(promptingActive) itemPrompting.setTitle("Desligar Ajuda");
+        else itemPrompting.setTitle("Ligar Ajuda");
+        if(reinforcementActive) itemReinforcement.setTitle("Desligar Reforço");
+        else itemReinforcement.setTitle("Ligar Reforço");
 
         // Does not work !!!
 //		MenuItem promptingToggle = (MenuItem) menu.findItem(R.id.prompting_check);
@@ -881,6 +913,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         if (id == R.id.exit) {
             exitHandler();
+        }
+        else if(id == R.id.prompting_option){
+            promptingHandler(item);
+        }
+        else if(id == R.id.reinforcement_option){
+            reinforcementHandler(item);
         }
 
         return super.onOptionsItemSelected(item);

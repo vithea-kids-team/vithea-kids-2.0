@@ -67,6 +67,17 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
             //Greeting Message
             ((VitheaKidsActivity) activity).playMessage(child, "GREETING_MESSAGE");
             ((VitheaKidsActivity) activity).child = child;              // store info of the child
+            String promptingStrategy = child.getPrompting().getPromptingStrategy();
+            String reinforcementStrategy = child.getReinforcement().getReinforcementStrategy();
+
+            if(promptingStrategy.equals("OFF"))
+                ((VitheaKidsActivity) activity).initActivePrompting(false);
+            else ((VitheaKidsActivity) activity).initActivePrompting(true);
+
+            if(reinforcementStrategy.equals("OFF"))
+                ((VitheaKidsActivity) activity).initActiveReinforcement(false);
+            else ((VitheaKidsActivity) activity).initActiveReinforcement(true);
+
             ((VitheaKidsActivity) activity).setSequenceSelectionView(); // change screen
         }
     }
