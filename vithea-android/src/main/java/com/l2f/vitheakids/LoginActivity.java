@@ -9,21 +9,20 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.l2f.vitheakids.R;
 import com.l2f.vitheakids.rest.FetchChildLogin;
 
 import butterknife.ButterKnife;
 import butterknife.BindView;
+
+import com.l2f.vitheakids.util.ConnectionDetector;
 import com.l2f.vitheakids.util.TaskListener;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +49,9 @@ public class LoginActivity extends Activity implements TaskListener {
     @BindView(R.id.password) EditText _passwordText;
     @BindView(R.id.submit) Button _loginButton;
 
+    ConnectionDetector cd;
+    Boolean isInternetPresent = false;
+
     // @BindView(R.id.link_signup) TextView _signupLink;
 
     @Override
@@ -57,18 +59,29 @@ public class LoginActivity extends Activity implements TaskListener {
         super.onCreate(savedInstanceState);
 
         SharedPreferences settings = LoginActivity.this.getSharedPreferences(getString(R.string.APP_PREFERENCES), MODE_PRIVATE);
-        if(settings.contains("authorization")) {
+        cd = new ConnectionDetector(getApplicationContext());
+        isInternetPresent = cd.isConnectingToInternet();
+
+        if(settings.contains("authorization") && isInternetPresent) {
             Intent i = new Intent(this, VitheaKidsActivity.class);
             LoginActivity.this.startActivity(i);
         } else {
             setContentView(R.layout.activity_login);
             ButterKnife.bind(this);
+            if (!isInternetPresent)
+                Toast.makeText(getBaseContext(), "Não existe ligação de Internet disponível.", Toast.LENGTH_LONG).show();
 
             _loginButton.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
-                    login();
+                    cd = new ConnectionDetector(getApplicationContext());
+                    isInternetPresent = cd.isConnectingToInternet();
+
+                    if (!isInternetPresent) {
+                        Toast.makeText(getBaseContext(), "Não existe ligação de Internet disponível.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    else login();
                 }
             });
 
@@ -81,6 +94,7 @@ public class LoginActivity extends Activity implements TaskListener {
                     startActivityForResult(intent, REQUEST_SIGNUP);
                 }
             });*/
+
         }
     }
 
@@ -106,7 +120,7 @@ public class LoginActivity extends Activity implements TaskListener {
     }
 
 
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
@@ -116,7 +130,7 @@ public class LoginActivity extends Activity implements TaskListener {
                 this.finish();
             }
         }
-    }*/
+    }
 
     @Override
     public void onBackPressed() {

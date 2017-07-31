@@ -11,6 +11,7 @@ import com.l2f.vitheakids.model.SequenceLogInfo;
 import com.l2f.vitheakids.rest.FetchChildInfo;
 import com.l2f.vitheakids.task.LoadImageTask;
 import com.l2f.vitheakids.task.ReadTask;
+import com.l2f.vitheakids.util.ConnectionDetector;
 import com.l2f.vitheakids.util.ExerciseMenuListWithoutImageAdapter;
 import com.l2f.vitheakids.util.CanvasUtil;
 import com.unity3d.player.*;
@@ -49,6 +50,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +89,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private int currentExercisePosition;
     private int attempts = 0;
     private boolean inExercise;
-    private boolean inHomeScreen;
+    private boolean inHomeScreen = true;
     private boolean inSequenceScreen;
     public boolean promptingActive;
     public boolean reinforcementActive;
@@ -99,7 +101,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private View characterContainer;
     private ActionBar actionBar;
 
-// *************************************************************************************************
+    // *************************************************************************************************
 
     public void initActivePrompting(Boolean state){
         promptingActive = state;
@@ -110,6 +112,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 
@@ -120,6 +123,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         initViews();            // conf views and layouts
 
         new FetchChildInfo(VitheaKidsActivity.this).execute();
+
     }
 
     private void initViews() {
@@ -748,13 +752,18 @@ public class VitheaKidsActivity extends AppCompatActivity {
         Intent i = new Intent(this, LoginActivity.class);
         VitheaKidsActivity.this.startActivity(i);
     }
+
     private void reinforcementHandler(MenuItem item){
         reinforcementActive = !(reinforcementActive);
         if(reinforcementActive){
             item.setTitle("Ligar Reforço");
         }
         else item.setTitle("Desligar Reforço");
-        setExerciseView();
+
+        if(!inSequenceScreen){
+            setExerciseView();
+            setNavigationView();
+        }
     }
     private void promptingHandler(MenuItem item){
         promptingActive = !(promptingActive);
@@ -762,9 +771,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
             item.setTitle("Ligar Ajuda");
         }
         else item.setTitle("Desligar Ajuda");
-        setExerciseView();
-    }
 
+        Log.e("home", "" + inHomeScreen);
+        Log.e("sequence", "" + inSequenceScreen);
+
+        if(!inSequenceScreen){
+            setExerciseView();
+            setNavigationView();
+        }
+    }
 
 // **** Menu ***************************************************************************************
 
@@ -781,122 +796,10 @@ public class VitheaKidsActivity extends AppCompatActivity {
         if(reinforcementActive) itemReinforcement.setTitle("Desligar Reforço");
         else itemReinforcement.setTitle("Ligar Reforço");
 
-        // Does not work !!!
-//		MenuItem promptingToggle = (MenuItem) menu.findItem(R.id.prompting_check);
-//		promptingToggle.setCheckable(true);
-//
-//		promptingToggle.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//
-//			@Override
-//			public boolean onMenuItemClick(MenuItem item) {
-//
-//				if(item.isChecked()) {
-//					promptingActive = true;
-//				}
-//				else {
-//					promptingActive = false;
-//				}
-//				return true;
-//			}
-//		});
-
-
-        // I honestly hope there's a better way to do this
-
-//		int currentAPIversion = android.os.Build.VERSION.SDK_INT;
-//
-//		if (currentAPIversion >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH){
-//
-//			Log.d(TAG, "Such modern, much new");
-//
-//			Switch promptingToggle = (Switch) menu.findItem(R.id.prompting_option).getActionView().findViewById(R.id.switch_prompting_option);
-//
-//			promptingToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//
-//				@Override
-//				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//					if (isChecked) {
-//						promptingActive = true;
-//						Log.d(TAG, "P on");
-//
-//			        } else {
-//			        	promptingActive = false;
-//			        	Log.d(TAG, "P off");
-//			        }
-//
-//				}
-//			});
-//
-//			Switch reinforcementToggle = (Switch) menu.findItem(R.id.reinforcement_option).getActionView().findViewById(R.id.switch_reinforcement_option);
-//
-//			reinforcementToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//
-//				@Override
-//				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//					if (isChecked) {
-//						reinforcementActive = true;
-//						Log.d(TAG, "R on");
-//
-//			        } else {
-//			        	reinforcementActive = false;
-//			        	Log.d(TAG, "R off");
-//			        }
-//
-//				}
-//			});
-//
-//		} else{
-//
-//			Log.d(TAG, "Old but gold");
-//
-//			ToggleButton promptingToggle = (ToggleButton) menu.findItem(R.id.prompting_option).getActionView().findViewById(R.id.switch_prompting_option);
-//
-//			promptingToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//
-//				@Override
-//				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//					if (isChecked) {
-//						promptingActive = true;
-//						Log.d(TAG, "P on");
-//			        } else {
-//			        	promptingActive = false;
-//			        	Log.d(TAG, "P off");
-//			        }
-//
-//				}
-//			});
-//
-//			ToggleButton reinforcementToggle = (ToggleButton) menu.findItem(R.id.reinforcement_option).getActionView().findViewById(R.id.switch_reinforcement_option);
-//
-//			reinforcementToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//
-//				@Override
-//				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//					if (isChecked) {
-//						reinforcementActive = true;
-//						Log.d(TAG, "R on");
-//			        } else {
-//			        	reinforcementActive = false;
-//			        	Log.d(TAG, "R off");
-//			        }
-//
-//				}
-//			});
-//		}
-//
         return true;
     }
 
-    //
-    // Preferences Menu
-    //
-
     @Override
-    // TODO Toggle reinforcement / prompting ?
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -910,7 +813,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 homeHandler();
             }
         }
-
         if (id == R.id.exit) {
             exitHandler();
         }
@@ -924,43 +826,19 @@ public class VitheaKidsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //
-    // Back button
-    //
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
 
-//	@Override
-//	public void onBackPressed() {
-//
-//		// TODO finish Are you sure? alert dialog
-//
-//		new AlertDialog.Builder(getApplicationContext())
-//
-//			.setMessage(getString(R.string.are_you_sure_msg))
-//
-//			.setCancelable(true)
-//
-//			.setNegativeButton(getString(R.string.cancel_msg),
-//					new DialogInterface.OnClickListener() {
-//
-//				public void onClick(DialogInterface dialog,
-//						int id) {
-//
-//					// TODO
-//				}
-//			})
-//
-//			.setPositiveButton("Yes",
-//					new DialogInterface.OnClickListener() {
-//
-//				public void onClick(final DialogInterface dialog, int id) {
-//
-//					// TODO
-//				}
-//			}).create();
-//
-//
-//		//d.show();
-//	}
+        MenuItem item = menu.findItem(R.id.end_option);
 
-    //endregion
+        if (!inSequenceScreen) {
+            item.setEnabled(true);
+        } else {
+            // disabled
+            item.setEnabled(false);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
 }

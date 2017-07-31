@@ -16,16 +16,18 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/ic_navigate_next_white_24dp"
                 android:layout_margin="20dp"/>
-            <TextView
-                android:id="@+id/nextExerciseTextView"
-                android:layout_alignTop="@+id/nextExerciseButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_marginTop="60dp"
-                android:layout_alignRight="@+id/nextExerciseButton"
-                android:layout_alignEnd="@+id/nextExerciseButton"
-                android:text="Próximo"/>
+
+        <TextView
+            android:id="@+id/nextExerciseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/nextExerciseButton"
+            android:layout_alignRight="@+id/nextExerciseButton"
+            android:layout_alignTop="@+id/nextExerciseButton"
+            android:layout_gravity="bottom|right"
+            android:layout_marginTop="80dp"
+            android:text="Próximo"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -40,16 +42,18 @@
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_navigate_before_white_24dp"
                 android:layout_margin="20dp"/>
+
             <TextView
                 android:id="@+id/previousExerciseTextView"
-                android:layout_alignTop="@+id/previousExerciseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|left"
-                android:layout_marginTop="60dp"
                 android:layout_alignLeft="@+id/previousExerciseButton"
                 android:layout_alignParentBottom="@+id/previousExerciseButton"
-                android:text="Anterior"/>
+                android:layout_alignTop="@+id/previousExerciseButton"
+                android:layout_gravity="bottom|left"
+                android:layout_marginTop="80dp"
+                android:text="Anterior"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -64,15 +68,17 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/ic_home_white_24dp"
                 android:layout_margin="20dp"/>
+
             <TextView
                 android:id="@+id/endExerciseTextView"
-                android:layout_alignTop="@+id/endExerciseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginTop="60dp"
-                android:layout_alignRight="@+id/endExerciseButton"
                 android:layout_alignParentBottom="@+id/endExerciseButton"
-                android:text="Terminar"/>
+                android:layout_alignRight="@+id/endExerciseButton"
+                android:layout_alignTop="@+id/endExerciseButton"
+                android:layout_gravity="bottom|end"
+                android:layout_marginTop="80dp"
+                android:text="Terminar"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button" />
         </RelativeLayout>
 </RelativeLayout>
