@@ -72,17 +72,17 @@
             </div>
         </div>
 
-        <div style="height: 70px;">
+        <!--<div style="height: 70px;">
             <div *ngIf="error" class="alert alert-danger"> {{ error | translate }} </div>
             <loader *ngIf="loadingAdd" [height]="50"></loader>
-        </div>
+        </div>-->
 
-        <!-- FIXME: Correct label save changes -->
+        <!-- FIXME: Correct label save changes - devia ser sequenceID-->
         <div class="row">
-            <a *ngIf="!newSequence.sequenceId" type="button" (click)="registerSequence()" class="btn btn-primary" [class.disabled]="!sequenceForm.form.valid">
+            <a *ngIf="!newSequence.id" type="button" (click)="registerSequence()" class="btn btn-primary" [class.disabled]="!sequenceForm.form.valid">
                 <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}
             </a>
-            <a *ngIf="newSequence.sequenceId" type="button" (click)="editSequence()" class="btn btn-primary">
+            <a *ngIf="newSequence.id" type="button" (click)="editSequence()" class="btn btn-primary">
                 <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
             <button [routerLink]="['/sequences']" type="button" class="btn btn-secondary"> 

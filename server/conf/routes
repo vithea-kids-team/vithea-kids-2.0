@@ -5,7 +5,7 @@
 
 GET         /                                               controllers.HomeController.index(any = "")
 GET         /vithea-kids                                    controllers.HomeController.index(any = "")
-GET         /vithea-kids/                                    controllers.HomeController.index(any = "")
+GET         /vithea-kids/                                   controllers.HomeController.index(any = "")
 GET         /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)
 GET         /vithea-kids/assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
 GET         /vithea-kids/*any                               controllers.HomeController.index(any)
@@ -51,5 +51,4 @@ POST        /vithea-kids-api/uploadanimatedcharacter/:name  controllers.AdminCtr
 ###
 ### Child Application
 ###
-
 GET         /vithea-kids-api/getchildapp                    controllers.ChildAppCtrl.getChildApp
