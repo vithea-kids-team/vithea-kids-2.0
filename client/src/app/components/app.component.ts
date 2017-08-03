@@ -9,7 +9,7 @@ import { CaregiverService } from '../services/caregiver/caregiver.service';
 })
 export class AppComponent {
 
-  constructor(translate: TranslateService, public caregiverService : CaregiverService) {
+  constructor(translate: TranslateService, public caregiverService: CaregiverService) {
     translate.setDefaultLang('en');
     translate.use('pt');
   }

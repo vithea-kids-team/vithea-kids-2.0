@@ -1,8 +1,8 @@
 <!-- TODO: Adicionar as coisas para editar -->
 <!-- FIXME: Guardar alterações -->
+<loader *ngIf="loading"></loader>
 <div class="container">
     <h2>{{ '_CreateSequence_' | translate }}</h2>
-
     <form ngSubmit="registerSequence()" #sequenceForm="ngForm" class="col-md-8">
         <div class="row">
             <div class="col-md-12 col-sm-12" style="padding-left:0">
@@ -12,7 +12,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <h3>{{ '_AddExercisesToSequence_' | translate }}</h3>
             <loader *ngIf="!exercises"></loader>
@@ -42,7 +41,6 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <h3>{{ '_AssignChildrenToSequence_' | translate }}</h3>
             <loader *ngIf="!children"></loader>
@@ -62,7 +60,7 @@
                         <label>{{ '_SequenceChildren_' | translate }}</label>
                         <ul class="list-group">
                             <li class="list-group-item list-group-item__empty" *ngIf="addedChildren.length === 0"><em>{{ '_AssignChildrenToSequence_' | translate }}</em></li>
-                            <li class="list-group-item list-group-item-content" *ngFor=" let child of addedChildren; let index = index">
+                            <li class="list-group-item list-group-item-content" *ngFor="let child of addedChildren; let index = index">
                                 <span>{{child.firstName}} {{child.lastName}}</span>
                                 <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeChild(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
                             </li>
@@ -71,7 +69,6 @@
                 </div>
             </div>
         </div>
-
         <!--<div style="height: 70px;">
             <div *ngIf="error" class="alert alert-danger"> {{ error | translate }} </div>
             <loader *ngIf="loadingAdd" [height]="50"></loader>
@@ -79,15 +76,15 @@
 
         <!-- FIXME: Correct label save changes - devia ser sequenceID-->
         <div class="row">
-            <a *ngIf="!newSequence.id" type="button" (click)="registerSequence()" class="btn btn-primary" [class.disabled]="!sequenceForm.form.valid">
-                <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}
+            <a *ngIf="!newSequence.id" type="button" (click)="registerSequence()" class="btn btn-success" [class.disabled]="!sequenceForm.form.valid">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}
             </a>
             <a *ngIf="newSequence.id" type="button" (click)="editSequence()" class="btn btn-primary">
-                <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
             <button [routerLink]="['/sequences']" type="button" class="btn btn-secondary"> 
-                  <span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
-            </button>
+              <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
+        </button>
         </div>
     </form>
 </div>

@@ -16,7 +16,7 @@ import { PaginationService } from '../../services/pagination/pagination.service'
 })
 export class SequencesComponent implements OnInit, OnChanges {
 
-  public childId : number;
+  public childId: number;
   public sequences: Array<Sequence>;
   public loading: boolean = false;
 
@@ -26,8 +26,8 @@ export class SequencesComponent implements OnInit, OnChanges {
   // paged items
   pagedItems: any[];
 
-  constructor(public route: ActivatedRoute, public childrenService : ChildrenService, 
-      public sequencesService : SequencesService, public paginationService : PaginationService) { }
+  constructor(public route: ActivatedRoute, public childrenService: ChildrenService,
+      public sequencesService: SequencesService, public paginationService: PaginationService) { }
 
   ngOnInit() {
     this.fetchSequences();
@@ -42,15 +42,15 @@ export class SequencesComponent implements OnInit, OnChanges {
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
-        const id : number = parseInt(params['childid']);
-        if(id) {
+        const id: number = parseInt(params['childid']);
+        if (id) {
           this.childId = id;
           this.getChildSequences(id);
         } else {
           this.getSequences();
         }
       }, err => {
-        console.error("Error getting sequences", err);
+        console.error('Error loading sequences', err);
         this.loading = false;
       });
   }
@@ -64,11 +64,11 @@ export class SequencesComponent implements OnInit, OnChanges {
         this.setPage(1);
 
         this.loading = false;
-      }, 
+      },
       err => {
-        console.error("Error loading child sequences. " + err);
+        console.error('Error loading child sequences.' + err);
         this.sequences = [];
-      } 
+      }
     );
   }
 
@@ -81,9 +81,9 @@ export class SequencesComponent implements OnInit, OnChanges {
         // initialize to page 1
         this.setPage(1);
         this.loading = false;
-      }, 
+      },
       err => {
-        console.error("Error loading sequences. " + err);
+        console.error('Error loading sequences.' + err);
         this.sequences = [];
       }
     );
@@ -94,7 +94,7 @@ export class SequencesComponent implements OnInit, OnChanges {
     this.sequencesService.deleteSequence(sequenceId).subscribe(
       result => this.fetchSequences(),
       err => {
-        console.log("Error deleting sequence");
+        console.log('Error deleting sequence');
         this.loading = false;
       }
     )
@@ -104,10 +104,10 @@ export class SequencesComponent implements OnInit, OnChanges {
         if (page < 1 || page > this.pager.totalPages) {
             return;
         }
- 
+
         // get pager object from service
         this.pager = this.paginationService.getPager(this.sequences.length, page);
- 
+
         // get current page of items
         this.pagedItems = this.sequences.slice(this.pager.startIndex, this.pager.endIndex + 1);
     }

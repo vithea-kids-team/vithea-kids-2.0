@@ -6,112 +6,125 @@
 
     <form (ngSubmit)="registerExercise()" #exerciseForm="ngForm" class="col-md-8">
 
-        <div *ngIf="!newExercise.exerciseId" class="form-group">
-            <label for="type"> {{ '_ExerciseType_' | translate }}</label>
-            <br>
-            <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em texto</label>
-            <label class="radio-inline"><input type="radio" value="image" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em imagem</label>
+        <div class="row">
+            <div *ngIf="!newExercise.exerciseId" class="form-group">
+                <label for="type"> {{ '_ExerciseType_' | translate }}</label>
+                <br>
+                <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em texto</label>
+                <label class="radio-inline"><input type="radio" value="image" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em imagem</label>
+            </div>
         </div>
-
-        <div class="form-group" *ngIf="topics">
-            <label for="topic"> {{ '_Topic_' | translate }} </label>
-            <form class="input-group">
-                <select class="form-control" id="topic" [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel" required>
+        <div class="row">
+            <div class="form-group" *ngIf="topics">
+                <label for="topic"> {{ '_Topic_' | translate }} </label>
+                <form class="input-group">
+                    <select class="form-control" id="topic" [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel" required>
                     <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
                 </select>
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" [routerLink]="['/settings']"><i class="glyphicon glyphicon-list"></i></button>
-                </span>
-            </form>
-            <div *ngIf="!topic.valid && !topic.pristine" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
+                    <span class="input-group-btn">
+                    <button [routerLink]="['/settings']" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
+                    </span>
+                </form>
+                <div *ngIf="!topic.valid && !topic.pristine" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
+            </div>
         </div>
-
-        <div class="form-group" *ngIf="levels">
-            <label for="level"> {{ '_Level_' | translate }}</label>
-            <form class="input-group">
-                <select class="form-control" id="level" [(ngModel)]="newExercise.level" name="level" #level="ngModel" required>
+        <div class="row">
+            <div class="form-group" *ngIf="levels">
+                <label for="level"> {{ '_Level_' | translate }}</label>
+                <form class="input-group">
+                    <select class="form-control" id="level" [(ngModel)]="newExercise.level" name="level" #level="ngModel" required>
                     <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
                 </select>
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" [routerLink]="['/settings']"><i class="glyphicon glyphicon-list"></i></button>
+                    <span class="input-group-btn">
+                    <button [routerLink]="['/settings']" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
                 </span>
-            </form>
-            <div *ngIf="!level.valid && !level.pristine" class="alert alert-danger"> {{ '_RequiredLevel_' | translate }} </div>
-        </div>
-
-        <div class="form-group">
-            <label for="question"> {{'_Question_' | translate }} </label>
-            <input type="text" class="form-control" id="question" required [(ngModel)]="newExercise.question" name="question" #question="ngModel">
-            <div *ngIf="!question.valid && !question.pristine" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
-        </div>
-
-        <div class="form-group">
-            <label for="stimulus"> {{ '_Stimulus_' | translate }}</label>
-            <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
-            <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
-                <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
+                </form>
+                <div *ngIf="!level.valid && !level.pristine" class="alert alert-danger"> {{ '_RequiredLevel_' | translate }} </div>
             </div>
-            <file-upload *ngIf="newExercise.type == 'text'" [label]="'_UploadStimulus_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
         </div>
-
+        <div class="row">
+            <div class="form-group">
+                <label for="question"> {{'_Question_' | translate }} </label>
+                <input type="text" class="form-control" id="question" required [(ngModel)]="newExercise.question" name="question" #question="ngModel">
+                <div *ngIf="!question.valid && !question.pristine" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="stimulus"> {{ '_Stimulus_' | translate }}</label>
+                <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
+                <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
+                    <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
+                </div>
+                <file-upload *ngIf="newExercise.type == 'text'" [label]="'_UploadStimulus_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
+            </div>
+        </div>
         <br>
 
-        <label for="answer"> {{ '_Answer_' | translate }}</label>
-        <div *ngIf="newExercise.type == 'text' ">
-            <input type="text" class="form-control" id="rightAnswer" required [(ngModel)]="newExercise.rightAnswer" name="rightAnswer" #rightAnswer="ngModel">
-            <div *ngIf="!rightAnswer.valid && !rightAnswer.pristine" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
-        </div>
-
-        <div *ngIf="newExercise.type == 'image' ">
-            <br>
-            <div style="max-height: 100px; overflow-y: auto;">
-                <image-picker [(ngModel)]="rightAnswerImgs" [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
+        <div class="row">
+            <label for="answer"> {{ '_Answer_' | translate }}</label>
+            <div *ngIf="newExercise.type == 'text' ">
+                <input type="text" class="form-control" id="rightAnswer" required [(ngModel)]="newExercise.rightAnswer" name="rightAnswer" #rightAnswer="ngModel">
+                <div *ngIf="!rightAnswer.valid && !rightAnswer.pristine" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
             </div>
-            <file-upload [label]="'_UploadAnswer_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
         </div>
 
-        <br>
-        <label for="answers"> {{ '_Distractors_' | translate }}</label>
-        <div *ngIf="newExercise.type == 'text' ">
-            <ul class="list-group">
-                <li class="list-group-item list-group-item__empty" *ngIf="!newExercise.answers || newExercise.answers.length == 0">
-                    <em>{{ '_NoDistractors_' | translate }}</em></li>
-                <li class="list-group-item list-group-item-content" *ngFor=" let answer of newExercise.answers; let index = index">
-                    <span>{{answer}}</span>
-                    <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeAnswer(index)"><i class="glyphicon glyphicon-remove"></i></a>
-                </li>
-            </ul>
-            <form class="input-group">
-                <input class="form-control" [(ngModel)]="newAnswer" name="newAnswer">
-                <span class="input-group-btn">
-                    <a class="btn btn-primary" (click)="addAnswer()"><i class="glyphicon glyphicon-plus"></i></a>
+        <div class="row">
+            <div *ngIf="newExercise.type == 'image' ">
+                <br>
+                <div style="max-height: 100px; overflow-y: auto;">
+                    <image-picker [(ngModel)]="rightAnswerImgs" [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
+                </div>
+                <file-upload [label]="'_UploadAnswer_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
+            </div>
+
+            <br>
+            <label for="answers"> {{ '_Distractors_' | translate }}</label>
+            <div *ngIf="newExercise.type == 'text' ">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item__empty" *ngIf="!newExercise.answers || newExercise.answers.length == 0">
+                        <em>{{ '_NoDistractors_' | translate }}</em></li>
+                    <li class="list-group-item list-group-item-content" *ngFor=" let answer of newExercise.answers; let index = index">
+                        <span>{{answer}}</span>
+                        <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeAnswer(index)"><i class="glyphicon glyphicon-remove" style="font-size: small;"></i></a>
+                    </li>
+                </ul>
+                <form class="input-group">
+                    <input class="form-control" [(ngModel)]="newAnswer" name="newAnswer">
+                    <span class="input-group-btn">
+                    <a class="btn btn-primary" (click)="addAnswer()"><i class="glyphicon glyphicon-plus" style="font-size: small;"></i></a>
                 </span>
-            </form>
+                </form>
+            </div>
         </div>
 
-        <div *ngIf="newExercise.type == 'image' ">
-            <br>
-            <div style="max-height: 100px; overflow-y: auto;">
-                <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs"> </image-picker>
+        <div class="row">
+            <div *ngIf="newExercise.type == 'image' ">
+                <br>
+                <div style="max-height: 100px; overflow-y: auto;">
+                    <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs"> </image-picker>
+                </div>
+                <file-upload [label]="'_UploadOption_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
+                <br/>
             </div>
-            <file-upload [label]="'_UploadOption_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
             <br/>
         </div>
-        <br/>
 
         <!--<div style="height: 70px;">
             <div *ngIf="error" class="alert alert-danger"> {{ error | translate }} </div>
             <loader *ngIf="loadingAdd" [height]="50"></loader>
         </div>-->
 
-        <button *ngIf="!newExercise.exerciseId" type="submit" class="btn btn-primary" [class.disabled]="!exerciseForm.form.valid">
-            <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{'_CreateExercise_' | translate }}
-        </button>
-        <button *ngIf="newExercise.exerciseId" type="submit" class="btn btn-primary" [class.disabled]="!exerciseForm.form.valid">
-            <span class="glyphicon glyphicon-ok" style="font-size: large;" aria-hidden="true"></span> {{'_SaveChangesBtn_' | translate }}
-        </button>
-        <button [routerLink]="['/exercises']" type="button" class="btn btn-secondary"> 
-            <span class="glyphicon glyphicon-remove" style="font-size: large;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
-        </button>
+        <div class="row">
+            <a *ngIf="!newExercise.exerciseId" type="button" (click)="registerExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateExercise_' | translate }}
+            </a>
+            <a *ngIf="newExercise.exerciseId" type="button" (click)="editExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
+            </a>
+            <button [routerLink]="['/exercises']" type="button" class="btn btn-secondary"> 
+                  <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
+            </button>
+        </div>
     </form>
 </div>

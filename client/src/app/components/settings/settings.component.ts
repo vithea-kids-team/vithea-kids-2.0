@@ -15,6 +15,8 @@ export class SettingsComponent implements OnInit {
   public newTopic: string;
   public newLevel: string;
   public loading = false;
+  public newTopics = [];
+  public newLevels = [];
 
   constructor(public resourcesService: ResourcesService, public location: Location) { }
 
@@ -111,6 +113,28 @@ export class SettingsComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  // TODO Implement
+  cancel() {
+    /*this.newTopics.forEach(element => {
+      this.removeTopic(element);
+    });
+    this.newLevels.forEach(element => {
+      this.removeLevel(element);
+    });
+
+    this.newTopics = [];
+    this.newLevels = [];*/
+    this.location.back();
+  }
+
+  updateNewTopics(topic: number) {
+    this.newTopics.push(topic);
+  }
+
+  updateNewLevels(level: number) {
+    this.newLevels.push(level);
   }
 
 }

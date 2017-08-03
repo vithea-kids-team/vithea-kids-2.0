@@ -1,70 +1,89 @@
 <div class="container">
+
     <h2>{{ '_SignUpBtn_' | translate }}</h2>
+
     <form (ngSubmit)="createCaregiver()" #caregiverForm="ngForm" class="col-md-8">
-        <div class="form-group">
-            <label for="username">{{ '_Username_' | translate }}</label>
-            <input type="text" class="form-control" id="username" required pattern="^[A-Za-z0-9_-]{3,15}$" [(ngModel)]="model.username" name="username" #username="ngModel">
-            <div *ngIf="!username.valid && !username.pristine" class="alert alert-danger">
-                {{ '_RequiredUsername_' | translate }}
+        <div class=row>
+            <div class="form-group">
+                <label for="username">{{ '_Username_' | translate }}</label>
+                <input type="text" class="form-control" id="username" required pattern="^[A-Za-z0-9_-]{3,15}$" [(ngModel)]="model.username" name="username" #username="ngModel">
+                <div *ngIf="!username.valid && !username.pristine" class="alert alert-danger">
+                    {{ '_RequiredUsername_' | translate }}
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="password">{{ '_Password_' | translate }}</label>
-            <input type="password" class="form-control" id="password" required  minlength="6" validateEqual="confirmpassword" reverse="true" [(ngModel)]="model.password" name="password" #password="ngModel">
-            <div *ngIf="!password.valid && !password.pristine" class="alert alert-danger">
-                {{ '_RequiredPassword_' | translate }}
+        <div class=row>
+            <div class="form-group">
+                <label for="password">{{ '_Password_' | translate }}</label>
+                <input type="password" class="form-control" id="password" required minlength="6" validateEqual="confirmpassword" reverse="true" [(ngModel)]="model.password" name="password" #password="ngModel">
+                <div *ngIf="!password.valid && !password.pristine" class="alert alert-danger">
+                    {{ '_RequiredPassword_' | translate }}
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="confirmpassword">{{ '_ConfirmPassword_' | translate }}</label>
-            <input type="password" class="form-control" id="confirmpassword" required validateEqual="password" [(ngModel)]="model.confirmpassword" name="confirmpassword"
-                #confirmpassword="ngModel">
-            <div *ngIf="!confirmpassword.valid && !confirmpassword.pristine" class="alert alert-danger">
-                {{ '_RequiredConfirmPassword_' | translate }}
+        <div class=row>
+            <div class="form-group">
+                <label for="confirmpassword">{{ '_ConfirmPassword_' | translate }}</label>
+                <input type="password" class="form-control" id="confirmpassword" required validateEqual="password" [(ngModel)]="model.confirmpassword" name="confirmpassword" #confirmpassword="ngModel">
+                <div *ngIf="!confirmpassword.valid && !confirmpassword.pristine" class="alert alert-danger">
+                    {{ '_RequiredConfirmPassword_' | translate }}
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="firstName">{{ '_FirstName_' | translate }}</label>
-            <input type="text" class="form-control" id="firstName" required [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
-            <div *ngIf="!firstName.valid && !firstName.pristine" class="alert alert-danger">
-                {{ '_RequiredFirstName_' | translate }}
+        <div class=row>
+            <div class="form-group">
+                <label for="firstName">{{ '_FirstName_' | translate }}</label>
+                <input type="text" class="form-control" id="firstName" required [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
+                <div *ngIf="!firstName.valid && !firstName.pristine" class="alert alert-danger">
+                    {{ '_RequiredFirstName_' | translate }}
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="lastName">{{ '_LastName_' | translate }}</label>
-            <input type="text" class="form-control" id="lastName" required [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel">
-            <div *ngIf="!lastName.valid && !lastName.pristine" class="alert alert-danger">
-                {{ '_RequiredLastName_' | translate }}
+        <div class=row>
+            <div class="form-group">
+                <label for="lastName">{{ '_LastName_' | translate }}</label>
+                <input type="text" class="form-control" id="lastName" required [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel">
+                <div *ngIf="!lastName.valid && !lastName.pristine" class="alert alert-danger">
+                    {{ '_RequiredLastName_' | translate }}
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="email">{{ '_Email_' | translate }}</label>
-            <input type="text" class="form-control" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="model.email" name="email" #email="ngModel">
-            <div *ngIf="!email.valid && !email.pristine" class="alert alert-danger">
-                {{ '_RequiredEmail_' | translate }}
+        <div class=row>
+            <div class="form-group">
+                <label for="email">{{ '_Email_' | translate }}</label>
+                <input type="text" class="form-control" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="model.email" name="email" #email="ngModel">
+                <div *ngIf="!email.valid && !email.pristine" class="alert alert-danger">
+                    {{ '_RequiredEmail_' | translate }}
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="gender">{{ '_Gender_' | translate }}</label>
-            <select class="form-control" id="gender" required [(ngModel)]="model.gender" name="gender" #gender="ngModel">
+        <div class=row>
+            <div class="form-group">
+                <label for="gender">{{ '_Gender_' | translate }}</label>
+                <select class="form-control" id="gender" required [(ngModel)]="model.gender" name="gender" #gender="ngModel">
           <option *ngFor="let g of genders" [value]="g">{{ g | uppercase | translate }}</option>
         </select>
-            <div *ngIf="!gender.valid && !gender.pristine" class="alert alert-danger">
-                {{ '_RequiredGender_' | translate }}
+                <div *ngIf="!gender.valid && !gender.pristine" class="alert alert-danger">
+                    {{ '_RequiredGender_' | translate }}
+                </div>
             </div>
         </div>
-        <div style="height: 70px;">
-            <div *ngIf="error" class="alert alert-danger">
-            {{ error | translate }}
+        <div class=row>
+            <div style="height: 70px;">
+                <div *ngIf="error" class="alert alert-danger">
+                    {{ error | translate }}
+                </div>
+                <loader *ngIf="loading" [height]="50"></loader>
             </div>
-            <loader *ngIf="loading" [height]="50"></loader>
         </div>
-        <button type="submit" style="margin-top: 15px;" class="btn btn-primary" [class.disabled]="!caregiverForm.form.valid">{{'_SignUpBtn_' | translate }}</button>
+
+        <div class=row>
+            <a [routerLink]="['/login']" type="button" (click)="createCaregiver()" class="btn btn-success" [class.disabled]="!caregiverForm.form.valid">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SignUpBtn_' | translate }}
+            </a>
+            <button [routerLink]="['/home']" type="button" class="btn btn-secondary"> 
+                  <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
+            </button>
+        </div>
     </form>
 </div>

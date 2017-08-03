@@ -1,29 +1,35 @@
 <div class="container">
-    <button *ngIf="childId" type="button" class="btn btn-primary pull-right" [routerLink]="['new']">
-    <span class="glyphicon glyphicon-plus"></span>
+    <div class=row>
+        <button *ngIf="childId" type="button" class="btn btn-primary pull-right" [routerLink]="['new']">
+    <span class="glyphicon glyphicon-plus" style="font-size: small;"></span>
     {{ '_AddSequence_' | translate }}
   </button>
-    <button *ngIf="!childId" type="button" class="btn btn-primary pull-right" [routerLink]="['/sequences/new']">
-    <span class="glyphicon glyphicon-plus"></span>
+        <button *ngIf="!childId" type="button" class="btn btn-primary pull-right" [routerLink]="['/sequences/new']">
+    <span class="glyphicon glyphicon-plus" style="font-size: small;"></span>
     {{ '_CreateSequence_' | translate }}
   </button>
-    <h2>{{ '_Sequences_' | translate }}</h2>
-    <loader *ngIf="loading"></loader>
-    <div *ngIf="!loading">
-        <p *ngIf="sequences?.length === 0">{{ '_NoSequences_' | translate }}</p>
-        <div class="panel panel-default" *ngFor="let sequence of pagedItems">
-            <div class="panel-body">
-                <button type="button" class="btn btn-secondary pull-right" [routerLink]="['/sequences/' + sequence.sequenceId]">{{ '_ViewExercises_' | translate }}</button>
-                <h4>{{sequence.sequenceName}}</h4>
-            </div>
-            <div class="panel-heading">
-                <button type="button" class="btn btn-primary" [routerLink]="['/sequences/' + sequence.sequenceId + '/edit']">
-                  <span class="glyphicon glyphicon-pencil"></span> {{ '_Edit_' | translate }}
+    </div>
+    <div class=row>
+        <h2>{{ '_Sequences_' | translate }}</h2>
+    </div>
+    <div class=row>
+        <loader *ngIf="loading"></loader>
+        <div *ngIf="!loading">
+            <p *ngIf="sequences?.length === 0">{{ '_NoSequences_' | translate }}</p>
+            <div class="panel panel-default" *ngFor="let sequence of pagedItems">
+                <div class="panel-body">
+                    <button type="button" class="btn btn-info pull-right" [routerLink]="['/sequences/' + sequence.sequenceId]">{{ '_ViewExercises_' | translate }}</button>
+                    <h4>{{sequence.sequenceName}}</h4>
+                </div>
+                <div class="panel-heading">
+                    <button type="button" class="btn btn-primary" [routerLink]="['/sequences/' + sequence.sequenceId + '/edit']">
+                  <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
                 </button>
-                <button type="button" class="btn btn-primary" (click)="deleteSequence(sequence.sequenceId)">
-          <span class="glyphicon glyphicon-trash"></span>
+                    <button type="button" class="btn btn-danger" (click)="deleteSequence(sequence.sequenceId)">
+          <span class="glyphicon glyphicon-trash" style="font-size: small;"></span>
           {{ '_Delete_' | translate }}
         </button>
+                </div>
             </div>
         </div>
 

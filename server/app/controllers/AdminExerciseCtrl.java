@@ -357,22 +357,35 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug("body -> " + body);
         List<FilePart<File>> resources = body.getFiles();
 
+        // TODO: Ver pq nao funciona
         try {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
                 FilePart<File> resource = i.next();
-                Logger.debug("resource -> " + resource);
+                
+                Logger.debug("Resource -> " + resource);
+                
                 if (resource != null) {
                     String fileName = resource.getFilename();
+                    Logger.debug("Filename -> " + fileName);
+                    
                     File file = resource.getFile();
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+                    
                     String folderPath = "images/" + type +"/" + timestamp.getTime() + StringUtils.stripAccents(fileName);
                     String path = "public/" + folderPath;
+                    File file2 = new File(path);
                     
-                    Boolean uploaded = file.renameTo(new File(path));
                     
-                    Logger.debug(folderPath + " " + uploaded);
-                    if (uploaded) { ResourceArea resourceArea;
+                    Logger.debug("Write?" + file2.canWrite());
+                    Logger.debug("Execute?" + file2.canExecute());
+                    Logger.debug("Read?" + file2.canRead());
+                    
+                    Boolean uploaded = file.renameTo(file2);
+                    Logger.debug(path + " " + uploaded);
+                    
+                    if (uploaded) { 
+                        ResourceArea resourceArea;
                         
                         switch (type) {
                             case "stimuli":
@@ -387,6 +400,8 @@ public class AdminExerciseCtrl extends Controller {
                             default:
                                 resourceArea = ResourceArea.STIMULI;
                         }
+                        
+                        Logger.debug("Uploaded: " + uploaded);
                         
                         Resource res = new Resource(loggedCaregiver, folderPath, resourceArea);
                         res.save();
