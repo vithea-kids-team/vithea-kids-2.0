@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-children',
@@ -13,7 +14,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
   public searchBy: string = '';
   public loading:boolean = false;
 
-  constructor(public service: ChildrenService) { }
+  constructor(public service: ChildrenService, public location: Location) { }
 
   ngOnInit() {
     this.getChildren();
@@ -46,5 +47,9 @@ export class ChildrenComponent implements OnInit, OnChanges {
         this.loading = false;
       }
     )
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

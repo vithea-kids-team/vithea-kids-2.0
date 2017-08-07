@@ -3,7 +3,7 @@ import 'rxjs/add/operator/switchMap';
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
-
+import { Location } from '@angular/common';
 import { Exercise } from '../../models/exercise';
 import { ExercisesService } from '../../services/exercises/exercises.service';
 import { ChildrenService } from '../../services/children/children.service';
@@ -31,7 +31,8 @@ export class ExercisesComponent implements OnInit, OnChanges {
   public imageFilter = true;
 
   constructor(public route: ActivatedRoute, public exercisesService: ExercisesService,
-    public childrenService: ChildrenService, public paginationService: PaginationService) { }
+    public childrenService: ChildrenService, public paginationService: PaginationService,
+    public location: Location) { }
 
   ngOnInit() {
     this.fetchExercises();
@@ -100,15 +101,20 @@ export class ExercisesComponent implements OnInit, OnChanges {
     )
   }
 
-    setPage(page: number) {
-        if (page < 1 || page > this.pager.totalPages) {
-            return;
-        }
+  goBack() {
+    this.location.back();
+  }
 
-        // get pager object from service
-        this.pager = this.paginationService.getPager(this.exercises.length, page);
 
-        // get current page of items
-        this.pagedItems = this.exercises.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
     }
+
+  // get pager object from service
+    this.pager = this.paginationService.getPager(this.exercises.length, page);
+
+  // get current page of items
+  this.pagedItems = this.exercises.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
 }

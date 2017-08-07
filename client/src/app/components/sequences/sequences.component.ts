@@ -42,7 +42,7 @@ export class SequencesComponent implements OnInit, OnChanges {
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
-        const id: number = parseInt(params['childid']);
+        const id: number = parseInt(params['childid'], 10);
         if (id) {
           this.childId = id;
           this.getChildSequences(id);

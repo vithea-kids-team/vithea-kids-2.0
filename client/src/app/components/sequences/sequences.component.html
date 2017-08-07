@@ -1,13 +1,16 @@
 <div class="container">
-    <div class=row>
-        <button *ngIf="childId" type="button" class="btn btn-primary pull-right" [routerLink]="['new']">
-    <span class="glyphicon glyphicon-plus" style="font-size: small;"></span>
-    {{ '_AddSequence_' | translate }}
-  </button>
-        <button *ngIf="!childId" type="button" class="btn btn-primary pull-right" [routerLink]="['/sequences/new']">
-    <span class="glyphicon glyphicon-plus" style="font-size: small;"></span>
-    {{ '_CreateSequence_' | translate }}
-  </button>
+    <div class="row">
+        <div class="panel-default pull-right">
+            <a type="button" class="btn btn-default" (click)="goBack()">
+                <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
+            </a>
+            <button *ngIf="childId" type="button" class="btn btn-primary" [routerLink]="['new']">
+                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_AddSequence_' | translate }
+            </button>
+            <a *ngIf="!childId" type="button" class="btn btn-primary" [routerLink]="['/sequences/new']">
+                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_CreateSequence_' | translate }}
+            </a>
+        </div>
     </div>
     <div class=row>
         <h2>{{ '_Sequences_' | translate }}</h2>

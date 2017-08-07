@@ -1,30 +1,33 @@
 <div class="container">
-    <div class=row>
-        <button *ngIf="!sequenceId" type="button" class="btn btn-primary pull-right" [routerLink]="['/exercises/new']">
-    <span class="glyphicon glyphicon-plus" style="font-size: small;"></span>
-    {{ '_CreateExercise_' | translate }}
-  </button>
-        <button *ngIf="sequenceId" type="button" class="btn btn-primary pull-right" [routerLink]="['/exercises/new/' + sequenceId]">
-    <span class="glyphicon glyphicon-plus" style="font-size: small;"></span>
-    {{ '_AddExercise_' | translate }}
-  </button>
+    <div class="row">
+        <div class="panel-default pull-right">
+            <a type="button" class="btn btn-default" (click)="goBack()">
+                <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
+            </a>
+            <a *ngIf="!sequenceId" type="button" class="btn btn-primary" [routerLink]="['/exercises/new']">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateExercise_' | translate }}
+            </a>
+            <button *ngIf="sequenceId" type="button" class="btn btn-primary" [routerLink]="[ '/exercises/new/' + sequenceId]">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_AddExercise_' | translate }}
+            </button>
+
+        </div>
     </div>
-    <div class=row>
+    <div class="row">
         <h2>{{ '_Exercises_' | translate }}</h2>
     </div>
-    <div class=row>
+    <div class="row">
         <h3 *ngIf="sequence?.sequenceId">{{sequence.sequenceName}}</h3>
         <div class="filters-container" *ngIf="exercises && exercises.length">
             <div class="[ form-group ] filter">
                 <input type="checkbox" name="image" id="image" autocomplete="off" [(ngModel)]="imageFilter" />
                 <div class="[ btn-group ]">
                     <label for="image" class="[ btn btn-primary ]">
-                <span class="[ glyphicon glyphicon-ok ] " style="font-size: small;"></span>
-                <span> </span>
-            </label>
-                    <label for="image" class="[ btn btn-default active ]">
-                {{ "_Image_" | translate}}
-            </label>
+                        <span class="[ glyphicon glyphicon-ok ] " style="font-size: small;"></span>
+                        <span> </span>
+                    </label>
+                    <label for="image" class="[ btn btn-default active ]"> {{ "_Image_" | translate}}
+                    </label>
                 </div>
             </div>
             <div class="[ form-group ] filter">
@@ -41,7 +44,7 @@
             </div>
         </div>
     </div>
-    <div class=row>
+    <div class="row">
         <loader *ngIf="loading"></loader>
         <div *ngIf="!loading">
             <p *ngIf="exercises?.length === 0">{{ '_NoExercises_' | translate }}</p>
@@ -60,10 +63,10 @@
                 <div class="panel-heading">
                     <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/edit']">
                     <small><span class="glyphicon glyphicon-pencil" style="font-size: small;"></span></small> {{ '_Edit_' | translate }}
-                </button>
+                    </button>
                     <button type="button" class="btn btn-danger" (click)="deleteExercise(exercise.exerciseId)">
                     <span class="glyphicon glyphicon-trash" style="font-size: small;"></span> {{ '_Delete_' | translate }}
-                </button>
+                    </button>
                 </div>
             </div>
         </div>
