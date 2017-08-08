@@ -48,6 +48,7 @@ export class SequencesComponent implements OnInit, OnChanges {
         const id: number = parseInt(params['childid'], 10);
         if (id) {
           this.childId = id;
+          this.getChild(id);
           this.getChildSequences(id);
         } else {
           this.getSequences();
@@ -58,11 +59,23 @@ export class SequencesComponent implements OnInit, OnChanges {
       });
   }
 
-  public getChildSequences(id) {
-    this.childrenService.getChild(id).subscribe(
+    public getChild(id) {
+      this.childrenService.getChild(id).subscribe(
+        result => {
+          this.child = result;
+          this.loading = false;
+        },
+        err => {
+          console.error('Error loading child.' + err);
+          this.child = [];
+        }
+      );
+    }
+
+    public getChildSequences(id) {
+    this.childrenService.getChildSequences(id).subscribe(
       result => {
-        this.child = result;
-        this.sequences = result.sequencesList;
+        this.sequences = result;
 
         // initialize to page 1
         this.setPage(1);
