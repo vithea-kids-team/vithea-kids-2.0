@@ -3,10 +3,11 @@
 <form *ngIf="prefs && !loading" (ngSubmit)="updatePreferences()">
     <div class="container">
         <div class=row>
-            <h2>{{ '_Preferences_' | translate }} {{ childName }}</h2>
-            <h3>{{ '_PersonalMessages_' | translate }}</h3>
+            <h2>{{ '_Preferences_' | translate }}</h2>
+            <h3> {{ childName }}</h3>
         </div>
         <div class=row>
+            <h4>{{ '_PersonalMessages_' | translate }}</h4>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group">
@@ -25,7 +26,7 @@
             </div>
         </div>
         <div class=row>
-            <h3>{{ '_Reinforcements_' | translate }}</h3>
+            <h4>{{ '_Reinforcements_' | translate }}</h4>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group">
@@ -47,7 +48,7 @@
             </div>
         </div>
         <div class=row>
-            <h3>{{ '_Prompting_' | translate }}</h3>
+            <h4>{{ '_Prompting_' | translate }}</h4>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="form-group">
@@ -71,7 +72,7 @@
             </div>
         </div>
         <div class=row>
-            <h3>{{ '_AnimatedCharacter_' | translate }}</h3>
+            <h4>{{ '_AnimatedCharacter_' | translate }}</h4>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div style="max-height: 100px; overflow-y: auto;">

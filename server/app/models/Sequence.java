@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,25 +27,28 @@ public class Sequence extends Model {
     @JoinTable(name = "sequence_exercise")
     private List<Exercise> exerciseList;
     
-    @JsonIgnore
-    //@ManyToMany(mappedBy = "sequencesList")
-    //@LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     private List<Child> childrenList;
 
-    
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private Caregiver author;
 
     public static final Finder<Long, Sequence> find = new Finder<>(Sequence.class);
     
-    public Sequence(String name, List<Long> exerciseIds, Caregiver author) {
+    public Sequence(String name, List<Long> exerciseIds, List<Long> childrenIds, Caregiver author) {
+    //public Sequence(String name, List<Long> exerciseIds, Caregiver author) {
         this.name = name;
         this.author = author;
         
         exerciseIds.stream().map((d) -> Exercise.findExerciseById(d)).forEachOrdered((ex) -> {
             exerciseList.add(ex);
         });
+        childrenIds.stream().map((d) -> Child.findByChildId(d)).forEachOrdered((ch) -> {
+            childrenList.add(ch);
+        });
+        
     }
     
     public Caregiver getAuthorCaregiver(){

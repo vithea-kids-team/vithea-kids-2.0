@@ -43,7 +43,7 @@ export class ChildrenService {
       return this.http.get('/sequences/' + id);
   }
 
-  updatePreferences(childId:number, childPreferences: Preferences): Observable<Response> {
+  updatePreferences(childId: number, childPreferences: Preferences): Observable<Response> {
     return this.http.post('/child/' + childId + '/updatepreferences', childPreferences);
   }
 

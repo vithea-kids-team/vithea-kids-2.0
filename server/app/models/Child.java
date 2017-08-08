@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -41,6 +42,7 @@ public class Child extends Model {
     private Login childLogin;
 
     @ManyToMany(cascade = CascadeType.REMOVE)
+    @JsonBackReference
     private List<Sequence> sequencesList;
     
     @OneToMany(cascade = CascadeType.ALL)

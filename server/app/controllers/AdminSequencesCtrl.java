@@ -75,7 +75,7 @@ public class AdminSequencesCtrl extends Controller {
             j++;
         }
         
-        Sequence sequence = new Sequence(sequenceName, exerciseIds, Caregiver.findByUsername(SecurityController.getUser().username));
+        Sequence sequence = new Sequence(sequenceName, exerciseIds, childrenIds, Caregiver.findByUsername(SecurityController.getUser().username));
         sequence.save();
         
         childrenIds.forEach((id) -> {
@@ -101,6 +101,8 @@ public class AdminSequencesCtrl extends Controller {
                 Logger.debug("ERROR: " + e);
             }
         }
+        
+        Logger.debug("number of child:" + sequence.getSequenceChildren().size());
 
         return ok(Json.toJson(sequence));
     }

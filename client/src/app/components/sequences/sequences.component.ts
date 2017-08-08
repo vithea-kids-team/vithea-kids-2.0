@@ -5,6 +5,7 @@ import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 
 import { Sequence } from '../../models/sequence';
+import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
 import { SequencesService } from '../../services/sequences/sequences.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
@@ -16,9 +17,11 @@ import { PaginationService } from '../../services/pagination/pagination.service'
 })
 export class SequencesComponent implements OnInit, OnChanges {
 
-  public childId: number;
+  public childId: number = 0;
+  public child;
   public sequences: Array<Sequence>;
   public loading: boolean = false;
+  public children: Array<Child>;
 
   // pager object
   pager: any = {};
@@ -56,9 +59,10 @@ export class SequencesComponent implements OnInit, OnChanges {
   }
 
   public getChildSequences(id) {
-    this.childrenService.getChildSequences(id).subscribe(
+    this.childrenService.getChild(id).subscribe(
       result => {
-        this.sequences = result;
+        this.child = result;
+        this.sequences = result.sequencesList;
 
         // initialize to page 1
         this.setPage(1);
@@ -84,6 +88,18 @@ export class SequencesComponent implements OnInit, OnChanges {
       err => {
         console.error('Error loading sequences.' + err);
         this.sequences = [];
+      }
+    );
+  }
+
+  public getSequenceChildren(sequenceId) {
+    this.sequencesService.getSequenceChildren(sequenceId).subscribe(
+      result => {
+        this.children = result;
+      },
+      err => {
+        console.error('Error loading children of sequence.' + err);
+        this.children = [];
       }
     );
   }

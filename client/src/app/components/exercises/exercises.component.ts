@@ -47,7 +47,7 @@ export class ExercisesComponent implements OnInit, OnChanges {
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
-        const id: number = parseInt(params['sequenceid']);
+        const id: number = parseInt(params['sequenceid'], 10);
         if (id) {
           this.sequenceId = id;
           this.getSequenceExercises(id);
