@@ -4,12 +4,12 @@
             <a type="button" class="btn btn-default" (click)="goBack()">
                 <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
             </a>
-            <button *ngIf="childId" type="button" class="btn btn-primary" [routerLink]="['new']">
-                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_AddSequence_' | translate }
-            </button>
-            <a *ngIf="!childId" type="button" class="btn btn-primary" [routerLink]="['/sequences/new']">
-                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_CreateSequence_' | translate }}
+            <a *ngIf="!childId" type="button" class="btn btn-primary" [routerLink]="['new']">
+                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_AddSequence_' | translate }}
             </a>
+            <button *ngIf="childId" type="button" class="btn btn-primary" [routerLink]="['/sequences/new']">
+                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_CreateSequence_' | translate }}
+            </button>
         </div>
     </div>
     <div class=row>
@@ -23,15 +23,16 @@
                 <div class="panel-body">
                     <button type="button" class="btn btn-info pull-right" [routerLink]="['/sequences/' + sequence.sequenceId]">{{ '_ViewExercises_' | translate }}</button>
                     <h4>{{sequence.sequenceName}}</h4>
+
+                    <!--p>{{sequence.sequenceAuthor}}</p>-->
                 </div>
                 <div class="panel-heading">
                     <button type="button" class="btn btn-primary" [routerLink]="['/sequences/' + sequence.sequenceId + '/edit']">
-                  <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
-                </button>
+                        <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
+                    </button>
                     <button type="button" class="btn btn-danger" (click)="deleteSequence(sequence.sequenceId)">
-          <span class="glyphicon glyphicon-trash" style="font-size: small;"></span>
-          {{ '_Delete_' | translate }}
-        </button>
+                        <span class="glyphicon glyphicon-trash" style="font-size: small;"></span> {{ '_Delete_' | translate }}
+                    </button>
                 </div>
             </div>
         </div>

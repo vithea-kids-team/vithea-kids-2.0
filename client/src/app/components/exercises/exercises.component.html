@@ -7,7 +7,7 @@
             <a *ngIf="!sequenceId" type="button" class="btn btn-primary" [routerLink]="['/exercises/new']">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateExercise_' | translate }}
             </a>
-            <button *ngIf="sequenceId" type="button" class="btn btn-primary" [routerLink]="[ '/exercises/new/' + sequenceId]">
+            <button *ngIf="sequenceId" type="button" class="btn btn-primary" [routerLink]="['/exercises/new/' + sequenceId]">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_AddExercise_' | translate }}
             </button>
 

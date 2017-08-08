@@ -4,7 +4,7 @@ import { HttpApiClient } from '../http/http-api-client.service';
 @Injectable()
 export class SequencesService {
 
-  constructor(public http : HttpApiClient) { }
+  constructor(public http: HttpApiClient) { }
 
   getSequences() {
     return this.http.get('/listsequences')
@@ -19,5 +19,4 @@ export class SequencesService {
   deleteSequence(sequenceId) {
     return this.http.delete('/deletesequence/' + sequenceId);
   }
-
 }

@@ -72,7 +72,6 @@ export class SequencesComponent implements OnInit, OnChanges {
     );
   }
 
-
   public getSequences() {
     this.sequencesService.getSequences().subscribe(
       result => {
@@ -101,14 +100,14 @@ export class SequencesComponent implements OnInit, OnChanges {
   }
 
   setPage(page: number) {
-        if (page < 1 || page > this.pager.totalPages) {
-            return;
-        }
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+     }
 
-        // get pager object from service
-        this.pager = this.paginationService.getPager(this.sequences.length, page);
+     // get pager object from service
+    this.pager = this.paginationService.getPager(this.sequences.length, page);
 
-        // get current page of items
-        this.pagedItems = this.sequences.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    // get current page of items
+    this.pagedItems = this.sequences.slice(this.pager.startIndex, this.pager.endIndex + 1);
     }
 }

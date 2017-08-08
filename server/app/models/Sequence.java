@@ -1,17 +1,14 @@
 package models;
 
-import java.util.List;
-
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import controllers.SecurityController;
+import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.JoinTable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import play.Logger;
@@ -29,6 +26,13 @@ public class Sequence extends Model {
     @JoinTable(name = "sequence_exercise")
     private List<Exercise> exerciseList;
     
+    @JsonIgnore
+    //@ManyToMany(mappedBy = "sequencesList")
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private List<Child> childrenList;
+
+    
     @ManyToOne
     private Caregiver author;
 
@@ -41,6 +45,14 @@ public class Sequence extends Model {
         exerciseIds.stream().map((d) -> Exercise.findExerciseById(d)).forEachOrdered((ex) -> {
             exerciseList.add(ex);
         });
+    }
+    
+    public Caregiver getAuthorCaregiver(){
+        return this.author;
+    }
+    
+    public void setAuthorCaregiver(Caregiver author){
+        this.author = author;
     }
 
     public Long getSequenceId() {
@@ -65,6 +77,14 @@ public class Sequence extends Model {
 
     public void setSequenceExercises(List<Exercise> exerciseList) {
         this.exerciseList = exerciseList;
+    }
+    
+     public List<Child> getSequenceChildren() {
+        return this.childrenList;
+    }
+
+    public void setSequenceChildren(List<Child> childrenList) {
+        this.childrenList = childrenList;
     }
     
     public static List<Sequence> getAll() {

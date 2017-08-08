@@ -37,7 +37,7 @@ public class AdminSequencesCtrl extends Controller {
         }
         String sequenceName = registerSequenceForm.get("sequenceName");
         
-        List<Long> exerciseIds = new ArrayList<Long>();
+        List<Long> exerciseIds = new ArrayList<>();
         int i = 0;
         while(true) {
             String key = "exercisesToAdd[" + i + "]";
@@ -56,7 +56,7 @@ public class AdminSequencesCtrl extends Controller {
             i++;
         }
         
-        List<Long> childrenIds = new ArrayList<Long>();
+        List<Long> childrenIds = new ArrayList<>();
         int j = 0;
         while(true) {
             String key = "childrenToAssign[" + j + "]";
@@ -105,18 +105,38 @@ public class AdminSequencesCtrl extends Controller {
         return ok(Json.toJson(sequence));
     }
     
+    
+     /*
+     * EditSequence action
+     */
+    public Result editSequence(Long sequenceId){
+        return ok("Ainda não está implementado");
+    }
+    
+    /*
+     * GetSequenceChildren action
+     */
+    public Result getSequenceChildren(Long sequenceId){
+        
+        Sequence sequence = Sequence.findById(sequenceId);
+        List<Child> sequenceChildren = sequence.getSequenceChildren();
+        
+        return ok(Json.toJson(sequenceChildren));
+    }
+    
     /*
      * GetSequences action
      */
-    
     public Result getSequences() {
-        return ok(Json.toJson(Sequence.findByAuthor(Caregiver.findByUsername(SecurityController.getUser().getUsername()))));
+        
+        List<Sequence> findByAuthor = Sequence.findByAuthor(Caregiver.findByUsername(SecurityController.getUser().getUsername()));
+        
+        return ok(Json.toJson(findByAuthor));
     }
     
     /*
      * GetSequenceExercises action
      */
-    
     public Result getSequence(Long sequenceId) {
         //TODO check if the loggedin caregiver can see this sequence
         Sequence sequence = Sequence.findById(sequenceId); 
@@ -141,4 +161,5 @@ public class AdminSequencesCtrl extends Controller {
         wrapper.set(type, msg);
         return wrapper;
     }
+
 }

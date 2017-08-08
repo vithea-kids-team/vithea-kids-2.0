@@ -16,6 +16,7 @@ export class PreferencesComponent implements OnInit {
 
   public prefs: Preferences;
   public childId: number;
+  public childName: string;
 
   public animatedCharactersResources;
   public reinforcementResources;
@@ -71,6 +72,9 @@ export class PreferencesComponent implements OnInit {
 
         this.reinforcementResources = this.resourcesService.getResourcesByType('reinforcement', this.prefs.reinforcementResourceId);
         this.animatedCharactersResources = this.resourcesService.getResourcesByType('animatedcharacter', this.prefs.animatedCharacterResourceId);
+        
+        this.childName = result.firstName + ' ' + result.lastName;
+        
         this.loading = false;
       },
       err => {

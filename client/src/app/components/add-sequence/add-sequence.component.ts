@@ -24,15 +24,15 @@ export class AddSequenceComponent implements OnInit {
   public addedExercises: Array<Exercise> = [];
   public addedChildren: Array<Child> = [];
 
-  constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService : ExercisesService, 
+  constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService: ExercisesService,
     public childrenService: ChildrenService, public router: Router) { }
 
   ngOnInit() {
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
-        const id : number = parseInt(params['childid'], 10);
-        if(id) {
+        const id: number = parseInt(params['childid'], 10);
+        if (id) {
           this.newSequence.childId = id;
         }
       });
@@ -52,10 +52,9 @@ export class AddSequenceComponent implements OnInit {
 
     this.sequencesService.registerSequence(this.newSequence)
       .subscribe(res => {
-         if (this.newSequence.childId) {
+        if (this.newSequence.childId) {
           this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
-        }
-        else {
+        } else {
           this.router.navigate(['/sequences']);
         }
       },

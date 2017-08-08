@@ -3,7 +3,7 @@
 <form *ngIf="prefs && !loading" (ngSubmit)="updatePreferences()">
     <div class="container">
         <div class=row>
-            <h2>{{ '_Preferences_' | translate }}</h2>
+            <h2>{{ '_Preferences_' | translate }} {{ childName }}</h2>
             <h3>{{ '_PersonalMessages_' | translate }}</h3>
         </div>
         <div class=row>
