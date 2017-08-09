@@ -200,9 +200,7 @@ export class SettingsComponent implements OnInit {
 
     // remove topics
     this.topicsToRemove.forEach(elemTemp => {
-      console.log(this.topics.length);
       this.topics.forEach(elemInit => {
-        console.log(elemTemp + ' ' + elemInit.topicDescription + ' ' + elemInit.topicId);
         if (elemTemp === elemInit.topicDescription) {
           this.removeTopic(Number(elemInit.topicId))
         }
@@ -211,9 +209,7 @@ export class SettingsComponent implements OnInit {
 
     // remove levels
     this.levelsToRemove.forEach(elemTemp => {
-      console.log(this.levels.length);
       this.levels.forEach(elemInit => {
-        console.log(elemTemp + ' ' + elemInit.levelDescription + ' ' + elemInit.levelId);
         if (elemTemp === elemInit.levelDescription) {
           this.removeLevel(Number(elemInit.levelId))
         }
@@ -245,87 +241,4 @@ export class SettingsComponent implements OnInit {
     this.location.back();
   }
 
-
-
-/*
-  addTopic() {
-    if (this.newTopic && this.newTopic !== '') {
-      this.loading = true;
-      this.containsTopic() // verify if the topic already exist
-      if (!this.topicExist) {
-        this.topicExist = false;
-        this.resourcesService.addTopic(this.newTopic).subscribe(
-          res => {
-            this.tempTopics.push(this.newTopic);
-            this.newTopic = '';
-            this.resourcesService.fetchTopics().subscribe(
-              res => {
-                this.topics = res;
-                this.loading = false
-                this.topicExist = false
-              }
-            )
-          },
-          err => {
-            console.error('Error adding topic', err);
-            this.loading = false;
-          }
-        )
-      } else {
-        console.error('Error adding topic: the topic already exists.');
-        this.loading = false;
-      }
-    }
-  }
-
-  
-
-
-  addLevel() {
-    if (this.newLevel && this.newLevel !== '') {
-      this.loading = true;
-      this.containsLevel() // verify if the level already exist
-      if (!this.levelExist) {
-        this.levelExist = false;
-        this.resourcesService.addLevel(this.newLevel).subscribe(
-          res => {
-            this.tempLevels.push(this.newLevel);
-            this.newLevel = '';
-            this.resourcesService.fetchLevels().subscribe(
-              res => {
-                this.levels = res;
-                this.loading = false
-              }
-            )
-          },
-          err => {
-            console.error('Error adding level', err);
-            this.loading = false;
-          }
-        )
-      } else {
-        console.error('Error adding level: the level already exists.');
-        this.loading = false;
-      }
-    }
-  }
-
-  removeLevel(level: number) {
-    this.loading = true;
-    this.resourcesService.removeLevel(level).subscribe(
-        res => {
-          this.resourcesService.fetchLevels().subscribe(
-          res => {
-              this.levels = res;
-              this.loading = false
-            }
-          )
-        },
-        err => {
-          console.error('Error removing level', err);
-          this.loading = false;
-        }
-      )
-  }
-*/
 }
