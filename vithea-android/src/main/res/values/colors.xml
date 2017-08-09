@@ -4,12 +4,14 @@
     <color name="nav_bg_color">#FFFFFF</color>
     <color name="exercise_bg_color">#FFFFFF</color>
     <color name="end_bg_color">#FFFFFF</color>
-    <color name="end_table_border_color">#404040</color>
+    <color name="end_table_border_color">#202020</color>
     <color name="reinf_bg_color">#FFFFFF</color>
-    <color name="list_header_color">#404040</color>
+    <color name="list_header_color">#202020</color>
     <color name="list_header_text_color">#FFFFFF</color>
     <color name="list_item_color">#FFFFFF</color>
     <color name="exercise_button_color">#202020</color>
+    <color name="exercise_button_color_selected">#4d4d4d </color>
+    <color name="exercise_button_color_shadow"> #66000000 </color>
     <color name="exercise_button_text_color">#FFFFFF</color>
     <color name="reinforcement_text_color">#202020</color>
     <color name="login_error_message_color">#ff0000</color>
@@ -19,7 +21,7 @@
     <!-- DEBUG colors -->
 
     <color name="white">#FFFFFF</color>
-    
+    <color name="grey"> #8c8c8c</color>
     <color name="debug_red">#DD0000</color>
     <color name="debug_green">#00DD00</color>
     <color name="debug_blue">#0000DD</color>

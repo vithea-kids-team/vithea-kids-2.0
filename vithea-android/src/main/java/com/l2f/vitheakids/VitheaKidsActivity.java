@@ -16,16 +16,24 @@ import com.l2f.vitheakids.util.ExerciseMenuListWithoutImageAdapter;
 import com.l2f.vitheakids.util.CanvasUtil;
 import com.unity3d.player.*;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,10 +60,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormat.COLOR;
 
 /**
  * Updated by Soraia Meneses Alarcão on 21/07/2017
@@ -345,7 +358,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
      * @param exercise
      * @param container
      */
-    public void setSimpleMultipleChoiceExerciseView(Exercise exercise, LinearLayout container) {
+    public void setSimpleMultipleChoiceExerciseView(Exercise exercise, LinearLayout container)  {
 
         // Layout
         View ex_view = (View) linflater.inflate(R.layout.exercise_words_layout, null);
@@ -394,6 +407,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
                         }
                     });
                     rightAnswerButton = btn;
+
                 } else {
                     btn.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
@@ -414,7 +428,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
         if (promptingActive && child.getPrompting() != null ) {
             if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                 if (child.getPrompting().getPromptingColor()) {
-                    rightAnswerButton.setBackgroundColor(Color.BLUE);
+
+                    rightAnswerButton.setBackgroundDrawable(makeSelector(Color.parseColor("#66a3ff")));
                 }
                 if(child.getPrompting().getPromptingSize()) {
                     rightAnswerButton.setTextSize(20);
@@ -738,6 +753,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
     }
     protected void homeHandler() {
         setSequenceSelectionView();
+
+
     }
 
     // logout
@@ -839,6 +856,25 @@ public class VitheaKidsActivity extends AppCompatActivity {
         }
 
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    /**
+     * Generates a new drawable with a new color
+     * @param color
+     * @return StateListDrawable
+     */
+
+    public  StateListDrawable makeSelector(int color) {
+
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        Resources res = this.getApplicationContext().getResources();
+        Drawable buttonSelected = res.getDrawable(R.drawable.buttonselected);
+        GradientDrawable  buttonNormal = (GradientDrawable) res.getDrawable(R.drawable.bottonnormal);
+        buttonNormal.setColor(color);
+        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, buttonSelected );
+        stateListDrawable.addState(new int[]{}, buttonNormal);
+
+        return stateListDrawable;
     }
 
 }

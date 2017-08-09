@@ -26,7 +26,7 @@
 		android:layout_marginTop="5dp"
 		android:adjustViewBounds="false"
 		android:maxHeight="200dp"
-		android:maxWidth="500dp" />
+		android:maxWidth="500dp"></ImageView>
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tableLayout1"
@@ -50,12 +50,14 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:background="@color/exercise_button_color"
                 android:padding="0dp"
                 android:textColor="@color/exercise_button_text_color"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+				android:onClick="onClick"
+                android:background="@drawable/multiplechoice"
+				/>
             <!--Segunda escolha multipla-->
             <Button
                 android:id="@+id/button2"
@@ -66,12 +68,12 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:background="@color/exercise_button_color"
+                android:background="@drawable/multiplechoice"
                 android:padding="0dp"
                 android:textColor="@color/exercise_button_text_color"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:visibility="invisible" />
+				android:visibility="invisible" />
         </TableRow>
 
         <TableRow
@@ -90,12 +92,14 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:background="@color/exercise_button_color"
+                android:background="@drawable/multiplechoice"
                 android:padding="0dp"
                 android:textColor="@color/exercise_button_text_color"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+				android:onClick="onClick"
+				/>
 
             <!--Quarta escolha multipla-->
             <Button
@@ -107,12 +111,14 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:background="@color/exercise_button_color"
+                android:background="@drawable/multiplechoice"
                 android:padding="0dp"
                 android:textColor="@color/exercise_button_text_color"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+				android:onClick="onClick"
+				/>
         </TableRow>
     </TableLayout>
 
