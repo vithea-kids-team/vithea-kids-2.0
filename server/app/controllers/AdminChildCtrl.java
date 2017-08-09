@@ -15,6 +15,7 @@ import models.PromptingStrategy;
 import models.Reinforcement;
 import models.ReinforcementStrategy;
 import models.Resource;
+import models.Sequence;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -160,7 +161,12 @@ public class AdminChildCtrl extends Controller {
 
         loggedCaregiver.removeChild(child);
         loggedCaregiver.save();
-
+        
+        Sequence.find.all().forEach((s) -> {
+            child.getSequencesList().remove(s);
+            s.save();
+        });
+        
         child.delete();
 
         return ok(buildJsonResponse("success", "User deleted successfully"));

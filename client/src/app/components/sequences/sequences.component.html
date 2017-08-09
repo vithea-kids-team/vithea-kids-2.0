@@ -5,10 +5,10 @@
                 <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
             </a>
             <a *ngIf="!childId" type="button" class="btn btn-primary" [routerLink]="['new']">
-                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_AddSequence_' | translate }}
+                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_CreateSequence_' | translate }}
             </a>
             <button *ngIf="childId" type="button" class="btn btn-primary" [routerLink]="['/sequences/new']">
-                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_CreateSequence_' | translate }}
+                <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_AddSequence_' | translate }}
             </button>
         </div>
     </div>

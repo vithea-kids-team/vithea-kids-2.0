@@ -27,7 +27,7 @@ public class Sequence extends Model {
     @JoinTable(name = "sequence_exercise")
     private List<Exercise> exerciseList;
     
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy="sequencesList", cascade = CascadeType.PERSIST)
     @JsonManagedReference
     private List<Child> childrenList;
 

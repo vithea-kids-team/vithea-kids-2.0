@@ -74,7 +74,6 @@
             <loader *ngIf="loadingAdd" [height]="50"></loader>
         </div>-->
 
-        <!-- FIXME: Correct label save changes - devia ser sequenceID-->
         <div class="row">
             <a *ngIf="!newSequence.id" type="button" (click)="registerSequence()" class="btn btn-success" [class.disabled]="!sequenceForm.form.valid">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}

@@ -53,7 +53,7 @@ public class Child extends Model {
     
     @OneToOne(cascade = CascadeType.ALL)
     private Reinforcement reinforcement;
-    
+                                                                                                                                                                                                                                                                                                                                                
     @OneToOne(cascade = CascadeType.ALL)
     private Prompting prompting;
     

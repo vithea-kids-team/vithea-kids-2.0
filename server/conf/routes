@@ -23,12 +23,14 @@ GET         /vithea-kids-api/child/:child                   controllers.AdminChi
 DELETE      /vithea-kids-api/deletechild/:child             controllers.AdminChildCtrl.deleteChild(child:Long)
 GET         /vithea-kids-api/child/:child/sequences         controllers.AdminChildCtrl.getChildSequences(child:Long)
 POST        /vithea-kids-api/child/:child/updatepreferences controllers.AdminChildCtrl.updatePreferences(child:Long)
+
 # Exercise
 POST        /vithea-kids-api/registerexercise               controllers.AdminExerciseCtrl.registerExercise
 GET         /vithea-kids-api/exercise/:exercise             controllers.AdminExerciseCtrl.getExercise(exercise:Long)
 POST        /vithea-kids-api/editexercise/:exercise         controllers.AdminExerciseCtrl.editExercise(exercise:Long)
 GET         /vithea-kids-api/listexercises                  controllers.AdminExerciseCtrl.getExercises
 DELETE      /vithea-kids-api/deleteexercise/:exercise       controllers.AdminExerciseCtrl.deleteExercise(exercise:Long)
+
 # Sequence
 POST        /vithea-kids-api/registersequence               controllers.AdminSequencesCtrl.registerSequence
 POST        /vithea-kids-api/editsequence/:sequence         controllers.AdminSequencesCtrl.editSequence(sequence:Long)
@@ -37,20 +39,26 @@ GET         /vithea-kids-api/listsequences                  controllers.AdminSeq
 GET         /vithea-kids-api/sequences/:sequence            controllers.AdminSequencesCtrl.getSequence(sequence:Long)
 GET         /vithea-kids-api/child/:child/sequences         controllers.AdminChildCtrl.getChildSequences(child:Long)
 DELETE      /vithea-kids-api/deletesequence/:sequence       controllers.AdminSequencesCtrl.deleteSequence(sequence:Long)
+
 ### Topic
 GET         /vithea-kids-api/listtopics                     controllers.AdminExerciseCtrl.getTopics
 PUT         /vithea-kids-api/addtopic                       controllers.AdminExerciseCtrl.addTopic
 DELETE      /vithea-kids-api/removetopic/:topic             controllers.AdminExerciseCtrl.removeTopic(topic:Long)
+
 ### Level
 GET         /vithea-kids-api/listlevels                     controllers.AdminExerciseCtrl.getLevels
 PUT         /vithea-kids-api/addlevel                       controllers.AdminExerciseCtrl.addLevel
 DELETE      /vithea-kids-api/removelevel/:level             controllers.AdminExerciseCtrl.removeLevel(level:Long)
+
 ### Resources
 GET         /vithea-kids-api/listresources                  controllers.AdminExerciseCtrl.getResources
 POST        /vithea-kids-api/uploadresources/:type          controllers.AdminExerciseCtrl.uploadResources(type:String)
+
 ### Animated Characeters
 GET         /vithea-kids-api/listanimatedcharacters         controllers.AdminCtrl.getAnimatedCharacters
 POST        /vithea-kids-api/uploadanimatedcharacter/:name  controllers.AdminCtrl.uploadAnimatedCharacter(name:String)
+
+
 ###
 ### Child Application
 ###
