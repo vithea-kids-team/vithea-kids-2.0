@@ -17,6 +17,7 @@
     <string name="correct_exercises">Exercícios respondidos correctamente:</string>
     <string name="avg_distractor_hits">Número médio de resposta erradas por exercício:</string>
 
+    <string name="noClasses">\n\nNão existem aulas criadas.\nPor favor adicione uma nova aula.</string>
     <string name="are_you_sure_msg">Tem a certeza de que pretende sair?</string>
     <string name="cancel_msg">Não</string>
     <string name="yes_msg">Sim</string>

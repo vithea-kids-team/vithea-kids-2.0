@@ -274,7 +274,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // Inflate view
-        View view = linflater.inflate(R.layout.exercise_menu_layout, null);
+        LinearLayout  view = (LinearLayout ) linflater.inflate(R.layout.exercise_menu_layout, null);
         rightFrameLayout.addView(view);
         Log.d("DEBUG", "list view by inflater" + view);
 
@@ -283,6 +283,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
         mAdapter = new ExerciseMenuListWithoutImageAdapter(this);   // util folder
 
         // Load data
+        if(this.child.getSequencesList().size() == 0){
+            TextView textView = new TextView(this.getApplicationContext());
+            textView.setText(R.string.noClasses);
+            textView.setTextColor(Color.BLACK);
+            LayoutParams par = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+            par.setMargins(50,0,0,0);
+            textView.setLayoutParams(par);
+            view.addView(textView);
+        }
         int i = 0;
         for (SequenceExercises sInfo : this.child.getSequencesList()) {
             Log.d("sequenceName", sInfo.getName());
