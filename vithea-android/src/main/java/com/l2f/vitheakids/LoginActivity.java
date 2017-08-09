@@ -226,14 +226,18 @@ public class LoginActivity extends Activity implements TaskListener {
                 startActivity(i);
 
             } else {
-                Toast.makeText(getBaseContext(), R.string.login_failed, Toast.LENGTH_LONG).show();
-                findViewById(R.id.submit).setEnabled(true);
-                ((EditText)findViewById(R.id.password)).setText("");
+                loginInvalid();
             }
 
         } else {
-            Toast.makeText(this, "Serviço temporariamente indisponível", Toast.LENGTH_LONG).show();
+            loginInvalid();
         }
+    }
+
+    private void loginInvalid(){
+        Toast.makeText(getBaseContext(), R.string.login_failed, Toast.LENGTH_LONG).show();
+        findViewById(R.id.submit).setEnabled(true);
+        ((EditText)findViewById(R.id.password)).setText("");
     }
 
     private void setProgressDialogVisible(){
