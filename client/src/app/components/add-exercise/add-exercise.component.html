@@ -89,41 +89,43 @@
                         <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeAnswer(index)"><i class="glyphicon glyphicon-remove" style="font-size: small;"></i></a>
                     </li>
                 </ul>
-                <form class="input-group">
-                    <input class="form-control" [(ngModel)]="newAnswer" name="newAnswer">
-                    <span class="input-group-btn">
-                    <a class="btn btn-primary" (click)="addAnswer()"><i class="glyphicon glyphicon-plus" style="font-size: small;"></i></a>
-                </span>
-                </form>
+                <div *ngIf="!numberAnswersGreater4">
+                    <form class=" input-group ">
+                        <input class="form-control " [(ngModel)]="newAnswer " name="newAnswer ">
+                        <span class="input-group-btn ">
+                            <a class="btn btn-primary " (click)="addAnswer() "><i class="glyphicon glyphicon-plus " style="font-size: small; "></i></a>
+                        </span>
+                    </form>
+                </div>
             </div>
         </div>
 
-        <div class="row">
-            <div *ngIf="newExercise.type == 'image' ">
+        <div class="row ">
+            <div *ngIf="newExercise.type=='image' ">
                 <br>
-                <div style="max-height: 100px; overflow-y: auto;">
-                    <image-picker [(ngModel)]="answersImgs" [multiSelect]="true" name="answersImgs"> </image-picker>
+                <div style="max-height: 100px; overflow-y: auto; ">
+                    <image-picker [(ngModel)]="answersImgs " [multiSelect]="true " name="answersImgs "> </image-picker>
                 </div>
-                <file-upload [label]="'_UploadOption_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
+                <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
                 <br/>
             </div>
             <br/>
         </div>
 
-        <!--<div style="height: 70px;">
-            <div *ngIf="error" class="alert alert-danger"> {{ error | translate }} </div>
-            <loader *ngIf="loadingAdd" [height]="50"></loader>
-        </div>-->
+        <div style="height: 70px; ">
+            <div *ngIf="error " class="alert alert-danger "> {{ error | translate }} </div>
+            <loader *ngIf="loadingAdd " [height]="50 "></loader>
+        </div>
 
-        <div class="row">
-            <a *ngIf="!newExercise.exerciseId" type="button" (click)="registerExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid">
-                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateExercise_' | translate }}
+        <div class="row ">
+            <a *ngIf="!newExercise.exerciseId " type="button " (click)="registerExercise() " class="btn btn-success " [class.disabled]="!exerciseForm.form.valid ">
+                <span class="glyphicon glyphicon-ok " style="font-size: small; " aria-hidden="true "></span> {{ '_CreateExercise_' | translate }}
             </a>
-            <a *ngIf="newExercise.exerciseId" type="button" (click)="editExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid">
-                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
+            <a *ngIf="newExercise.exerciseId " type="button " (click)="editExercise() " class="btn btn-success " [class.disabled]="!exerciseForm.form.valid ">
+                <span class="glyphicon glyphicon-ok " style="font-size: small; " aria-hidden="true "></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
-            <button [routerLink]="['/exercises']" type="button" class="btn btn-secondary"> 
-                  <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
+            <button [routerLink]="[ '/exercises'] " type="button " class="btn btn-secondary "> 
+                  <span class="glyphicon glyphicon-remove " style="font-size: small; " aria-hidden="true "></span> {{'_Cancel_' | translate }}
             </button>
         </div>
     </form>

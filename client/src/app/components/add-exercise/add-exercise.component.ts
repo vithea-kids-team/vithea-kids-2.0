@@ -23,6 +23,7 @@ export class AddExerciseComponent implements OnInit {
   public topics = [];
   public levels = [];
   public error: string = undefined;
+  public numberAnswersGreater4 = false;
 
   constructor(public route: ActivatedRoute, public resourcesService: ResourcesService,
     public exercisesService: ExercisesService, public router: Router) {}
@@ -82,11 +83,21 @@ export class AddExerciseComponent implements OnInit {
     if (this.newAnswer !== '') {
       this.newExercise.answers.push(this.newAnswer);
       this.newAnswer = '';
+      if (this.newExercise.answers.length >= 3) {
+        this.numberAnswersGreater4 = true;
+      } else {
+        this.numberAnswersGreater4 = false;
+      }
     }
   }
 
   removeAnswer(index: number) {
     this.newExercise.answers.splice(index, 1);
+    if (this.newExercise.answers.length >= 3) {
+      this.numberAnswersGreater4 = true;
+    } else {
+      this.numberAnswersGreater4 = false;
+    }
   }
 
   registerExercise() {
