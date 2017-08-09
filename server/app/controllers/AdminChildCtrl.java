@@ -212,6 +212,7 @@ public class AdminChildCtrl extends Controller {
         return  ok(Json.toJson(child.getSequencesList()));
     }
     
+    
     public static class UpdatePreferences {
 
         public String greetingMessage;

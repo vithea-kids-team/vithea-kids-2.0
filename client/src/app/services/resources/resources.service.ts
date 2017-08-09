@@ -36,14 +36,12 @@ export class ResourcesService {
 
   fetchLevels() {
     /* fetch levels */
-    return this.http.get('/listlevels')
-      .map(result => this.levels = result && result.json());
+    return this.http.get('/listlevels').map(result => this.levels = result && result.json());
   }
 
   fetchTopics() {
      /* fetch topics */
-    return this.http.get('/listtopics')
-      .map(result => this.topics = result && result.json());
+    return this.http.get('/listtopics').map(result => this.topics = result && result.json());
   }
 
   fetchAnimatedCharacters() {
@@ -60,6 +58,7 @@ export class ResourcesService {
   }
 
   addTopic(newTopic: string) {
+    console.log('Adicionar ' + newTopic);
     let body = {
       newTopic: newTopic
     };
@@ -67,6 +66,7 @@ export class ResourcesService {
   }
 
   addLevel(newLevel: string) {
+    console.log('Adicionar ' + newLevel);
     let body = {
       newLevel: newLevel
     };
@@ -74,10 +74,12 @@ export class ResourcesService {
   }
 
   removeTopic(topic: number) {
+    console.log('Remover ' + topic);
     return this.http.delete('/removetopic/' + topic);
   }
 
   removeLevel(level: number) {
+    console.log('Remover ' + level);
     return this.http.delete('/removelevel/' + level);
   }
 

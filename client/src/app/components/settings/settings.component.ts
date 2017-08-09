@@ -15,42 +15,147 @@ export class SettingsComponent implements OnInit {
   public newTopic: string;
   public newLevel: string;
   public loading = false;
-  public newTopics = [];
-  public newLevels = [];
+  private tempTopics = [];
+  private tempLevels = [];
+  private topicsToAdd = []
+  private levelsToAdd = []
+  private topicsToRemove = []
+  private levelsToRemove = []
+  private topicExists = false;
+  private levelExists = false;
 
   constructor(public resourcesService: ResourcesService, public location: Location) { }
 
   ngOnInit() {
-    this.resourcesService.fetchLevels().subscribe(
-      res => {
-        this.levels = res;
-      }
-    )
     this.resourcesService.fetchTopics().subscribe(
       res => {
         this.topics = res;
+        this.initTempTopics();
         }
       )
-    }
+    this.resourcesService.fetchLevels().subscribe(
+      res => {
+        this.levels = res;
+        this.initTempLevels();
+      }
+    )
+  }
 
-  addTopic() {
-    if (this.newTopic && this.newTopic !== '') {
-      this.loading = true;
-      this.resourcesService.addTopic(this.newTopic).subscribe(
-        res => {
-          this.newTopic = '';
-          this.resourcesService.fetchTopics().subscribe(
-            res => {
-              this.topics = res;
-              this.loading = false
-            }
-          )
-        },
-        err => {
-          console.error('Error adding topic', err);
-          this.loading = false;
+  initTempTopics() {
+    this.topics.forEach(element => {
+      this.tempTopics.push(element.topicDescription);
+    });
+  }
+
+  initTempLevels() {
+    this.levels.forEach(element => {
+      this.tempLevels.push(element.levelDescription);
+    });
+  }
+
+  updateAddTopic() {
+    this.topicExists = false;
+    if (this.newTopic !== undefined ) {
+      this.tempTopics.forEach(element => {
+        if (element === this.newTopic && !this.topicExists) {
+          console.log('The topic ' + this.newTopic + ' already exists.');
+          this.newTopic = ' ';
+          this.topicExists = true;
         }
-      )
+      })
+      if (!this.topicExists) {
+        this.tempTopics.push(this.newTopic);
+        this.topicsToAdd.push(this.newTopic)
+        this.newTopic = ' ';
+      }
+    }else {
+      console.log('The topic should not be empty.')
+    };
+  }
+
+  updateAddLevel() {
+    this.levelExists = false;
+      if (this.newLevel !== undefined ) {
+        this.tempLevels.forEach(element => {
+          if (element === this.newLevel && !this.levelExists) {
+            console.log('The level ' + this.newLevel + ' already exists.');
+            this.newLevel = ' ';
+            this.levelExists = true;
+          }
+        })
+        if (!this.levelExists) {
+          this.tempLevels.push(this.newLevel);
+          this.levelsToAdd.push(this.newLevel)
+          this.newLevel = ' ';
+        }
+      }else {
+      console.log('The level should not be empty.')
+    };
+  }
+
+  addTopic(topic: string) {
+    if (topic && topic !== '') {
+      this.loading = true;
+        this.resourcesService.addTopic(topic).subscribe(
+          res => {
+            this.newTopic = '';
+            this.resourcesService.fetchTopics().subscribe(
+              res => {
+                this.topics = res;
+                this.loading = false
+              }
+            )
+          },
+          err => {
+            console.error('Error adding topic', err);
+            this.loading = false;
+          }
+        )
+    }
+  }
+
+  addLevel(level: string) {
+    if (level && level !== '') {
+      this.loading = true;
+        this.resourcesService.addLevel(level).subscribe(
+          res => {
+            this.newLevel = '';
+            this.resourcesService.fetchLevels().subscribe(
+              res => {
+                this.levels = res;
+                this.loading = false
+              }
+            )
+          },
+          err => {
+            console.error('Error adding level', err);
+            this.loading = false;
+          }
+        )
+    }
+  }
+
+  updateRemoveTopic(topic: string) {
+    let index: number = this.tempTopics.indexOf(topic);
+    if (index !== -1) {
+        this.tempTopics.splice(index, 1);
+        this.topicsToRemove.push(topic);
+    }
+    let index2: number = this.topicsToAdd.indexOf(topic);
+    if (index2 !== -1) {
+        this.topicsToAdd.splice(index2, 1);
+    }
+  }
+
+  updateRemoveLevel(level: string) {
+    let index: number = this.tempLevels.indexOf(level);
+    if (index !== -1) {
+        this.tempLevels.splice(index, 1);
+        this.levelsToRemove.push(level);
+    }
+    let index2: number = this.levelsToAdd.indexOf(level);
+    if (index2 !== -1) {
+        this.levelsToAdd.splice(index2, 1);
     }
   }
 
@@ -63,34 +168,13 @@ export class SettingsComponent implements OnInit {
               this.topics = res;
               this.loading = false
             }
-          );
+          )
         },
         err => {
           console.error('Error removing topic', err);
           this.loading = false;
         }
-      )
-  }
-
-  addLevel() {
-    if (this.newLevel && this.newLevel !== '') {
-      this.loading = true;
-      this.resourcesService.addLevel(this.newLevel).subscribe(
-        res => {
-          this.newLevel = '';
-          this.resourcesService.fetchLevels().subscribe(
-          res => {
-              this.levels = res;
-              this.loading = false
-            }
-          )
-        },
-        err => {
-          console.error('Error adding level', err);
-          this.loading = false;
-        }
-      )
-    }
+    )
   }
 
   removeLevel(level: number) {
@@ -111,30 +195,137 @@ export class SettingsComponent implements OnInit {
       )
   }
 
-  goBack() {
+
+  saveChanges() {
+
+    // remove topics
+    this.topicsToRemove.forEach(elemTemp => {
+      console.log(this.topics.length);
+      this.topics.forEach(elemInit => {
+        console.log(elemTemp + ' ' + elemInit.topicDescription + ' ' + elemInit.topicId);
+        if (elemTemp === elemInit.topicDescription) {
+          this.removeTopic(Number(elemInit.topicId))
+        }
+      });
+    })
+
+    // remove levels
+    this.levelsToRemove.forEach(elemTemp => {
+      console.log(this.levels.length);
+      this.levels.forEach(elemInit => {
+        console.log(elemTemp + ' ' + elemInit.levelDescription + ' ' + elemInit.levelId);
+        if (elemTemp === elemInit.levelDescription) {
+          this.removeLevel(Number(elemInit.levelId))
+        }
+      });
+    })
+
+    // add all topics
+    this.topicsToAdd.forEach(element => {
+      this.addTopic(element);
+    });
+    console.log(this.topics.length);
+
+    // add all levels
+    this.levelsToAdd.forEach(element => {
+      this.addLevel(element);
+    });
+
+    this.tempLevels = [];
+    this.tempTopics = [];
+    this.topicsToAdd = [];
+    this.topicsToRemove = [];
+    this.levelsToAdd = [];
+    this.levelsToRemove = [];
+
     this.location.back();
   }
 
-  // TODO Implement
   cancel() {
-    /*this.newTopics.forEach(element => {
-      this.removeTopic(element);
-    });
-    this.newLevels.forEach(element => {
-      this.removeLevel(element);
-    });
-
-    this.newTopics = [];
-    this.newLevels = [];*/
     this.location.back();
   }
 
-  updateNewTopics(topic: number) {
-    this.newTopics.push(topic);
+
+
+/*
+  addTopic() {
+    if (this.newTopic && this.newTopic !== '') {
+      this.loading = true;
+      this.containsTopic() // verify if the topic already exist
+      if (!this.topicExist) {
+        this.topicExist = false;
+        this.resourcesService.addTopic(this.newTopic).subscribe(
+          res => {
+            this.tempTopics.push(this.newTopic);
+            this.newTopic = '';
+            this.resourcesService.fetchTopics().subscribe(
+              res => {
+                this.topics = res;
+                this.loading = false
+                this.topicExist = false
+              }
+            )
+          },
+          err => {
+            console.error('Error adding topic', err);
+            this.loading = false;
+          }
+        )
+      } else {
+        console.error('Error adding topic: the topic already exists.');
+        this.loading = false;
+      }
+    }
   }
 
-  updateNewLevels(level: number) {
-    this.newLevels.push(level);
+  
+
+
+  addLevel() {
+    if (this.newLevel && this.newLevel !== '') {
+      this.loading = true;
+      this.containsLevel() // verify if the level already exist
+      if (!this.levelExist) {
+        this.levelExist = false;
+        this.resourcesService.addLevel(this.newLevel).subscribe(
+          res => {
+            this.tempLevels.push(this.newLevel);
+            this.newLevel = '';
+            this.resourcesService.fetchLevels().subscribe(
+              res => {
+                this.levels = res;
+                this.loading = false
+              }
+            )
+          },
+          err => {
+            console.error('Error adding level', err);
+            this.loading = false;
+          }
+        )
+      } else {
+        console.error('Error adding level: the level already exists.');
+        this.loading = false;
+      }
+    }
   }
 
+  removeLevel(level: number) {
+    this.loading = true;
+    this.resourcesService.removeLevel(level).subscribe(
+        res => {
+          this.resourcesService.fetchLevels().subscribe(
+          res => {
+              this.levels = res;
+              this.loading = false
+            }
+          )
+        },
+        err => {
+          console.error('Error removing level', err);
+          this.loading = false;
+        }
+      )
+  }
+*/
 }
