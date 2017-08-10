@@ -3,17 +3,22 @@
 <loader *ngIf="loading"></loader>
 <div class="container">
     <h2>{{ '_CreateSequence_' | translate }}</h2>
+
+    <div style="height: 50px;">
+        <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
+    </div>
+
     <form ngSubmit="registerSequence()" #sequenceForm="ngForm" class="col-md-8">
         <div class="row">
             <div class="col-md-12 col-sm-12" style="padding-left:0">
                 <div class="form-group">
-                    <label for="sequenceName">{{ '_SequenceName_' | translate }}</label>
+                    <label for="sequenceName">{{ '_SequenceName_' | translate }}<span class="text-danger"> * </span></label>
                     <input type="text" class="form-control" id="sequenceName" required [(ngModel)]="newSequence.sequenceName" name="sequenceName">
                 </div>
             </div>
         </div>
         <div class="row">
-            <h3>{{ '_AddExercisesToSequence_' | translate }}</h3>
+            <h3>{{ '_AddExercisesToSequence_' | translate }}<span class="text-danger"> * </span></h3>
             <loader *ngIf="!exercises"></loader>
             <div *ngIf="exercises?.length > 0 || addedExercises?.length > 0">
                 <div>

@@ -2,10 +2,14 @@
 
     <h2>{{ '_SignUpBtn_' | translate }}</h2>
 
+    <div style="height: 50px;">
+        <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
+    </div>
+
     <form (ngSubmit)="createCaregiver()" #caregiverForm="ngForm" class="col-md-8">
         <div class=row>
             <div class="form-group">
-                <label for="username">{{ '_Username_' | translate }}</label>
+                <label for="username">{{ '_Username_' | translate }} <span class="text-danger"> * </span></label>
                 <input type="text" class="form-control" id="username" required pattern="^[A-Za-z0-9_-]{3,15}$" [(ngModel)]="model.username" name="username" #username="ngModel">
                 <div *ngIf="!username.valid && !username.pristine" class="alert alert-danger">
                     {{ '_RequiredUsername_' | translate }}
@@ -14,7 +18,7 @@
         </div>
         <div class=row>
             <div class="form-group">
-                <label for="password">{{ '_Password_' | translate }}</label>
+                <label for="password">{{ '_Password_' | translate }} <span class="text-danger"> * </span></label>
                 <input type="password" class="form-control" id="password" required minlength="6" validateEqual="confirmpassword" reverse="true" [(ngModel)]="model.password" name="password" #password="ngModel">
                 <div *ngIf="!password.valid && !password.pristine" class="alert alert-danger">
                     {{ '_RequiredPassword_' | translate }}
@@ -23,7 +27,7 @@
         </div>
         <div class=row>
             <div class="form-group">
-                <label for="confirmpassword">{{ '_ConfirmPassword_' | translate }}</label>
+                <label for="confirmpassword">{{ '_ConfirmPassword_' | translate }} <span class="text-danger"> * </span></label>
                 <input type="password" class="form-control" id="confirmpassword" required validateEqual="password" [(ngModel)]="model.confirmpassword" name="confirmpassword" #confirmpassword="ngModel">
                 <div *ngIf="!confirmpassword.valid && !confirmpassword.pristine" class="alert alert-danger">
                     {{ '_RequiredConfirmPassword_' | translate }}
@@ -32,7 +36,7 @@
         </div>
         <div class=row>
             <div class="form-group">
-                <label for="firstName">{{ '_FirstName_' | translate }}</label>
+                <label for="firstName">{{ '_FirstName_' | translate }} <span class="text-danger"> * </span></label>
                 <input type="text" class="form-control" id="firstName" required [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
                 <div *ngIf="!firstName.valid && !firstName.pristine" class="alert alert-danger">
                     {{ '_RequiredFirstName_' | translate }}
@@ -41,7 +45,7 @@
         </div>
         <div class=row>
             <div class="form-group">
-                <label for="lastName">{{ '_LastName_' | translate }}</label>
+                <label for="lastName">{{ '_LastName_' | translate }} <span class="text-danger"> * </span></label>
                 <input type="text" class="form-control" id="lastName" required [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel">
                 <div *ngIf="!lastName.valid && !lastName.pristine" class="alert alert-danger">
                     {{ '_RequiredLastName_' | translate }}
@@ -50,7 +54,7 @@
         </div>
         <div class=row>
             <div class="form-group">
-                <label for="email">{{ '_Email_' | translate }}</label>
+                <label for="email">{{ '_Email_' | translate }} <span class="text-danger"> * </span></label>
                 <input type="text" class="form-control" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="model.email" name="email" #email="ngModel">
                 <div *ngIf="!email.valid && !email.pristine" class="alert alert-danger">
                     {{ '_RequiredEmail_' | translate }}
@@ -59,7 +63,7 @@
         </div>
         <div class=row>
             <div class="form-group">
-                <label for="gender">{{ '_Gender_' | translate }}</label>
+                <label for="gender">{{ '_Gender_' | translate }} <span class="text-danger"> * </span></label>
                 <select class="form-control" id="gender" required [(ngModel)]="model.gender" name="gender" #gender="ngModel">
           <option *ngFor="let g of genders" [value]="g">{{ g | uppercase | translate }}</option>
         </select>

@@ -4,11 +4,14 @@
     <h2 *ngIf="!newExercise.exerciseId">{{ '_CreateExercise_' | translate }}</h2>
     <h2 *ngIf="newExercise.exerciseId">{{ '_EditExercise_' | translate }}</h2>
 
-    <form (ngSubmit)="registerExercise()" #exerciseForm="ngForm" class="col-md-8">
+    <div style="height: 50px;">
+        <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
+    </div>
 
+    <form (ngSubmit)="registerExercise()" #exerciseForm="ngForm" class="col-md-8">
         <div class="row">
             <div *ngIf="!newExercise.exerciseId" class="form-group">
-                <label for="type"> {{ '_ExerciseType_' | translate }}</label>
+                <label for="type"> {{ '_ExerciseType_' | translate }} <span class="text-danger"> * </span></label>
                 <br>
                 <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em texto</label>
                 <label class="radio-inline"><input type="radio" value="image" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em imagem</label>
@@ -16,7 +19,7 @@
         </div>
         <div class="row">
             <div class="form-group" *ngIf="topics">
-                <label for="topic"> {{ '_Topic_' | translate }} </label>
+                <label for="topic"> {{ '_Topic_' | translate }} <span class="text-danger"> * </span></label>
                 <form class="input-group">
                     <select class="form-control" id="topic" [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel" required>
                     <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
@@ -30,7 +33,7 @@
         </div>
         <div class="row">
             <div class="form-group" *ngIf="levels">
-                <label for="level"> {{ '_Level_' | translate }}</label>
+                <label for="level"> {{ '_Level_' | translate }} <span class="text-danger"> * </span></label>
                 <form class="input-group">
                     <select class="form-control" id="level" [(ngModel)]="newExercise.level" name="level" #level="ngModel" required>
                     <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
@@ -44,14 +47,14 @@
         </div>
         <div class="row">
             <div class="form-group">
-                <label for="question"> {{'_Question_' | translate }} </label>
+                <label for="question"> {{'_Question_' | translate }} <span class="text-danger"> * </span></label>
                 <input type="text" class="form-control" id="question" required [(ngModel)]="newExercise.question" name="question" #question="ngModel">
                 <div *ngIf="!question.valid && !question.pristine" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group">
-                <label for="stimulus"> {{ '_Stimulus_' | translate }}</label>
+                <label for="stimulus"> {{ '_Stimulus_' | translate }} </label>
                 <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
                     <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
@@ -62,7 +65,7 @@
         <br>
 
         <div class="row">
-            <label for="answer"> {{ '_Answer_' | translate }}</label>
+            <label for="answer"> {{ '_Answer_' | translate }} <span class="text-danger"> * </span></label>
             <div *ngIf="newExercise.type == 'text' ">
                 <input type="text" class="form-control" id="rightAnswer" required [(ngModel)]="newExercise.rightAnswer" name="rightAnswer" #rightAnswer="ngModel">
                 <div *ngIf="!rightAnswer.valid && !rightAnswer.pristine" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
