@@ -34,7 +34,7 @@ DELETE      /vithea-kids-api/deleteexercise/:exercise       controllers.AdminExe
 # Sequence
 POST        /vithea-kids-api/registersequence               controllers.AdminSequencesCtrl.registerSequence
 POST        /vithea-kids-api/editsequence/:sequence         controllers.AdminSequencesCtrl.editSequence(sequence:Long)
-GET         /vithea-kids-api/sequences/:sequence/children   controllers.AdminSequencesCtrl.getSequenceChildren(sequence:Long)
+#GET         /vithea-kids-api/sequences/:sequence/children   controllers.AdminSequencesCtrl.getSequenceChildren(sequence:Long)
 GET         /vithea-kids-api/listsequences                  controllers.AdminSequencesCtrl.getSequences
 GET         /vithea-kids-api/sequences/:sequence            controllers.AdminSequencesCtrl.getSequence(sequence:Long)
 GET         /vithea-kids-api/child/:child/sequences         controllers.AdminChildCtrl.getChildSequences(child:Long)

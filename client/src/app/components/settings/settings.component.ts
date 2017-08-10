@@ -58,7 +58,7 @@ export class SettingsComponent implements OnInit {
     if (this.newTopic !== undefined ) {
       this.tempTopics.forEach(element => {
         if (element === this.newTopic && !this.topicExists) {
-          console.log('The topic ' + this.newTopic + ' already exists.');
+          console.error('The topic ' + this.newTopic + ' already exists.');
           this.newTopic = ' ';
           this.topicExists = true;
         }
@@ -69,7 +69,7 @@ export class SettingsComponent implements OnInit {
         this.newTopic = ' ';
       }
     }else {
-      console.log('The topic should not be empty.')
+      console.error('The topic should not be empty.')
     };
   }
 
@@ -78,7 +78,7 @@ export class SettingsComponent implements OnInit {
       if (this.newLevel !== undefined ) {
         this.tempLevels.forEach(element => {
           if (element === this.newLevel && !this.levelExists) {
-            console.log('The level ' + this.newLevel + ' already exists.');
+            console.error('The level ' + this.newLevel + ' already exists.');
             this.newLevel = ' ';
             this.levelExists = true;
           }
@@ -89,7 +89,7 @@ export class SettingsComponent implements OnInit {
           this.newLevel = ' ';
         }
       }else {
-      console.log('The level should not be empty.')
+      console.error('The level should not be empty.')
     };
   }
 
@@ -220,7 +220,6 @@ export class SettingsComponent implements OnInit {
     this.topicsToAdd.forEach(element => {
       this.addTopic(element);
     });
-    console.log(this.topics.length);
 
     // add all levels
     this.levelsToAdd.forEach(element => {
@@ -240,5 +239,4 @@ export class SettingsComponent implements OnInit {
   cancel() {
     this.location.back();
   }
-
 }

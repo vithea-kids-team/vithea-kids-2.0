@@ -43,6 +43,7 @@ export const appRoutes: Routes = [
               { path: 'new/:sequenceid', component: AddExerciseComponent, canActivate: [GuardService]}]},
   { path: 'sequences',
     children: [{ path: '', component: SequencesComponent, canActivate: [GuardService] },
-              { path: 'new', component: AddSequenceComponent, canActivate: [GuardService] },
+              { path: 'new/', component: AddSequenceComponent, canActivate: [GuardService] },
+              { path: 'new/:childid', component: AddSequenceComponent, canActivate: [GuardService] },
               { path: ':sequenceid/edit', component: AddSequenceComponent, canActivate: [GuardService] },
               { path: ':sequenceid', component: ExercisesComponent, canActivate: [GuardService] }]}];

@@ -74,6 +74,16 @@ export class AddSequenceComponent implements OnInit {
     this.childrenService.getChildren().subscribe(
       result => {
         this.children = result;
+        let i = 0;
+        if (this.newSequence.childId) {
+          this.children.forEach(child => {
+            if (child.childId === this.newSequence.childId) {
+              this.addChild(i);
+            } else {
+              i++;
+            }
+          });
+        }
       },
       err => console.error('Error loading children for assigning to sequence.', err)
     );

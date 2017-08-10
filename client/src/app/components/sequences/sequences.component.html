@@ -7,7 +7,7 @@
             <a *ngIf="!childId" type="button" class="btn btn-primary" [routerLink]="['new']">
                 <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_CreateSequence_' | translate }}
             </a>
-            <button *ngIf="childId" type="button" class="btn btn-primary" [routerLink]="['/sequences/new']">
+            <button *ngIf="childId" type="button" class="btn btn-primary" [routerLink]="['/sequences/new/' + childId]">
                 <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_AddSequence_' | translate }}
             </button>
         </div>

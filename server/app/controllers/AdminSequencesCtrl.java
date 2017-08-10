@@ -118,21 +118,17 @@ public class AdminSequencesCtrl extends Controller {
     /*
      * GetSequenceChildren action
      */
-    public Result getSequenceChildren(Long sequenceId){
-        
+    /*public Result getSequenceChildren(Long sequenceId){
         Sequence sequence = Sequence.findById(sequenceId);
         List<Child> sequenceChildren = sequence.getSequenceChildren();
-        
         return ok(Json.toJson(sequenceChildren));
-    }
+    }*/
     
     /*
      * GetSequences action
      */
     public Result getSequences() {
-        
         List<Sequence> findByAuthor = Sequence.findByAuthor(Caregiver.findByUsername(SecurityController.getUser().getUsername()));
-        
         return ok(Json.toJson(findByAuthor));
     }
     
