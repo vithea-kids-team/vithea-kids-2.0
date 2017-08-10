@@ -2,22 +2,18 @@
 
     <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-            <label for="username">{{ '_Username_' | translate }} <span class="text-danger"> * </span></label>
+            <label for="username">{{ '_Username_' | translate }}</label>
             <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
         </div>
         <div *ngIf="f.submitted && !username.valid" class="alert alert-danger">
             {{ '_RequiredUsername_' | translate }}
         </div>
         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-            <label for="password"> {{ '_Password_' | translate }} <span class="text-danger"> * </span></label>
+            <label for="password"> {{ '_Password_' | translate }} </label>
             <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
         </div>
         <div *ngIf="f.submitted && !password.valid" class="alert alert-danger">
             {{ '_RequiredPassword_' | translate }}
-        </div>
-
-        <div style="height: 50px;">
-            <h5 class="text-danger"> {{ '_Mandatory_' | translate }} </h5>
         </div>
 
         <div style="height: 70px;">
