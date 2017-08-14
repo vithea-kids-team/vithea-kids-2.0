@@ -1,8 +1,9 @@
 <!-- TODO: Adicionar as coisas para editar -->
 <!-- FIXME: Guardar alterações -->
 <loader *ngIf="loading"></loader>
-<div class="container">
-    <h2>{{ '_CreateSequence_' | translate }}</h2>
+<div class="container" *ngIf="!loading">
+    <h2 *ngIf="!newSequence.sequenceId">{{ '_CreateSequence_' | translate }}</h2>
+    <h2 *ngIf="newSequence.sequenceId">{{ '_EditSequence_' | translate }}</h2>
 
     <div style="height: 50px;">
         <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
@@ -33,13 +34,17 @@
                             </li>
                         </ul>
                     </form>
-                    <div class="col-md-6 col-sm-6" style="padding-right:0">
+                    <div class="col-md-6 col-sm-6">
                         <label>{{ '_SequenceExercises_' | translate }}</label>
                         <ul class="list-group">
                             <li class="list-group-item list-group-item__empty" *ngIf="addedExercises.length === 0"><em>{{ '_AddExercisesToSequence_' | translate }}</em></li>
                             <li class="list-group-item list-group-item-content" *ngFor=" let exercise of addedExercises; let index = index">
+                                <a class="btn btn-secondary pull-left" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                                <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
                                 <span>{{exercise.question?.questionDescription}}</span>
-                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                                <a class="btn btn-secondary pull-right" style="padding:0"></a>
+                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -80,10 +85,10 @@
         </div>-->
 
         <div class="row">
-            <a *ngIf="!newSequence.id" type="button" (click)="registerSequence()" class="btn btn-success" [class.disabled]="!sequenceForm.form.valid">
+            <a *ngIf="!newSequence.sequenceId" type="button" (click)="registerSequence()" class="btn btn-success" [class.disabled]="!sequenceForm.form.valid">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}
             </a>
-            <a *ngIf="newSequence.id" type="button" (click)="editSequence()" class="btn btn-primary">
+            <a *ngIf="newSequence.sequenceId" type="button" (click)="editSequence()" class="btn btn-success">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
             <button [routerLink]="['/sequences']" type="button" class="btn btn-secondary"> 

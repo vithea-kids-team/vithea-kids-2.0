@@ -1,5 +1,6 @@
 export class Sequence {
-    public id: number;
+    public exerciseId: number;
+    public sequenceId: number;
     public sequenceName: string;
     public childId: number;
     public exercisesToAdd: Array<number>;

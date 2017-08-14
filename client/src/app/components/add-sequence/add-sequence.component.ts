@@ -31,6 +31,14 @@ export class AddSequenceComponent implements OnInit {
      this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
+        const sequenceId: number = parseInt(params['sequenceid'], 10);
+        console.log('sequenceid ' + sequenceId);
+        if (sequenceId) {
+          this.newSequence.sequenceId = sequenceId;
+        } else {
+          //TODO:
+        }
+
         const id: number = parseInt(params['childid'], 10);
         if (id) {
           this.newSequence.childId = id;
@@ -107,5 +115,75 @@ export class AddSequenceComponent implements OnInit {
   addChild(index: number) {
     this.addedChildren.push(this.children[index]);
     this.children.splice(index, 1);
+  }
+
+  upExercise(index: number) {
+    let size = this.addedExercises.length;
+
+    if (index >= 1) {
+        console.log('index: ' + index + ' size: ' + size);
+
+        if (size === 2) {
+            this.addedExercises.reverse();
+        } else if (size === 3) {
+
+        } else if (size >= 4 ) {
+
+        }
+            // see if the element to change is the last one
+            //
+
+            /* let index2 = index--;
+            let index3 = index++;
+            let last = size - 1;
+
+            console.log('0,' + index2 + ',' + index + ',' + index3 + ',' + last);
+
+            let tmpAddedExercises_1: Array<Exercise> = this.addedExercises.slice(0, index2);        // until index-1 to be swapped
+            let tmpAddedExercises_2: Array<Exercise> = this.addedExercises.slice(index2, index);    // first element to be swapped
+            let tmpAddedExercises_3: Array<Exercise> = this.addedExercises.slice(index, index3);    // second element to be swapped
+            let tmpAddedExercises_4: Array<Exercise> = this.addedExercises.slice(index3, last);     // rest
+
+            let tmpAddedExercises: Array<Exercise> = tmpAddedExercises_1.concat(tmpAddedExercises_3, tmpAddedExercises_2, tmpAddedExercises_4);
+
+            this.addedExercises = tmpAddedExercises;*/
+    }
+
+    /*this.addedExercises.forEach(exercise => {
+        if (iterator !== index2) {
+            tmpAddedExercises.push(exercise);
+        }
+        else {
+        }
+        iterator++;
+    });
+
+
+    let iterator = 0;
+    let exercise: Array<Exercise> = [];
+    if (index >= 1) {
+        exercise = this.addedExercises.splice(index, 1); // remove the element
+        this.addedExercises.splice(index - 1, exercise.pop() );
+*/
+  }
+
+  downExercise(index: number) {
+
+  }
+
+  isValidFormUp(index: number) {
+    if (index === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  isValidFormDown(index: number) {
+    if (index === this.addedExercises.length - 1) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
