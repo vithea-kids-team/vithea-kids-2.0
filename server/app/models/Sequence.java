@@ -38,7 +38,6 @@ public class Sequence extends Model {
     public static final Finder<Long, Sequence> find = new Finder<>(Sequence.class);
     
     public Sequence(String name, List<Long> exerciseIds, List<Long> childrenIds, Caregiver author) {
-    //public Sequence(String name, List<Long> exerciseIds, Caregiver author) {
         this.name = name;
         this.author = author;
         
@@ -104,6 +103,10 @@ public class Sequence extends Model {
     }
     
     public static List<Sequence> findByAuthor(Caregiver caregiver) {
-        return find.where().eq("author_id", caregiver.getCaregiverId()).findList();
+        Logger.debug("Looking for sequences from: " + caregiver.getCaregiverLogin().getUsername());
+        return find
+        .where()
+        .eq("author_id", caregiver.getCaregiverId())
+        .findList();
     }
 }

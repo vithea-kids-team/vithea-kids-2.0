@@ -36,10 +36,10 @@ export class AddChildComponent implements OnInit {
           this.childService.getChild(id).subscribe(
             res => {
                 this.model = res;
-              let d = new Date(res.birthDate);
-              this.selDate = {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
-              this.model.birthDate = d.toISOString();
-              this.loading = false;
+                let d = new Date(res.birthDate);
+                this.selDate = {year: d.getFullYear(), month: d.getMonth() + 1, day: d.getDate()};
+                this.model.birthDate = d.toISOString();
+                this.loading = false;
             },
             err => console.log('Error getting child')
           );

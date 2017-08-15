@@ -1,0 +1,18 @@
+.button-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-group>button {
+    margin-bottom: 5px;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.search-input {
+    width: 25%;
+}

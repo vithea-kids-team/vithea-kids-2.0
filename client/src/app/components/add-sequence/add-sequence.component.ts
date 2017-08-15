@@ -34,19 +34,40 @@ export class AddSequenceComponent implements OnInit {
                 const sequenceId: number = parseInt(params['sequenceid'], 10);
                 console.log('sequenceid ' + sequenceId);
                 if (sequenceId) {
-                    
+                    this.sequencesService.getSequence(sequenceId).subscribe(
+                        res => {
+                            console.log(res)
+                            this.newSequence.sequenceId = res.sequenceId;
+                            this.newSequence.sequenceName = res.sequenceName;
+                            /*this.exercises = res.sequenceExercises;
+                            this.children = res.sequenceChildren;
+
+                            let i = 0;
+                            this.exercises.forEach(exercise => {
+                                this.addExercise(i);
+                                i++;
+                            })
+                            let j = 0;
+                            this.children.forEach(child => {
+                                this.addChild(j);
+                                j++;
+                            })
+*/
+
+
+                        },
+                        err => console.log('Error getting sequence')
+                      );
                 } else {
                     this.newSequence.sequenceId = sequenceId;
+                    this.loadExercisesToAdd();
+                    this.loadChildrenToAssign();
                 }
-
                 const id: number = parseInt(params['childid'], 10);
-                if (id) {
-                    this.newSequence.childId = id;
-                }
+                    if (id) {
+                        this.newSequence.childId = id;
+                    }
             });
-
-            this.loadExercisesToAdd();
-            this.loadChildrenToAssign();
     }
 
     registerSequence() {

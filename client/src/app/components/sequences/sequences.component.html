@@ -1,4 +1,5 @@
 <div class="container">
+
     <div class="row">
         <div class="panel-default pull-right">
             <a type="button" class="btn btn-default" (click)="goBack()">
@@ -12,17 +13,30 @@
             </button>
         </div>
     </div>
+
     <div class=row>
         <h2>{{ '_Sequences_' | translate }}</h2>
         <h3 *ngIf="child?.childId">{{child.firstName + ' ' + child.lastName}}</h3>
     </div>
+
+    <div class=row>
+        <div class="form-group has-feedback search-container" *ngIf="sequences && sequences?.length">
+            <input type="text" class="form-control search-input" [(ngModel)]="searchBy" />
+            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+        </div>
+    </div>
+
+
     <div class=row>
         <loader *ngIf="loading"></loader>
         <div *ngIf="!loading">
             <p *ngIf="sequences?.length === 0">{{ '_NoSequences_' | translate }}</p>
-            <div class="panel panel-default" *ngFor="let sequence of pagedItems">
+            <div class="panel panel-default" *ngFor="let sequence of pagedItems | sequenceFilter:searchBy">
                 <div class="panel-body">
-                    <button type="button" class="btn btn-info pull-right" [routerLink]="['/sequences/' + sequence.sequenceId]">{{ '_ViewExercises_' | translate }}</button>
+                    <div class="pull-right button-group">
+                        <button type="button" class="btn btn-info" [routerLink]="['/sequences/' + sequence.sequenceId + '/children']">{{ '_ViewChildren_' | translate }}</button>
+                        <button type="button" class="btn btn-info" [routerLink]="['/sequences/' + sequence.sequenceId + '/exercises']">{{ '_ViewExercises_' | translate }}</button>
+                    </div>
                     <h4>{{sequence.sequenceName}}</h4>
                     <div *ngFor="let child of sequence.sequenceChildren">
                         <p> {{child?.firstName + ' ' + child?.lastName}}</p>

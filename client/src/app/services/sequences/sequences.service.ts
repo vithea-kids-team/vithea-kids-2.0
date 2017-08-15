@@ -10,6 +10,10 @@ export class SequencesService {
     return this.http.get('/listsequences').map(result => result && result.json());
   }
 
+  getSequence(sequenceId) {
+    return this.http.get('/sequences/' + sequenceId).map(result => result && result.json());
+  }
+
   registerSequence(sequence) {
     return this.http.post('/registersequence', sequence).map(result => result && result.json());
   }
@@ -18,8 +22,8 @@ export class SequencesService {
     return this.http.post('/editsequence/' + sequence.sequenceId, sequence);
   }
 
-  getSequenceChildren(sequence) {
-    return this.http.get('/sequences/' + sequence.sequenceId).map(result => result && result.json());
+  getSequenceChildren(sequenceId) {
+    return this.http.get('/sequences/' + sequenceId + '/children').map(result => result && result.json());
   }
 
   deleteSequence(sequenceId) {

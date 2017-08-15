@@ -32,6 +32,7 @@ import { AddSequenceComponent } from './components/add-sequence/add-sequence.com
 import { PreferencesComponent } from './components/preferences/preferences.component';
 
 import { ChildFilter } from './pipes/child-filter';
+import { SequenceFilter } from './pipes/sequence-filter';
 import { EqualValidator } from './directives/equal-validator.directive';
 import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
 import { LoaderComponent } from './components/loader/loader.component';
@@ -70,9 +71,9 @@ export function translateFactory(https: Http) {
     AddSequenceComponent,
     PreferencesComponent,
     ChildFilter,
+    SequenceFilter,
     EqualValidator,
     ExerciseTypeFilter,
-
     LoaderComponent,
     SpinnerComponent,
     FileUploadComponent,

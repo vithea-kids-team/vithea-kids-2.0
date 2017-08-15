@@ -13,7 +13,6 @@ import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdminComponent } from './components/admin/admin.component';
-
 import { GuardService } from './services/guard/guard.service';
 
 export const appName = 'vithea-kids';
@@ -25,12 +24,19 @@ export const appRoutes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'admin', component: AdminComponent, canActivate: [GuardService] },
   { path: 'settings', component: SettingsComponent, canActivate: [GuardService] },
+  { path: 'sequences',
+    children: [{ path: '', component: SequencesComponent, canActivate: [GuardService] },
+              { path: 'new', component: AddSequenceComponent, canActivate: [GuardService] },
+              { path: 'new/:childid', component: AddSequenceComponent, canActivate: [GuardService] },
+              { path: ':sequenceid/edit', component: AddSequenceComponent, canActivate: [GuardService] },
+              { path: ':sequenceid/exercises', component: ExercisesComponent, canActivate: [GuardService] },
+              { path: ':sequenceid/children', component: ChildrenComponent, canActivate: [GuardService] }] },
   { path: 'children',
     children: [{ path: '', component: ChildrenComponent, canActivate: [GuardService] },
               { path: 'new', component: AddChildComponent, canActivate: [GuardService] },
               { path: ':childid',
                 children: [ { path: 'edit', component: AddChildComponent, canActivate: [GuardService] },
-                           { path: 'sequences',
+                            { path: 'sequences',
                              children: [{path: '', component: SequencesComponent, canActivate: [GuardService] },
                                         { path: 'new', component: AddSequenceComponent, canActivate: [GuardService] },
                                         { path: ':sequenceid', component: ExercisesComponent, canActivate: [GuardService] },
@@ -40,10 +46,4 @@ export const appRoutes: Routes = [
     children: [{ path: '', component: ExercisesComponent, canActivate: [GuardService] },
               { path: 'new', component: AddExerciseComponent, canActivate: [GuardService] },
               { path: ':exerciseid/edit', component: AddExerciseComponent, canActivate: [GuardService] },
-              { path: 'new/:sequenceid', component: AddExerciseComponent, canActivate: [GuardService]}]},
-  { path: 'sequences',
-    children: [{ path: '', component: SequencesComponent, canActivate: [GuardService] },
-              { path: 'new/', component: AddSequenceComponent, canActivate: [GuardService] },
-              { path: 'new/:childid', component: AddSequenceComponent, canActivate: [GuardService] },
-              { path: ':sequenceid/edit', component: AddSequenceComponent, canActivate: [GuardService] },
-              { path: ':sequenceid', component: ExercisesComponent, canActivate: [GuardService] }]}];
+              { path: 'new/:sequenceid', component: AddExerciseComponent, canActivate: [GuardService]}]}];

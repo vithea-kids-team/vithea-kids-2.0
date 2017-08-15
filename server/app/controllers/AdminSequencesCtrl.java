@@ -114,26 +114,25 @@ public class AdminSequencesCtrl extends Controller {
     public Result editSequence(Long sequenceId){
         return ok("Ainda não está implementado");
     }
-    
-    /*
-     * GetSequenceChildren action
-     */
-    /*public Result getSequenceChildren(Long sequenceId){
-        Sequence sequence = Sequence.findById(sequenceId);
-        List<Child> sequenceChildren = sequence.getSequenceChildren();
-        return ok(Json.toJson(sequenceChildren));
-    }*/
+
     
     /*
      * GetSequences action
      */
     public Result getSequences() {
-        List<Sequence> findByAuthor = Sequence.findByAuthor(Caregiver.findByUsername(SecurityController.getUser().getUsername()));
-        return ok(Json.toJson(findByAuthor));
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
+        List<Sequence> sequences = Sequence.findByAuthor(loggedCaregiver);
+         Logger.debug(sequences.size() + " sequences registered.");
+        
+        return ok(Json.toJson(sequences));
     }
     
     /*
-     * GetSequenceExercises action
+     * GetSequence action
      */
     public Result getSequence(Long sequenceId) {
         //TODO check if the loggedin caregiver can see this sequence
@@ -141,6 +140,9 @@ public class AdminSequencesCtrl extends Controller {
         return  ok(Json.toJson(sequence));
     }
     
+    /*
+     * DeleteSequence action
+     */
     public Result deleteSequence (Long sequenceId) {
         Sequence seq = Sequence.findById(sequenceId);
         Child.find.all().forEach((c) -> {

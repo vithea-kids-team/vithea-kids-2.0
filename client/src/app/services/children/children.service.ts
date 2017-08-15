@@ -35,8 +35,7 @@ export class ChildrenService {
   }
 
   getChildSequences(id: number) {
-    return this.http.get('/child/' + id + '/sequences')
-      .map(res => res.json());
+    return this.http.get('/child/' + id + '/sequences').map(res => res.json());
   }
 
   getSequence(id: number) {

@@ -10,6 +10,7 @@ export class Child {
     public password: string
     public createdUtc: string
     public enabled: boolean
+    public sequenceId: number
     public personalMessagesList
     public sequencesList
     public animatedCharacter: {
