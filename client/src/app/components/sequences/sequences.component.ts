@@ -17,8 +17,8 @@ import { PaginationService } from '../../services/pagination/pagination.service'
 })
 export class SequencesComponent implements OnInit, OnChanges {
 
-  public childId: number = 0;
-  public sequenceId: number = 0;
+  public childId = 0;
+  public sequenceId = 0;
   public child;
   public sequences: Array<Sequence>;
   public loading: boolean = false;

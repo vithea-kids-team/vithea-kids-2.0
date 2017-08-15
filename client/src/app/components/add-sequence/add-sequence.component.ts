@@ -12,178 +12,161 @@ import { ExercisesService } from '../../services/exercises/exercises.service';
 import { ChildrenService } from '../../services/children/children.service';
 
 @Component({
-  selector: 'app-add-sequence',
-  templateUrl: './add-sequence.component.html',
-  styleUrls: ['./add-sequence.component.css']
+    selector: 'app-add-sequence',
+    templateUrl: './add-sequence.component.html',
+    styleUrls: ['./add-sequence.component.css']
 })
 export class AddSequenceComponent implements OnInit {
 
-  public newSequence = new Sequence();
-  public exercises: Array<Exercise>;
-  public children: Array<Child>;
-  public addedExercises: Array<Exercise> = [];
-  public addedChildren: Array<Child> = [];
+    public newSequence = new Sequence();
+    public exercises: Array<Exercise>;
+    public children: Array<Child>;
+    public addedExercises: Array<Exercise> = [];
+    public addedChildren: Array<Child> = [];
 
-  constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService: ExercisesService,
-    public childrenService: ChildrenService, public router: Router) { }
+    constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService: ExercisesService,
+        public childrenService: ChildrenService, public router: Router) { }
 
-  ngOnInit() {
-     this.route.params
-      .switchMap((params: Params) => Observable.of(params))
-      .subscribe(params => {
-        const sequenceId: number = parseInt(params['sequenceid'], 10);
-        console.log('sequenceid ' + sequenceId);
-        if (sequenceId) {
-          this.newSequence.sequenceId = sequenceId;
-        } else {
-          //TODO:
-        }
+    ngOnInit() {
+         this.route.params
+            .switchMap((params: Params) => Observable.of(params))
+            .subscribe(params => {
+                const sequenceId: number = parseInt(params['sequenceid'], 10);
+                console.log('sequenceid ' + sequenceId);
+                if (sequenceId) {
+                    
+                } else {
+                    this.newSequence.sequenceId = sequenceId;
+                }
 
-        const id: number = parseInt(params['childid'], 10);
-        if (id) {
-          this.newSequence.childId = id;
-        }
-      });
+                const id: number = parseInt(params['childid'], 10);
+                if (id) {
+                    this.newSequence.childId = id;
+                }
+            });
 
-      this.loadExercisesToAdd();
-      this.loadChildrenToAssign();
-  }
+            this.loadExercisesToAdd();
+            this.loadChildrenToAssign();
+    }
 
-  registerSequence() {
-    this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
-      return exercise.exerciseId;
-    });
+    registerSequence() {
+        this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
+            return exercise.exerciseId;
+        });
 
-    this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
-      return child.childId;
-    });
+        this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
+            return child.childId;
+        });
 
-    this.sequencesService.registerSequence(this.newSequence)
-      .subscribe(res => {
-        if (this.newSequence.childId) {
-          this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
-        } else {
-          this.router.navigate(['/sequences']);
-        }
-      },
-      err => console.log('Error creating sequence.'));
-  }
+        this.sequencesService.registerSequence(this.newSequence)
+            .subscribe(res => {
+                if (this.newSequence.childId) {
+                    this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
+                } else {
+                    this.router.navigate(['/sequences']);
+                }
+            },
+            err => console.log('Error creating sequence.'));
+    }
 
-  loadExercisesToAdd() {
-     this.exercisesService.getExercises().subscribe(
-      result => {
-        this.exercises = result;
-      },
-      err => console.error('Error loading exercises for adding to sequence.', err)
-    );
-  }
+    loadExercisesToAdd() {
+         this.exercisesService.getExercises().subscribe(
+            result => {
+                this.exercises = result;
+            },
+            err => console.error('Error loading exercises for adding to sequence.', err)
+        );
+    }
 
-  loadChildrenToAssign() {
-    this.childrenService.getChildren().subscribe(
-      result => {
-        this.children = result;
-        let i = 0;
-        if (this.newSequence.childId) {
-          this.children.forEach(child => {
-            if (child.childId === this.newSequence.childId) {
-              this.addChild(i);
-            } else {
-              i++;
-            }
-          });
-        }
-      },
-      err => console.error('Error loading children for assigning to sequence.', err)
-    );
-  }
+    loadChildrenToAssign() {
+        this.childrenService.getChildren().subscribe(
+            result => {
+                this.children = result;
+                let i = 0;
+                if (this.newSequence.childId) {
+                    this.children.forEach(child => {
+                        if (child.childId === this.newSequence.childId) {
+                            this.addChild(i);
+                        } else {
+                            i++;
+                        }
+                    });
+                }
+            },
+            err => console.error('Error loading children for assigning to sequence.', err)
+        );
+    }
 
-  removeExercise(index: number) {
-    this.exercises.push(this.addedExercises[index]);
-    this.addedExercises.splice(index, 1);
-  }
+    removeExercise(index: number) {
+        this.exercises.push(this.addedExercises[index]);
+        this.addedExercises.splice(index, 1);
+    }
 
-  addExercise(index: number) {
-    this.addedExercises.push(this.exercises[index]);
-    this.exercises.splice(index, 1);
-  }
+    addExercise(index: number) {
+        this.addedExercises.push(this.exercises[index]);
+        this.exercises.splice(index, 1);
+    }
 
-  removeChild(index: number) {
-    this.children.push(this.addedChildren[index]);
-    this.addedChildren.splice(index, 1);
-  }
+    removeChild(index: number) {
+        this.children.push(this.addedChildren[index]);
+        this.addedChildren.splice(index, 1);
+    }
 
-  addChild(index: number) {
-    this.addedChildren.push(this.children[index]);
-    this.children.splice(index, 1);
-  }
+    addChild(index: number) {
+        this.addedChildren.push(this.children[index]);
+        this.children.splice(index, 1);
+    }
 
-  upExercise(index: number) {
-    let size = this.addedExercises.length;
-
-    if (index >= 1) {
-        console.log('index: ' + index + ' size: ' + size);
-
-        if (size === 2) {
-            this.addedExercises.reverse();
-        } else if (size === 3) {
-
-        } else if (size >= 4 ) {
-
-        }
-            // see if the element to change is the last one
-            //
-
-            /* let index2 = index--;
-            let index3 = index++;
+    upExercise(index: number) {
+        let size = this.addedExercises.length;
+        if (index >= 1) {
+            const first = 0;
             let last = size - 1;
-
-            console.log('0,' + index2 + ',' + index + ',' + index3 + ',' + last);
-
-            let tmpAddedExercises_1: Array<Exercise> = this.addedExercises.slice(0, index2);        // until index-1 to be swapped
-            let tmpAddedExercises_2: Array<Exercise> = this.addedExercises.slice(index2, index);    // first element to be swapped
-            let tmpAddedExercises_3: Array<Exercise> = this.addedExercises.slice(index, index3);    // second element to be swapped
-            let tmpAddedExercises_4: Array<Exercise> = this.addedExercises.slice(index3, last);     // rest
-
-            let tmpAddedExercises: Array<Exercise> = tmpAddedExercises_1.concat(tmpAddedExercises_3, tmpAddedExercises_2, tmpAddedExercises_4);
-
-            this.addedExercises = tmpAddedExercises;*/
-    }
-
-    /*this.addedExercises.forEach(exercise => {
-        if (iterator !== index2) {
-            tmpAddedExercises.push(exercise);
+            let previous = index - 1;
+            let next = index + 1;
+            if (size === 2) {
+                this.addedExercises.reverse();
+            } else if (size >= 3 ) {
+                if (index === last) {
+                    let tmpAddedExercises_1: Array<Exercise> = this.addedExercises.slice(first, previous);
+                    let tmpAddedExercises_2: Array<Exercise> = this.addedExercises.slice(previous, size);
+                    tmpAddedExercises_2.reverse();
+                    this.addedExercises = tmpAddedExercises_1.concat(tmpAddedExercises_2);
+                } else {
+                    let tmpAddedExercises_1: Array<Exercise> = this.addedExercises.slice(first, previous);
+                    let tmpAddedExercises_2: Array<Exercise> = this.addedExercises.slice(previous, next);
+                    tmpAddedExercises_2.reverse();
+                    let tmpAddedExercises_3: Array<Exercise> = this.addedExercises.slice(next, size);
+                    this.addedExercises = tmpAddedExercises_1.concat(tmpAddedExercises_2, tmpAddedExercises_3);
+                }
+            }
         }
-        else {
+    }
+
+    downExercise(index: number) {
+        let size = this.addedExercises.length;
+        if (index < size - 1) {
+            const first = 0;
+            let last = size - 1;
+            let next = index + 1;
+            let next2 = index + 2;
+
+            if (size === 2) {
+                this.addedExercises.reverse();
+            } else if (size >= 3) {
+                if (index === first) {
+                    let tmpAddedExercises_1: Array<Exercise> = this.addedExercises.slice(first, next2);
+                    tmpAddedExercises_1.reverse();
+                    let tmpAddedExercises_2: Array<Exercise> = this.addedExercises.slice(next2, size);
+                    this.addedExercises = tmpAddedExercises_1.concat(tmpAddedExercises_2);
+                } else {
+                    let tmpAddedExercises_1: Array<Exercise> = this.addedExercises.slice(first, index);
+                    let tmpAddedExercises_2: Array<Exercise> = this.addedExercises.slice(index, next2);
+                    tmpAddedExercises_2.reverse();
+                    let tmpAddedExercises_3: Array<Exercise> = this.addedExercises.slice(next2, size);
+                    this.addedExercises = tmpAddedExercises_1.concat(tmpAddedExercises_2, tmpAddedExercises_3);
+                }
+            }
         }
-        iterator++;
-    });
-
-
-    let iterator = 0;
-    let exercise: Array<Exercise> = [];
-    if (index >= 1) {
-        exercise = this.addedExercises.splice(index, 1); // remove the element
-        this.addedExercises.splice(index - 1, exercise.pop() );
-*/
-  }
-
-  downExercise(index: number) {
-
-  }
-
-  isValidFormUp(index: number) {
-    if (index === 0) {
-      return false;
-    } else {
-      return true;
     }
-  }
-
-  isValidFormDown(index: number) {
-    if (index === this.addedExercises.length - 1) {
-      return false;
-    } else {
-      return true;
-    }
-  }
 }

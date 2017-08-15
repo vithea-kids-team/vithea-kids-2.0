@@ -42,9 +42,9 @@
                                 <a class="btn btn-secondary pull-left" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
                                 <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
                                 <span>{{exercise.question?.questionDescription}}</span>
-                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                                <a *ngIf="index >= 1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
                                 <a class="btn btn-secondary pull-right" style="padding:0"></a>
-                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                                <a *ngIf="index < addedExercises?.length-1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>
                             </li>
                         </ul>
                     </div>
