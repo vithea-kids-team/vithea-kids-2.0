@@ -132,7 +132,7 @@ public class AdminExerciseCtrl extends Controller {
             try {
                 sequence = parseInt(sequenceId);
                 Logger.debug("Adding exercise to sequence " + sequence);
-                Sequence currentSequence = Sequence.findById((long)sequence);
+                Sequence currentSequence = Sequence.findSequenceById((long)sequence);
                 if (currentSequence != null) {
                     currentSequence.getSequenceExercises().add(exercise);
                     currentSequence.save();

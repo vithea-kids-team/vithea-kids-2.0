@@ -41,13 +41,23 @@ public class Sequence extends Model {
         this.name = name;
         this.author = author;
         
+        setSequenceExercisesById(exerciseIds);
+        setSequenceChildrensById(childrenIds);
+        
+    }
+    
+    public void setSequenceExercisesById(List<Long> exerciseIds){
+        exerciseList.clear();
         exerciseIds.stream().map((d) -> Exercise.findExerciseById(d)).forEachOrdered((ex) -> {
             exerciseList.add(ex);
         });
+    }
+    
+    public void setSequenceChildrensById(List<Long> childrenIds){
+        childrenList.clear();
         childrenIds.stream().map((d) -> Child.findByChildId(d)).forEachOrdered((ch) -> {
             childrenList.add(ch);
         });
-        
     }
     
     public Caregiver getAuthorCaregiver(){
@@ -94,7 +104,7 @@ public class Sequence extends Model {
         return find.all();
     }
     
-    public static Sequence findById(Long id) {
+    public static Sequence findSequenceById(Long id) {
         Logger.debug("Looking for sequence with id: " + id);
         return find
         .where()

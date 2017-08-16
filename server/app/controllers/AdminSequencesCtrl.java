@@ -112,7 +112,67 @@ public class AdminSequencesCtrl extends Controller {
      * EditSequence action
      */
     public Result editSequence(Long sequenceId){
-        return ok("Ainda não está implementado");
+        
+        DynamicForm editSequenceForm = formFactory.form().bindFromRequest();
+
+        if (editSequenceForm.hasErrors()) {
+            return badRequest(editSequenceForm.errorsAsJson());
+        }
+               
+        Sequence sequence = Sequence.findSequenceById(sequenceId);
+        
+        if (sequence == null) {
+            return badRequest(buildJsonResponse("error", "Sequence doesn't exist"));
+        } else {
+            Logger.debug("Editing sequence with id " + sequenceId);
+        
+            String sequenceName = editSequenceForm.get("sequenceName");
+            sequence.setSequenceName(sequenceName);
+             
+            List<Long> exerciseIds = new ArrayList<>();
+            int i = 0;
+            while(true) {
+                String key = "exercisesToAdd[" + i + "]";
+                if (editSequenceForm.data().containsKey(key)) {
+                    int answerId;
+                    try {
+                        answerId = parseInt(editSequenceForm.data().get(key));
+                    } catch (NumberFormatException e) {
+                        answerId = -1;
+                    }
+
+                    exerciseIds.add((long)answerId);
+                } else {
+                    break;
+                }
+                i++;
+            }
+            sequence.setSequenceExercisesById(exerciseIds);
+        
+            List<Long> childrenIds = new ArrayList<>();
+            int j = 0;
+            while(true) {
+                String key = "childrenToAssign[" + j + "]";
+                if (editSequenceForm.data().containsKey(key)) {
+                    int childId;
+                    try {
+                        childId = parseInt(editSequenceForm.data().get(key));
+                    } catch (NumberFormatException e) {
+                        childId = -1;
+                    }
+
+                    childrenIds.add((long)childId);
+                } else {
+                    break;
+                }
+                j++;
+            }
+            sequence.setSequenceChildrensById(childrenIds);
+        
+            sequence.save();
+        
+            return ok(Json.toJson(sequence));
+        }
     }
 
     
@@ -136,7 +196,7 @@ public class AdminSequencesCtrl extends Controller {
      */
     public Result getSequence(Long sequenceId) {
         //TODO check if the loggedin caregiver can see this sequence
-        Sequence sequence = Sequence.findById(sequenceId); 
+        Sequence sequence = Sequence.findSequenceById(sequenceId); 
         return  ok(Json.toJson(sequence));
     }
     
@@ -144,7 +204,7 @@ public class AdminSequencesCtrl extends Controller {
      * DeleteSequence action
      */
     public Result deleteSequence (Long sequenceId) {
-        Sequence seq = Sequence.findById(sequenceId);
+        Sequence seq = Sequence.findSequenceById(sequenceId);
         Child.find.all().forEach((c) -> {
             c.getSequencesList().remove(seq);
             c.save();

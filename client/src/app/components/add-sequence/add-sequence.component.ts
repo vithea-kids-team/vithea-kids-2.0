@@ -23,6 +23,9 @@ export class AddSequenceComponent implements OnInit {
     public children: Array<Child>;
     public addedExercises: Array<Exercise> = [];
     public addedChildren: Array<Child> = [];
+    public sequenceExercises: Array<Exercise> = [];
+    public sequenceChildren: Array<Child> = [];
+
 
     constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService: ExercisesService,
         public childrenService: ChildrenService, public router: Router) { }
@@ -31,42 +34,38 @@ export class AddSequenceComponent implements OnInit {
          this.route.params
             .switchMap((params: Params) => Observable.of(params))
             .subscribe(params => {
+                this.loadExercisesToAdd();
+                this.loadChildrenToAssign();
                 const sequenceId: number = parseInt(params['sequenceid'], 10);
-                console.log('sequenceid ' + sequenceId);
                 if (sequenceId) {
                     this.sequencesService.getSequence(sequenceId).subscribe(
                         res => {
-                            console.log(res)
                             this.newSequence.sequenceId = res.sequenceId;
                             this.newSequence.sequenceName = res.sequenceName;
-                            /*this.exercises = res.sequenceExercises;
-                            this.children = res.sequenceChildren;
+                            this.sequenceExercises = res.sequenceExercises;
+                            this.sequenceChildren = res.sequenceChildren;
 
-                            let i = 0;
-                            this.exercises.forEach(exercise => {
-                                this.addExercise(i);
-                                i++;
+                            this.sequenceExercises.forEach(exercise => {
+                                this.addedExercises.push(exercise);
+                                this.removeExerciseAdded(exercise);
                             })
-                            let j = 0;
-                            this.children.forEach(child => {
-                                this.addChild(j);
-                                j++;
+
+                            this.sequenceChildren.forEach(child => {
+                                this.addedChildren.push(child);
+                                this.removeChildrenAdded(child);
                             })
-*/
-
-
                         },
                         err => console.log('Error getting sequence')
                       );
                 } else {
                     this.newSequence.sequenceId = sequenceId;
-                    this.loadExercisesToAdd();
-                    this.loadChildrenToAssign();
                 }
+
                 const id: number = parseInt(params['childid'], 10);
-                    if (id) {
-                        this.newSequence.childId = id;
-                    }
+                if (id) {
+                    this.newSequence.childId = id;
+                }
+
             });
     }
 
@@ -88,6 +87,28 @@ export class AddSequenceComponent implements OnInit {
                 }
             },
             err => console.log('Error creating sequence.'));
+    }
+
+    editSequence() {
+        this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
+            return exercise.exerciseId;
+        });
+
+        this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
+            return child.childId;
+        });
+
+        this.sequencesService.editSequence(this.newSequence)
+            .subscribe(res => {
+                console.log(res);
+                if (this.newSequence.childId) {
+                    this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
+                } else {
+                    this.router.navigate(['/sequences']);
+                }
+            },
+            err => console.log('Error editing sequence.'));
+
     }
 
     loadExercisesToAdd() {
@@ -136,6 +157,46 @@ export class AddSequenceComponent implements OnInit {
     addChild(index: number) {
         this.addedChildren.push(this.children[index]);
         this.children.splice(index, 1);
+    }
+
+    removeExerciseAdded(exercise: Exercise) {
+        let i = 0;
+        this.exercises.forEach(exercise2 => {
+            if (exercise2.exerciseId === exercise.exerciseId) {
+                let size = this.exercises.length;
+                if (i === 0) {
+                    this.exercises.reverse();
+                    this.exercises.pop();
+                } else if (i === size - 1) {
+                    this.exercises.pop();
+                } else {
+                    let exercises1 = this.exercises.splice(0, i);
+                    let exercises2 = this.exercises.splice(i + 1, size);
+                    this.exercises = exercises1.concat(exercises2);
+                }
+            }
+            i++;
+        });
+    }
+
+    removeChildrenAdded(child: Child) {
+        let i = 0;
+        this.children.forEach(child2 => {
+            if (child2.childId === child.childId) {
+                let size = this.children.length;
+                if (i === 0) {
+                    this.children.reverse();
+                    this.children.pop();
+                } else if (i === size - 1) {
+                    this.children.pop();
+                } else {
+                    let children1 = this.children.splice(0, i);
+                    let children2 = this.children.splice(i + 1, size);
+                    this.children = children1.concat(children2);
+                }
+            }
+            i++;
+        });
     }
 
     upExercise(index: number) {
