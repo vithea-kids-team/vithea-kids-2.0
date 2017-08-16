@@ -81,6 +81,7 @@
     "__COMMENT__": "SEQUENCES *****************************************************************************************",
     "_Sequences_": "Aulas",
     "_EditSequence_": "Editar aula",
+    "_RequiredSequenceName_": "Insira o nome da aula",
 
     "__COMMENT__": "PREFERENCES ***************************************************************************************",
     "GREETING_MESSAGE": "Mensagem de boas-vindas:",

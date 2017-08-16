@@ -14,7 +14,8 @@
             <div class="col-md-12 col-sm-12" style="padding-left:0">
                 <div class="form-group">
                     <label for="sequenceName">{{ '_SequenceName_' | translate }}<span class="text-danger"> * </span></label>
-                    <input type="text" class="form-control" id="sequenceName" required [(ngModel)]="newSequence.sequenceName" name="sequenceName">
+                    <input type="text" class="form-control" id="sequenceName" required [(ngModel)]="newSequence.sequenceName" name="sequenceName" #sequenceName="ngModel">
+                    <div *ngIf="!sequenceName.valid && !sequenceName.pristine" class="alert alert-danger"> {{ '_RequiredSequenceName_' | translate }} </div>
                 </div>
             </div>
         </div>
@@ -88,7 +89,7 @@
             <a *ngIf="!newSequence.sequenceId" type="button" (click)="registerSequence()" class="btn btn-success" [class.disabled]="!sequenceForm.form.valid">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}
             </a>
-            <a *ngIf="newSequence.sequenceId" type="button" (click)="editSequence()" class="btn btn-success">
+            <a *ngIf="newSequence.sequenceId" type="button" (click)="editSequence()" class="btn btn-success" [class.disabled]="!sequenceForm.form.valid">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
             <button [routerLink]="['/sequences']" type="button" class="btn btn-secondary"> 
