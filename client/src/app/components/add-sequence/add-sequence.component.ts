@@ -25,25 +25,44 @@ export class AddSequenceComponent implements OnInit {
     public addedChildren: Array<Child> = [];
     public sequenceExercises: Array<Exercise> = [];
     public sequenceChildren: Array<Child> = [];
-
+    loading = false;
 
     constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService: ExercisesService,
         public childrenService: ChildrenService, public router: Router) { }
 
     ngOnInit() {
-         this.route.params
+        this.loading = true;
+        this.route.params
             .switchMap((params: Params) => Observable.of(params))
             .subscribe(params => {
                 this.loadExercisesToAdd();
                 this.loadChildrenToAssign();
+                const id: number = parseInt(params['childid'], 10);
+                if (id) {
+                    this.newSequence.childId = id;
+                }
                 const sequenceId: number = parseInt(params['sequenceid'], 10);
                 if (sequenceId) {
                     this.sequencesService.getSequence(sequenceId).subscribe(
                         res => {
+                            console.log(res);
                             this.newSequence.sequenceId = res.sequenceId;
                             this.newSequence.sequenceName = res.sequenceName;
                             this.sequenceExercises = res.sequenceExercises;
                             this.sequenceChildren = res.sequenceChildren;
+                            //this.newSequence.orderExercises = res.sequenceOrderExercises;
+
+                            //console.log(this.newSequence.orderExercises.length);
+
+                            /*let newSequenceExercices: Array<Exercise> = [];
+                            this.orderExercisesList.forEach(idExercise => {
+                                this.sequenceExercises.forEach(exercise => {
+                                    if (exercise.exerciseId === idExercise) {
+                                        newSequenceExercices.push(exercise);
+                                    }
+                                })
+                            })
+                            this.sequenceExercises = newSequenceExercices;*/
 
                             this.sequenceExercises.forEach(exercise => {
                                 this.addedExercises.push(exercise);
@@ -54,22 +73,23 @@ export class AddSequenceComponent implements OnInit {
                                 this.addedChildren.push(child);
                                 this.removeChildrenAdded(child);
                             })
+                            this.loading = false;
                         },
-                        err => console.log('Error getting sequence')
+                        err => {
+                            console.log('Error getting sequence');
+                            this.loading = false;
+                        }
                       );
                 } else {
                     this.newSequence.sequenceId = sequenceId;
+                    this.loading = false;
                 }
-
-                const id: number = parseInt(params['childid'], 10);
-                if (id) {
-                    this.newSequence.childId = id;
-                }
-
             });
     }
 
     registerSequence() {
+        this.loading = true;
+
         this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
             return exercise.exerciseId;
         });
@@ -85,11 +105,16 @@ export class AddSequenceComponent implements OnInit {
                 } else {
                     this.router.navigate(['/sequences']);
                 }
+                this.loading = false;
             },
-            err => console.log('Error creating sequence.'));
+            err => {
+                console.log('Error creating sequence.');
+                    this.loading = false;
+            })
     }
 
     editSequence() {
+        this.loading = true;
         this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
             return exercise.exerciseId;
         });
@@ -100,15 +125,15 @@ export class AddSequenceComponent implements OnInit {
 
         this.sequencesService.editSequence(this.newSequence)
             .subscribe(res => {
-                console.log(res);
                 if (this.newSequence.childId) {
                     this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
                 } else {
                     this.router.navigate(['/sequences']);
                 }
+                this.loading = false;
             },
             err => console.log('Error editing sequence.'));
-
+            this.loading = false;
     }
 
     loadExercisesToAdd() {
@@ -138,6 +163,18 @@ export class AddSequenceComponent implements OnInit {
             err => console.error('Error loading children for assigning to sequence.', err)
         );
     }
+
+    /*orderExercises () {
+        let newSequenceExercices: Array<Exercise> = [];
+        this.sequenceOrderExercises.forEach(idExercise => {
+            this.sequenceExercises.forEach(exercise => {
+                if (exercise.exerciseId === idExercise) {
+                    newSequenceExercices.push(exercise);
+                }
+            })
+        })
+        this.sequenceExercises = newSequenceExercices;
+    }*/
 
     removeExercise(index: number) {
         this.exercises.push(this.addedExercises[index]);
@@ -171,11 +208,12 @@ export class AddSequenceComponent implements OnInit {
                     this.exercises.pop();
                 } else {
                     let exercises1 = this.exercises.splice(0, i);
-                    let exercises2 = this.exercises.splice(i + 1, size);
+                    let exercises2 = this.exercises.splice(i, size);
                     this.exercises = exercises1.concat(exercises2);
                 }
+            } else {
+                i++;
             }
-            i++;
         });
     }
 
@@ -191,11 +229,12 @@ export class AddSequenceComponent implements OnInit {
                     this.children.pop();
                 } else {
                     let children1 = this.children.splice(0, i);
-                    let children2 = this.children.splice(i + 1, size);
+                    let children2 = this.children.splice(i, size);
                     this.children = children1.concat(children2);
                 }
+            } else {
+                i++;
             }
-            i++;
         });
     }
 

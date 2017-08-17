@@ -59,7 +59,6 @@ export class AddChildComponent implements OnInit {
       this.childService.editChild(this.model).subscribe(
         res => this.router.navigate(['/children/']),
         err => {
-          this.error = err._body;
           this.loadingAdd = false;
           console.error('Error editing a child.', err);
         }
@@ -68,7 +67,6 @@ export class AddChildComponent implements OnInit {
       this.childService.addChildren(this.model).subscribe(
         res => this.router.navigate(['/children']),
         err => {
-          this.error = err._body;
           this.loadingAdd = false;
           console.error('Error registering new child.', err);
         });

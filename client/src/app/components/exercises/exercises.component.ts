@@ -101,6 +101,20 @@ export class ExercisesComponent implements OnInit, OnChanges {
     )
   }
 
+  public addExercise(exercise) {
+    this.loading = true;
+    this.exercisesService.addExercise(exercise).subscribe(
+      result => {
+        this.loading = false;
+        return result.json().exerciseId;
+      },
+      err => {
+        console.error('Error adding exercise.' + err);
+        this.loading = false;
+      }
+    )
+  }
+
   goBack() {
     this.location.back();
   }

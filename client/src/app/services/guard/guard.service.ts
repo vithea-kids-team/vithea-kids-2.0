@@ -8,7 +8,7 @@ import { CaregiverService } from '../caregiver/caregiver.service';
 @Injectable()
 export class GuardService implements CanActivate {
 
-  constructor(public caregiverService : CaregiverService, public router : Router) { }
+  constructor(public caregiverService: CaregiverService, public router: Router) { }
 
   canActivate() {
 
