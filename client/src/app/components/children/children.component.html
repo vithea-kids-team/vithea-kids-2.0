@@ -24,7 +24,7 @@
         <loader *ngIf="loading"></loader>
         <div *ngIf="!loading">
             <p *ngIf="children?.length === 0">{{ '_NoChildren_' | translate }}</p>
-            <div class="panel panel-default" *ngFor="let child of children | childFilter:searchBy">
+            <div class="panel panel-default" *ngFor="let child of pagedItems | childFilter:searchBy">
                 <div class="panel-body">
                     <div class="pull-right button-group">
                         <button type="button" class="btn btn-info" [routerLink]="['/children/' + child.childId + '/sequences']">{{ '_ViewChildSequencesBtn_' | translate }}</button>
@@ -47,4 +47,24 @@
             </div>
         </div>
     </div>
+
+    <!-- pager -->
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(1)">{{ '_First_' | translate }}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(pager.currentPage - 1)">{{ '_Previous_' | translate }}</a>
+        </li>
+        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="setPage(page)">{{page}}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.currentPage + 1)">{{ '_Next_' | translate }}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.totalPages)">{{ '_Last_' | translate }}</a>
+        </li>
+    </ul>
+
 </div>

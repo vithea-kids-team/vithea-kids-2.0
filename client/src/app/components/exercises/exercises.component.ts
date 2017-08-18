@@ -119,7 +119,6 @@ export class ExercisesComponent implements OnInit, OnChanges {
     this.location.back();
   }
 
-
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {
       return;

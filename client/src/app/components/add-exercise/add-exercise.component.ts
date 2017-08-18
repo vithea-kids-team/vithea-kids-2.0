@@ -16,6 +16,7 @@ import { ExercisesService } from '../../services/exercises/exercises.service'
 export class AddExerciseComponent implements OnInit {
 
   public newExercise = new Exercise();
+  public question = '';
   public newAnswer = '';
   public stimulusImgs = [];
   public rightAnswerImgs = [];
@@ -23,7 +24,6 @@ export class AddExerciseComponent implements OnInit {
   public topics = [];
   public levels = [];
   public error: string = undefined;
-  public numberAnswersGreater4 = false;
   public loading = false;
 
   constructor(public route: ActivatedRoute, public resourcesService: ResourcesService,
@@ -68,6 +68,7 @@ export class AddExerciseComponent implements OnInit {
             (res: any) => {
               console.log(res)
               this.newExercise.exerciseId = res.exerciseId;
+              this.newExercise.exerciseName = res.name;
               this.newExercise.type = res.type.toLowerCase();
               this.newExercise.topic = res.topic.topicId;
               this.newExercise.level = res.level.levelId;

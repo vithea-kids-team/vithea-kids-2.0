@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
 import { Location } from '@angular/common';
+import { PaginationService } from '../../services/pagination/pagination.service';
 
 @Component({
   selector: 'app-children',
@@ -19,7 +20,13 @@ export class ChildrenComponent implements OnInit, OnChanges {
   public searchBy: string = '';
   public loading: boolean = false;
 
-  constructor(public route: ActivatedRoute, public childrenService: ChildrenService, public location: Location) { }
+  // pager object
+  pager: any = {};
+
+  // paged items
+  pagedItems: any[];
+
+  constructor(public route: ActivatedRoute, public childrenService: ChildrenService, public location: Location, public paginationService: PaginationService) { }
 
   ngOnInit() {
     this.fetchChildren();
@@ -52,8 +59,8 @@ export class ChildrenComponent implements OnInit, OnChanges {
     this.childrenService.getChildren().subscribe(
       result => {
         this.children = result;
-        //this.setPage(1);
-          this.loading = false;
+        this.setPage(1);
+        this.loading = false;
       },
       err => {
         console.error('Error loading sequence children.' + err);
@@ -66,7 +73,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
       this.childrenService.getSequence(id).subscribe(
       res => {
         this.children = res.json().sequenceChildren;
-        //this.setPage(1);  
+        this.setPage(1);
         this.loading = false;
       },
       err => {
@@ -89,5 +96,17 @@ export class ChildrenComponent implements OnInit, OnChanges {
 
   goBack() {
     this.location.back();
+  }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+  // get pager object from service
+    this.pager = this.paginationService.getPager(this.children.length, page);
+
+  // get current page of items
+  this.pagedItems = this.children.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 }

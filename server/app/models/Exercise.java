@@ -21,6 +21,8 @@ public class Exercise extends Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+    
     @ManyToOne(cascade = CascadeType.PERSIST)
     @Column(nullable = true)
     private Topic topic;
@@ -64,6 +66,7 @@ public class Exercise extends Model {
         } else {
             this.question = new Question(question);
         }
+        this.name = question;
         
         List<Answer> answers = new ArrayList();
         
@@ -93,12 +96,12 @@ public class Exercise extends Model {
         } else {
             this.question = new Question(question);
         }
+        this.name = question;
         
         List<Answer> answers = new ArrayList();
         
         Resource rightAnswer = Resource.findById(answerResourceId);
         this.rightAnswer = new Answer(rightAnswer);
-        
         
         answers.add(this.rightAnswer);
         
@@ -108,6 +111,14 @@ public class Exercise extends Model {
         }
         
         this.answers = answers;
+    }
+    
+    public String getExerciseName(){
+        return name;
+    }
+    
+    public void setExerciseName(String name){
+        this.name = name;
     }
     
     public Long getExerciseId() {

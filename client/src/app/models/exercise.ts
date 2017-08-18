@@ -1,5 +1,6 @@
 export class Exercise {
     public exerciseId: number
+    public exerciseName: string // for filter purposes, it is equal to exercise question description
     public type: string
     public topic: string
     public level: string

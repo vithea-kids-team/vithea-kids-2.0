@@ -86,7 +86,6 @@ export class AddSequenceComponent implements OnInit {
                 }
             });
     }
-
     registerSequence() {
         this.loading = true;
 

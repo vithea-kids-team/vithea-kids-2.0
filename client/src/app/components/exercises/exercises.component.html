@@ -16,29 +16,42 @@
     <div class="row">
         <h2>{{ '_Exercises_' | translate }}</h2>
     </div>
+    <h3 *ngIf="sequence?.sequenceId">{{sequence.sequenceName}}</h3>
+
+    <div class=row>
+        <div class="form-group has-feedback search-container" *ngIf="exercises && exercises.length">
+            <input type="text" class="form-control search-input" [(ngModel)]="searchBy" />
+            <i class="glyphicon glyphicon-search form-control-feedback"></i>
+        </div>
+    </div>
+
+
     <div class="row">
-        <h3 *ngIf="sequence?.sequenceId">{{sequence.sequenceName}}</h3>
-        <div class="filters-container" *ngIf="exercises && exercises.length">
+        <div class="filters-container has-feedback search-container" *ngIf="exercises && exercises.length">
+            <!--<div class="[ form-group ] filter">
+                <div class="[ btn-group ]">
+                    <input type="text" class="form-control" [(ngModel)]="searchBy" />
+                    <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                </div>
+            </div>-->
             <div class="[ form-group ] filter">
                 <input type="checkbox" name="image" id="image" autocomplete="off" [(ngModel)]="imageFilter" />
                 <div class="[ btn-group ]">
                     <label for="image" class="[ btn btn-primary ]">
                         <span class="[ glyphicon glyphicon-ok ] " style="font-size: small;"></span>
-                        <span> </span>
+                        <span> </span>
                     </label>
-                    <label for="image" class="[ btn btn-default active ]"> {{ "_Image_" | translate}}
-                    </label>
+                    <label for="image" class="[ btn btn-default active ]"> {{ "_Image_" | translate}}</label>
                 </div>
             </div>
             <div class="[ form-group ] filter">
                 <input type="checkbox" name="text" id="text" autocomplete="off" [(ngModel)]="textFilter" />
                 <div class="[ btn-group ]">
                     <label for="text" class="[ btn btn-primary ]">
-                <span class="[ glyphicon glyphicon-ok ]" style="font-size: small;"></span>
-                <span> </span>
-            </label>
-                    <label for="text" class="[ btn btn-default active ]"> {{ "_Text_" | translate}}
-            </label>
+                        <span class="[ glyphicon glyphicon-ok ]" style="font-size: small;"></span>
+                        <span> </span>
+                    </label>
+                    <label for="text" class="[ btn btn-default active ]"> {{ "_Text_" | translate}}</label>
                 </div>
             </div>
         </div>
@@ -47,12 +60,14 @@
         <loader *ngIf="loading"></loader>
         <div *ngIf="!loading">
             <p *ngIf="exercises?.length === 0">{{ '_NoExercises_' | translate }}</p>
-            <div class="panel panel-default" *ngFor="let exercise of exercises | exerciseTypeFilter: imageFilter:textFilter">
+            <div class="panel panel-default" *ngFor="let exercise of pagedItems | exerciseFilter:searchBy | exerciseTypeFilter: imageFilter:textFilter">
+                <!--  ; -->
+
                 <div class="panel-body">
-                    <h3>{{exercise.question?.questionDescription}}</h3>
+                    <h4>{{exercise.question?.questionDescription}}</h4>
                     <h3>{{exercise.question?.stimulusText}}</h3>
                     <img *ngIf="exercise.question?.stimulus" class="thumbnail" [src]="'vithea-kids/assets/' + exercise.question?.stimulus?.resourcePath">
-                    <h4>{{exercise.topic?.topicDescription}} {{exercise.level?.levelDescription}}</h4>
+                    <p>{{exercise.topic?.topicDescription}} {{exercise.level?.levelDescription}}</p>
                     <div class="col-md-6 col-sm-6" *ngFor="let distractor of exercise.answers">{{distractor?.answerDescription}}
                         <img *ngIf="distractor.stimulus" class="thumbnail" [src]="'vithea-kids/assets/' + distractor.stimulus?.resourcePath">
                         <span class="pull-right glyphicon glyphicon-check" style="font-size: small;" *ngIf="distractor.answerId == exercise.rightAnswer?.answerId"></span>
