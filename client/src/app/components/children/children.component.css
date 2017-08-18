@@ -3,7 +3,7 @@
     flex-direction: column;
 }
 
-.button-group > button {
+.button-group>button {
     margin-bottom: 5px;
 }
 
@@ -15,4 +15,8 @@
 
 .search-input {
     width: 25%;
+}
+
+h3 {
+    color: darkgrey;
 }

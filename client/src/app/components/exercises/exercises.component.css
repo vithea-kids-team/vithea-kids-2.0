@@ -63,3 +63,7 @@ img {
 .button-group>button {
     margin-bottom: 5px;
 }
+
+h3 {
+    color: darkgrey;
+}

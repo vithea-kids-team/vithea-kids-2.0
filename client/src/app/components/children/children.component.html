@@ -1,10 +1,11 @@
-<div class="container">
+<loader *ngIf="loading"></loader>
+<div class="container" *ngIf="!loading">
     <div class="row">
         <div class="panel-default pull-right">
             <a type="button" class="btn btn-default" (click)="goBack()">
                 <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
             </a>
-            <button type="button" class="btn btn-primary" [routerLink]="['/children/new']">
+            <button *ngIf="!sequenceId" type="button" class="btn btn-primary" [routerLink]="['/children/new']">
                 <span class="glyphicon glyphicon-plus" style="font-size: small;"></span> {{ '_RegisterChildBtn_' | translate }}
             </button>
         </div>
@@ -12,6 +13,7 @@
 
     <div class=row>
         <h2>{{ '_Children_' | translate }}</h2>
+        <h3 *ngIf="sequenceId">Aula {{sequence.sequenceName}}</h3>
     </div>
 
     <div class=row>

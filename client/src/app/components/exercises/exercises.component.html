@@ -1,22 +1,19 @@
-<div class="container">
+<loader *ngIf="loading"></loader>
+<div class="container" *ngIf="!loading">
     <div class="row">
         <div class="panel-default pull-right">
             <a type="button" class="btn btn-default" (click)="goBack()">
                 <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
             </a>
-            <a *ngIf="!sequenceId" type="button" class="btn btn-primary" [routerLink]="['/exercises/new']">
+            <button *ngIf="!sequenceId" type="button" class="btn btn-primary" [routerLink]="['/exercises/new']">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateExercise_' | translate }}
-            </a>
-            <button *ngIf="sequenceId" type="button" class="btn btn-primary" [routerLink]="['/exercises/new/' + sequenceId]">
-                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_AddExercise_' | translate }}
             </button>
-
         </div>
     </div>
     <div class="row">
         <h2>{{ '_Exercises_' | translate }}</h2>
+        <h3 *ngIf="sequence?.sequenceId">Aula {{sequence.sequenceName}}</h3>
     </div>
-    <h3 *ngIf="sequence?.sequenceId">{{sequence.sequenceName}}</h3>
 
     <div class=row>
         <div class="form-group has-feedback search-container" *ngIf="exercises && exercises.length">

@@ -17,6 +17,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
 
   public children: Array<Child>;
   public sequenceId: number = 0;
+  public sequence;
   public searchBy: string = '';
   public loading: boolean = false;
 
@@ -72,6 +73,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
   getSequenceChildren(id) {
       this.childrenService.getSequence(id).subscribe(
       res => {
+        this.sequence = res.json();
         this.children = res.json().sequenceChildren;
         this.setPage(1);
         this.loading = false;
