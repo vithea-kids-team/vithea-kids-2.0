@@ -55,16 +55,16 @@
                     <h4>{{exercise.topic?.topicDescription}} {{exercise.level?.levelDescription}}</h4>
                     <div class="col-md-6 col-sm-6" *ngFor="let distractor of exercise.answers">{{distractor?.answerDescription}}
                         <img *ngIf="distractor.stimulus" class="thumbnail" [src]="'vithea-kids/assets/' + distractor.stimulus?.resourcePath">
-                        <small><span class="pull-right glyphicon glyphicon-check" style="font-size: small;" *ngIf="distractor.answerId == exercise.rightAnswer?.answerId"></span></small>
-                        <small><span class="pull-right glyphicon glyphicon-unchecked" style="font-size: small;" *ngIf="distractor.answerId != exercise.rightAnswer?.answerId"></span></small>
+                        <span class="pull-right glyphicon glyphicon-check" style="font-size: small;" *ngIf="distractor.answerId == exercise.rightAnswer?.answerId"></span>
+                        <span class="pull-right glyphicon glyphicon-unchecked" style="font-size: small;" *ngIf="distractor.answerId != exercise.rightAnswer?.answerId"></span>
                     </div>
                 </div>
                 <div class="panel-heading">
                     <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/edit']">
-                    <small><span class="glyphicon glyphicon-pencil" style="font-size: small;"></span></small> {{ '_Edit_' | translate }}
+                        <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
                     </button>
                     <button type="button" class="btn btn-danger" (click)="deleteExercise(exercise.exerciseId)">
-                    <span class="glyphicon glyphicon-trash" style="font-size: small;"></span> {{ '_Delete_' | translate }}
+                        <span class="glyphicon glyphicon-trash" style="font-size: small;"></span> {{ '_Delete_' | translate }}
                     </button>
                 </div>
             </div>

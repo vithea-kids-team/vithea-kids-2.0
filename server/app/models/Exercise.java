@@ -193,6 +193,10 @@ public class Exercise extends Model {
                     this.answers.add(answer);
             }		
     }
+    public void setAnswers(List<Answer> answers){
+        this.answers = answers;
+    }
+    
     public void setAuthor(Caregiver author) {
             this.author = author;
     }

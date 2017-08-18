@@ -24,12 +24,13 @@ export class AddExerciseComponent implements OnInit {
   public levels = [];
   public error: string = undefined;
   public numberAnswersGreater4 = false;
+  public loading = false;
 
   constructor(public route: ActivatedRoute, public resourcesService: ResourcesService,
     public exercisesService: ExercisesService, public router: Router) {}
 
   ngOnInit() {
-
+    //this.loading = true;
     this.resourcesService.fetchResources().subscribe(
       res => {
         this.stimulusImgs = this.resourcesService.getResourcesByType('stimuli');
@@ -61,6 +62,7 @@ export class AddExerciseComponent implements OnInit {
         const exerciseId: number = parseInt(params['exerciseid'], 10);
         if (sequenceId) {
           this.newExercise.sequenceId = sequenceId;
+          this.loading = false;
         } else if (exerciseId) {
           this.exercisesService.getExercise(exerciseId).subscribe(
             (res: any) => {
@@ -72,32 +74,29 @@ export class AddExerciseComponent implements OnInit {
               this.newExercise.question = res.question.questionDescription;
               this.newExercise.stimulusText = res.question.stimulusText;
               this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
+
+              // remove the correct answer
+              res.answers.reverse();
+              if (res.answers.length === 2) {
+                this.newExercise.distractor1 = res.answers[0].answerDescription;
+              } else if (res.answers.length === 3) {
+                this.newExercise.distractor1 = res.answers[1].answerDescription
+                this.newExercise.distractor2 = res.answers[0].answerDescription
+              } else if (res.answers.length === 4) {
+                this.newExercise.distractor1 = res.answers[1].answerDescription
+                this.newExercise.distractor2 = res.answers[0].answerDescription
+                this.newExercise.distractor3 = res.answers[2].answerDescription
+              }
+
+              this.loading = false;
             },
-            err => console.error('Error getting exercise.', err)
+            err => {
+              console.error('Error getting exercise.', err);
+              this.loading = false;
+          }
           );
         }
       });
-  }
-
-  addAnswer() {
-    if (this.newAnswer !== '') {
-      this.newExercise.answers.push(this.newAnswer);
-      this.newAnswer = '';
-      if (this.newExercise.answers.length >= 3) {
-        this.numberAnswersGreater4 = true;
-      } else {
-        this.numberAnswersGreater4 = false;
-      }
-    }
-  }
-
-  removeAnswer(index: number) {
-    this.newExercise.answers.splice(index, 1);
-    if (this.newExercise.answers.length >= 3) {
-      this.numberAnswersGreater4 = true;
-    } else {
-      this.numberAnswersGreater4 = false;
-    }
   }
 
   registerExercise() {
@@ -118,6 +117,16 @@ export class AddExerciseComponent implements OnInit {
           this.newExercise.answersImg.push(answer.resourceId);
         });
       }
+    }
+
+    if (this.newExercise.distractor1 !== '') {
+      this.newExercise.answers.push(this.newExercise.distractor1);
+    }
+    if (this.newExercise.distractor2 !== '') {
+      this.newExercise.answers.push(this.newExercise.distractor2);
+    }
+    if (this.newExercise.distractor3 !== '') {
+      this.newExercise.answers.push(this.newExercise.distractor3);
     }
 
     if (this.newExercise.exerciseId) {

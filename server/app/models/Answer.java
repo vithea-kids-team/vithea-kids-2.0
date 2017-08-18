@@ -20,8 +20,8 @@ public class Answer extends Model {
     @ManyToOne
     @Column(nullable = true)
     private Resource stimulus;
-
-    Answer(String answer) {
+    
+    public Answer(String answer) {
         this.answerDescription = answer;
         this.stimulus = null;
     }
@@ -29,6 +29,7 @@ public class Answer extends Model {
         this.answerDescription = null;
         this.stimulus = stimulus;
     }
+
 
     /**
      * @return the answerId

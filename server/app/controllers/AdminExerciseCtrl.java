@@ -7,6 +7,7 @@ import static java.lang.Long.parseLong;
 import java.sql.Timestamp;
 import java.util.*;
 import javax.inject.Inject;
+import models.Answer;
 import models.Caregiver;
 import models.Exercise;
 import models.Level;
@@ -152,6 +153,7 @@ public class AdminExerciseCtrl extends Controller {
      * @param exerciseId
      * @return
      */
+    @SuppressWarnings("empty-statement")
     public Result editExercise(long exerciseId) {
         DynamicForm editExerciseForm = formFactory.form().bindFromRequest();
 
@@ -193,16 +195,23 @@ public class AdminExerciseCtrl extends Controller {
         
             // stimulus, answer, and distractors for text
             if(editExerciseForm.get("type").equals("text")) {
-                
                 // right answer
-                //String answer = editExerciseForm.get("rightAnswer");
-
+                String answer = editExerciseForm.get("rightAnswer");
+                exercise.getRightAnswer().setAnswerDescription(answer);
+                
+                List<Answer> answers = new ArrayList();
+                answers.add(exercise.getRightAnswer());
                 
                 // distractors
                 List<String> distractors = new ArrayList();
                 editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("answers"))).forEachOrdered((key) -> {
                     distractors.add(editExerciseForm.data().get(key));
                 });
+                distractors.forEach((s) -> {
+                    Logger.debug("stuff;" + s);
+                     answers.add(new Answer(s));
+                });
+                exercise.setAnswers(answers);
                 
                 // stimulus
                 long stimulusId;
