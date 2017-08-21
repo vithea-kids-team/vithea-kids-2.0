@@ -77,7 +77,7 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
             if(reinforcementStrategy.equals("OFF"))
                 ((VitheaKidsActivity) activity).initActiveReinforcement(false);
             else ((VitheaKidsActivity) activity).initActiveReinforcement(true);
-
+            Log.d("here","iniciarSeq" );
             ((VitheaKidsActivity) activity).setSequenceSelectionView(); // change screen
         }
     }

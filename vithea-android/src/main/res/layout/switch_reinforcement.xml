@@ -11,6 +11,6 @@
         android:layout_centerVertical="true"
         android:textOn="@string/reinforcement_option_text_on"
         android:textOff="@string/reinforcement_option_text_off"
-        android:checked="false" />   
+        android:checked="false" />   z
 
 </RelativeLayout>

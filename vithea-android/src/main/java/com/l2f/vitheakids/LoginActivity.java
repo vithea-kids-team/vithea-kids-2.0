@@ -97,6 +97,11 @@ public class LoginActivity extends Activity implements TaskListener {
 
         }
     }
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+    }
 
     public void login() {
         Log.d(TAG, "Login");

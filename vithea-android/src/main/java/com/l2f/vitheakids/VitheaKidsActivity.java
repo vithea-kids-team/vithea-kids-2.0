@@ -16,6 +16,7 @@ import com.l2f.vitheakids.util.ExerciseMenuListWithoutImageAdapter;
 import com.l2f.vitheakids.util.CanvasUtil;
 import com.unity3d.player.*;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -139,6 +141,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop(){
+
+        super.onStop();
+        finish();
+    }
+
     private void initViews() {
 
         characterContainer = findViewById(R.id.characterContainer);
@@ -155,12 +164,32 @@ public class VitheaKidsActivity extends AppCompatActivity {
         FrameLayout layout = (FrameLayout) findViewById(R.id.view1);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         layout.addView(mUnityPlayer.getView(), 0, lp);
+
+        linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = (View) linflater.inflate(R.layout.repeat_button, null);
+        layout.addView(view);
+
+       /* ImageView repeat_view = (ImageView) findViewById(R.id.repeat_button_view);
+
+        repeat_view.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                //Toast.makeText(getApplicationContext(), "hey", Toast.LENGTH_SHORT).show();
+                new ReadTask().execute(lastInstruction);
+            }
+        });*/
     }
     private void initUnityCharacter() {
         mUnityPlayer = new UnityPlayer(this);
         int glesMode = mUnityPlayer.getSettings().getInt("gles_mode", 1);
         boolean trueColor8888 = false;
         mUnityPlayer.init(glesMode, trueColor8888);
+
+
+
+
     }
     private void setupActionBar(String title) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -206,7 +235,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         mUnityPlayer.resume();
     }
     // Low Memory Unity
-    @Override
+   @Override
     public void onLowMemory() {
         super.onLowMemory();
         mUnityPlayer.lowMemory();
@@ -234,7 +263,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
     // For some reason the multiple key event type is not supported by the ndk.
     // Force event injection by overriding dispatchKeyEvent().
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+   public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_MULTIPLE)
             return mUnityPlayer.injectEvent(event);
         return super.dispatchKeyEvent(event);
@@ -250,12 +279,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
     public boolean onTouchEvent(MotionEvent event) {
         return mUnityPlayer.injectEvent(event);
     }
-    /*API12*/
+    /*API12*//*
     public boolean onGenericMotionEvent(MotionEvent event) { return mUnityPlayer.injectEvent(event); }
-
+*/
 // **** View setters - methods that change the view ************************************************
 
     public void setSequenceSelectionView() {
+        Log.d("entreiEKLECTION", "setSequenceSelectionView called");
 
         setupActionBar(getString(R.string.sequences_of_exercise));
 
@@ -294,7 +324,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
         }
         int i = 0;
         for (SequenceExercises sInfo : this.child.getSequencesList()) {
-            Log.d("sequenceName", sInfo.getName());
             // Shows only sequences with exercises
             if (sInfo.getSequenceExercises().size() > 0) {
                 ((ExerciseMenuListWithoutImageAdapter) mAdapter).add(sInfo.getName());
@@ -387,6 +416,10 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
             ImageView img = (ImageView) findViewById(R.id.stimulusImage);
             new LoadImageTask(this, img).execute(path);
+        }
+      else{
+            ImageView img = (ImageView) findViewById(R.id.stimulusImage);
+            img.setVisibility(View.GONE);
         }
 
         // Exercise Options
@@ -775,8 +808,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
         prefEditor.clear();
         prefEditor.commit();
         //Thread.sleep(10000);
-        Intent i = new Intent(this, LoginActivity.class);
-        VitheaKidsActivity.this.startActivity(i);
+        Intent i = new Intent(VitheaKidsActivity.this, LoginActivity.class);
+            // Add new Flag to start new Activity
+        startActivity(i);
     }
 
     private void reinforcementHandler(MenuItem item){
