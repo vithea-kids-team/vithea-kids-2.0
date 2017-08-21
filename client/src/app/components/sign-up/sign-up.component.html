@@ -37,7 +37,7 @@
         <div class=row>
             <div class="form-group">
                 <label for="firstName">{{ '_FirstName_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" class="form-control" id="firstName" required maxlength="30 " [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
+                <input type="text" class="form-control" id="firstName" required maxlength="30" [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
                 <div *ngIf="!firstName.valid && !firstName.pristine" class="alert alert-danger">
                     {{ '_RequiredFirstName_' | translate }}
                 </div>

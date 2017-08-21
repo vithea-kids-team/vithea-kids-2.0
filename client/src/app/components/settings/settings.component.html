@@ -18,7 +18,7 @@
                                 </li>
                             </ul>
                             <form class="input-group">
-                                <input class="form-control" [(ngModel)]="newTopic" name="newTopic">
+                                <input class="form-control" maxlength="50" [(ngModel)]="newTopic" name="newTopic">
                                 <span class="input-group-btn">
                             <a class="btn btn-primary" (click)="updateAddTopic(newTopic)"><i class="glyphicon glyphicon-plus"></i></a>
                         </span>
@@ -41,7 +41,7 @@
                             </li>
                         </ul>
                         <form class="input-group">
-                            <input class="form-control" [(ngModel)]="newLevel" name="newLevel">
+                            <input class="form-control" maxlength="50" [(ngModel)]="newLevel" name="newLevel">
                             <span class="input-group-btn">
                             <a class="btn btn-primary" (click)="updateAddLevel(newLevel)"><i class="glyphicon glyphicon-plus"></i></a>
                         </span>
