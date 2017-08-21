@@ -10,6 +10,9 @@ import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
   templateUrl: './add-child.component.html',
   styleUrls: ['./add-child.component.css']
 })
+
+
+
 export class AddChildComponent implements OnInit {
 
   genders = ['Female', 'Male', 'Other'];
@@ -55,6 +58,11 @@ export class AddChildComponent implements OnInit {
   createChild() {
     this.loadingAdd = true;
     this.error = undefined;
+
+
+
+
+
     if (this.model.childId) {
       this.childService.editChild(this.model).subscribe(
         res => this.router.navigate(['/children/']),

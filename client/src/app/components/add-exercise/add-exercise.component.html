@@ -50,7 +50,7 @@
         <div class="row">
             <div class="form-group">
                 <label for="question"> {{'_Question_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" class="form-control" id="question" required [(ngModel)]="newExercise.question" name="question" #question="ngModel">
+                <input type="text" class="form-control" id="question" required maxlength="255" [(ngModel)]="newExercise.question" name="question" #question="ngModel">
                 <div *ngIf="!question.valid && !question.pristine" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
         <div class="row">
             <div class="form-group">
                 <label for="stimulus"> {{ '_Stimulus_' | translate }} </label>
-                <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
+                <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" maxlength="255" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
                     <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
                 </div>
@@ -70,7 +70,7 @@
         <div class="row">
             <label for="answer"> {{ '_Answer_' | translate }} <span class="text-danger"> * </span></label>
             <div *ngIf="newExercise.type == 'text' ">
-                <input type="text" class="form-control" id="rightAnswer" required [(ngModel)]="newExercise.rightAnswer" name="rightAnswer" #rightAnswer="ngModel">
+                <input type="text" class="form-control" id="rightAnswer" required maxlength="255" [(ngModel)]="newExercise.rightAnswer" name="rightAnswer" #rightAnswer="ngModel">
                 <div *ngIf="!rightAnswer.valid && !rightAnswer.pristine" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
             </div>
         </div>
@@ -89,9 +89,9 @@
             <label for="answers"> {{ '_Distractors_' | translate }}</label>
             <div class="form-group" *ngIf="newExercise.type == 'text' ">
                 <em>{{ '_NoDistractors_' | translate }}</em>
-                <input type="text" class="form-control" id="distractor1" [(ngModel)]="newExercise.distractor1" name="distractor1" #distractor1="ngModel">
-                <input type="text" class="form-control" id="distractor2" [(ngModel)]="newExercise.distractor2" name="distractor2" #distractor2="ngModel">
-                <input type="text" class="form-control" id="distractor3" [(ngModel)]="newExercise.distractor3" name="distractor3" #distractor3="ngModel">
+                <input type="text" class="form-control" id="distractor1" maxlength="255" [(ngModel)]="newExercise.distractor1" name="distractor1" #distractor1="ngModel">
+                <input type="text" class="form-control" id="distractor2" maxlength="255" [(ngModel)]="newExercise.distractor2" name="distractor2" #distractor2="ngModel">
+                <input type="text" class="form-control" id="distractor3" maxlength="255" [(ngModel)]="newExercise.distractor3" name="distractor3" #distractor3="ngModel">
             </div>
         </div>
         <div class="row">

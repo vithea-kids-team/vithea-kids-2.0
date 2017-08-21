@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/Router';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 import { SpinnerComponent } from './vendor/angular2-spinner';
 import { MyDatePickerModule } from 'mydatepicker';
+//import { AConfirmModule} from 'angular-confirm-master';
 
 import { AppComponent } from './components/app.component';
 import { ChildrenComponent } from './components/children/children.component';
@@ -57,6 +58,7 @@ export function translateFactory(https: Http) {
       deps: [Http]
     }),
     MyDatePickerModule
+    //AConfirmModule
   ],
   declarations: [
     AppComponent,

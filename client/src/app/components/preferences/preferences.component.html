@@ -12,15 +12,15 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label>{{ 'GREETING_MESSAGE' | translate}}</label>
-                        <input type="text" class="form-control" name="GREETING_MESSAGE" [(ngModel)]="prefs.greetingMessage">
+                        <input type="text" class="form-control" name="GREETING_MESSAGE" maxlength="255" [(ngModel)]="prefs.greetingMessage">
                     </div>
                     <div class="form-group">
                         <label>{{ 'EXERCISE_REINFORCEMENT' | translate}}</label>
-                        <input type="text" class="form-control" name="EXERCISE_REINFORCEMENT" [(ngModel)]="prefs.exerciseReinforcementMessage">
+                        <input type="text" class="form-control" name="EXERCISE_REINFORCEMENT" maxlength="255" [(ngModel)]="prefs.exerciseReinforcementMessage">
                     </div>
                     <div class="form-group">
                         <label>{{ 'SEQUENCE_REINFORCEMENT' | translate}}</label>
-                        <input type="text" class="form-control" name="SEQUENCE_REINFORCEMENT" [(ngModel)]="prefs.sequenceReinforcementMessage">
+                        <input type="text" class="form-control" name="SEQUENCE_REINFORCEMENT" maxlength="255" [(ngModel)]="prefs.sequenceReinforcementMessage">
                     </div>
                 </div>
             </div>
