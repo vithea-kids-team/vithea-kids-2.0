@@ -13,7 +13,7 @@
             <div class="col-md-12 col-sm-12" style="padding-left:0">
                 <div class="form-group">
                     <label for="sequenceName">{{ '_SequenceName_' | translate }}<span class="text-danger"> * </span></label>
-                    <input type="text" class="form-control" id="sequenceName" required [(ngModel)]="newSequence.sequenceName" name="sequenceName" #sequenceName="ngModel">
+                    <input type="text" class="form-control" id="sequenceName" maxlength="50" required [(ngModel)]="newSequence.sequenceName" name="sequenceName" #sequenceName="ngModel">
                     <div *ngIf="!sequenceName.valid && !sequenceName.pristine" class="alert alert-danger"> {{ '_RequiredSequenceName_' | translate }} </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                         <ul class="list-group">
                             <li class="list-group-item list-group-item__empty" *ngIf="exercises?.length === 0">{{ '_NoExercisesToAdd_' | translate }}</li>
                             <li class="list-group-item list-group-item-content" *ngFor=" let exercise of exercises; let index = index">
-                                <span>{{exercise.question?.questionDescription}}</span>
+                                <span>{{ truncate(exercise.question?.questionDescription, 25) }}</span>
                                 <span class="grey">{{exercise.type | translate}}</span>
                                 <a class="btn btn-secondary pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
                             </li>
@@ -41,7 +41,7 @@
                             <li class="list-group-item list-group-item-content" *ngFor=" let exercise of addedExercises; let index = index">
                                 <a class="btn btn-secondary pull-left" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
                                 <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
-                                <span>{{exercise.question?.questionDescription}}</span>
+                                <span>{{truncate(exercise.question?.questionDescription, 25) }}</span>
                                 <a *ngIf="index >= 1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
                                 <a class="btn btn-secondary pull-right" style="padding:0"></a>
                                 <a *ngIf="index < addedExercises?.length-1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>

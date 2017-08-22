@@ -175,6 +175,18 @@ export class AddSequenceComponent implements OnInit {
         this.sequenceExercises = newSequenceExercices;
     }*/
 
+    public truncate(str: String, size: number) {
+        if (str != null) {
+          let result: String = str;
+          if (str.length > size) {
+            result = str.substring(0, size + 1) + ' (...)';
+          }
+          return result;
+        } else {
+          return '';
+        }
+      }
+
     removeExercise(index: number) {
         this.exercises.push(this.addedExercises[index]);
         this.addedExercises.splice(index, 1);

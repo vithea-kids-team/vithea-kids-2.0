@@ -115,6 +115,18 @@ export class ExercisesComponent implements OnInit, OnChanges {
     )
   }
 
+  public truncate(str: String, size: number) {
+    if (str != null) {
+      let result: String = str;
+      if (str.length > size) {
+        result = str.substring(0, size + 1) + ' (...)';
+      }
+      return result;
+    } else {
+      return '';
+    }
+  }
+
   goBack() {
     this.location.back();
   }

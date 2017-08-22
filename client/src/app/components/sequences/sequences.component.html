@@ -16,7 +16,7 @@
 
     <div class=row>
         <h2>{{ '_Sequences_' | translate }}</h2>
-        <h3 *ngIf="child?.childId">{{child.firstName + ' ' + child.lastName}}</h3>
+        <h3 *ngIf="child?.childId">{{ truncate(child?.firstName + ' ' + child?.lastName, 50) }}</h3>
     </div>
 
     <div class=row>
@@ -39,7 +39,7 @@
                     </div>
                     <h4>{{sequence.sequenceName}}</h4>
                     <div *ngFor="let child of sequence.sequenceChildren">
-                        <p> {{child?.firstName + ' ' + child?.lastName}}</p>
+                        <p> {{ truncate(child?.firstName + ' ' + child?.lastName, 50) }}</p>
                     </div>
                 </div>
                 <div class="panel-heading">

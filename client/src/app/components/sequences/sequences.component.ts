@@ -130,6 +130,18 @@ export class SequencesComponent implements OnInit, OnChanges {
     )
   }
 
+  public truncate(str: String, size: number) {
+    if (str != null) {
+      let result: String = str;
+      if (str.length > size) {
+        result = str.substring(0, size + 1) + ' (...)';
+      }
+      return result;
+    } else {
+      return '';
+    }
+  }
+
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {
       return;
