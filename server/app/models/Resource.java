@@ -1,19 +1,16 @@
 package models;
 
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import java.util.*;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import java.util.*;
-
 import play.Logger;
-
-import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import javax.persistence.Column;
 
 @Entity
 public class Resource extends Model {
@@ -73,17 +70,11 @@ public class Resource extends Model {
     public static final Finder<Long, Resource> find = new Finder<>(Resource.class);
 
     public static List<Resource> findByOwner(Caregiver owner) {
-            Logger.debug("Looking for resources from: " + owner.getCaregiverLogin().getUsername());
-            return find
-            .where()
-            .eq("owner_id", owner.getCaregiverId())
-            .findList();
+        Logger.debug("Looking for resources from: " + owner.getCaregiverLogin().getUsername());
+        return find.where().eq("owner_id", owner.getCaregiverId()).findList();
     }
 
     public static Resource findById(Long resourceId) {
-            return find
-            .where()
-            .eq("id", resourceId)
-            .findUnique();
+        return find.where().eq("id", resourceId).findUnique();
     }
 }

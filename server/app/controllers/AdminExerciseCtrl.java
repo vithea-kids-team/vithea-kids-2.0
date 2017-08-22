@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
+import java.io.IOException;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import java.sql.Timestamp;
@@ -15,6 +16,7 @@ import models.Resource;
 import models.ResourceArea;
 import models.Sequence;
 import models.Topic;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.data.DynamicForm;
@@ -89,7 +91,6 @@ public class AdminExerciseCtrl extends Controller {
             List<Long> distractorsResourcesIds = new ArrayList<>();
             Map<String, String> data = registerExerciseForm.data();
             int numberDistractors = data.size();
-            System.out.println(data);
             for(int i = 0; i < numberDistractors; i++){
                 String key = "answersImg[" + i + "]";
                 if(data.containsKey(key)){
@@ -208,8 +209,7 @@ public class AdminExerciseCtrl extends Controller {
                     distractors.add(editExerciseForm.data().get(key));
                 });
                 distractors.forEach((s) -> {
-                    Logger.debug("stuff;" + s);
-                     answers.add(new Answer(s));
+                    answers.add(new Answer(s));
                 });
                 exercise.setAnswers(answers);
                 
@@ -267,10 +267,6 @@ public class AdminExerciseCtrl extends Controller {
                 exercise.getQuestion().setStimulusText(stimulusText);
 
             }
-            
-            
-            
-            
             
             exercise.save();
             return ok(Json.toJson(exercise));        
@@ -360,6 +356,7 @@ public class AdminExerciseCtrl extends Controller {
         
         return ok();
     }
+    
     public Result uploadResources(String type) {
         Logger.debug("Uploading " + type);
         MultipartFormData<File> body = request().body().asMultipartFormData();
@@ -371,27 +368,25 @@ public class AdminExerciseCtrl extends Controller {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
                 FilePart<File> resource = i.next();
                 
-                Logger.debug("Resource -> " + resource);
-                
                 if (resource != null) {
                     String fileName = resource.getFilename();
-                    Logger.debug("Filename -> " + fileName);
                     
                     File file = resource.getFile();
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
                     
-                    String folderPath = "images/" + type +"/" + timestamp.getTime() + StringUtils.stripAccents(fileName);
-                    String path = "public/" + folderPath;
-                    File file2 = new File(path);
+                    String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
+                    String path = "../client/src/vithea-kids/assets/images/" + type + "/";
+                    String folderPath = "images/" + type + "/" + fileName2;
                     
-                    
-                    Logger.debug("Write?" + file2.canWrite());
-                    Logger.debug("Execute?" + file2.canExecute());
-                    Logger.debug("Read?" + file2.canRead());
-                    
-                    Boolean uploaded = file.renameTo(file2);
-                    Logger.debug(path + " " + uploaded);
+                    boolean uploaded = false;
+                    try {
+                        FileUtils.moveFile(file, new File(path, fileName2));
+                        uploaded = true;
+                    } catch (IOException ioe) {
+                        System.out.println("Problem operating on filesystem");
+                        uploaded = false;
+                    }
                     
                     if (uploaded) { 
                         ResourceArea resourceArea;

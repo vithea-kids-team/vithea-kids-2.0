@@ -264,12 +264,11 @@ public class AdminChildCtrl extends Controller {
         int animatedCharResourceId;
         try {
             animatedCharResourceId = Integer.parseInt(prefs.animatedCharacterResourceId);
+            this.setAnimatedCharacter(child, (long)animatedCharResourceId);
         }
         catch (Exception e) {
             animatedCharResourceId = -1;
         }
-        
-        this.setAnimatedCharacter(child, (long)animatedCharResourceId);
         
         Prompting p = child.getPrompting();
         p.setPromptingStrategy(PromptingStrategy.valueOf(prefs.promptingStrategy));

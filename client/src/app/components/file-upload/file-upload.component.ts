@@ -1,5 +1,4 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
-
 import { ResourcesService } from '../../services/resources/resources.service';
 
 @Component({
@@ -24,6 +23,9 @@ export class FileUploadComponent {
 
   uploadFile(e) {
     let files = e.target.files;
+
+    console.log(files.length);
+
     if (files && files.length > 0) {
         this.resourcesService.uploadFiles(files, this.resourceType, this.name).subscribe(
           res => {

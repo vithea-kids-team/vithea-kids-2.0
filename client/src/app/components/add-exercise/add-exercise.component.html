@@ -60,6 +60,7 @@
                 <label for="stimulus"> {{ '_Stimulus_' | translate }} </label>
                 <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" maxlength="255" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
+                    <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                     <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
                 </div>
                 <file-upload *ngIf="newExercise.type == 'text'" [label]="'_UploadStimulus_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
@@ -74,8 +75,10 @@
                 <div *ngIf="!rightAnswer.valid && !rightAnswer.pristine" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
             </div>
         </div>
+        <!--TODO: Only three -->
         <div class="row">
             <div *ngIf="newExercise.type == 'image' ">
+                <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <br>
                 <div style="max-height: 100px; overflow-y: auto;">
                     <image-picker [(ngModel)]="rightAnswerImgs" [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
@@ -94,33 +97,47 @@
                 <input type="text" class="form-control" id="distractor3" maxlength="255" [(ngModel)]="newExercise.distractor3" name="distractor3" #distractor3="ngModel">
             </div>
         </div>
-        <div class="row">
-            <div *ngIf="newExercise.type == 'image' ">
-                <br>
-                <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker [(ngModel)]="answersImgs " [multiSelect]="true " name="answersImgs "> </image-picker>
+        <--TODO: redo-->
+            <div class="row">
+                <div *ngIf="newExercise.type == 'image' ">
+                    <br>
+                    <div style="max-height: 100px; overflow-y: auto; ">
+                        <image-picker [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
+                    </div>
+                    <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
+                    <br/>
+                    <br>
+                    <div style="max-height: 100px; overflow-y: auto; ">
+                        <image-picker [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
+                    </div>
+                    <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
+                    <br/>
+                    <br>
+                    <div style="max-height: 100px; overflow-y: auto; ">
+                        <image-picker [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
+                    </div>
+                    <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
+                    <br/>
+
                 </div>
-                <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
                 <br/>
             </div>
-            <br/>
-        </div>
 
-        <div style="height: 70px; ">
-            <div *ngIf="error " class="alert alert-danger "> {{ error | translate }} </div>
-            <loader *ngIf="loadingAdd " [height]="50 "></loader>
-        </div>
+            <div style="height: 70px; ">
+                <div *ngIf="error " class="alert alert-danger "> {{ error | translate }} </div>
+                <loader *ngIf="loadingAdd " [height]="50 "></loader>
+            </div>
 
-        <div class="row ">
-            <a *ngIf="!newExercise.exerciseId" type="button" (click)="registerExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid ">
-                <span class="glyphicon glyphicon-ok " style="font-size: small; " aria-hidden="true "></span> {{ '_CreateExercise_' | translate }}
-            </a>
-            <a *ngIf="newExercise.exerciseId" type="button " (click)="registerExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid ">
-                <span class="glyphicon glyphicon-ok" style="font-size: small; " aria-hidden="true "></span> {{ '_SaveChangesBtn_' | translate }}
-            </a>
-            <button [routerLink]="['/exercises']" type="button" class="btn btn-secondary"> 
+            <div class="row ">
+                <a *ngIf="!newExercise.exerciseId" type="button" (click)="registerExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid ">
+                    <span class="glyphicon glyphicon-ok " style="font-size: small; " aria-hidden="true "></span> {{ '_CreateExercise_' | translate }}
+                </a>
+                <a *ngIf="newExercise.exerciseId" type="button " (click)="registerExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid ">
+                    <span class="glyphicon glyphicon-ok" style="font-size: small; " aria-hidden="true "></span> {{ '_SaveChangesBtn_' | translate }}
+                </a>
+                <button [routerLink]="['/exercises']" type="button" class="btn btn-secondary"> 
                   <span class="glyphicon glyphicon-remove " style="font-size: small;" aria-hidden="true "></span> {{'_Cancel_' | translate }}
             </button>
-        </div>
+            </div>
     </form>
 </div>

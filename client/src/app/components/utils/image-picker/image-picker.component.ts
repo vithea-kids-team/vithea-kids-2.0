@@ -17,15 +17,17 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class ImagePickerComponent implements ControlValueAccessor {
 
-  @Input() multiSelect : boolean;
+  @Input() multiSelect: boolean;
 
   public _items: Array<Resource> = [];
 
   constructor(public resourcesService: ResourcesService) {}
 
   get items(): Array<Resource> {
-    if (!this._items) this._items = [];
-    
+    if (!this._items) {
+      this._items = [];
+    }
+
     return this._items;
   }
 
@@ -43,9 +45,9 @@ export class ImagePickerComponent implements ControlValueAccessor {
 
   toggleItem(item) {
     item.selected = !item.selected;
-    if(!this.multiSelect) {
+    if (!this.multiSelect) {
       this._items.forEach((x) => {
-        if(x !== item) {
+        if (x !== item) {
           x.selected = false;
         }
       });
@@ -56,5 +58,4 @@ export class ImagePickerComponent implements ControlValueAccessor {
   onTouched = () => { };
   registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
   registerOnTouched(fn: () => void): void { this.onTouched = fn; }
-
 }

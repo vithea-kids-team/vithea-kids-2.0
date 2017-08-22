@@ -26,8 +26,7 @@ export class ResourcesService {
 
   fetchResources() {
      /* fetch resources */
-    return this.http.get('/listresources')
-      .map(result => {
+    return this.http.get('/listresources').map(result => {
         result && result.json().forEach((resource : Resource) => {
             this.resources[resource.resourceArea.toLowerCase()].push(resource);
           });

@@ -1,12 +1,11 @@
 package models;
 
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ResourceType extends Model {
@@ -27,28 +26,28 @@ public class ResourceType extends Model {
 	 * @return the resourceTypeId
 	 */
 	public Long getResourceTypeId() {
-		return id;
+            return id;
 	}
 
 	/**
 	 * @param resourceTypeId the resourceTypeId to set
 	 */
 	public void setResourceTypeId(Long resourceTypeId) {
-		this.id = resourceTypeId;
+            this.id = resourceTypeId;
 	}
 
 	/**
 	 * @return the resourceTypeDescription
 	 */
 	public String getResourceTypeDescription() {
-		return resourceTypeDescription;
+            return resourceTypeDescription;
 	}
 
 	/**
 	 * @param resourceTypeDescription the resourceTypeDescription to set
 	 */
 	public void setResourceTypeDescription(String resourceTypeDescription) {
-		this.resourceTypeDescription = resourceTypeDescription;
+            this.resourceTypeDescription = resourceTypeDescription;
 	}
 	
 }
