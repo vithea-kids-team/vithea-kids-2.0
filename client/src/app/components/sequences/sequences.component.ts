@@ -4,7 +4,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/Router';
-
+import { Location } from '@angular/common';
 import { Sequence } from '../../models/sequence';
 import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
@@ -31,8 +31,8 @@ export class SequencesComponent implements OnInit, OnChanges {
   // paged items
   pagedItems: any[];
 
-  constructor(public route: ActivatedRoute, public childrenService: ChildrenService,
-      public sequencesService: SequencesService, public paginationService: PaginationService, public router: Router) { }
+  constructor(public route: ActivatedRoute, public childrenService: ChildrenService, public sequencesService: SequencesService,
+    public paginationService: PaginationService, public router: Router, public location: Location) { }
 
   ngOnInit() {
     this.fetchSequences();
@@ -140,6 +140,10 @@ export class SequencesComponent implements OnInit, OnChanges {
     } else {
       return '';
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   setPage(page: number) {

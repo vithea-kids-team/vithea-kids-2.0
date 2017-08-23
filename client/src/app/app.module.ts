@@ -8,40 +8,45 @@ import { SpinnerComponent } from './vendor/angular2-spinner';
 import { MyDatePickerModule } from 'mydatepicker';
 //import { AConfirmModule} from 'angular-confirm-master';
 
-import { AppComponent } from './components/app.component';
-import { ChildrenComponent } from './components/children/children.component';
-import { ExercisesComponent } from './components/exercises/exercises.component';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { ResourcesComponent } from  './components/resources/resources.component';
-
-import { ChildrenService } from './services/children/children.service';
-import { ExercisesService } from './services/exercises/exercises.service';
-import { CaregiverService } from './services/caregiver/caregiver.service';
-import { SequencesService } from './services/sequences/sequences.service';
-import { ResourcesService } from './services/resources/resources.service';
-import { HttpApiClient } from './services/http/http-api-client.service';
-import { GuardService } from './services/guard/guard.service';
-import { PaginationService } from './services/pagination/pagination.service';
-
 import { appRoutes } from './app.routing';
-import { AddChildComponent } from './components/add-child/add-child.component';
-import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
+
+import { AppComponent } from './components/app.component';
 import { ImagePickerComponent } from './components/utils/image-picker/image-picker.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { SequencesComponent } from './components/sequences/sequences.component';
-import { AddSequenceComponent } from './components/add-sequence/add-sequence.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
-
-import { ChildFilter } from './pipes/child-filter';
-import { SequenceFilter } from './pipes/sequence-filter';
-import { EqualValidator } from './directives/equal-validator.directive';
-import { ExerciseFilter } from './pipes/exercise-filter';
-import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AdminComponent } from './components/admin/admin.component';
+
+import { CaregiverService } from './services/caregiver/caregiver.service';
+import { PaginationService } from './services/pagination/pagination.service';
+import { GuardService } from './services/guard/guard.service';
+import { HttpApiClient } from './services/http/http-api-client.service';
+
+import { EqualValidator } from './directives/equal-validator.directive';
+
+import { ChildrenComponent } from './components/children/children.component';
+import { ChildrenService } from './services/children/children.service';
+import { AddChildComponent } from './components/add-child/add-child.component';
+import { ChildFilter } from './pipes/child-filter';
+
+import { ExercisesComponent } from './components/exercises/exercises.component';
+import { ExercisesService } from './services/exercises/exercises.service';
+import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
+import { ExerciseFilter } from './pipes/exercise-filter';
+import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
+
+import { SequencesComponent } from './components/sequences/sequences.component';
+import { SequencesService } from './services/sequences/sequences.service';
+import { AddSequenceComponent } from './components/add-sequence/add-sequence.component';
+import { SequenceFilter } from './pipes/sequence-filter';
+
+import { ResourcesComponent } from  './components/resources/resources.component';
+import { ResourcesService } from './services/resources/resources.service';
+import { AddResourceComponent } from './components/add-resource/add-resource.component';
 
 export function translateFactory(https: Http) {
   return  new TranslateStaticLoader(https, './vithea-kids/assets/i18n', '.json');
@@ -84,7 +89,8 @@ export function translateFactory(https: Http) {
     FileUploadComponent,
     SettingsComponent,
     AdminComponent,
-    ResourcesComponent
+    ResourcesComponent,
+    AddResourceComponent
   ],
   providers: [
     GuardService,

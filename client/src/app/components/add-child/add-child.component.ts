@@ -59,10 +59,6 @@ export class AddChildComponent implements OnInit {
     this.loadingAdd = true;
     this.error = undefined;
 
-
-
-
-
     if (this.model.childId) {
       this.childService.editChild(this.model).subscribe(
         res => this.router.navigate(['/children/']),

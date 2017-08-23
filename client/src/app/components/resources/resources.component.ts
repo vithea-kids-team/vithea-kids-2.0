@@ -49,10 +49,6 @@ export class ResourcesComponent implements OnInit, OnChanges {
     )
   }
 
-  addResource() {
-
-  }
-
   removeResource() {
 
   }
