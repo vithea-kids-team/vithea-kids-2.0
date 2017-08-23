@@ -381,7 +381,7 @@ public class AdminExerciseCtrl extends Controller {
                     
                     boolean uploaded = false;
                     try {
-                        FileUtils.moveFile(file, new File(path, fileName2));
+                        FileUtils.moveFile(file, new File(path, fileName2   ));
                         uploaded = true;
                     } catch (IOException ioe) {
                         System.out.println("Problem operating on filesystem");

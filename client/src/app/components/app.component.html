@@ -14,27 +14,20 @@
             </div>
             <div class="collapse navbar-collapse" id="js-navbar-collapse" *ngIf="caregiverService.isLoggedIn()">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a [routerLink]="['/children']">{{'_Children_' | translate }}</a>
-                    </li>
-                    <li>
-                        <a [routerLink]="['/exercises']">{{'_Exercises_' | translate }}</a>
-                    </li>
-                    <li>
-                        <a [routerLink]="['/sequences']">{{'_Sequences_' | translate }}</a>
-                    </li>
+                    <li> <a [routerLink]="['/children']"><span class="glyphicon glyphicon-user other-icon"></span>{{'_Children_' | translate }} </a> </li>
+                    <li> <a [routerLink]="['/exercises']"><span class="glyphicon glyphicon-file other-icon"></span> {{'_Exercises_' | translate }} </a> </li>
+                    <li> <a [routerLink]="['/sequences']"><span class="glyphicon glyphicon-book other-icon"></span> {{'_Sequences_' | translate }} </a> </li>
+                    <li> <a [routerLink]="['/resources']"><span class="glyphicon glyphicon-picture other-icon"></span> {{'_Resources_' | translate }} </a> </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown">
                         {{caregiverService.getUsername()}} 
-                        <span class="glyphicon glyphicon-user"></span>
+                        <!--<span class="glyphicon glyphicon-user"></span>-->
                         <span class="caret"></span>
                     </a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a [routerLink]="['/settings']">{{'_Settings_' | translate }} <span class="glyphicon glyphicon-list pull-right log-out-icon"></span></a>
-                            </li>
+                            <li> <a [routerLink]="['/settings']">{{'_Settings_' | translate }} <span class="glyphicon glyphicon-list pull-right log-out-icon"></span></a> </li>
                             <li><a [routerLink]="['/home']" (click)="caregiverService.logout()">{{'_SignOut_' | translate }} <span class="glyphicon glyphicon-log-out pull-right log-out-icon"></span></a></li>
                         </ul>
                     </li>

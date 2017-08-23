@@ -12,8 +12,8 @@
             <div *ngIf="!newExercise.exerciseId" class="form-group">
                 <label for="type"> {{ '_ExerciseType_' | translate }} <span class="text-danger"> * </span></label>
                 <br>
-                <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em texto</label>
-                <label class="radio-inline"><input type="radio" value="image" [(ngModel)]="newExercise.type" name="type" [disabled]="newExercise.exerciseId">Resposta em imagem</label>
+                <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="newExercise.type" [checked]="newExercise.type==text" name="type" [disabled]="newExercise.exerciseId">Resposta em texto</label>
+                <label class="radio-inline"><input type="radio" value="image" [(ngModel)]="newExercise.type" [checked]="newExercise.type==image" name="type" [disabled]="newExercise.exerciseId">Resposta em imagem</label>
             </div>
         </div>
 
@@ -59,9 +59,9 @@
             <div class="form-group">
                 <label for="stimulus"> {{ '_Stimulus_' | translate }} </label>
                 <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" maxlength="255" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
-                <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
-                    <p> {{ '_SelectImagesStimulus_' | translate }}</p>
-                    <image-picker [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
+                <p> {{ '_SelectImagesStimulus_' | translate }}</p>
+                <div *ngIf="newExercise.type == 'text'" style="max-height: 200px; overflow-y: auto;">
+                    <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
                 </div>
                 <file-upload *ngIf="newExercise.type == 'text'" [label]="'_UploadStimulus_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
             </div>
@@ -80,8 +80,8 @@
             <div *ngIf="newExercise.type == 'image' ">
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <br>
-                <div style="max-height: 100px; overflow-y: auto;">
-                    <image-picker [(ngModel)]="rightAnswerImgs" [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
+                <div style="max-height: 200px; overflow-y: auto;">
+                    <image-picker *ngIf=!loading [(ngModel)]="rightAnswerImgs" [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
                 </div>
                 <file-upload [label]="'_UploadAnswer_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
             </div>
@@ -101,19 +101,19 @@
             <div *ngIf="newExercise.type == 'image' ">
                 <br>
                 <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
+                    <image-picker *ngIf=!loading [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
                 </div>
                 <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
                 <br/>
                 <br>
                 <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
+                    <image-picker *ngIf=!loading [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
                 </div>
                 <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
                 <br/>
                 <br>
                 <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
+                    <image-picker *ngIf=!loading [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
                 </div>
                 <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
                 <br/>

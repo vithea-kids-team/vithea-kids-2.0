@@ -13,6 +13,7 @@ import { ChildrenComponent } from './components/children/children.component';
 import { ExercisesComponent } from './components/exercises/exercises.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { ResourcesComponent } from  './components/resources/resources.component';
 
 import { ChildrenService } from './services/children/children.service';
 import { ExercisesService } from './services/exercises/exercises.service';
@@ -82,7 +83,8 @@ export function translateFactory(https: Http) {
     SpinnerComponent,
     FileUploadComponent,
     SettingsComponent,
-    AdminComponent
+    AdminComponent,
+    ResourcesComponent
   ],
   providers: [
     GuardService,
@@ -92,7 +94,8 @@ export function translateFactory(https: Http) {
     CaregiverService,
     SequencesService,
     ResourcesService,
-    PaginationService
+    PaginationService,
+    ResourcesComponent
   ],
   bootstrap: [AppComponent]
 })

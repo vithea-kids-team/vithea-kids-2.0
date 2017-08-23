@@ -10,5 +10,6 @@
         <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/children']"><span class="glyphicon glyphicon-user"></span> {{ '_Children_' | translate }} </a></p>
         <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/exercises']"><span class="glyphicon glyphicon-file"></span> {{ '_Exercises_' | translate }} </a></p>
         <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/sequences']"><span class="glyphicon glyphicon-book"></span> {{ '_Sequences_' | translate }} </a></p>
+        <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:70%" [routerLink]="['/resources']"><span class="glyphicon glyphicon-picture"></span> {{ '_Resources_' | translate }} </a></p>
     </div>
 </div>

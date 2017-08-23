@@ -9,10 +9,9 @@ export class ResourcesService {
 
   public topics: Array<Topic> = [];
   public levels: Array<Level> = [];
-  public stimuli: Array<Resource> = [];
   public resources = {
     stimuli: [],
-    answers: [],
+    //answers: [],
     reinforcement: [],
     animatedcharacter: []
   }
@@ -24,12 +23,14 @@ export class ResourcesService {
     this.fetchAnimatedCharacters().subscribe();
   }
 
+  // TODO: corrigir
   fetchResources() {
-     /* fetch resources */
     return this.http.get('/listresources').map(result => {
         result && result.json().forEach((resource : Resource) => {
+          //console.log(resource.resourceArea.toLowerCase() + ": " +  this.resources[resource.resourceArea.toLowerCase()].length);
             this.resources[resource.resourceArea.toLowerCase()].push(resource);
           });
+
       });
   }
 
@@ -44,8 +45,7 @@ export class ResourcesService {
   }
 
   fetchAnimatedCharacters() {
-    return this.http.get('/listanimatedcharacters')
-      .map(result => this.resources.animatedcharacter = result && result.json());
+    return this.http.get('/listanimatedcharacters').map(result => this.resources.animatedcharacter = result && result.json());
   }
 
   uploadFiles(files, type, name?) {

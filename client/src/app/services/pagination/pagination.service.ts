@@ -4,14 +4,14 @@ import * as _ from 'underscore';
 @Injectable()
 export class PaginationService {
 
-  getPager(totalItems: number, currentPage = 1, pageSize = 10) {
+  getPager(totalItems: number, currentPage = 1, pageSize = 12) {
 
         // calculate total pages
         let totalPages = Math.ceil(totalItems / pageSize);
 
         let startPage: number, endPage: number;
         if (totalPages <= 10) {
-            // less than 10 total pages so show all
+            // less than 11 total pages so show all
             startPage = 1;
             endPage = totalPages;
         } else {

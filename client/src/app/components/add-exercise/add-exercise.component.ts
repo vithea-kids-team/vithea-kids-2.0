@@ -25,33 +25,41 @@ export class AddExerciseComponent implements OnInit {
   public levels = [];
   public error: string = undefined;
   public loading = false;
+  public type = '';
 
   constructor(public route: ActivatedRoute, public resourcesService: ResourcesService,
     public exercisesService: ExercisesService, public router: Router) {}
 
   ngOnInit() {
-    //this.loading = true;
+    this.loading = true;
     this.resourcesService.fetchResources().subscribe(
       res => {
         this.stimulusImgs = this.resourcesService.getResourcesByType('stimuli');
         this.rightAnswerImgs = this.resourcesService.getResourcesByType('stimuli');
         this.answersImgs = this.resourcesService.getResourcesByType('stimuli');
+        this.loading = false;
       }
     )
-
+    this.loading = true;
     this.resourcesService.fetchLevels().subscribe(
         res => {
             this.levels = res;
+            this.loading = false;
         }
     )
 
+    this.loading = true;
     this.resourcesService.fetchTopics().subscribe(
         res => {
             this.topics = res;
+            this.loading = false;
         }
     )
 
+    this.loading = true;
+    
     this.newExercise.type = 'text';
+
     this.newExercise.answers = [];
     this.newExercise.answersImg = [];
 
@@ -156,12 +164,18 @@ export class AddExerciseComponent implements OnInit {
     }
 }
 
+updateType (type2: string) {
+    this.type = type2;
+}
+
 updateStimuli (results) {
+    this.loading = true;
     const last = results.length - 1;
     const lastItem = results[last];
     lastItem.selected = false;
     this.stimulusImgs.push(Object.assign({}, lastItem));
     this.rightAnswerImgs.push(Object.assign({}, lastItem));
     this.answersImgs.push(Object.assign({}, lastItem));
+    this.loading = false;
   }
 }

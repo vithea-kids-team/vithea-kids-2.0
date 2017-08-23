@@ -136,10 +136,10 @@ export class ExercisesComponent implements OnInit, OnChanges {
       return;
     }
 
-  // get pager object from service
+    // get pager object from service
     this.pager = this.paginationService.getPager(this.exercises.length, page);
 
-  // get current page of items
-  this.pagedItems = this.exercises.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    // get current page of items
+    this.pagedItems = this.exercises.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 }

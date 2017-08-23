@@ -32,19 +32,17 @@
                         <button type="button" class="btn btn-info" [routerLink]="['/children/' + child.childId + '/sequences']">{{ '_ViewChildSequencesBtn_' | translate }}</button>
                         <button type="button" class="btn btn-info" [routerLink]="['/children/' + child.childId + '/preferences']">{{ '_EditChildPreferencesBtn_' | translate }}</button>
                     </div>
-                    <h4>{{ truncate(child?.firstName + ' ' + child?.lastName, 50) }}</h4>
+                    <h4>{{ truncate(child.firstName + ' ' + child.lastName, 50) }}</h4>
                     <p>{{ child.birthDate | date:"dd/MM/yyyy"}}</p>
                     <p>{{ child.gender | uppercase | translate }}</p>
                 </div>
                 <div class="panel-heading">
                     <button type="button" class="btn btn-primary" [routerLink]="['/children/' + child.childId + '/edit']">
-          <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span>
-          {{ '_Edit_' | translate }}
-        </button>
+                        <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
+                    </button>
                     <button type="button" class="btn btn-danger" (click)="deleteChild(child.childId)">
-          <span class="glyphicon glyphicon-trash" style="font-size: small;"></span>
-          {{ '_Delete_' | translate }}
-        </button>
+                        <span class="glyphicon glyphicon-trash" style="font-size: small;"></span>{{ '_Delete_' | translate }}
+                    </button>
                 </div>
             </div>
         </div>

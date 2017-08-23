@@ -2,6 +2,7 @@
     <div class=row>
         <h2>{{ '_Settings_' | translate }}</h2>
     </div>
+
     <div class=row>
         <loader *ngIf="loading"></loader>
         <div *ngIf="!loading">
@@ -51,6 +52,7 @@
             </form>
         </div>
     </div>
+
     <div class=row>
         <a type="button" (click)="saveChanges()" class="btn btn-success">
             <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
