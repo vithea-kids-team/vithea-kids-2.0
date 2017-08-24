@@ -100,7 +100,6 @@ export class AddExerciseComponent implements OnInit {
                 this.newExercise.distractor2 = res.answers[0].answerDescription
                 this.newExercise.distractor3 = res.answers[2].answerDescription
               }
-
               this.loading = false;
             },
             err => {
@@ -120,13 +119,27 @@ export class AddExerciseComponent implements OnInit {
     }
     if (this.newExercise.type === 'image') {
       const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
-      const answersImg = this.answersImgs.filter((stimulus) => { return stimulus.selected; });
+      const answersImg1 = this.answersImgs1.filter((stimulus) => { return stimulus.selected; });
+      const answersImg2 = this.answersImgs2.filter((stimulus) => { return stimulus.selected; });
+      const answersImg3 = this.answersImgs3.filter((stimulus) => { return stimulus.selected; });
+
 
       if (rightAnswer.length > 0) {
         this.newExercise.rightAnswerImg = rightAnswer[0].resourceId;
       }
-      if (answersImg.length > 0) {
-        answersImg.forEach(answer => {
+
+      if (answersImg1.length > 0) {
+        answersImg1.forEach(answer => {
+          this.newExercise.answersImg.push(answer.resourceId);
+        });
+      }
+      if (answersImg2.length > 0) {
+        answersImg2.forEach(answer => {
+          this.newExercise.answersImg.push(answer.resourceId);
+        });
+      }
+      if (answersImg3.length > 0) {
+        answersImg3.forEach(answer => {
           this.newExercise.answersImg.push(answer.resourceId);
         });
       }
