@@ -1,5 +1,6 @@
 <loader *ngIf="loading"></loader>
 <div class="container" *ngIf="!loading">
+
     <h2 *ngIf="!model.childId">{{ '_RegisterChildBtn_' | translate }}</h2>
     <h2 *ngIf="model.childId">{{ '_EditChild_' | translate }}</h2>
 

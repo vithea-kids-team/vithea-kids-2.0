@@ -4,4 +4,5 @@ export class Resource {
   public resourceType: string;
   public resourceArea: string;
   public selected: boolean;
+  public type: string;
 }

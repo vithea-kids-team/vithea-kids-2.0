@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpApiClient } from '../http/http-api-client.service';
+import { Observable } from 'rxjs/Observable';
 import { Topic } from '../../models/topic';
 import { Level } from '../../models/level';
 import { Resource } from '../../models/resource';
@@ -9,9 +10,11 @@ export class ResourcesService {
 
   public topics: Array<Topic> = [];
   public levels: Array<Level> = [];
+  public tempReinforcement: Array<Resource> = [];
+  public tempStimuli: Array<Resource> = [];
+
   public resources = {
     stimuli: [],
-    //answers: [],
     reinforcement: [],
     animatedcharacter: []
   }
@@ -23,14 +26,20 @@ export class ResourcesService {
     this.fetchAnimatedCharacters().subscribe();
   }
 
-  // TODO: corrigir
   fetchResources() {
     return this.http.get('/listresources').map(result => {
         result && result.json().forEach((resource : Resource) => {
-          //console.log(resource.resourceArea.toLowerCase() + ": " +  this.resources[resource.resourceArea.toLowerCase()].length);
-            this.resources[resource.resourceArea.toLowerCase()].push(resource);
-          });
-
+          let type: string = resource.resourceArea.toLowerCase();
+          if (type === 'stimuli') {
+            this.tempStimuli.push(resource);
+          } else if (type === 'reinforcement'){
+            this.tempReinforcement.push(resource);
+          }
+        });
+        this.resources['stimuli'] = this.tempStimuli;
+        this.resources['reinforcement'] = this.tempReinforcement;
+        this.tempStimuli = [];
+        this.tempReinforcement = [];
       });
   }
 
@@ -82,7 +91,14 @@ export class ResourcesService {
     return this.http.delete('/removelevel/' + level);
   }
 
-  getResourcesByType(type: string, selected = 0) {
+  getResourcesByType(type: string) {
+    let resources = this.resources;
+    type = type.toLowerCase();
+
+    return resources[type];
+  }
+
+  getResourcesByTypeSelected(type: string, selected = 0) {
     let resources = this.resources;
     type = type.toLowerCase();
 

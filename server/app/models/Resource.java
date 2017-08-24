@@ -53,7 +53,7 @@ public class Resource extends Model {
     public String getResourcePath() {
         return resourcePath;
     }
-
+    
     public ResourceType getResourceType() {
         return resourceType;
     }

@@ -11,7 +11,7 @@ export class AdminComponent implements OnInit {
   public avatarName: string = '';
   public animatedCharactersResources;
 
-  constructor(public resourcesService : ResourcesService) { }
+  constructor(public resourcesService: ResourcesService) { }
 
   ngOnInit() {
     this.resourcesService.fetchAnimatedCharacters().subscribe(
@@ -27,5 +27,4 @@ export class AdminComponent implements OnInit {
     lastItem.selected = false;
     this.animatedCharactersResources.push(Object.assign({}, lastItem));
   }
-
 }

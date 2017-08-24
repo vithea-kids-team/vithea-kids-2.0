@@ -363,7 +363,6 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug("body -> " + body);
         List<FilePart<File>> resources = body.getFiles();
 
-        // TODO: Ver pq nao funciona
         try {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
                 FilePart<File> resource = i.next();

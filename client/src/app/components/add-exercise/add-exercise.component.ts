@@ -47,7 +47,6 @@ export class AddExerciseComponent implements OnInit {
             this.loading = false;
         }
     )
-
     this.loading = true;
     this.resourcesService.fetchTopics().subscribe(
         res => {
@@ -57,9 +56,8 @@ export class AddExerciseComponent implements OnInit {
     )
 
     this.loading = true;
-    
-    this.newExercise.type = 'text';
 
+    this.newExercise.type = 'text';
     this.newExercise.answers = [];
     this.newExercise.answersImg = [];
 

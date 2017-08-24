@@ -1,37 +1,47 @@
 <loader *ngIf="loading"></loader>
-<div class="container">
-    <h2 *ngIf="!resource.resourceId">{{ '_AddResourceBtn_' | translate }}</h2>
-    <h2 *ngIf="resource.resourceId">{{ '_EditResource_' | translate }}</h2>
+<div class="container" *ngIf="!loading">
 
+    <h2 *ngIf="!newResource.resourceId">{{ '_AddResourceBtn_' | translate }}</h2>
+    <h2 *ngIf="newResource.resourceId">{{ '_EditResource_' | translate }}</h2>
     <div style="height: 50px;">
         <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
     </div>
 
-    <!-- escolher estimulo ou reforço -->
-
     <form (ngSubmit)="createResource()" #resourceForm="ngForm" class="col-md-8">
+
         <div class="row">
-            <div class="form-group">
-                <!-- mostrar preview da imagem"-->
-                <label for="stimulus">{{ '_UploadStimulus_' | translate }} <span class="text-danger"> * </span></label>
-                <file-upload [label]="'_Upload_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
+            <div *ngIf="!newResource.resourceId" class="form-group">
+                <label for="type"> {{ '_Type_' | translate }} <span class="text-danger"> * </span></label>
+                <br>
+                <label class="radio-inline"><input type="radio" value="stimulusanswers" [(ngModel)]="newResource.type" [checked]="newResource.type==stimulusanswers" name="type" >Estímulos e Respostas</label>
+                <label class="radio-inline"><input type="radio" value="reinforcement" [(ngModel)]="newResource.type" [checked]="newResource.type==reinforcement" name="type">Reforços</label>
+            </div>
+            <div *ngIf="newResource.type == 'stimulusanswers' " class="form-group">
+                <!--<image-picker [(ngModel)]="reinforcementImgs" required [multiSelect]="false" name="image"></image-picker>-->
+                <file-upload [label]="'_Upload_'" [resourceType]="'stimuli'" [name]="stimuli" (results)="goBack()"></file-upload>
+            </div>
+            <div *ngIf="newResource.type== 'reinforcement'" class="form-group">
+                <!--<image-picker [(ngModel)]="reinforcementImgs" required [multiSelect]="false" name="image"></image-picker>-->
+                <file-upload [label]="'_Upload_'" [resourceType]="'reinforcement'" [name]="reinforcement" (results)="goBack()"></file-upload>
             </div>
         </div>
+
+        <div style="height: 70px; ">
+            <div *ngIf="error " class="alert alert-danger "> {{ error | translate }} </div>
+            <loader *ngIf="loadingAdd " [height]="50 "></loader>
+        </div>
+
+        <div class="row">
+            <!--<a *ngIf="!newResource.resourceId" type="button" (click)="createResource()" class="btn btn-success" [class.disabled]="!resourceForm.form.valid">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateResource_' | translate }}
+            </a>
+            <a *ngIf="newResource.resourceId" type="button" (click)="createResource()" class="btn btn-success" [class.disabled]="!resourceForm.form.valid">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
+            </a>-->
+            <button [routerLink]="['/resources']" type="button" class="btn btn-secondary"> 
+                <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
+            </button>
+        </div>
     </form>
-
-
-
-    <!-- ver o disabled -->
-    <div class="row">
-        <a *ngIf="!resource.resourceId" type="button" (click)="createResource()" class="btn btn-success" [class.disabled]="!resourceForm.form.valid">
-            <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateResource_' | translate }}
-        </a>
-        <a *ngIf="resource.resourceId" type="button" (click)="createResource()" class="btn btn-success" [class.disabled]="!resourceForm.form.valid">
-            <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
-        </a>
-        <button [routerLink]="['/resources']" type="button" class="btn btn-secondary"> 
-            <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
-        </button>
-    </div>
 
 </div>
