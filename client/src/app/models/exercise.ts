@@ -12,6 +12,9 @@ export class Exercise {
     public distractor1: string
     public distractor2: string
     public distractor3: string
+    public answersImg1: string
+    public answersImg2: string
+    public answersImg3: string
     public answers: Array<string>
     public answersImg: Array<string>
     public sequenceId: number

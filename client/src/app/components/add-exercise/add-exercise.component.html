@@ -60,10 +60,9 @@
                 <label for="stimulus"> {{ '_Stimulus_' | translate }} </label>
                 <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" maxlength="255" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
-                <div *ngIf="newExercise.type == 'text'" style="max-height: 200px; overflow-y: auto;">
+                <div *ngIf="newExercise.type == 'text'" style="max-height: 75px; overflow-y: auto;">
                     <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
                 </div>
-                <file-upload *ngIf="newExercise.type == 'text'" [label]="'_UploadStimulus_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
             </div>
         </div>
         <br>
@@ -81,10 +80,9 @@
             <div *ngIf="newExercise.type == 'image' ">
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <br>
-                <div style="max-height: 200px; overflow-y: auto;">
-                    <image-picker *ngIf=!loading [(ngModel)]="rightAnswerImgs" [multiSelect]="false" name="rightAnswerImgs"> </image-picker>
+                <div style="max-height: 75px; overflow-y: auto;">
+                    <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" required [multiSelect]="false" name="newExercise.rightAnswerImgs" #rightAnswer="ngModel"> </image-picker>
                 </div>
-                <file-upload [label]="'_UploadAnswer_'" [resourceType]="'stimuli'" (results)="updateStimuli($event)"></file-upload>
             </div>
         </div>
         <br>
@@ -100,32 +98,23 @@
         </div>
         <div class="row">
             <div *ngIf="newExercise.type == 'image' ">
-                <br>
-                <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker *ngIf=!loading [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
-                </div>
-                <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
-                <br/>
-                <br>
-                <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker *ngIf=!loading [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
-                </div>
-                <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
-                <br/>
-                <br>
-                <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker *ngIf=!loading [(ngModel)]="answersImgs " [multiSelect]="false" name="answersImgs "> </image-picker>
-                </div>
-                <file-upload [label]=" '_UploadOption_' " [resourceType]=" 'stimuli' " (results)="updateStimuli($event) "></file-upload>
-                <br/>
+                <div style="max-height: 75px; overflow-y: auto; ">
 
+                    <image-picker *ngIf=!loading id="answersImgs1" [(ngModel)]="answersImgs1" [multiSelect]="false" name="answersImgs1" #answersimg1="ngModel"> </image-picker>
+                </div>
+                <div style="max-height: 75px; overflow-y: auto; ">
+                    <image-picker *ngIf=!loading id="answersImgs2" [(ngModel)]="answersImgs2" [multiSelect]="false" name="answersImgs2" #answersimg2="ngModel"> </image-picker>
+                </div>
+                <div style="max-height: 75px; overflow-y: auto; ">
+                    <image-picker *ngIf=!loading id="answersImgs3" [(ngModel)]="answersImgs3" [multiSelect]="false" name="answersImgs3" #answersimg3="ngModel"> </image-picker>
+                </div>
             </div>
             <br/>
         </div>
 
         <div style="height: 70px; ">
             <div *ngIf="error " class="alert alert-danger "> {{ error | translate }} </div>
-            <loader *ngIf="loadingAdd " [height]="50 "></loader>
+            <loader *ngIf="loadingAdd " [height]="50"></loader>
         </div>
 
         <div class="row ">

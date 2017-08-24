@@ -21,6 +21,9 @@ export class AddExerciseComponent implements OnInit {
   public stimulusImgs = [];
   public rightAnswerImgs = [];
   public answersImgs = [];
+  public answersImgs1 = [];
+  public answersImgs2 = [];
+  public answersImgs3 = [];
   public topics = [];
   public levels = [];
   public error: string = undefined;
@@ -36,7 +39,10 @@ export class AddExerciseComponent implements OnInit {
       res => {
         this.stimulusImgs = this.resourcesService.getResourcesByType('stimuli');
         this.rightAnswerImgs = this.resourcesService.getResourcesByType('stimuli');
-        this.answersImgs = this.resourcesService.getResourcesByType('stimuli');
+
+        this.answersImgs1 = this.resourcesService.getResourcesByType('stimuli');
+        this.answersImgs2 = this.resourcesService.getResourcesByType('stimuli');
+        this.answersImgs3 = this.resourcesService.getResourcesByType('stimuli');
         this.loading = false;
       }
     )

@@ -93,9 +93,14 @@ export class ResourcesService {
 
   getResourcesByType(type: string) {
     let resources = this.resources;
-    type = type.toLowerCase();
+    let resourcesType = resources[type.toLowerCase()];
 
-    return resources[type];
+    let results = [];
+    for (let i = 0; i < resourcesType.length; i++) {
+      results.push(Object.assign({}, resources[type][i]));
+    }
+
+    return results;
   }
 
   getResourcesByTypeSelected(type: string, selected = 0) {
