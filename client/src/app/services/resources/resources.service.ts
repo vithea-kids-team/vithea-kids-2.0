@@ -18,7 +18,7 @@ export class ResourcesService {
     reinforcement: [],
     animatedcharacter: []
   }
-
+  
   constructor(public http: HttpApiClient) {
     this.fetchTopics().subscribe();
     this.fetchLevels().subscribe();

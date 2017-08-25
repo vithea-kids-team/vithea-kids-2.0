@@ -38,7 +38,11 @@ export class ResourcesComponent implements OnInit, OnChanges {
     this.loading = true;
     this.resourcesService.fetchResources().subscribe(
       res => {
-        this.resources = this.resourcesService.getResourcesByType('stimuli');
+        let stimuli = this.resourcesService.getResourcesByType('stimuli');
+        let reinforcement = this.resourcesService.getResourcesByType('reinforcement');
+        let animatedcharacter = this.resourcesService.getResourcesByType('animatedcharacter');
+        this.resources = stimuli.concat(reinforcement, animatedcharacter);
+
         this.setPage(1);
         this.loading = false;
       },

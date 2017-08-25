@@ -44,7 +44,7 @@
                     <div style="max-height: 100px; overflow-y: auto;">
                         <image-picker [(ngModel)]="reinforcementResources" [multiSelect]="false" name="reinforcementResources"> </image-picker>
                     </div>
-                    <file-upload [label]="'_UploadReinforcement_'" [resourceType]="'reinforcement'" (results)="updateReinforcement($event)"></file-upload>
+                    <!--<file-upload [label]="'_UploadReinforcement_'" [resourceType]="'reinforcement'" (results)="updateReinforcement($event)"></file-upload>-->
                 </div>
             </div>
         </div>
@@ -76,6 +76,7 @@
             <h4>{{ '_AnimatedCharacter_' | translate }}</h4>
             <div class="panel panel-default">
                 <div class="panel-body">
+                    <p> {{ '_SelectImagesAnimatedCharacter_' | translate }}</p>
                     <div style="max-height: 100px; overflow-y: auto;">
                         <image-picker [(ngModel)]="animatedCharactersResources" [multiSelect]="false" name="animatedCharacter"> </image-picker>
                     </div>

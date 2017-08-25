@@ -60,7 +60,7 @@
                 <label for="stimulus"> {{ '_Stimulus_' | translate }} </label>
                 <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" maxlength="255" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
-                <div *ngIf="newExercise.type == 'text'" style="max-height: 75px; overflow-y: auto;">
+                <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
                     <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
                 </div>
             </div>
@@ -75,12 +75,11 @@
             </div>
         </div>
 
-        <!--TODO: Only three -->
         <div class="row">
             <div *ngIf="newExercise.type == 'image' ">
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <br>
-                <div style="max-height: 75px; overflow-y: auto;">
+                <div style="max-height: 100px; overflow-y: auto;">
                     <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" required [multiSelect]="false" name="newExercise.rightAnswerImgs" #rightAnswer="ngModel"> </image-picker>
                 </div>
             </div>
@@ -89,22 +88,28 @@
 
         <div class="row">
             <label for="answers"> {{ '_Distractors_' | translate }}</label>
-            <div class="form-group" *ngIf="newExercise.type == 'text' ">
-                <em>{{ '_NoDistractors_' | translate }}</em>
+            <div class="form-group" *ngIf="newExercise.type === 'text' ">
+                <p>{{ '_NoDistractors_' | translate }}</p>
                 <input type="text" class="form-control" id="distractor1" maxlength="255" [(ngModel)]="newExercise.distractor1" name="distractor1" #distractor1="ngModel">
                 <input type="text" class="form-control" id="distractor2" maxlength="255" [(ngModel)]="newExercise.distractor2" name="distractor2" #distractor2="ngModel">
                 <input type="text" class="form-control" id="distractor3" maxlength="255" [(ngModel)]="newExercise.distractor3" name="distractor3" #distractor3="ngModel">
             </div>
         </div>
         <div class="row">
-            <div *ngIf="newExercise.type == 'image' ">
-                <div style="max-height: 75px; overflow-y: auto; ">
+            <div *ngIf="newExercise.type === 'image' ">
+                <br>
+                <p>{{ '_NoDistractors2_' | translate }}</p>
+                <div style="max-height: 100px; overflow-y: auto; ">
                     <image-picker *ngIf=!loading id="answersImgs1" [(ngModel)]="answersImgs1" [multiSelect]="false" name="answersImgs1" #answersimg1="ngModel"> </image-picker>
                 </div>
-                <div style="max-height: 75px; overflow-y: auto; ">
+                <br>
+                <p>{{ '_NoDistractors2_' | translate }}</p>
+                <div style="max-height: 100px; overflow-y: auto; ">
                     <image-picker *ngIf=!loading id="answersImgs2" [(ngModel)]="answersImgs2" [multiSelect]="false" name="answersImgs2" #answersimg2="ngModel"> </image-picker>
                 </div>
-                <div style="max-height: 75px; overflow-y: auto; ">
+                <br>
+                <p>{{ '_NoDistractors2_' | translate }}</p>
+                <div style="max-height: 100px; overflow-y: auto; ">
                     <image-picker *ngIf=!loading id="answersImgs3" [(ngModel)]="answersImgs3" [multiSelect]="false" name="answersImgs3" #answersimg3="ngModel"> </image-picker>
                 </div>
             </div>

@@ -39,7 +39,6 @@ export class AddExerciseComponent implements OnInit {
       res => {
         this.stimulusImgs = this.resourcesService.getResourcesByType('stimuli');
         this.rightAnswerImgs = this.resourcesService.getResourcesByType('stimuli');
-
         this.answersImgs1 = this.resourcesService.getResourcesByType('stimuli');
         this.answersImgs2 = this.resourcesService.getResourcesByType('stimuli');
         this.answersImgs3 = this.resourcesService.getResourcesByType('stimuli');
@@ -85,21 +84,29 @@ export class AddExerciseComponent implements OnInit {
               this.newExercise.topic = res.topic.topicId;
               this.newExercise.level = res.level.levelId;
               this.newExercise.question = res.question.questionDescription;
-              this.newExercise.stimulusText = res.question.stimulusText;
-              this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
 
-              // remove the correct answer
+              // text stuff
+              this.newExercise.stimulus = res.question.stimulus;
+
+              console.log(this.newExercise.stimulus);
+              this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
               res.answers.reverse();
               if (res.answers.length === 2) {
                 this.newExercise.distractor1 = res.answers[0].answerDescription;
-              } else if (res.answers.length === 3) {
+               } else if (res.answers.length === 3) {
                 this.newExercise.distractor1 = res.answers[1].answerDescription
                 this.newExercise.distractor2 = res.answers[0].answerDescription
               } else if (res.answers.length === 4) {
-                this.newExercise.distractor1 = res.answers[1].answerDescription
-                this.newExercise.distractor2 = res.answers[0].answerDescription
-                this.newExercise.distractor3 = res.answers[2].answerDescription
+               this.newExercise.distractor1 = res.answers[1].answerDescription
+               this.newExercise.distractor2 = res.answers[0].answerDescription
+               this.newExercise.distractor3 = res.answers[2].answerDescription
               }
+
+              // image stuff
+              this.newExercise.stimulusText = res.question.stimulusText;
+
+
+
               this.loading = false;
             },
             err => {
