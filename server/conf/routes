@@ -51,6 +51,7 @@ DELETE      /vithea-kids-api/removelevel/:level             controllers.AdminExe
 ### Resources
 GET         /vithea-kids-api/listresources                  controllers.AdminExerciseCtrl.getResources
 POST        /vithea-kids-api/uploadresources/:type          controllers.AdminExerciseCtrl.uploadResources(type:String)
+DELETE      /vithea-kids-api/removeresource/:resource       controllers.AdminExerciseCtrl.removeResource(resource:Long)
 
 ### Animated Characeters
 GET         /vithea-kids-api/listanimatedcharacters         controllers.AdminCtrl.getAnimatedCharacters

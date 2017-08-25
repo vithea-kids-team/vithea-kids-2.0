@@ -49,7 +49,15 @@ export class ResourcesComponent implements OnInit, OnChanges {
     )
   }
 
-  removeResource() {
+  deleteResource(id) {
+    this.loading = true;
+    this.resourcesService.removeResource(id).subscribe(
+      result => this.fetchResources(),
+      err => {
+        console.log('Error deleting resource', id);
+        this.loading = false;
+      }
+    )
 
   }
 

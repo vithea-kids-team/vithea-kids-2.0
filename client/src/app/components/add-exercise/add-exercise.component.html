@@ -99,7 +99,6 @@
         <div class="row">
             <div *ngIf="newExercise.type == 'image' ">
                 <div style="max-height: 75px; overflow-y: auto; ">
-
                     <image-picker *ngIf=!loading id="answersImgs1" [(ngModel)]="answersImgs1" [multiSelect]="false" name="answersImgs1" #answersimg1="ngModel"> </image-picker>
                 </div>
                 <div style="max-height: 75px; overflow-y: auto; ">

@@ -103,6 +103,10 @@ export class ResourcesService {
     return results;
   }
 
+  removeResource(resourceId: number) {
+    return this.http.delete('/removeresource/' + resourceId);
+  }
+
   getResourcesByTypeSelected(type: string, selected = 0) {
     let resources = this.resources;
     type = type.toLowerCase();

@@ -215,6 +215,10 @@ public class Exercise extends Model {
         this.type = type;
     }
 
+    public static List<Exercise> getAll() {
+        return find.all();
+    }
+    
     public static final Finder<Long, Exercise> find = new Finder<>(Exercise.class);
     public static List<Exercise> findByAuthor(Caregiver author) {
             Logger.debug("Looking for exercises from: " + author.getCaregiverLogin().getUsername());
