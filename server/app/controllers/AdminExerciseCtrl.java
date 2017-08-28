@@ -397,6 +397,10 @@ public class AdminExerciseCtrl extends Controller {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
                 FilePart<File> resource = i.next();
                 
+                // falta verificar se o recurso ja existe, 
+                // se sim, eliminar imagem "em disco", e mudar o resourcepath OU moveFile para o mm filename
+                
+                
                 if (resource != null) {
                     String fileName = resource.getFilename();
                     

@@ -61,7 +61,7 @@
                 <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" maxlength="255" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
-                    <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [multiSelect]="false"> </image-picker>
+                    <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [selected]="newExercise.stimulus" [multiSelect]="false"> </image-picker>
                 </div>
             </div>
         </div>
@@ -80,7 +80,7 @@
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <br>
                 <div style="max-height: 100px; overflow-y: auto;">
-                    <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" required [multiSelect]="false" name="newExercise.rightAnswerImgs" #rightAnswer="ngModel"> </image-picker>
+                    <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" required [multiSelect]="false" [selected]="newExercise.rightAnswer" name="newExercise.rightAnswerImgs" #rightAnswer="ngModel"> </image-picker>
                 </div>
             </div>
         </div>
@@ -100,17 +100,17 @@
                 <br>
                 <p>{{ '_NoDistractors2_' | translate }}</p>
                 <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker *ngIf=!loading id="answersImgs1" [(ngModel)]="answersImgs1" [multiSelect]="false" name="answersImgs1" #answersimg1="ngModel"> </image-picker>
+                    <image-picker *ngIf=!loading id="answersImgs1" [(ngModel)]="answersImgs1" [multiSelect]="false" [selected]="newExercise.distractor1" name="answersImgs1" #answersimg1="ngModel"> </image-picker>
                 </div>
                 <br>
                 <p>{{ '_NoDistractors2_' | translate }}</p>
                 <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker *ngIf=!loading id="answersImgs2" [(ngModel)]="answersImgs2" [multiSelect]="false" name="answersImgs2" #answersimg2="ngModel"> </image-picker>
+                    <image-picker *ngIf=!loading id="answersImgs2" [(ngModel)]="answersImgs2" [multiSelect]="false" [selected]="newExercise.distractor2" name="answersImgs2" #answersimg2="ngModel"> </image-picker>
                 </div>
                 <br>
                 <p>{{ '_NoDistractors2_' | translate }}</p>
                 <div style="max-height: 100px; overflow-y: auto; ">
-                    <image-picker *ngIf=!loading id="answersImgs3" [(ngModel)]="answersImgs3" [multiSelect]="false" name="answersImgs3" #answersimg3="ngModel"> </image-picker>
+                    <image-picker *ngIf=!loading id="answersImgs3" [(ngModel)]="answersImgs3" [multiSelect]="false" [selected]="newExercise.distractor3" name="answersImgs3" #answersimg3="ngModel"> </image-picker>
                 </div>
             </div>
             <br/>

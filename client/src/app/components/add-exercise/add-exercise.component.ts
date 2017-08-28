@@ -77,7 +77,6 @@ export class AddExerciseComponent implements OnInit {
         } else if (exerciseId) {
           this.exercisesService.getExercise(exerciseId).subscribe(
             (res: any) => {
-              console.log(res)
               this.newExercise.exerciseId = res.exerciseId;
               this.newExercise.exerciseName = res.name;
               this.newExercise.type = res.type.toLowerCase();
@@ -87,8 +86,6 @@ export class AddExerciseComponent implements OnInit {
 
               // text stuff
               this.newExercise.stimulus = res.question.stimulus;
-
-              console.log(this.newExercise.stimulus);
               this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
               res.answers.reverse();
               if (res.answers.length === 2) {
@@ -103,9 +100,20 @@ export class AddExerciseComponent implements OnInit {
               }
 
               // image stuff
+              console.log(res);
               this.newExercise.stimulusText = res.question.stimulusText;
-
-
+              this.newExercise.rightAnswer = res.rightAnswer.stimulus;
+              res.answers.reverse();
+              if (res.answers.length === 2) {
+                this.newExercise.distractor1 = res.answers[0].stimulus;
+               } else if (res.answers.length === 3) {
+                this.newExercise.distractor1 = res.answers[1].stimulus
+                this.newExercise.distractor2 = res.answers[0].stimulus
+              } else if (res.answers.length === 4) {
+               this.newExercise.distractor1 = res.answers[1].stimulus
+               this.newExercise.distractor2 = res.answers[0].stimulus
+               this.newExercise.distractor3 = res.answers[2].stimulus
+              }
 
               this.loading = false;
             },
