@@ -85,34 +85,35 @@ export class AddExerciseComponent implements OnInit {
               this.newExercise.question = res.question.questionDescription;
 
               // text stuff
-              this.newExercise.stimulus = res.question.stimulus;
-              this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
-              res.answers.reverse();
-              if (res.answers.length === 2) {
-                this.newExercise.distractor1 = res.answers[0].answerDescription;
-               } else if (res.answers.length === 3) {
-                this.newExercise.distractor1 = res.answers[1].answerDescription
-                this.newExercise.distractor2 = res.answers[0].answerDescription
-              } else if (res.answers.length === 4) {
-               this.newExercise.distractor1 = res.answers[1].answerDescription
-               this.newExercise.distractor2 = res.answers[0].answerDescription
-               this.newExercise.distractor3 = res.answers[2].answerDescription
+              if (this.newExercise.type === 'text') {
+                this.newExercise.stimulus = res.question.stimulus;
+                this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
+                res.answers.reverse();
+                if (res.answers.length === 2) {
+                  this.newExercise.distractor1 = res.answers[0].answerDescription;
+                 } else if (res.answers.length === 3) {
+                  this.newExercise.distractor1 = res.answers[1].answerDescription
+                  this.newExercise.distractor2 = res.answers[0].answerDescription
+                } else if (res.answers.length === 4) {
+                 this.newExercise.distractor1 = res.answers[1].answerDescription
+                 this.newExercise.distractor2 = res.answers[0].answerDescription
+                 this.newExercise.distractor3 = res.answers[2].answerDescription
+                }
               }
-
               // image stuff
-              console.log(res);
-              this.newExercise.stimulusText = res.question.stimulusText;
-              this.newExercise.rightAnswer = res.rightAnswer.stimulus;
-              res.answers.reverse();
-              if (res.answers.length === 2) {
-                this.newExercise.distractor1 = res.answers[0].stimulus;
-               } else if (res.answers.length === 3) {
-                this.newExercise.distractor1 = res.answers[1].stimulus
-                this.newExercise.distractor2 = res.answers[0].stimulus
-              } else if (res.answers.length === 4) {
-               this.newExercise.distractor1 = res.answers[1].stimulus
-               this.newExercise.distractor2 = res.answers[0].stimulus
-               this.newExercise.distractor3 = res.answers[2].stimulus
+              if (this.newExercise.type === 'image') {
+                this.newExercise.stimulusText = res.question.stimulusText;
+                this.newExercise.rightAnswer = res.rightAnswer.stimulus;
+                if (res.answers.length === 2) {
+                  this.newExercise.distractor1 = res.answers[1].stimulus;
+                 } else if (res.answers.length === 3) {
+                  this.newExercise.distractor1 = res.answers[1].stimulus
+                  this.newExercise.distractor2 = res.answers[2].stimulus
+                } else if (res.answers.length === 4) {
+                 this.newExercise.distractor1 = res.answers[1].stimulus
+                 this.newExercise.distractor2 = res.answers[2].stimulus
+                 this.newExercise.distractor3 = res.answers[3].stimulus
+                }
               }
 
               this.loading = false;
@@ -142,22 +143,18 @@ export class AddExerciseComponent implements OnInit {
       if (rightAnswer.length > 0) {
         this.newExercise.rightAnswerImg = rightAnswer[0].resourceId;
       }
+      if (answersImg1.length === 1) {
+        this.newExercise.answersImg.push(answersImg1[0].resourceId);
+      }
+      if (answersImg2.length === 1) {
+        this.newExercise.answersImg.push(answersImg2[0].resourceId);
+      }
+      if (answersImg3.length === 1) {
+        this.newExercise.answersImg.push(answersImg3[0].resourceId);
+      }
 
-      if (answersImg1.length > 0) {
-        answersImg1.forEach(answer => {
-          this.newExercise.answersImg.push(answer.resourceId);
-        });
-      }
-      if (answersImg2.length > 0) {
-        answersImg2.forEach(answer => {
-          this.newExercise.answersImg.push(answer.resourceId);
-        });
-      }
-      if (answersImg3.length > 0) {
-        answersImg3.forEach(answer => {
-          this.newExercise.answersImg.push(answer.resourceId);
-        });
-      }
+      console.log(this.newExercise.answersImg.length);
+
     }
 
     if (this.newExercise.distractor1 !== '') {

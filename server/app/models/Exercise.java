@@ -139,6 +139,9 @@ public class Exercise extends Model {
     public List<Answer> getAnswers() {
        return answers;
     }
+    public void resetAnswers(){
+        this.answers.clear();
+    }
     public Caregiver getAuthor() {
         return author;
     }
@@ -182,6 +185,7 @@ public class Exercise extends Model {
     }
     public void setRightAnswer(Answer rightAnswer) {
             this.rightAnswer = rightAnswer;
+            this.answers.add(rightAnswer);
     }
     public void setRightAnswer(String rightAnswerDescription, Long resource) {
             Answer rightAnswer = new Answer(rightAnswerDescription);
@@ -195,13 +199,13 @@ public class Exercise extends Model {
             Iterator<String> i = answerDescriptions.iterator(); 
             Iterator<Long> j = answerStimulus.iterator();		
             while(i.hasNext() || j.hasNext()) {
-                    String description = i.next();
-                    Long stimulus = j.next();
-                    Answer answer = new Answer(description);
-                    answer.setStimulus(stimulus);
-                    answer.save();
-                    Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");
-                    this.answers.add(answer);
+                String description = i.next();
+                Long stimulus = j.next();
+                Answer answer = new Answer(description);
+                answer.setStimulus(stimulus);
+                answer.save();
+                Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");
+                this.answers.add(answer);
             }		
     }
     public void setAnswers(List<Answer> answers){
@@ -222,16 +226,10 @@ public class Exercise extends Model {
     public static final Finder<Long, Exercise> find = new Finder<>(Exercise.class);
     public static List<Exercise> findByAuthor(Caregiver author) {
             Logger.debug("Looking for exercises from: " + author.getCaregiverLogin().getUsername());
-            return find
-            .where()
-            .eq("author_id", author.getCaregiverId())
-            .findList();
+            return find.where().eq("author_id", author.getCaregiverId()).findList();
     }
     public static Exercise findExerciseById(Long id) {
             Logger.debug("Looking for exercise " + id);
-            return find
-            .where()
-            .eq("id", id)
-            .findUnique();
+            return find.where().eq("id", id).findUnique();
     }
 }

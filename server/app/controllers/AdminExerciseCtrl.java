@@ -156,6 +156,7 @@ public class AdminExerciseCtrl extends Controller {
      */
     @SuppressWarnings("empty-statement")
     public Result editExercise(long exerciseId) {
+        
         DynamicForm editExerciseForm = formFactory.form().bindFromRequest();
 
         Logger.debug("DEBUG:" + editExerciseForm);
@@ -225,16 +226,17 @@ public class AdminExerciseCtrl extends Controller {
             }
             // stimulus, answer and distractors for image
             else if(editExerciseForm.get("type").equals("image")) {
+                exercise.resetAnswers();
                 
-                String rightAnswerDescription;
+                String rightAnswerDescription = "";
                 int answerResourceId;
                 try {
-                    rightAnswerDescription = editExerciseForm.get("rightAnswer");
-                    answerResourceId = parseInt(editExerciseForm.get("rightAnswer"));
+                    answerResourceId = parseInt(editExerciseForm.get("rightAnswerImg"));
                 } catch (NumberFormatException e) {
-                    rightAnswerDescription = "";
                     answerResourceId = -1;
                 }
+                exercise.setRightAnswer(rightAnswerDescription, (long) answerResourceId);
+
                 
                 // distractors
                 List<Long> distractorsResourcesIds = new ArrayList<>();
@@ -245,27 +247,25 @@ public class AdminExerciseCtrl extends Controller {
                     String key = "answersImg[" + i + "]";
                     if(data.containsKey(key)){
                         int answerId;
-                        String answerDescription;
+                        String answerDescription = "";
                         try {
-                            answerDescription = data.get(key);
                             answerId = parseInt(data.get(key));
+                            Logger.debug("STUFF: " + answerId);
                         } catch (NumberFormatException e) {
-                            answerDescription = "";
                             answerId = -1;
                         }
                         distractorResourcesDecription.add(answerDescription);
                         distractorsResourcesIds.add((long)answerId);
                     }
                 }
+                exercise.setAnswers(distractorResourcesDecription, distractorsResourcesIds);
+
             
                 // stimulus 
                 String stimulusText = editExerciseForm.get("stimulusText");
-                
-                // store
-                exercise.setRightAnswer(rightAnswerDescription, (long) answerResourceId);
-                exercise.setAnswers(distractorResourcesDecription, distractorsResourcesIds);
                 exercise.getQuestion().setStimulusText(stimulusText);
 
+               
             }
             
             exercise.save();
