@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class Question extends Model {
     private Exercise exercise;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @Column(nullable = true)
     private Resource stimulus;
 
     private String stimulusText;

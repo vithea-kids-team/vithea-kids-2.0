@@ -128,7 +128,7 @@ public class AdminExerciseCtrl extends Controller {
         
         exercise.save();
 
-        String sequenceId = registerExerciseForm.get("sequenceId");
+       /* String sequenceId = registerExerciseForm.get("sequenceId");
         if(sequenceId != null && !"".equals(sequenceId)) {
             int sequence;
             try {
@@ -136,13 +136,14 @@ public class AdminExerciseCtrl extends Controller {
                 Logger.debug("Adding exercise to sequence " + sequence);
                 Sequence currentSequence = Sequence.findSequenceById((long)sequence);
                 if (currentSequence != null) {
+                    
                     currentSequence.getSequenceExercises().add(exercise);
                     currentSequence.save();
                 } else Logger.debug("Sequence " + sequenceId + " does not exist!");
             } catch (NumberFormatException e) {
                 Logger.debug("ERROR: " + e);
             }
-        }
+        }*/
 
         return ok(Json.toJson(exercise));
     }

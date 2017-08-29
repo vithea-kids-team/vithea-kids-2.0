@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import play.Logger;
 
@@ -47,6 +48,23 @@ public class Exercise extends Model {
     @Column(nullable = false)
     private ExerciseType type;
 
+    //@OneToMany(targetEntity = SequenceExercise.class, mappedBy = "exercise")
+    //@JoinColumn(name="exercise_id", referencedColumnName="id", nullable=true)
+    @OneToMany(mappedBy = "exercise")
+    private List<SequenceExercise> sequencesExercise = new ArrayList<SequenceExercise>();
+    
+    public void addSequenceExercise(SequenceExercise se) {
+        this.sequencesExercise.add(se);
+    }
+
+    public List<SequenceExercise> getSequenceExercise() {
+        return this.sequencesExercise;
+    }
+
+    public void setSequenceExercise(List<SequenceExercise> sequencesExercise) {
+        this.sequencesExercise = sequencesExercise;
+    }
+   
     public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, String answer, List<String> distractors) {
         this.author = loggedCaregiver;
         this.type = ExerciseType.TEXT;

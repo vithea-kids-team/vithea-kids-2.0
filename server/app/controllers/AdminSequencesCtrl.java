@@ -38,6 +38,7 @@ public class AdminSequencesCtrl extends Controller {
         String sequenceName = registerSequenceForm.get("sequenceName");
         
         List<Long> exerciseIds = new ArrayList<>();
+        List<Long> order = new ArrayList<>();
         int i = 0;
         while(true) {
             String key = "exercisesToAdd[" + i + "]";
@@ -50,6 +51,7 @@ public class AdminSequencesCtrl extends Controller {
                 }
 
                 exerciseIds.add((long)answerId);
+                order.add((long)0); //TODO mudar
             } else {
                 break;
             }
@@ -75,7 +77,7 @@ public class AdminSequencesCtrl extends Controller {
             j++;
         }
         
-        Sequence sequence = new Sequence(sequenceName, exerciseIds, childrenIds, Caregiver.findByUsername(SecurityController.getUser().username));
+        Sequence sequence = new Sequence(sequenceName, exerciseIds, order, childrenIds, Caregiver.findByUsername(SecurityController.getUser().username));
         sequence.save();
         
         childrenIds.forEach((id) -> {
@@ -129,6 +131,7 @@ public class AdminSequencesCtrl extends Controller {
             String sequenceName = editSequenceForm.get("sequenceName");
             sequence.setSequenceName(sequenceName);
              
+            List<Long> order = new ArrayList<>();
             List<Long> exerciseIds = new ArrayList<>();
             int i = 0;
             while(true) {
@@ -142,12 +145,13 @@ public class AdminSequencesCtrl extends Controller {
                     }
 
                     exerciseIds.add((long)answerId);
+                    order.add((long)0); // todo
                 } else {
                     break;
                 }
                 i++;
             }
-            sequence.setSequenceExercisesById(exerciseIds);
+            sequence.setSequenceExercisesById(exerciseIds, order);
         
             List<Long> childrenIds = new ArrayList<>();
             int j = 0;
