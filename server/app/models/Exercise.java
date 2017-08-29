@@ -31,10 +31,10 @@ public class Exercise extends Model {
     @Column(nullable = true)
     private Level level;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy="exercise", cascade = CascadeType.ALL)
     private Question question;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy="exercise", cascade = CascadeType.ALL)
     private Answer rightAnswer;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -71,8 +71,8 @@ public class Exercise extends Model {
         List<Answer> answers = new ArrayList();
         
         this.rightAnswer = new Answer(answer);
-        
         answers.add(this.rightAnswer);
+        
         distractors.forEach((s) -> {
             answers.add(new Answer(s));
         }); 
@@ -108,7 +108,7 @@ public class Exercise extends Model {
         for(Long d : distractorsResourcesIds) {
             Resource distractor = Resource.findById(d);
             answers.add(new Answer(distractor));
-        }
+        }   
         
         this.answers = answers;
     }
@@ -156,56 +156,53 @@ public class Exercise extends Model {
         this.topic = topic;
     }
     public void setTopic(Long topicId) {
-            Topic topic = Topic.findTopicById(topicId);
-            if (topic == null)
-                    throw new NullPointerException("Topic does not exist");
-            Logger.debug("New exercise :: setTopic: " + topic.getTopicDescription());
-            this.topic = topic;
+        Topic topic = Topic.findTopicById(topicId);
+        if (topic == null) throw new NullPointerException("Topic does not exist");
+        Logger.debug("New exercise :: setTopic: " + topic.getTopicDescription());
+        this.topic = topic;
     }
     public void setLevel(Level level) {
-            this.level = level;
+        this.level = level;
     }
     public void setLevel(Long levelId) {
-            Level level = Level.findLevelById(levelId);
-            if (level == null)
-                    throw new NullPointerException("Level does not exist");
-            Logger.debug("New exercise :: setLevel: " + level.getLevelDescription());
-            this.level = level;
+        Level level = Level.findLevelById(levelId);
+        if (level == null) throw new NullPointerException("Level does not exist");
+        Logger.debug("New exercise :: setLevel: " + level.getLevelDescription());
+        this.level = level;
     }
     public void setQuestion(Question question) {
             this.question = question;
     }
     public void setQuestion(String questionDescription, Long stimulus) {
-            Question question = new Question(questionDescription);
-            if(stimulus != 0)
-                    question.setStimulus(stimulus);
-            question.save();
-            Logger.debug("New exercise :: setQuestion: " + question.getQuestionDescription() + " (" + question.getQuestionId() + ")");
-            this.question = question;
+        Question question = new Question(questionDescription);
+        if(stimulus != 0) question.setStimulus(stimulus);
+        question.save();
+        Logger.debug("New exercise :: setQuestion: " + question.getQuestionDescription() + " (" + question.getQuestionId() + ")");
+        this.question = question;
     }
     public void setRightAnswer(Answer rightAnswer) {
-            this.rightAnswer = rightAnswer;
+        this.rightAnswer = rightAnswer;
     }
-        public void setRightAnswer(String rightAnswerDescription, Long resource) {
-            Answer rightAnswer = new Answer(rightAnswerDescription);
-            rightAnswer.setStimulus(resource);
-            rightAnswer.save();
-            Logger.debug("New exercise :: setRightAnswer: " + rightAnswer.getAnswerDescription() +" (" + rightAnswer.getAnswerId() + ")");
-            this.rightAnswer = rightAnswer;
-            this.answers.add(rightAnswer);
+    public void setRightAnswer(String rightAnswerDescription, Long resource) {
+        Answer rightAnswer = new Answer(rightAnswerDescription);
+        rightAnswer.setStimulus(resource);
+        rightAnswer.save();
+        Logger.debug("New exercise :: setRightAnswer: " + rightAnswer.getAnswerDescription() +" (" + rightAnswer.getAnswerId() + ")");
+        this.rightAnswer = rightAnswer;
+        this.answers.add(rightAnswer);
     }
     public void setAnswers(List<String> answerDescriptions, List<Long> answerStimulus) {
-            Iterator<String> i = answerDescriptions.iterator(); 
-            Iterator<Long> j = answerStimulus.iterator();		
-            while(i.hasNext() || j.hasNext()) {
-                String description = i.next();
-                Long stimulus = j.next();
-                Answer answer = new Answer(description);
-                answer.setStimulus(stimulus);
-                answer.save();
-                Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");
-                this.answers.add(answer);
-            }		
+        Iterator<String> i = answerDescriptions.iterator(); 
+        Iterator<Long> j = answerStimulus.iterator();		
+        while(i.hasNext() || j.hasNext()) {
+            String description = i.next();
+            Long stimulus = j.next();
+            Answer answer = new Answer(description);
+            answer.setStimulus(stimulus);
+            answer.save();
+            Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");
+            this.answers.add(answer);
+        }		
     }
     public void setAnswers(List<Answer> answers){
         this.answers = answers;

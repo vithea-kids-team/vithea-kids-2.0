@@ -1,11 +1,14 @@
 package models;
 
 import com.avaje.ebean.Model;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 public class Question extends Model {
@@ -15,8 +18,12 @@ public class Question extends Model {
     private Long id;
 
     private String questionDescription;
+    
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Exercise exercise;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Resource stimulus;
 
     private String stimulusText;

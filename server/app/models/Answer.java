@@ -1,12 +1,15 @@
 package models;
 
 import com.avaje.ebean.Model;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @Entity
 public class Answer extends Model {
@@ -17,7 +20,12 @@ public class Answer extends Model {
 
     private String answerDescription;
 
-    @ManyToOne
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    @Column(nullable = true)
+    private Exercise exercise;
+    
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @Column(nullable = true)
     private Resource stimulus;
     
@@ -29,7 +37,6 @@ public class Answer extends Model {
         this.answerDescription = null;
         this.stimulus = stimulus;
     }
-
 
     /**
      * @return the answerId
@@ -74,4 +81,5 @@ public class Answer extends Model {
     public void setStimulus(Long stimulusId) {
         this.stimulus = Resource.findById(stimulusId);
     }
+    
 }

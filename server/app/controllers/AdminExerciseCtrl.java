@@ -371,8 +371,11 @@ public class AdminExerciseCtrl extends Controller {
         if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
+        
         List<Answer> answers = exercise.getAnswers();
-        answers.forEach((ans) -> {
+        List<Answer> iterable = new ArrayList(answers);
+        
+        iterable.forEach((Answer ans) -> {
             answers.remove(ans);
             exercise.save();
             ans.delete();
