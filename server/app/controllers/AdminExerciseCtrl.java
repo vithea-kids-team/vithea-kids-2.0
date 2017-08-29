@@ -350,7 +350,6 @@ public class AdminExerciseCtrl extends Controller {
     }
     
 
-
     public Result removeTopic(Long topic) {
         Topic existingTopic = Topic.findTopicById(topic);
         existingTopic.delete();
@@ -372,6 +371,12 @@ public class AdminExerciseCtrl extends Controller {
         if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
+        List<Answer> answers = exercise.getAnswers();
+        answers.forEach((ans) -> {
+            answers.remove(ans);
+            exercise.save();
+            ans.delete();
+        });
         
         Sequence.getAll().forEach((seq) -> {
             seq.getSequenceExercises().remove(exercise);
@@ -397,11 +402,7 @@ public class AdminExerciseCtrl extends Controller {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
                 FilePart<File> resource = i.next();
                 
-                // falta verificar se o recurso ja existe, 
-                // se sim, eliminar imagem "em disco", e mudar o resourcepath OU moveFile para o mm filename
-                
-                
-                if (resource != null) {
+                 if (resource != null) {
                     String fileName = resource.getFilename();
                     
                     File file = resource.getFile();
@@ -414,7 +415,7 @@ public class AdminExerciseCtrl extends Controller {
                     
                     boolean uploaded = false;
                     try {
-                        FileUtils.moveFile(file, new File(path, fileName2   ));
+                        FileUtils.moveFile(file, new File(path, fileName2));
                         uploaded = true;
                     } catch (IOException ioe) {
                         System.out.println("Problem operating on filesystem");
@@ -459,10 +460,8 @@ public class AdminExerciseCtrl extends Controller {
         }
         Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         return ok(Json.toJson(Resource.findByOwner(loggedCaregiver)));
-    }
-    
-    
-     public Result removeResource(long resourceId) {
+    } 
+    public Result removeResource(long resourceId) {
          Resource resource = Resource.findById(resourceId);
 
         if (resource == null) {
@@ -486,6 +485,7 @@ public class AdminExerciseCtrl extends Controller {
 
         return ok(buildJsonResponse("success", "Resource deleted successfully"));
      }
+    
     public static ObjectNode buildJsonResponse(String type, String message) {
         ObjectNode wrapper = Json.newObject();
         ObjectNode msg = Json.newObject();

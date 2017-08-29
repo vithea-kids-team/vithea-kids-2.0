@@ -31,7 +31,7 @@ public class Exercise extends Model {
     @Column(nullable = true)
     private Level level;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Question question;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -185,9 +185,8 @@ public class Exercise extends Model {
     }
     public void setRightAnswer(Answer rightAnswer) {
             this.rightAnswer = rightAnswer;
-            this.answers.add(rightAnswer);
     }
-    public void setRightAnswer(String rightAnswerDescription, Long resource) {
+        public void setRightAnswer(String rightAnswerDescription, Long resource) {
             Answer rightAnswer = new Answer(rightAnswerDescription);
             rightAnswer.setStimulus(resource);
             rightAnswer.save();

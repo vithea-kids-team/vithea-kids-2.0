@@ -27,9 +27,9 @@
                         <img *ngIf="resource" class="thumbnail" [src]="'vithea-kids/assets/' + resource.resourcePath">
                     </div>
                     <div class="panel-heading">
-                        <button type="button" class="btn btn-primary" disabled [routerLink]="['/resources/' + resource.resourceId + '/edit']">
+                        <!--<button type="button" class="btn btn-primary" disabled [routerLink]="['/resources/' + resource.resourceId + '/edit']">
                             <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
-                        </button>
+                        </button>-->
                         <button type="button" class="btn btn-danger" (click)="deleteResource(resource.resourceId)">
                             <span class="glyphicon glyphicon-trash" style="font-size: small;"></span> {{ '_Delete_' | translate }}
                         </button>
