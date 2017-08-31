@@ -7,6 +7,8 @@ import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
 import { Location } from '@angular/common';
 import { PaginationService } from '../../services/pagination/pagination.service';
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
 
 @Component({
   selector: 'app-children',
@@ -32,7 +34,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
   pagedItems: any[];
 
   constructor(public route: ActivatedRoute, public childrenService: ChildrenService, public location: Location,
-    public paginationService: PaginationService) { }
+    public paginationService: PaginationService, public modal: Modal) { }
 
   ngOnInit() {
     this.fetchChildren();
@@ -97,13 +99,31 @@ export class ChildrenComponent implements OnInit, OnChanges {
 
   deleteChild(id) {
     this.loading = true;
-    this.childrenService.deleteChild(id).subscribe(
-      result => this.fetchChildren(),
-      err => {
-        console.log('Error deleting child', id);
-        this.loading = false;
+
+    const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+    .title('Eliminar criança').body(`Tem a certeza que pretende eliminar a criança?`).open();
+
+    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      if (result) {
+        this.childrenService.deleteChild(id).subscribe(
+          res => {
+            this.childrenService.setSuccess(true);
+            this.childrenService.setFailure(false);
+            this.childrenService.setTextSuccess('Criança eliminada com sucesso.');
+            this.fetchChildren();
+          },
+          err => {
+            console.log('Error deleting child');
+            this.childrenService.setSuccess(false);
+            this.childrenService.setFailure(true);
+            this.childrenService.setTextFailure('Não foi possível eliminar a criança.');
+            this.loading = false;
+          }
+        );
+      } else {
+        this.goBack();
       }
-    )
+    }).catch(() => {})});
   }
 
   public truncate(str: String, size: number) {
