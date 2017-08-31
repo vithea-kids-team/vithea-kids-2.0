@@ -106,7 +106,6 @@ export class ExercisesComponent implements OnInit, OnChanges {
   }
 
   public deleteExercise(exerciseId) {
-    this.loading = true;
 
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Eliminar exercício').body(`Tem a certeza que pretende eliminar o exercício?`).open();
@@ -125,14 +124,13 @@ export class ExercisesComponent implements OnInit, OnChanges {
             this.exercisesService.setSuccess(false);
             this.exercisesService.setFailure(true);
             this.exercisesService.setTextFailure('Não foi possível eliminar o exercício.');
-            this.loading = false;
             this.updateSuccessFailure();
           }
         );
       } else {
         this.goBack();
       }
-    }).catch(() => {});});
+    }).catch(() => {})});
   }
 
   public addExercise(exercise) {

@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -51,6 +52,7 @@ public class Exercise extends Model {
     //@OneToMany(targetEntity = SequenceExercise.class, mappedBy = "exercise")
     //@JoinColumn(name="exercise_id", referencedColumnName="id", nullable=true)
     @OneToMany(mappedBy = "exercise")
+    @JsonManagedReference
     private List<SequenceExercise> sequencesExercise = new ArrayList<SequenceExercise>();
     
     public void addSequenceExercise(SequenceExercise se) {

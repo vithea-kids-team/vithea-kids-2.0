@@ -6,6 +6,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
@@ -33,10 +34,12 @@ public class SequenceExercise extends Model {
     
     @ManyToOne
     @JoinColumn(name = "exercise_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Exercise exercise;
 
     @ManyToOne
     @JoinColumn(name = "sequence_id", insertable = false, updatable = false)
+    @JsonBackReference
     private Sequence sequence;
     
     @Column(name = "exercise_order", nullable = false)

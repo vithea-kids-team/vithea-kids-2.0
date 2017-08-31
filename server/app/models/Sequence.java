@@ -27,9 +27,10 @@ public class Sequence extends Model {
     //@JoinColumn( name="sequence_id",nullable=true )
     //@ManyToMany(cascade = CascadeType.ALL)
     //@JoinTable(name = "sequence_exercise")
-    @OneToMany(mappedBy = "sequence")
     //@OneToMany(targetEntity = SequenceExercise.class, mappedBy = "sequence")
     //@JoinColumn(name="sequence_id", referencedColumnName="id", nullable=true)
+    @OneToMany(mappedBy = "sequence")
+    @JsonManagedReference
     private List<SequenceExercise> exerciseList;
     
     @ManyToMany(mappedBy="sequencesList", cascade = CascadeType.PERSIST)

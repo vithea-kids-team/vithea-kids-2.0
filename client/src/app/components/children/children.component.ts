@@ -102,8 +102,6 @@ export class ChildrenComponent implements OnInit, OnChanges {
   }
 
   deleteChild(id) {
-    this.loading = true;
-
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Eliminar criança').body(`Tem a certeza que pretende eliminar a criança?`).open();
 
@@ -121,7 +119,6 @@ export class ChildrenComponent implements OnInit, OnChanges {
             this.childrenService.setSuccess(false);
             this.childrenService.setFailure(true);
             this.childrenService.setTextFailure('Não foi possível eliminar a criança.');
-            this.loading = false;
             this.updateSuccessFailure();
           }
         );
