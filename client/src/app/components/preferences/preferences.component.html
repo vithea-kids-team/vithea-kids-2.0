@@ -1,11 +1,10 @@
-<!-- FIXME: GUARDAR INFORMACAO -->
-<loader *ngIf="loading"> </loader>
-<form *ngIf="prefs && !loading" (ngSubmit)="updatePreferences()">
-    <div class="container">
-        <div class=row>
-            <h2>{{ '_Preferences_' | translate }}</h2>
-            <h3> {{ childName }}</h3>
-        </div>
+<loader *ngIf="loading"></loader>
+<div class="container" *ngIf="!loading">
+
+    <h2>{{ '_Preferences_' | translate }}</h2>
+    <h3> {{ childName }}</h3>
+
+    <form (ngSubmit)="updatePreferences()" #preferencesdForm="ngForm" class="col-md-8">
         <div class=row>
             <h4>{{ '_PersonalMessages_' | translate }}</h4>
             <div class="panel panel-default">
@@ -91,12 +90,12 @@
         </div>
 
         <div class=row>
-            <a [routerLink]="['/children']" type="button" (click)="updatePreferences()" class="btn btn-success">
+            <a type="button" (click)="updatePreferences()" class="btn btn-success">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
             <button [routerLink]="['/children']" type="button" class="btn btn-secondary"> 
                   <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
             </button>
         </div>
-    </div>
-</form>
+    </form>
+</div>

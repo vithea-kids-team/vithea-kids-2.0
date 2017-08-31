@@ -1,9 +1,12 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
+import { Location } from '@angular/common';
 import { ChildrenService } from '../../services/children/children.service';
 import { ResourcesService } from '../../services/resources/resources.service';
-
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { Router } from '@angular/Router';
 import { Child } from '../../models/child';
 import { Preferences } from '../../models/preferences';
 
@@ -23,7 +26,8 @@ export class PreferencesComponent implements OnInit {
 
   public loading = false;
 
-  constructor(public route: ActivatedRoute, public childrenService: ChildrenService, public resourcesService: ResourcesService) { }
+  constructor(public modal: Modal, public route: ActivatedRoute, public childService: ChildrenService,
+    public location: Location, public resourcesService: ResourcesService, public router: Router) { }
 
   ngOnInit() {
     this.loading = true;
@@ -41,7 +45,7 @@ export class PreferencesComponent implements OnInit {
   }
 
   getChildPreferences(id: number) {
-     this.childrenService.getChild(id).subscribe(
+     this.childService.getChild(id).subscribe(
       result => {
         this.prefs = new Preferences();
         this.prefs.greetingMessage = result.personalMessagesList.find((msg) => {
@@ -64,9 +68,10 @@ export class PreferencesComponent implements OnInit {
         this.prefs.promptingHide = result.prompting.promptingHide;
         this.prefs.reinforcementStrategy = result.reinforcement.reinforcementStrategy;
         const reinf = result.reinforcement.reinforcementResource;
+
         if (reinf) {
           this.prefs.reinforcementResourceId = reinf.resourceId;
-        this.prefs.reinforcementResourcePath = reinf.resourcePath;
+          this.prefs.reinforcementResourcePath = reinf.resourcePath;
         }
         this.prefs.emotions = result.emotions;
 
@@ -84,23 +89,37 @@ export class PreferencesComponent implements OnInit {
   }
 
   updatePreferences() {
-    this.loading = true;
-    const animchar = this.animatedCharactersResources.find((res) => {
-      return res.selected
-    });
-    this.prefs.animatedCharacterResourceId = animchar ? animchar.resourceId : this.prefs.animatedCharacterResourceId;
+    const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+    .title('Editar prefererências').body('Tem a certeza que pretende editar as preferências da criança ' + this.childName + '?').open();
 
-    const reinf = this.reinforcementResources.find((res) => {
-      return res.selected
-    });
-    this.prefs.reinforcementResourceId = reinf ? reinf.resourceId : this.prefs.reinforcementResourceId;
+    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      if (result) {
+        const animchar = this.animatedCharactersResources.find((res) => { return res.selected });
+        this.prefs.animatedCharacterResourceId = animchar ? animchar.resourceId : this.prefs.animatedCharacterResourceId;
 
-    this.childrenService.updatePreferences(this.childId, this.prefs)
-      .subscribe(res => this.getChildPreferences(this.childId),
-      err => {
-        console.log('Error setting preferences.');
-        this.loading = false;
-      })
+        const reinf = this.reinforcementResources.find((res) => { return res.selected });
+        this.prefs.reinforcementResourceId = reinf ? reinf.resourceId : this.prefs.reinforcementResourceId;
+
+        this.childService.updatePreferences(this.childId, this.prefs).subscribe(
+          res => {
+            this.childService.setSuccess(true);
+            this.childService.setFailure(false);
+            this.childService.setTextSuccess('Preferências da criança ' + this.childName + ' editadas com sucesso.');
+            this.getChildPreferences(this.childId);
+            this.router.navigate(['/children/']);
+          },
+          err => {
+            console.log('Error setting preferences.');
+            this.childService.setSuccess(false);
+            this.childService.setFailure(true);
+            this.childService.setTextFailure('Não foi possível editar as preferências da criança ' + this.childName + '.');
+            this.router.navigate(['/children/']);
+          }
+        );
+      } else {
+        this.goBack();
+      }
+    }).catch(() => {})});
   }
 
   updateReinforcement(results) {
@@ -125,4 +144,9 @@ export class PreferencesComponent implements OnInit {
   updatePromptingHide(e) {
     this.prefs.promptingHide = e.target.checked;
   }
+
+  goBack() {
+    this.location.back();
+  }
+
 }
