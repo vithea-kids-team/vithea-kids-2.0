@@ -8,6 +8,8 @@ import { Exercise } from '../../models/exercise';
 import { ExercisesService } from '../../services/exercises/exercises.service';
 import { ChildrenService } from '../../services/children/children.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
 
 @Component({
   selector: 'app-exercises',
@@ -17,9 +19,9 @@ import { PaginationService } from '../../services/pagination/pagination.service'
 export class ExercisesComponent implements OnInit, OnChanges {
 
   public exercises: Array<Exercise>;
-  public sequenceId: number = 0;
+  public sequenceId= 0;
   public sequence;
-  public loading: boolean = false;
+  public loading = false;
   public success = false;
   public failure = false;
   public textSuccess;
@@ -36,7 +38,7 @@ export class ExercisesComponent implements OnInit, OnChanges {
 
   constructor(public route: ActivatedRoute, public exercisesService: ExercisesService,
     public childrenService: ChildrenService, public paginationService: PaginationService,
-    public location: Location) { }
+    public location: Location, public modal: Modal) { }
 
   ngOnInit() {
     this.fetchExercises();
@@ -101,13 +103,31 @@ export class ExercisesComponent implements OnInit, OnChanges {
 
   public deleteExercise(exerciseId) {
     this.loading = true;
-    this.exercisesService.deleteExercise(exerciseId).subscribe(
-      result => this.fetchExercises(),
-      err => {
-        console.log('Error deleting exercise');
-        this.loading = false;
+
+    const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+    .title('Eliminar exercício').body(`Tem a certeza que pretende eliminar o exercício?`).open();
+
+    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      if (result) {
+        this.exercisesService.deleteExercise(exerciseId).subscribe(
+          res => {
+            this.exercisesService.setSuccess(true);
+            this.exercisesService.setFailure(false);
+            this.exercisesService.setTextSuccess('Exercício eliminado com sucesso.');
+            this.fetchExercises();
+          },
+          err => {
+            console.log('Error deleting exercise');
+            this.exercisesService.setSuccess(false);
+            this.exercisesService.setFailure(true);
+            this.exercisesService.setTextFailure('Não foi possível eliminar o exercício.');
+            this.loading = false;
+          }
+        );
+      } else {
+        this.goBack();
       }
-    )
+    }).catch(() => {})});
   }
 
   public addExercise(exercise) {
