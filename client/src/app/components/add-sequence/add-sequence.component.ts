@@ -45,16 +45,29 @@ export class AddSequenceComponent implements OnInit {
                 if (sequenceId) {
                     this.sequencesService.getSequence(sequenceId).subscribe(
                         res => {
-                            console.log(res);
                             this.newSequence.sequenceId = res.sequenceId;
                             this.newSequence.sequenceName = res.sequenceName;
-                            this.sequenceExercises = res.sequenceExercises;
+                            // not the list of exercises, but only the ids and orders
+                            let sequenceExercisesOrder = res.sequenceExercisesList;
                             this.sequenceChildren = res.sequenceChildren;
-                            //this.newSequence.orderExercises = res.sequenceOrderExercises;
+                            let newSequenceExercices: Array<Exercise> = [];
+                            let newSequenceOrder: Array<number> = [];
 
-                            //console.log(this.newSequence.orderExercises.length);
+                            sequenceExercisesOrder.forEach(exor => {
+                                let exercise = this.findExerciseById(exor.sequenceExerciseId.exercise_id);
+                                if (exercise !== null) {
+                                    newSequenceExercices.push(exercise);
+                                    newSequenceOrder.push(exor.exerciseOrder);
+                                }
+                            });
 
-                            /*let newSequenceExercices: Array<Exercise> = [];
+                            newSequenceExercices.forEach(exercise =>  {
+                                this.addedExercises.push(exercise);
+                                this.removeExerciseAdded(exercise);
+                            })
+
+
+                            /*
                             this.orderExercisesList.forEach(idExercise => {
                                 this.sequenceExercises.forEach(exercise => {
                                     if (exercise.exerciseId === idExercise) {
@@ -64,10 +77,10 @@ export class AddSequenceComponent implements OnInit {
                             })
                             this.sequenceExercises = newSequenceExercices;*/
 
-                            this.sequenceExercises.forEach(exercise => {
+                            /*this.sequenceExercises.forEach(exercise => {
                                 this.addedExercises.push(exercise);
                                 this.removeExerciseAdded(exercise);
-                            })
+                            })*/
 
                             this.sequenceChildren.forEach(child => {
                                 this.addedChildren.push(child);
@@ -86,6 +99,18 @@ export class AddSequenceComponent implements OnInit {
                 }
             });
     }
+
+    findExerciseById(exerciseId: number) {
+        let length = this.exercises.length;
+        for (let i = 0; i < length; i++) {
+            let exercise = this.exercises[i];
+            if (exercise.exerciseId === exerciseId) {
+                return exercise;
+            }
+        }
+        return null;
+    }
+
     registerSequence() {
         this.loading = true;
 
@@ -162,18 +187,6 @@ export class AddSequenceComponent implements OnInit {
             err => console.error('Error loading children for assigning to sequence.', err)
         );
     }
-
-    /*orderExercises () {
-        let newSequenceExercices: Array<Exercise> = [];
-        this.sequenceOrderExercises.forEach(idExercise => {
-            this.sequenceExercises.forEach(exercise => {
-                if (exercise.exerciseId === idExercise) {
-                    newSequenceExercices.push(exercise);
-                }
-            })
-        })
-        this.sequenceExercises = newSequenceExercices;
-    }*/
 
     public truncate(str: String, size: number) {
         if (str != null) {

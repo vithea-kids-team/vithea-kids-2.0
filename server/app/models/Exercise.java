@@ -49,8 +49,6 @@ public class Exercise extends Model {
     @Column(nullable = false)
     private ExerciseType type;
 
-    //@OneToMany(targetEntity = SequenceExercise.class, mappedBy = "exercise")
-    //@JoinColumn(name="exercise_id", referencedColumnName="id", nullable=true)
     @OneToMany(mappedBy = "exercise")
     @JsonManagedReference
     private List<SequenceExercise> sequencesExercise = new ArrayList<SequenceExercise>();

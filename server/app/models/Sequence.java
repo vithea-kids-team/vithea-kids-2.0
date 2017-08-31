@@ -23,19 +23,16 @@ public class Sequence extends Model {
     
     private String name;
     
-    //@OneToMany( targetEntity = SequenceExercise.class, mappedBy = "sequence", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    //@JoinColumn( name="sequence_id",nullable=true )
-    //@ManyToMany(cascade = CascadeType.ALL)
-    //@JoinTable(name = "sequence_exercise")
-    //@OneToMany(targetEntity = SequenceExercise.class, mappedBy = "sequence")
-    //@JoinColumn(name="sequence_id", referencedColumnName="id", nullable=true)
     @OneToMany(mappedBy = "sequence")
     @JsonManagedReference
-    private List<SequenceExercise> exerciseList;
+    private List<SequenceExercise> sequenceExercisesList;
     
     @ManyToMany(mappedBy="sequencesList", cascade = CascadeType.PERSIST)
     @JsonManagedReference
-    private List<Child> childrenList;
+    private List<Child> sequenceChildren;
+    
+    
+    //private List<Exercise> exerciseList;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
@@ -46,20 +43,15 @@ public class Sequence extends Model {
     public Sequence(String name, List<Long> exerciseIds, List<Long> order, List<Long> childrenIds, Caregiver author) {
         this.name = name;
         this.author = author;
-        
-        setSequenceExercisesById(exerciseIds, order);
-        setSequenceChildrensById(childrenIds);
     }
    
     public void setSequenceExercisesById(List<Long> exerciseIds, List<Long> order){
-        exerciseList.clear();
+        sequenceExercisesList.clear();
         exerciseIds.stream().map((d) -> Exercise.findExerciseById(d)).forEachOrdered((ex) -> {
-            SequenceExercise sequenceExercise = new SequenceExercise();
-            sequenceExercise.setExercise(ex);
-            sequenceExercise.setExerciseOrder(0);
-            sequenceExercise.setSequence(this);
+            SequenceExercise sequenceExercise = new SequenceExercise(ex, this, 1);
+            sequenceExercise.save();
             
-            exerciseList.add(sequenceExercise);
+            sequenceExercisesList.add(sequenceExercise);
             ex.addSequenceExercise(sequenceExercise);
             ex.save();
         });
@@ -67,9 +59,9 @@ public class Sequence extends Model {
     }
     
     public void setSequenceChildrensById(List<Long> childrenIds){
-        childrenList.clear();
+        sequenceChildren.clear();
         childrenIds.stream().map((d) -> Child.findByChildId(d)).forEachOrdered((ch) -> {
-            childrenList.add(ch);
+            sequenceChildren.add(ch);
         });
     }
     
@@ -97,20 +89,20 @@ public class Sequence extends Model {
         this.name = name;
     }
 
-    public List<SequenceExercise> getSequenceExercises() {
-        return this.exerciseList;
+    public List<SequenceExercise> getSequenceExercisesList() {
+        return this.sequenceExercisesList;
     }
 
-    public void setSequenceExercises(List<SequenceExercise> exerciseList) {
-        this.exerciseList = exerciseList;
+    public void setSequenceExercisesList(List<SequenceExercise> exerciseList) {
+        this.sequenceExercisesList = exerciseList;
     }
     
      public List<Child> getSequenceChildren() {
-        return this.childrenList;
+        return this.sequenceChildren;
     }
 
     public void setSequenceChildren(List<Child> childrenList) {
-        this.childrenList = childrenList;
+        this.sequenceChildren = childrenList;
     }
     
     public static List<Sequence> getAll() {

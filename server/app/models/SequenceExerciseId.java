@@ -19,22 +19,35 @@ public class SequenceExerciseId implements Serializable {
 
     @ManyToOne
     @Column(name = "exercise_id")
-    //@JoinColumn(name = "exercise_id", nullable = true)
-    //private Exercise exercise;
     private Long exercise_id;
-
-    //@JoinColumn(name = "sequence_id", nullable = true)
-    //private Sequence sequence;
+    
     @ManyToOne
     @Column(name = "sequence_id")
     private Long sequence_id;
 
+    
     public SequenceExerciseId() {
     }
 
     public SequenceExerciseId(Long exerciseId, Long sequenceId) {
         this.exercise_id = exerciseId;
         this.sequence_id = sequenceId;
+    }
+    
+    public Long getExercise_id() {
+        return exercise_id;
+    }
+
+    public void setExercise_id(Long exercise_id) {
+        this.exercise_id = exercise_id;
+    }
+
+    public Long getSequence_id() {
+        return sequence_id;
+    }
+
+    public void setSequence_id(Long sequence_id) {
+        this.sequence_id = sequence_id;
     }
 
     public boolean equals(Object o) {

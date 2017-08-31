@@ -104,46 +104,10 @@ public class AdminExerciseCtrl extends Controller {
                 }
             }
             
-            /*
-            List<Long> distractorsResourcesIds = new ArrayList<Long>();
-            int i = 0;
-            while(true) {
-                String key = "answersImg[" + i + "]";
-                if (registerExerciseForm.data().containsKey(key)) {
-                    int answerId;
-                    try {
-                        answerId = parseInt(registerExerciseForm.data().get(key));
-                    } catch (NumberFormatException e) {
-                        answerId = -1;
-                    }
-                    
-                    distractorsResourcesIds.add((long)answerId);
-                } else {
-                    break;
-                }
-                i++;
-            }*/
             exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds);
         }
         
         exercise.save();
-
-       /* String sequenceId = registerExerciseForm.get("sequenceId");
-        if(sequenceId != null && !"".equals(sequenceId)) {
-            int sequence;
-            try {
-                sequence = parseInt(sequenceId);
-                Logger.debug("Adding exercise to sequence " + sequence);
-                Sequence currentSequence = Sequence.findSequenceById((long)sequence);
-                if (currentSequence != null) {
-                    
-                    currentSequence.getSequenceExercises().add(exercise);
-                    currentSequence.save();
-                } else Logger.debug("Sequence " + sequenceId + " does not exist!");
-            } catch (NumberFormatException e) {
-                Logger.debug("ERROR: " + e);
-            }
-        }*/
 
         return ok(Json.toJson(exercise));
     }
@@ -265,7 +229,6 @@ public class AdminExerciseCtrl extends Controller {
                 // stimulus 
                 String stimulusText = editExerciseForm.get("stimulusText");
                 exercise.getQuestion().setStimulusText(stimulusText);
-
                
             }
             
@@ -356,11 +319,13 @@ public class AdminExerciseCtrl extends Controller {
         existingTopic.delete();
         return ok();
     }
+    
     public Result removeLevel(Long level) {
         Level existingLevel = Level.findLevelById(level);
         existingLevel.delete();
         return ok();
     }
+    
     public Result deleteExercise(long exerciseId) {
         Exercise exercise = Exercise.findExerciseById(exerciseId);
 
@@ -383,7 +348,7 @@ public class AdminExerciseCtrl extends Controller {
         });
         
         Sequence.getAll().forEach((seq) -> {
-            seq.getSequenceExercises().remove(exercise);
+            seq.getSequenceExercisesList().remove(exercise);
             seq.save();
         });
         

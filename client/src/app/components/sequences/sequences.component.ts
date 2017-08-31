@@ -79,7 +79,6 @@ export class SequencesComponent implements OnInit, OnChanges {
       result => {
         this.sequences = result;
 
-        // initialize to page 1
         this.setPage(1);
 
         this.loading = false;
@@ -96,7 +95,6 @@ export class SequencesComponent implements OnInit, OnChanges {
       result => {
         this.sequences = result;
 
-        // initialize to page 1
         this.setPage(1);
         this.loading = false;
       },

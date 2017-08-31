@@ -79,6 +79,11 @@ public class AdminSequencesCtrl extends Controller {
         
         Sequence sequence = new Sequence(sequenceName, exerciseIds, order, childrenIds, Caregiver.findByUsername(SecurityController.getUser().username));
         sequence.save();
+        sequence.setSequenceExercisesById(exerciseIds, order);
+        sequence.setSequenceChildrensById(childrenIds);
+        sequence.save();
+        
+        Logger.debug("Sequence:" + Json.toJson(sequence));
         
         childrenIds.forEach((id) -> {
             Child currentChild = Child.findByChildId((long)id);
@@ -190,7 +195,7 @@ public class AdminSequencesCtrl extends Controller {
         }
         Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         List<Sequence> sequences = Sequence.findByAuthor(loggedCaregiver);
-         Logger.debug(sequences.size() + " sequences registered.");
+        Logger.debug(sequences.size() + " sequences registered.");
         
         return ok(Json.toJson(sequences));
     }
@@ -200,8 +205,8 @@ public class AdminSequencesCtrl extends Controller {
      */
     public Result getSequence(Long sequenceId) {
         //TODO check if the loggedin caregiver can see this sequence
-        Sequence sequence = Sequence.findSequenceById(sequenceId); 
-        return  ok(Json.toJson(sequence));
+        Sequence sequence = Sequence.findSequenceById(sequenceId);
+        return ok(Json.toJson(sequence));
     }
     
     /*
@@ -225,5 +230,6 @@ public class AdminSequencesCtrl extends Controller {
         wrapper.set(type, msg);
         return wrapper;
     }
+    
 
 }

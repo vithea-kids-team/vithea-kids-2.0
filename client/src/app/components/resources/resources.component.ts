@@ -69,8 +69,6 @@ export class ResourcesComponent implements OnInit, OnChanges {
   }
 
   deleteResource(id) {
-    this.loading = true;
-
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Eliminar recurso multimédia').body(`Tem a certeza que pretende eliminar o recurso multimédia?`).open();
 
@@ -82,14 +80,12 @@ export class ResourcesComponent implements OnInit, OnChanges {
             this.resourcesService.setFailure(false);
             this.resourcesService.setTextSuccess('Recurso multimédia eliminado com sucesso.');
             this.fetchResources();
-            this.loading = false;
           },
           err => {
             console.log('Error deleting resource');
             this.resourcesService.setSuccess(false);
             this.resourcesService.setFailure(true);
             this.resourcesService.setTextFailure('Não foi possível eliminar o recurso multimédia.');
-            this.loading = false;
             this.updateSuccessFailure();
           }
         );

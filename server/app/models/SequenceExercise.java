@@ -29,8 +29,7 @@ import javax.persistence.Table;
 public class SequenceExercise extends Model {
 
     @EmbeddedId
-    private SequenceExerciseId sequenceExerciseId;    
-//private SequenceExerciseId sequenceExerciseId = new SequenceExerciseId();
+    private SequenceExerciseId sequenceExerciseId;
     
     @ManyToOne
     @JoinColumn(name = "exercise_id", insertable = false, updatable = false)
@@ -52,8 +51,8 @@ public class SequenceExercise extends Model {
         
         this.sequenceExerciseId = new SequenceExerciseId(exercise.getExerciseId(), sequence.getSequenceId());
         
-        this.setExercise(exercise);
-        this.setSequence(sequence);
+        this.exercise = exercise;
+        this.sequence = sequence;
         this.exercise_order = order;
         
         //exercise.get
@@ -61,7 +60,7 @@ public class SequenceExercise extends Model {
     }
 
     public Exercise getExercise() {
-        return exercise;
+        return this.exercise;
     }
 
     public void setExercise(Exercise exercise) {
@@ -69,7 +68,7 @@ public class SequenceExercise extends Model {
     }
 
     public Sequence getSequence() {
-        return sequence;
+        return this.sequence;
     }
 
     public void setSequence(Sequence sequence) {
@@ -91,47 +90,5 @@ public class SequenceExercise extends Model {
     public void setExerciseOrder(int exerciseOrder) {
         this.exercise_order = exerciseOrder;
     }
-    
-    /*@Transient
-    public Exercise getExercise() {
-        return getSequenceExerciseId().getExercise();
-    }
-
-    public void setExercise(Exercise exercise) {
-        getSequenceExerciseId().setExercise(exercise);
-    }
-
-    @Transient
-    public Sequence getSequence() {
-        return getSequenceExerciseId().getSequence();
-    }
-
-    public void setSequence(Sequence sequence) {
-        getSequenceExerciseId().setSequence(sequence);
-    }*/
-
-
-
-//    public boolean equals(Object o) {
-//        if (this == o) {
-//            return true;
-//        }
-//        if (o == null || getClass() != o.getClass()) {
-//            return false;
-//        }
-//
-//        SequenceExercise that = (SequenceExercise) o;
-//
-//        if (getSequenceExerciseId() != null ? !getSequenceExerciseId().equals(that.getSequenceExerciseId())
-//                : that.getSequenceExerciseId() != null) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
-//
-//    public int hashCode() {
-//        return (getSequenceExerciseId() != null ? getSequenceExerciseId().hashCode() : 0);
-//    }
 
 }

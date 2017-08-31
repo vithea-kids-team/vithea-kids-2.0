@@ -38,7 +38,7 @@ public class Caregiver extends Model {
     private Login caregiverLogin;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "caregiverchild")
+    @JoinTable(name = "caregiver_child")
     private List<Child> childList;
 
     /**
