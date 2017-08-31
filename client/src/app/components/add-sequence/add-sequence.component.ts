@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/Router';
-
 import { Sequence } from '../../models/sequence';
 import { Exercise } from '../../models/exercise';
 import { Child } from '../../models/child';
-
 import { SequencesService } from '../../services/sequences/sequences.service';
 import { ExercisesService } from '../../services/exercises/exercises.service';
 import { ChildrenService } from '../../services/children/children.service';
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-add-sequence',
@@ -28,7 +29,7 @@ export class AddSequenceComponent implements OnInit {
     loading = false;
 
     constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService: ExercisesService,
-        public childrenService: ChildrenService, public router: Router) { }
+        public childrenService: ChildrenService, public router: Router, public modal: Modal, public location: Location) { }
 
     ngOnInit() {
         this.loading = true;
@@ -112,32 +113,87 @@ export class AddSequenceComponent implements OnInit {
     }
 
     registerSequence() {
-        this.loading = true;
 
-        this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
-            return exercise.exerciseId;
-        });
+        let sequenceName = this.newSequence.sequenceName;
 
-        this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
-            return child.childId;
-        });
+        const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+        .title('Registar aula').body('Tem a certeza que pretende registar a aula ' + sequenceName + '?').open();
 
-        this.sequencesService.registerSequence(this.newSequence)
-            .subscribe(res => {
-                if (this.newSequence.childId) {
-                    this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
-                } else {
-                    this.router.navigate(['/sequences']);
+        dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+            if (result) {
+                this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
+                    return exercise.exerciseId;
+                });
+
+                this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
+                    return child.childId;
+                });
+
+                this.sequencesService.registerSequence(this.newSequence).subscribe(
+                res => {
+                    if (this.newSequence.childId) {
+                        this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
+                    } else {
+                        this.router.navigate(['/sequences']);
+                    }
+                    this.sequencesService.setSuccess(true);
+                    this.sequencesService.setFailure(false);
+                    this.sequencesService.setTextSuccess('Aula ' + sequenceName + ' registada com sucesso.');
+                },
+                err => {
+                  console.error('Error registering new sequence.', err);
+                  this.sequencesService.setSuccess(false);
+                  this.sequencesService.setFailure(true);
+                  this.sequencesService.setTextFailure('Não foi possível registar a aula ' + sequenceName + '.');
                 }
-                this.loading = false;
-            },
-            err => {
-                console.log('Error creating sequence.');
-                    this.loading = false;
-            })
+              );
+            } else {
+              this.goBack();
+            }
+        }).catch(() => {})});
     }
 
     editSequence() {
+        let sequenceName = this.newSequence.sequenceName;
+
+        const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+        .title('Registar aula').body('Tem a certeza que pretende editar a aula ' + sequenceName + '?').open();
+
+        dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+            if (result) {
+                this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
+                    return exercise.exerciseId;
+                });
+
+                this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
+                    return child.childId;
+                });
+
+                this.sequencesService.editSequence(this.newSequence).subscribe(
+                    res => {
+                        this.sequencesService.setSuccess(true);
+                        this.sequencesService.setFailure(false);
+                        this.sequencesService.setTextSuccess('Aula ' + sequenceName + ' editada com sucesso.');
+                        if (this.newSequence.childId) {
+                            this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
+                        } else {
+                            this.router.navigate(['/sequences']);
+                        }
+                    },
+                    err => {
+                        console.error('Error editing new sequence.', err);
+                        this.sequencesService.setSuccess(false);
+                        this.sequencesService.setFailure(true);
+                        this.sequencesService.setTextFailure('Não foi possível editar a aula ' + sequenceName + '.');
+                    }
+                );
+            } else {
+                this.goBack();
+            }
+        }).catch(() => {})});
+    }
+
+    editSequence2() {
         this.loading = true;
         this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
             return exercise.exerciseId;
@@ -159,6 +215,9 @@ export class AddSequenceComponent implements OnInit {
             err => console.log('Error editing sequence.'));
             this.loading = false;
     }
+
+
+
 
     loadExercisesToAdd() {
          this.exercisesService.getExercises().subscribe(
@@ -314,4 +373,8 @@ export class AddSequenceComponent implements OnInit {
             }
         }
     }
+
+    goBack() {
+        this.location.back();
+      }
 }

@@ -29,6 +29,10 @@
 
     <div class=row>
         <loader *ngIf="loading"></loader>
+
+        <alert *ngIf="success" type="success" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textSuccess }} </alert>
+        <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
+
         <div *ngIf="!loading">
             <p *ngIf="sequences?.length === 0">{{ '_NoSequences_' | translate }}</p>
             <div class="panel panel-default" *ngFor="let sequence of pagedItems | sequenceFilter:searchBy">

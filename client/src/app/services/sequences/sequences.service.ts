@@ -4,6 +4,11 @@ import { HttpApiClient } from '../http/http-api-client.service';
 @Injectable()
 export class SequencesService {
 
+  success = false
+  failure = false;
+  textSuccess;
+  textFailure;
+
   constructor(public http: HttpApiClient) { }
 
   getSequences() {
@@ -28,5 +33,30 @@ export class SequencesService {
 
   deleteSequence(sequenceId) {
     return this.http.delete('/deletesequence/' + sequenceId);
+  }
+
+  getSuccess() {
+    return this.success;
+  }
+  getFailure() {
+    return this.failure;
+  }
+  getTextSuccess() {
+    return this.textSuccess;
+  }
+  getTextFailure() {
+    return this.textFailure;
+  }
+  setSuccess(success: boolean) {
+    this.success = success;
+  }
+  setFailure(failure: boolean) {
+    this.failure = failure;
+  }
+  setTextSuccess(text: string) {
+    this.textSuccess = text;
+  }
+  setTextFailure(text: string) {
+    this.textFailure = text;
   }
 }
