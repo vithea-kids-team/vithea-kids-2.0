@@ -44,12 +44,16 @@ export class ChildrenComponent implements OnInit, OnChanges {
     this.fetchChildren();
   }
 
-  fetchChildren() {
-    this.loading = true;
+  public updateSuccessFailure() {
     this.success = this.childrenService.getSuccess();
     this.failure = this.childrenService.getFailure();
     this.textSuccess = this.childrenService.getTextSuccess();
     this.textFailure = this.childrenService.getTextFailure();
+  }
+
+  fetchChildren() {
+    this.loading = true;
+    this.updateSuccessFailure();
 
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
@@ -118,6 +122,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
             this.childrenService.setFailure(true);
             this.childrenService.setTextFailure('Não foi possível eliminar a criança.');
             this.loading = false;
+            this.updateSuccessFailure();
           }
         );
       } else {

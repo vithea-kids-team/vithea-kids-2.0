@@ -35,8 +35,6 @@ export class AddResourceComponent implements OnInit {
       this.stimulusanswersImgs.push(Object.assign({}, lastItem));
 
       this.loading = false;
-
-      this.router.navigate(['/resources']);
     }
 
     _UploadReinforcement_(results, type) {
@@ -48,8 +46,6 @@ export class AddResourceComponent implements OnInit {
       this.reinforcementImgs.push(Object.assign({}, lastItem));
 
       this.loading = false;
-
-      this.router.navigate(['/resources']);
     }
 
     goBack() {

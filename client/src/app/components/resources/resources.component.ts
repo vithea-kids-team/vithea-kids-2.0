@@ -3,6 +3,8 @@ import { ActivatedRoute, Params }   from '@angular/Router';
 import { Location } from '@angular/common';
 import { PaginationService } from '../../services/pagination/pagination.service';
 import { ResourcesService } from '../../services/resources/resources.service';
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
 
 @Component({
   selector: 'app-resources',
@@ -12,7 +14,7 @@ import { ResourcesService } from '../../services/resources/resources.service';
 export class ResourcesComponent implements OnInit, OnChanges {
 
   public resources = [];
-  public loading: boolean = false;
+  public loading = false;
   public success = false;
   public failure = false;
   public textSuccess;
@@ -29,7 +31,7 @@ export class ResourcesComponent implements OnInit, OnChanges {
   public reinforcement = true;
 
   constructor(public route: ActivatedRoute, public resourcesService: ResourcesService, public location: Location,
-    public paginationService: PaginationService) { }
+    public paginationService: PaginationService, public modal: Modal) { }
 
   ngOnInit() {
     this.fetchResources();
@@ -39,12 +41,16 @@ export class ResourcesComponent implements OnInit, OnChanges {
     this.fetchResources();
   }
 
-  fetchResources() {
-    this.loading = true;
+  public updateSuccessFailure() {
     this.success = this.resourcesService.getSuccess();
     this.failure = this.resourcesService.getFailure();
     this.textSuccess = this.resourcesService.getTextSuccess();
     this.textFailure = this.resourcesService.getTextFailure();
+  }
+
+  fetchResources() {
+    this.loading = true;
+    this.updateSuccessFailure();
     this.resourcesService.fetchResources().subscribe(
       res => {
         let stimuli = this.resourcesService.getResourcesByType('stimuli');
@@ -64,14 +70,33 @@ export class ResourcesComponent implements OnInit, OnChanges {
 
   deleteResource(id) {
     this.loading = true;
-    this.resourcesService.removeResource(id).subscribe(
-      result => this.fetchResources(),
-      err => {
-        console.log('Error deleting resource', id);
-        this.loading = false;
-      }
-    )
 
+    const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+    .title('Eliminar recurso multimédia').body(`Tem a certeza que pretende eliminar o recurso multimédia?`).open();
+
+    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      if (result) {
+        this.resourcesService.removeResource(id).subscribe(
+          res => {
+            this.resourcesService.setSuccess(true);
+            this.resourcesService.setFailure(false);
+            this.resourcesService.setTextSuccess('Recurso multimédia eliminado com sucesso.');
+            this.fetchResources();
+            this.loading = false;
+          },
+          err => {
+            console.log('Error deleting resource');
+            this.resourcesService.setSuccess(false);
+            this.resourcesService.setFailure(true);
+            this.resourcesService.setTextFailure('Não foi possível eliminar o recurso multimédia.');
+            this.loading = false;
+            this.updateSuccessFailure();
+          }
+        );
+      } else {
+        this.goBack();
+      }
+    }).catch(() => {})});
   }
 
   goBack() {

@@ -48,12 +48,16 @@ export class ExercisesComponent implements OnInit, OnChanges {
     this.fetchExercises();
   }
 
-  public fetchExercises() {
-    this.loading = true;
+  public updateSuccessFailure() {
     this.success = this.exercisesService.getSuccess();
     this.failure = this.exercisesService.getFailure();
     this.textSuccess = this.exercisesService.getTextSuccess();
     this.textFailure = this.exercisesService.getTextFailure();
+  }
+
+  public fetchExercises() {
+    this.loading = true;
+    this.updateSuccessFailure();
 
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
@@ -122,12 +126,13 @@ export class ExercisesComponent implements OnInit, OnChanges {
             this.exercisesService.setFailure(true);
             this.exercisesService.setTextFailure('Não foi possível eliminar o exercício.');
             this.loading = false;
+            this.updateSuccessFailure();
           }
         );
       } else {
         this.goBack();
       }
-    }).catch(() => {})});
+    }).catch(() => {});});
   }
 
   public addExercise(exercise) {
