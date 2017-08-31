@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/Router';
-
 import { Exercise } from '../../models/exercise';
 import { Resource } from '../../models/resource';
 import { ResourcesService } from '../../services/resources/resources.service';
-import { ExercisesService } from '../../services/exercises/exercises.service'
+import { ExercisesService } from '../../services/exercises/exercises.service';
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-exercise',
@@ -30,8 +32,8 @@ export class AddExerciseComponent implements OnInit {
   public loading = false;
   public type = '';
 
-  constructor(public route: ActivatedRoute, public resourcesService: ResourcesService,
-    public exercisesService: ExercisesService, public router: Router) {}
+  constructor(public modal: Modal, public route: ActivatedRoute, public resourcesService: ResourcesService,
+    public exercisesService: ExercisesService, public router: Router, public location: Location) {}
 
   ngOnInit() {
     this.loading = true;
@@ -139,7 +141,6 @@ export class AddExerciseComponent implements OnInit {
       const answersImg2 = this.answersImgs2.filter((stimulus) => { return stimulus.selected; });
       const answersImg3 = this.answersImgs3.filter((stimulus) => { return stimulus.selected; });
 
-
       if (rightAnswer.length > 0) {
         this.newExercise.rightAnswerImg = rightAnswer[0].resourceId;
       }
@@ -152,9 +153,6 @@ export class AddExerciseComponent implements OnInit {
       if (answersImg3.length === 1) {
         this.newExercise.answersImg.push(answersImg3[0].resourceId);
       }
-
-      console.log(this.newExercise.answersImg.length);
-
     }
 
     if (this.newExercise.distractor1 !== '') {
@@ -168,33 +166,70 @@ export class AddExerciseComponent implements OnInit {
     }
 
     if (this.newExercise.exerciseId) {
-        this.exercisesService.editExercise(this.newExercise).subscribe(
-            result => this.router.navigate(['/exercises/']),
+      const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+      .title('Editar exercício').body(`Tem a certeza que pretende editar o exercício?`).open();
+
+      dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+        if (result) {
+          this.exercisesService.editExercise(this.newExercise).subscribe(
+            res => {
+              this.router.navigate(['/exercises/']);
+              this.exercisesService.setSuccess(true);
+              this.exercisesService.setFailure(false);
+              this.exercisesService.setTextSuccess('Exercício editado com sucesso.');
+            },
             err => {
               this.error = err._body;
-              console.error('Error editing an exercise.', err);
+              console.error('Error editing the exercise.', err);
+              this.exercisesService.setSuccess(false);
+              this.exercisesService.setFailure(true);
+              this.exercisesService.setTextFailure('Não foi possível editar o exercício.');
             }
-        );
-    } else {
-      this.exercisesService.addExercise(this.newExercise).subscribe(
-          result => {
+          );
+        } else {
+          this.goBack();
+        }
+      }).catch(() => {});
+    });
+  } else {
+    const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+    .title('Registar exercício').body('Tem a certeza que pretende registar o exercício?').open();
+
+    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      if (result) {
+        this.exercisesService.addExercise(this.newExercise).subscribe(
+          res => {
             if (this.newExercise.sequenceId) {
               this.router.navigate(['/sequences/' + this.newExercise.sequenceId]);
             } else {
               this.router.navigate(['/exercises']);
             }
+            this.exercisesService.setSuccess(true);
+            this.exercisesService.setFailure(false);
+            this.exercisesService.setTextSuccess('Exercício registado com sucesso.');
           },
-          err => console.error('Error loading exercises.' + err),
-          () => {
+          err => {
+            console.error('Error registering new exercise.', err);
+            this.exercisesService.setSuccess(false);
+            this.exercisesService.setFailure(true);
+            this.exercisesService.setTextFailure('Não foi possível registar o exercício.');
             this.newExercise.answers = [];
             this.newExercise.answersImg = [];
           }
         );
-    }
+      } else {
+        this.goBack();
+      }
+    }).catch(() => {})});
+  }
 }
 
 updateType (type2: string) {
     this.type = type2;
+}
+
+goBack() {
+  this.location.back();
 }
 
 updateStimuli (results) {

@@ -20,6 +20,10 @@ export class ChildrenComponent implements OnInit, OnChanges {
   public sequence;
   public searchBy: string = '';
   public loading: boolean = false;
+  public success = false;
+  public failure = false;
+  public textSuccess;
+  public textFailure;
 
   // pager object
   pager: any = {};
@@ -27,7 +31,8 @@ export class ChildrenComponent implements OnInit, OnChanges {
   // paged items
   pagedItems: any[];
 
-  constructor(public route: ActivatedRoute, public childrenService: ChildrenService, public location: Location, public paginationService: PaginationService) { }
+  constructor(public route: ActivatedRoute, public childrenService: ChildrenService, public location: Location,
+    public paginationService: PaginationService) { }
 
   ngOnInit() {
     this.fetchChildren();
@@ -39,6 +44,11 @@ export class ChildrenComponent implements OnInit, OnChanges {
 
   fetchChildren() {
     this.loading = true;
+    this.success = this.childrenService.getSuccess();
+    this.failure = this.childrenService.getFailure();
+    this.textSuccess = this.childrenService.getTextSuccess();
+    this.textFailure = this.childrenService.getTextFailure();
+
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
@@ -112,13 +122,20 @@ export class ChildrenComponent implements OnInit, OnChanges {
     this.location.back();
   }
 
+  reset() {
+    this.childrenService.success = false;
+    this.childrenService.failure = false;
+    this.childrenService.textFailure = '';
+    this.childrenService.textSuccess = '';
+  }
+
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {
       return;
     }
 
   // get pager object from service
-    this.pager = this.paginationService.getPager(this.children.length, page);
+  this.pager = this.paginationService.getPager(this.children.length, page);
 
   // get current page of items
   this.pagedItems = this.children.slice(this.pager.startIndex, this.pager.endIndex + 1);

@@ -19,7 +19,11 @@
 
     <div class="row">
         <loader *ngIf="loading"></loader>
+
         <div *ngIf="!loading">
+            <alert *ngIf="success" type="success" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textSuccess }} </alert>
+            <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
+
             <p *ngIf="resources?.length === 0">{{ '_NoResources_' | translate }}</p>
             <div class="col-md-3 col-sm-4" *ngFor="let resource of pagedItems">
                 <div class="panel panel-default" style="text-align: center" *ngIf="!loading">

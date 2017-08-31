@@ -5,6 +5,7 @@ import { ResourcesService } from '../../services/resources/resources.service';
   selector: 'file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.css']
+
 })
 export class FileUploadComponent {
 
@@ -24,18 +25,24 @@ export class FileUploadComponent {
   uploadFile(e) {
     let files = e.target.files;
 
-    console.log(files.length);
-
     if (files && files.length > 0) {
-        this.resourcesService.uploadFiles(files, this.resourceType, this.name).subscribe(
+      this.resourcesService.uploadFiles(files, this.resourceType, this.name).subscribe(
           res => {
             this.resourcesService.fetchResources().subscribe(
               res => {
+                this.resourcesService.setSuccess(true);
+                this.resourcesService.setFailure(false);
+                this.resourcesService.setTextSuccess('Recurso multimédia adicionado com sucesso.');
                 this.results.emit(this.resourcesService.getResourcesByType(this.resourceType));
               }
             )
           },
-          err => console.error('Error uploading file', err)
+          err => {
+            this.resourcesService.setSuccess(false);
+            this.resourcesService.setFailure(true);
+            this.resourcesService.setTextSuccess('Não foi possível adicionar o recurso multimédia.');
+            console.error('Error uploading file', err)
+        }
         )
     }
   }

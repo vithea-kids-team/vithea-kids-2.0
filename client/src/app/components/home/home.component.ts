@@ -8,9 +8,19 @@ import { CaregiverService } from '../../services/caregiver/caregiver.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public caregiverService : CaregiverService) { }
+  failure = false;
+  textFailure;
+
+  constructor(public caregiverService: CaregiverService) { }
 
   ngOnInit() {
+    this.failure = this.caregiverService.getFailure();
+    this.textFailure = this.caregiverService.getTextFailure();
+  }
+
+  reset() {
+    this.caregiverService.failure = false;
+    this.caregiverService.textFailure = '';
   }
 
 }

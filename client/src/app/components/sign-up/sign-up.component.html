@@ -82,7 +82,7 @@
         </div>
 
         <div class=row>
-            <a [routerLink]="['/login']" type="button" (click)="createCaregiver()" class="btn btn-success" [class.disabled]="!caregiverForm.form.valid">
+            <a type="button" (click)="createCaregiver()" class="btn btn-success" [class.disabled]="!caregiverForm.form.valid">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SignUpBtn_' | translate }}
             </a>
             <button [routerLink]="['/home']" type="button" class="btn btn-secondary"> 

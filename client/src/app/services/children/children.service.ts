@@ -11,8 +11,37 @@ export class ChildrenService {
   children: Array<any>
   currentChild: any
   currentSequence: any
+  success = false
+  failure = false;
+  textSuccess;
+  textFailure;
 
   constructor(public http: HttpApiClient) { }
+
+  getSuccess() {
+    return this.success;
+  }
+  getFailure() {
+    return this.failure;
+  }
+  getTextSuccess() {
+    return this.textSuccess;
+  }
+  getTextFailure() {
+    return this.textFailure;
+  }
+  setSuccess(success: boolean) {
+    this.success = success;
+  }
+  setFailure(failure: boolean) {
+    this.failure = failure;
+  }
+  setTextSuccess(text: string) {
+    this.textSuccess = text;
+  }
+  setTextFailure(text: string) {
+    this.textFailure = text;
+  }
 
   getChildren(): Observable<Array<Child>> {
     return this.http.get('/listchildren').map(result => this.children = result && result.json());

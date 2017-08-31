@@ -9,6 +9,10 @@ import { Exercise } from '../../models/exercise'
 export class ExercisesService {
 
   exercises: Array<any>
+  success = false
+  failure = false;
+  textSuccess;
+  textFailure;
 
   constructor (public http: HttpApiClient) {}
 
@@ -30,6 +34,31 @@ export class ExercisesService {
 
   deleteExercise(id: number) {
     return this.http.delete('/deleteexercise/' + id);
+  }
+
+  getSuccess() {
+    return this.success;
+  }
+  getFailure() {
+    return this.failure;
+  }
+  getTextSuccess() {
+    return this.textSuccess;
+  }
+  getTextFailure() {
+    return this.textFailure;
+  }
+  setSuccess(success: boolean) {
+    this.success = success;
+  }
+  setFailure(failure: boolean) {
+    this.failure = failure;
+  }
+  setTextSuccess(text: string) {
+    this.textSuccess = text;
+  }
+  setTextFailure(text: string) {
+    this.textFailure = text;
   }
 
 }

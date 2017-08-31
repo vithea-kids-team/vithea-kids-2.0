@@ -24,6 +24,10 @@
     </div>
     <div class=row>
         <loader *ngIf="loading"></loader>
+
+        <alert *ngIf="success" type="success" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textSuccess }} </alert>
+        <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
+
         <div *ngIf="!loading">
             <p *ngIf="children?.length === 0">{{ '_NoChildren_' | translate }}</p>
             <div class="panel panel-default" *ngFor="let child of pagedItems | childFilter:searchBy">

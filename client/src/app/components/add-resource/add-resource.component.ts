@@ -24,8 +24,7 @@ export class AddResourceComponent implements OnInit {
 
   constructor(public resourcesService: ResourcesService, public router: Router, public route: ActivatedRoute, public location: Location) { }
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     _UploadStimulus_(results, type) {
       this.loading = true;
@@ -36,10 +35,8 @@ export class AddResourceComponent implements OnInit {
       this.stimulusanswersImgs.push(Object.assign({}, lastItem));
 
       this.loading = false;
-    }
 
-    goBack() {
-      this.location.back();
+      this.router.navigate(['/resources']);
     }
 
     _UploadReinforcement_(results, type) {
@@ -53,6 +50,10 @@ export class AddResourceComponent implements OnInit {
       this.loading = false;
 
       this.router.navigate(['/resources']);
+    }
+
+    goBack() {
+      this.location.back();
     }
 
 }

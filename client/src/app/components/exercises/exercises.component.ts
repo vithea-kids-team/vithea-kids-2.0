@@ -20,6 +20,10 @@ export class ExercisesComponent implements OnInit, OnChanges {
   public sequenceId: number = 0;
   public sequence;
   public loading: boolean = false;
+  public success = false;
+  public failure = false;
+  public textSuccess;
+  public textFailure;
 
   // pager object
   pager: any = {};
@@ -44,6 +48,11 @@ export class ExercisesComponent implements OnInit, OnChanges {
 
   public fetchExercises() {
     this.loading = true;
+    this.success = this.exercisesService.getSuccess();
+    this.failure = this.exercisesService.getFailure();
+    this.textSuccess = this.exercisesService.getTextSuccess();
+    this.textFailure = this.exercisesService.getTextFailure();
+
     this.route.params
       .switchMap((params: Params) => Observable.of(params))
       .subscribe(params => {
@@ -129,6 +138,13 @@ export class ExercisesComponent implements OnInit, OnChanges {
 
   goBack() {
     this.location.back();
+  }
+
+  reset() {
+    this.exercisesService.success = false;
+    this.exercisesService.failure = false;
+    this.exercisesService.textFailure = '';
+    this.exercisesService.textSuccess = '';
   }
 
   setPage(page: number) {

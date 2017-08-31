@@ -13,6 +13,11 @@ export class ResourcesComponent implements OnInit, OnChanges {
 
   public resources = [];
   public loading: boolean = false;
+  public success = false;
+  public failure = false;
+  public textSuccess;
+  public textFailure;
+
 
   // pager object
   pager: any = {};
@@ -36,6 +41,10 @@ export class ResourcesComponent implements OnInit, OnChanges {
 
   fetchResources() {
     this.loading = true;
+    this.success = this.resourcesService.getSuccess();
+    this.failure = this.resourcesService.getFailure();
+    this.textSuccess = this.resourcesService.getTextSuccess();
+    this.textFailure = this.resourcesService.getTextFailure();
     this.resourcesService.fetchResources().subscribe(
       res => {
         let stimuli = this.resourcesService.getResourcesByType('stimuli');
@@ -65,10 +74,6 @@ export class ResourcesComponent implements OnInit, OnChanges {
 
   }
 
-  saveChanges() {
-
-  }
-
   goBack() {
     this.location.back();
   }
@@ -83,6 +88,13 @@ export class ResourcesComponent implements OnInit, OnChanges {
 
     // get current page of items
     this.pagedItems = this.resources.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
+  reset(){
+    this.resourcesService.success = false;
+    this.resourcesService.failure = false;
+    this.resourcesService.textFailure = '';
+    this.resourcesService.textSuccess = '';
   }
 
 }

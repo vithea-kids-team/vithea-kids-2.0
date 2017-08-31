@@ -49,6 +49,10 @@
     </div>
     <div class="row">
         <loader *ngIf="loading"></loader>
+
+        <alert *ngIf="success" type="success" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textSuccess }} </alert>
+        <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
+
         <div *ngIf="!loading">
             <p *ngIf="exercises?.length === 0 && !sequenceId">{{ '_NoExercises_' | translate }}</p>
             <p *ngIf="exercises?.length === 0 && sequenceId">{{ '_NoExercisesSequences1_' | translate }}{{sequence.sequenceName}}{{'_NoExercisesSequences2_' | translate }}</p>

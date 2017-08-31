@@ -4,14 +4,15 @@ import { ChildrenService } from '../../services/children/children.service';
 import { ActivatedRoute, Params, Router } from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-child',
   templateUrl: './add-child.component.html',
   styleUrls: ['./add-child.component.css']
 })
-
-
 
 export class AddChildComponent implements OnInit {
 
@@ -27,7 +28,8 @@ export class AddChildComponent implements OnInit {
 
   public selDate: IMyDate;
 
-  constructor(public childService: ChildrenService, public router: Router, public route: ActivatedRoute) { }
+  constructor(public modal: Modal, public childService: ChildrenService, public location: Location,
+    public router: Router, public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.loading = true;
@@ -56,24 +58,59 @@ export class AddChildComponent implements OnInit {
   }
 
   createChild() {
-    this.loadingAdd = true;
     this.error = undefined;
 
+    let childName = this.model.firstName + ' ' + this.model.lastName;
+
     if (this.model.childId) {
-      this.childService.editChild(this.model).subscribe(
-        res => this.router.navigate(['/children/']),
-        err => {
-          this.loadingAdd = false;
-          console.error('Error editing a child.', err);
+      const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+      .title('Editar criança').body('Tem a certeza que pretende editar os dados da criança ' + childName + '?').open();
+
+      dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+        if (result) {
+          this.childService.editChild(this.model).subscribe(
+            res => {
+              this.router.navigate(['/children/']);
+              this.childService.setSuccess(true);
+              this.childService.setFailure(false);
+              this.childService.setTextSuccess('Criança ' + childName + ' editada com sucesso.');
+            },
+            err => {
+              console.error('Error editing a child.', err);
+              this.childService.setSuccess(false);
+              this.childService.setFailure(true);
+              this.childService.setTextFailure('Não foi possível editar a criança ' + childName + '.');
+            }
+          );
+        } else {
+          this.goBack();
         }
-      );
+      }).catch(() => {});
+    });
     } else {
-      this.childService.addChildren(this.model).subscribe(
-        res => this.router.navigate(['/children']),
-        err => {
-          this.loadingAdd = false;
-          console.error('Error registering new child.', err);
-        });
+      const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+      .title('Registar criança').body('Tem a certeza que pretende registar a criança ' + childName + '?').open();
+
+      dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+        if (result) {
+          this.childService.addChildren(this.model).subscribe(
+            res => {
+              this.router.navigate(['/children/']);
+              this.childService.setSuccess(true);
+              this.childService.setFailure(false);
+              this.childService.setTextSuccess('Criança ' + childName + ' registada com sucesso.');
+            },
+            err => {
+              console.error('Error registering new child.', err);
+              this.childService.setSuccess(false);
+              this.childService.setFailure(true);
+              this.childService.setTextFailure('Não foi possível registar a criança ' + childName + '.');
+            }
+          );
+        } else {
+          this.goBack();
+        }
+      }).catch(() => {})});
     }
   }
 
@@ -81,5 +118,9 @@ export class AddChildComponent implements OnInit {
     if (event.jsdate) {
       this.model.birthDate = event.jsdate.toISOString();
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

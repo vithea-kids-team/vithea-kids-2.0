@@ -12,13 +12,17 @@ export class ResourcesService {
   public levels: Array<Level> = [];
   public tempReinforcement: Array<Resource> = [];
   public tempStimuli: Array<Resource> = [];
+  success = false
+  failure = false;
+  textSuccess;
+  textFailure;
 
   public resources = {
     stimuli: [],
     reinforcement: [],
     animatedcharacter: []
   }
-  
+
   constructor(public http: HttpApiClient) {
     this.fetchTopics().subscribe();
     this.fetchLevels().subscribe();
@@ -123,4 +127,37 @@ export class ResourcesService {
     }
     return result;
   }
+
+  getSuccess() {
+    return this.success;
+  }
+
+  getFailure() {
+    return this.failure;
+  }
+
+  getTextSuccess() {
+    return this.textSuccess;
+  }
+
+  getTextFailure() {
+    return this.textFailure;
+  }
+
+  setSuccess(success: boolean) {
+    this.success = success;
+  }
+
+  setFailure(failure: boolean) {
+    this.failure = failure;
+  }
+
+  setTextSuccess(text: string) {
+    this.textSuccess = text;
+  }
+
+  setTextFailure(text: string) {
+    this.textFailure = text;
+  }
+
 }

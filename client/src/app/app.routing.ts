@@ -22,8 +22,8 @@ export const appName = 'vithea-kids';
 export const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignUpComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'admin', component: AdminComponent, canActivate: [GuardService] },
   { path: 'settings', component: SettingsComponent, canActivate: [GuardService] },
   { path: 'children',

@@ -1,9 +1,11 @@
 <div>
+
+    <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
+
     <div class="home jumbotron centered">
         <p class="lead">
             <img src="vithea-kids/assets/images/VITHEAkidsLogo.png" alt="VK"><br> {{ '_VITHEAKids_' | translate }}
         </p>
-
         <div style="height:50px"></div>
         <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" [routerLink]="['/signup']"><span class="glyphicon glyphicon-ok"></span> Registar cuidador </a></p>
         <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" [routerLink]="['/login']"><span class="glyphicon glyphicon-play"></span> Entrar </a></p>

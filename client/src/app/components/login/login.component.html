@@ -1,31 +1,32 @@
-<div class="login jumbotron center-block">
+<div class="row">
 
-    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
-        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-            <label for="username">{{ '_Username_' | translate }}</label>
-            <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
-        </div>
-        <div *ngIf="f.submitted && !username.valid" class="alert alert-danger">
-            {{ '_RequiredUsername_' | translate }}
-        </div>
-        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-            <label for="password"> {{ '_Password_' | translate }} </label>
-            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
-        </div>
-        <div *ngIf="f.submitted && !password.valid" class="alert alert-danger">
-            {{ '_RequiredPassword_' | translate }}
-        </div>
+    <alert *ngIf="success" type="success" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textSuccess }} </alert>
 
-        <div style="height: 70px;">
-            <div *ngIf="error && !loading" class="alert alert-danger"> {{ error | translate }}
+    <div class="login jumbotron center-block">
+
+        <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                <label for="username">{{ '_Username_' | translate }}</label>
+                <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
             </div>
-            <loader *ngIf="loading" [height]="50"></loader>
-        </div>
+            <div *ngIf="f.submitted && !username.valid" class="alert alert-danger">{{ '_RequiredUsername_' | translate }}</div>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                <label for="password"> {{ '_Password_' | translate }} </label>
+                <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+            </div>
+            <div *ngIf="f.submitted && !password.valid" class="alert alert-danger"> {{ '_RequiredPassword_' | translate }}</div>
 
-        <div class="form-group">
-            <a type="button" (click)="login()" class="btn btn-success">{{ '_Login_' | translate }}</a>
-            <button [routerLink]="['/home']" type="button" class="btn btn-secondary">{{ '_Cancel_' | translate }}</button>
-            <button [routerLink]="['/signup']" type="button" class="btn btn-link">{{ '_ClickHereToSignUp_' | translate }}</button>
-        </div>
-    </form>
+            <div style="height: 70px;">
+                <div *ngIf="error && !loading" class="alert alert-danger"> {{ error | translate }}</div>
+                <loader *ngIf="loading" [height]="50"></loader>
+            </div>
+
+            <div class="form-group">
+                <a type="button" (click)="login()" class="btn btn-success">{{ '_Login_' | translate }}</a>
+                <button [routerLink]="['/home']" type="button" class="btn btn-secondary">{{ '_Cancel_' | translate }}</button>
+                <button [routerLink]="['/signup']" type="button" class="btn btn-link">{{ '_ClickHereToSignUp_' | translate }}</button>
+            </div>
+        </form>
+    </div>
+
 </div>

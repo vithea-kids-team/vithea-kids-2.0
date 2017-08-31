@@ -9,11 +9,40 @@ import { Caregiver } from '../../models/caregiver';
 @Injectable()
 export class CaregiverService {
 
-  public userObs : Observable<any>;
-  public failedLogin : boolean = false;
-  public loggedIn : boolean = false;
+  userObs: Observable<any>;
+  failedLogin: boolean = false;
+  loggedIn: boolean = false;
+  success = false
+  failure = false;
+  textSuccess;
+  textFailure;
 
   constructor(public http: HttpApiClient, public router: Router) { }
+
+  getSuccess() {
+    return this.success;
+  }
+  getFailure() {
+    return this.failure;
+  }
+  getTextSuccess() {
+    return this.textSuccess;
+  }
+  getTextFailure() {
+    return this.textFailure;
+  }
+  setSuccess(success: boolean) {
+    this.success = success;
+  }
+  setFailure(failure: boolean) {
+    this.failure = failure;
+  }
+  setTextSuccess(text: string) {
+    this.textSuccess = text;
+  }
+  setTextFailure(text: string) {
+    this.textFailure = text;
+  }
 
   login(username, password) {
     return this.http
@@ -35,7 +64,7 @@ export class CaregiverService {
       });
   }
 
-  signUp(caregiver : Caregiver) {
+  signUp(caregiver: Caregiver) {
     return this.http.post('/signup', JSON.stringify(caregiver));
   }
 
@@ -45,11 +74,10 @@ export class CaregiverService {
     this.loggedIn = false;
     this.router.navigate(['/home']);
 
-    return this.http.post('/logout', JSON.stringify(null))
-    .subscribe(
+    return this.http.post('/logout', JSON.stringify(null)).subscribe(
       res => res,
       err => {
-        console.error('Error loggin out. '+ err);
+        console.error('Error logging out. ' + err);
       }
     );
   }

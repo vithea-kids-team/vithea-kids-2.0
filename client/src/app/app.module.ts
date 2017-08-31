@@ -6,7 +6,9 @@ import { RouterModule, Routes } from '@angular/Router';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 import { SpinnerComponent } from './vendor/angular2-spinner';
 import { MyDatePickerModule } from 'mydatepicker';
-//import { AConfirmModule} from 'angular-confirm-master';
+import { ModalModule } from 'ngx-modialog';
+import { BootstrapModalModule } from 'ngx-modialog/plugins/bootstrap';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { appRoutes } from './app.routing';
 
@@ -63,8 +65,10 @@ export function translateFactory(https: Http) {
       useFactory: translateFactory,
       deps: [Http]
     }),
-    MyDatePickerModule
-    //AConfirmModule
+    MyDatePickerModule,
+    AlertModule.forRoot(),
+    ModalModule.forRoot(),
+    BootstrapModalModule
   ],
   declarations: [
     AppComponent,
