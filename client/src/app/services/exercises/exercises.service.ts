@@ -14,6 +14,21 @@ export class ExercisesService {
   textSuccess;
   textFailure;
 
+  // temporary info for going to preferences, and when return have the form filled with the previous information
+  edited;
+  exerciseId;
+  exerciseName;
+  exerciseType;
+  exerciseTopic;
+  exerciseLevel;
+  exerciseQuestion;
+  exerciseRightAnswer;
+  exerciseStimulusText;
+  exerciseStimulus;
+  exerciseDistractor1;
+  exerciseDistractor2;
+  exerciseDistractor3;
+
   constructor (public http: HttpApiClient) {}
 
   getExercises(): Observable<Array<Exercise>> {

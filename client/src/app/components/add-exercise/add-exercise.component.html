@@ -25,7 +25,7 @@
                         <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
                     </select>
                     <span class="input-group-btn">
-                        <button [routerLink]="['/settings']" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
+                        <button (click)="goToPreferences()" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
                     </span>
                 </form>
                 <div *ngIf="!topic.valid && !topic.pristine" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
@@ -40,7 +40,7 @@
                         <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
                     </select>
                     <span class="input-group-btn">
-                        <button [routerLink]="['/settings']" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
+                        <button (click)="goToPreferences()" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
                     </span>
                 </form>
                 <div *ngIf="!level.valid && !level.pristine" class="alert alert-danger"> {{ '_RequiredLevel_' | translate }} </div>
@@ -61,7 +61,7 @@
                 <input *ngIf="newExercise.type == 'image'" class="form-control" id="stimulusText" maxlength="255" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
-                    <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [selected]="newExercise.stimulus" [multiSelect]="false"> </image-picker>
+                    <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [selected]="newExercise.stimulus" name="newExercise.stimulusImgs" [multiSelect]="false"> </image-picker>
                 </div>
             </div>
         </div>
@@ -85,6 +85,7 @@
         </div>
 
         <div class="row">
+            <br>
             <label for="answers"> {{ '_Distractors_' | translate }}</label>
             <div class="form-group" *ngIf="newExercise.type === 'text' ">
                 <p>{{ '_NoDistractors_' | translate }}</p>

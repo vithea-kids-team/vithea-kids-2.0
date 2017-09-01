@@ -15,6 +15,7 @@ import models.Level;
 import models.Resource;
 import models.ResourceArea;
 import models.Sequence;
+import models.SequenceExercise;
 import models.Topic;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -347,8 +348,25 @@ public class AdminExerciseCtrl extends Controller {
             ans.delete();
         });
         
+        
+        List<SequenceExercise> sequenceExercise = exercise.getSequenceExercise();
+        List<SequenceExercise> iterable2 = new ArrayList(sequenceExercise);
+        
+        iterable2.forEach((SequenceExercise seqex) -> {
+            if (seqex.getExercise().getExerciseId() == exercise.getExerciseId())
+                sequenceExercise.remove(seqex);
+                seqex.delete();
+        });
+                
         Sequence.getAll().forEach((seq) -> {
-            seq.getSequenceExercisesList().remove(exercise);
+            List<SequenceExercise> sequenceExerciseSeq = seq.getSequenceExercisesList();
+            List<SequenceExercise> iterable3 = new ArrayList(sequenceExerciseSeq);
+            
+            iterable3.forEach((SequenceExercise seqex) -> {
+            if (seqex.getExercise().getExerciseId() == exercise.getExerciseId())
+                sequenceExerciseSeq.remove(seqex);
+                seqex.delete();
+            });
             seq.save();
         });
         

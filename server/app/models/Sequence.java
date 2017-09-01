@@ -37,13 +37,13 @@ public class Sequence extends Model {
 
     public static final Finder<Long, Sequence> find = new Finder<>(Sequence.class);
     
-    public Sequence(String name, List<Long> exerciseIds, List<Long> order, List<Long> childrenIds, Caregiver author) {
+    public Sequence(String name, List<Long> exerciseIds, List<Integer> order, List<Long> childrenIds, Caregiver author) {
         this.name = name;
         this.author = author;
     }
     
     
-     public void setSequenceExercisesById(List<Long> exerciseIds, List<Long> order){
+     public void setSequenceExercisesById(List<Long> exerciseIds, List<Integer> order){
         
         for(SequenceExercise seqEx: sequenceExercisesList) {
             seqEx.delete();
@@ -52,15 +52,17 @@ public class Sequence extends Model {
         sequenceExercisesList.clear();
         this.save();
         
-        exerciseIds.stream().map((d) -> Exercise.findExerciseById(d)).forEachOrdered((ex) -> {
-            SequenceExercise sequenceExercise = new SequenceExercise(ex, this, 1);
+        for(int i = 0; i < exerciseIds.size(); i++){
+            Exercise ex = Exercise.findExerciseById(exerciseIds.get(i));
+            int orderNumber = order.get(i);
+            SequenceExercise sequenceExercise = new SequenceExercise(ex, this, orderNumber);
             sequenceExercise.save();
             
             sequenceExercisesList.add(sequenceExercise);
             ex.addSequenceExercise(sequenceExercise);
             ex.save();
-        });
-        
+            
+        }
     }
     
     public void setSequenceChildrensById(List<Long> childrenIds){

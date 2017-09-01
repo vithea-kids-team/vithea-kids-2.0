@@ -7,7 +7,6 @@
         <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
     </div>
 
-
     <form ngSubmit="registerSequence()" #sequenceForm="ngForm" class="col-md-8">
         <div class="row">
             <div class="col-md-12 col-sm-12" style="padding-left:0">
@@ -20,7 +19,7 @@
         </div>
         <div class="row">
             <h3>{{ '_AddExercisesToSequence_' | translate }}<span class="text-danger"> * </span></h3>
-            <loader *ngIf="!exercises"></loader>
+            <!--<loader *ngIf="!exercises"></loader>-->
             <div *ngIf="exercises?.length > 0 || addedExercises?.length > 0">
                 <div>
                     <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
@@ -79,10 +78,10 @@
                 </div>
             </div>
         </div>
-        <!--<div style="height: 70px;">
+        <div style="height: 70px;">
             <div *ngIf="error" class="alert alert-danger"> {{ error | translate }} </div>
             <loader *ngIf="loadingAdd" [height]="50"></loader>
-        </div>-->
+        </div>
 
         <div class="row">
             <a *ngIf="!newSequence.sequenceId" type="button" (click)="registerSequence()" class="btn btn-success" [class.disabled]="!sequenceForm.form.valid">

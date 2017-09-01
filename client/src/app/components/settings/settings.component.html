@@ -5,6 +5,10 @@
 
     <div class=row>
         <loader *ngIf="loading"></loader>
+
+        <alert *ngIf="success" type="success" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textSuccess }} </alert>
+        <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
+
         <div *ngIf="!loading">
             <div class="row">
                 <form class="col-md-8">
@@ -57,7 +61,7 @@
         <a type="button" (click)="saveChanges()" class="btn btn-success">
             <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
         </a>
-        <button type="button" (click)="cancel()" class="btn btn-secondary">
+        <button type="button" (click)="goBack()" class="btn btn-secondary">
             <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{ '_Cancel_' | translate }}
         </button>
     </div>

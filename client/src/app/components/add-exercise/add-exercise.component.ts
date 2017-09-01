@@ -47,14 +47,12 @@ export class AddExerciseComponent implements OnInit {
         this.loading = false;
       }
     )
-    this.loading = true;
     this.resourcesService.fetchLevels().subscribe(
         res => {
             this.levels = res;
             this.loading = false;
         }
     )
-    this.loading = true;
     this.resourcesService.fetchTopics().subscribe(
         res => {
             this.topics = res;
@@ -62,71 +60,139 @@ export class AddExerciseComponent implements OnInit {
         }
     )
 
-    this.loading = true;
+    if (this.exercisesService.edited === true) {
+      this.newExercise.exerciseId = this.exercisesService.exerciseId;
+      this.newExercise.exerciseName = this.exercisesService.exerciseName;
+      this.newExercise.type = this.exercisesService.exerciseType;
+      this.newExercise.question = this.exercisesService.exerciseQuestion;
+      this.newExercise.topic = this.exercisesService.exerciseTopic;
+      this.newExercise.level = this.exercisesService.exerciseLevel;
+      this.newExercise.question = this.exercisesService.exerciseQuestion;
 
-    this.newExercise.type = 'text';
-    this.newExercise.answers = [];
-    this.newExercise.answersImg = [];
+      if (this.exercisesService.exerciseType === 'text') {
+        this.newExercise.rightAnswer = this.exercisesService.exerciseRightAnswer;
+        this.newExercise.stimulus = this.exercisesService.exerciseStimulus;
+        this.newExercise.distractor1 = this.exercisesService.exerciseDistractor1;
+        this.newExercise.distractor2 = this.exercisesService.exerciseDistractor2;
+        this.newExercise.distractor3 = this.exercisesService.exerciseDistractor3;
+      } else {
+        this.newExercise.rightAnswer = this.exercisesService.exerciseRightAnswer;
+        this.newExercise.stimulusText = this.exercisesService.exerciseStimulusText;
+        this.newExercise.distractor1 = this.exercisesService.exerciseDistractor1;
+        this.newExercise.distractor2 = this.exercisesService.exerciseDistractor2;
+        this.newExercise.distractor3 = this.exercisesService.exerciseDistractor3;
 
-    this.route.params
-      .switchMap((params: Params) => Observable.of(params))
-      .subscribe(params => {
-        const sequenceId: number = parseInt(params['sequenceid'], 10);
-        const exerciseId: number = parseInt(params['exerciseid'], 10);
-        if (sequenceId) {
-          this.newExercise.sequenceId = sequenceId;
-          this.loading = false;
-        } else if (exerciseId) {
-          this.exercisesService.getExercise(exerciseId).subscribe(
-            (res: any) => {
-              this.newExercise.exerciseId = res.exerciseId;
-              this.newExercise.exerciseName = res.name;
-              this.newExercise.type = res.type.toLowerCase();
-              this.newExercise.topic = res.topic.topicId;
-              this.newExercise.level = res.level.levelId;
-              this.newExercise.question = res.question.questionDescription;
+      }
+      this.loading = false;
+      this.exercisesService.edited = false;
+    } else {
 
-              // text stuff
-              if (this.newExercise.type === 'text') {
-                this.newExercise.stimulus = res.question.stimulus;
-                this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
-                res.answers.reverse();
-                if (res.answers.length === 2) {
-                  this.newExercise.distractor1 = res.answers[0].answerDescription;
-                 } else if (res.answers.length === 3) {
-                  this.newExercise.distractor1 = res.answers[1].answerDescription
-                  this.newExercise.distractor2 = res.answers[0].answerDescription
-                } else if (res.answers.length === 4) {
-                 this.newExercise.distractor1 = res.answers[1].answerDescription
-                 this.newExercise.distractor2 = res.answers[0].answerDescription
-                 this.newExercise.distractor3 = res.answers[2].answerDescription
+      this.newExercise.type = 'text';
+      this.newExercise.answers = [];
+      this.newExercise.answersImg = [];
+      this.route.params
+        .switchMap((params: Params) => Observable.of(params))
+        .subscribe(params => {
+          const sequenceId: number = parseInt(params['sequenceid'], 10);
+          const exerciseId: number = parseInt(params['exerciseid'], 10);
+          if (sequenceId) {
+            this.newExercise.sequenceId = sequenceId;
+            this.loading = false;
+          } else if (exerciseId) {
+            this.exercisesService.getExercise(exerciseId).subscribe(
+              (res: any) => {
+                this.newExercise.exerciseId = res.exerciseId;
+                this.newExercise.exerciseName = res.name;
+                this.newExercise.type = res.type.toLowerCase();
+                this.newExercise.topic = res.topic.topicId;
+                this.newExercise.level = res.level.levelId;
+                this.newExercise.question = res.question.questionDescription;
+
+                // text stuff
+                if (this.newExercise.type === 'text') {
+                  this.newExercise.stimulus = res.question.stimulus;
+                  console.log(this.newExercise.stimulus);
+                  this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
+                  res.answers.reverse();
+                  if (res.answers.length === 2) {
+                    this.newExercise.distractor1 = res.answers[0].answerDescription;
+                   } else if (res.answers.length === 3) {
+                    this.newExercise.distractor1 = res.answers[1].answerDescription;
+                    this.newExercise.distractor2 = res.answers[0].answerDescription;
+                  } else if (res.answers.length === 4) {
+                   this.newExercise.distractor1 = res.answers[1].answerDescription;
+                   this.newExercise.distractor2 = res.answers[0].answerDescription;
+                   this.newExercise.distractor3 = res.answers[2].answerDescription;
+                  }
                 }
-              }
-              // image stuff
-              if (this.newExercise.type === 'image') {
-                this.newExercise.stimulusText = res.question.stimulusText;
-                this.newExercise.rightAnswer = res.rightAnswer.stimulus;
-                if (res.answers.length === 2) {
-                  this.newExercise.distractor1 = res.answers[1].stimulus;
-                 } else if (res.answers.length === 3) {
-                  this.newExercise.distractor1 = res.answers[1].stimulus
-                  this.newExercise.distractor2 = res.answers[2].stimulus
-                } else if (res.answers.length === 4) {
-                 this.newExercise.distractor1 = res.answers[1].stimulus
-                 this.newExercise.distractor2 = res.answers[2].stimulus
-                 this.newExercise.distractor3 = res.answers[3].stimulus
+                // image stuff
+                if (this.newExercise.type === 'image') {
+                  this.newExercise.stimulusText = res.question.stimulusText;
+                  this.newExercise.rightAnswer = res.rightAnswer.stimulus;
+                  if (res.answers.length === 2) {
+                    this.newExercise.distractor1 = res.answers[1].stimulus;
+                   } else if (res.answers.length === 3) {
+                    this.newExercise.distractor1 = res.answers[1].stimulus
+                    this.newExercise.distractor2 = res.answers[2].stimulus
+                  } else if (res.answers.length === 4) {
+                   this.newExercise.distractor1 = res.answers[1].stimulus
+                   this.newExercise.distractor2 = res.answers[2].stimulus
+                   this.newExercise.distractor3 = res.answers[3].stimulus
+                  }
                 }
-              }
-
-              this.loading = false;
-            },
-            err => {
-              console.error('Error getting exercise.', err);
-              this.loading = false;
+                this.loading = false;
+              },
+              err => {
+                console.error('Error getting exercise.', err);
+                this.loading = false;
+            }
+            );
           }
-          );
-        }
-      });
+        });
+    }
+  }
+
+  goToPreferences() {
+    this.exercisesService.edited = true;
+    this.exercisesService.exerciseId = this.newExercise.exerciseId;
+    this.exercisesService.exerciseName = this.newExercise.exerciseName;
+    this.exercisesService.exerciseType = this.newExercise.type;
+    this.exercisesService.exerciseTopic = this.newExercise.topic;
+    this.exercisesService.exerciseLevel = this.newExercise.level;
+    this.exercisesService.exerciseQuestion = this.newExercise.question;
+
+    if (this.exercisesService.exerciseType === 'text') {
+      this.exercisesService.exerciseRightAnswer = this.newExercise.rightAnswer;
+      const stimulus = this.stimulusImgs.filter((stimulus) => { return stimulus.selected; });
+      if (stimulus.length > 0) {
+        this.exercisesService.exerciseStimulus = stimulus[0];
+      }
+      this.exercisesService.exerciseDistractor1 = this.newExercise.distractor1;
+      this.exercisesService.exerciseDistractor2 = this.newExercise.distractor2;
+      this.exercisesService.exerciseDistractor3 = this.newExercise.distractor3;
+    } else {
+
+      this.exercisesService.exerciseStimulusText = this.newExercise.stimulusText;
+      const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
+      const answersImg1 = this.answersImgs1.filter((stimulus) => { return stimulus.selected; });
+      const answersImg2 = this.answersImgs2.filter((stimulus) => { return stimulus.selected; });
+      const answersImg3 = this.answersImgs3.filter((stimulus) => { return stimulus.selected; });
+
+      if (rightAnswer.length === 1) {
+        this.exercisesService.exerciseRightAnswer = rightAnswer[0];
+      }
+      if (answersImg1.length === 1) {
+        this.exercisesService.exerciseDistractor1 = answersImg1[0];
+      }
+      if (answersImg2.length === 1) {
+        this.exercisesService.exerciseDistractor2 = answersImg2[0];
+      }
+      if (answersImg3.length === 1) {
+        this.exercisesService.exerciseDistractor3 = answersImg3[0];
+      }
+    }
+
+    this.router.navigate(['/settings']);
   }
 
   registerExercise() {
@@ -173,7 +239,7 @@ export class AddExerciseComponent implements OnInit {
         if (result) {
           this.exercisesService.editExercise(this.newExercise).subscribe(
             res => {
-              this.router.navigate(['/exercises/']);
+              this.router.navigate(['/exercises']);
               this.exercisesService.setSuccess(true);
               this.exercisesService.setFailure(false);
               this.exercisesService.setTextSuccess('Exercício editado com sucesso.');
@@ -200,7 +266,7 @@ export class AddExerciseComponent implements OnInit {
         this.exercisesService.addExercise(this.newExercise).subscribe(
           res => {
             if (this.newExercise.sequenceId) {
-              this.router.navigate(['/sequences/' + this.newExercise.sequenceId]);
+              this.router.navigate(['/sequences' + this.newExercise.sequenceId]);
             } else {
               this.router.navigate(['/exercises']);
             }

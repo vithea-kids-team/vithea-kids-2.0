@@ -48,12 +48,13 @@ export class AddSequenceComponent implements OnInit {
                         res => {
                             this.newSequence.sequenceId = res.sequenceId;
                             this.newSequence.sequenceName = res.sequenceName;
-                            
+
                             // not the list of exercises, but only the ids and orders
                             let sequenceExercisesOrder = res.sequenceExercisesList;
                             this.sequenceChildren = res.sequenceChildren;
                             let newSequenceExercices: Array<Exercise> = [];
                             let newSequenceOrder: Array<number> = [];
+
 
                             sequenceExercisesOrder.forEach(exor => {
                                 let exercise = this.findExerciseById(exor.sequenceExerciseId.exercise_id);
@@ -63,26 +64,29 @@ export class AddSequenceComponent implements OnInit {
                                 }
                             });
 
+                            let addedExercises2: Array<Exercise> = [];
                             newSequenceExercices.forEach(exercise =>  {
-                                this.addedExercises.push(exercise);
+                                addedExercises2.push(exercise);
                                 this.removeExerciseAdded(exercise);
                             })
+//                            this.addedExercises = addedExercises2;
 
+                             // rearrange the list of exercises to show them according to the orders' list
+                            let exercicesWithOrder = [];
+                            while (newSequenceOrder.length !== 0 && addedExercises2.length !== 0) {
+                                let exOr = [newSequenceOrder.pop(), addedExercises2.pop()];
+                                exercicesWithOrder.push(exOr);
+                            }
 
-                            /*
-                            this.orderExercisesList.forEach(idExercise => {
-                                this.sequenceExercises.forEach(exercise => {
-                                    if (exercise.exerciseId === idExercise) {
-                                        newSequenceExercices.push(exercise);
+                            let i = 1;
+                            while (this.addedExercises.length < exercicesWithOrder.length) {
+                                exercicesWithOrder.forEach(exOr => {
+                                    if (exOr[0] === i) {
+                                        this.addedExercises.push(exOr[1]);
                                     }
-                                })
-                            })
-                            this.sequenceExercises = newSequenceExercices;*/
-
-                            /*this.sequenceExercises.forEach(exercise => {
-                                this.addedExercises.push(exercise);
-                                this.removeExerciseAdded(exercise);
-                            })*/
+                                });
+                                i++;
+                            }
 
                             this.sequenceChildren.forEach(child => {
                                 this.addedChildren.push(child);
@@ -193,29 +197,6 @@ export class AddSequenceComponent implements OnInit {
             }
         }).catch(() => {})});
     }
-
-    /*editSequence2() {
-        this.loading = true;
-        this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
-            return exercise.exerciseId;
-        });
-
-        this.newSequence.childrenToAssign = this.addedChildren.map((child) => {
-            return child.childId;
-        });
-
-        this.sequencesService.editSequence(this.newSequence)
-            .subscribe(res => {
-                if (this.newSequence.childId) {
-                    this.router.navigate(['/children/' + this.newSequence.childId + '/sequences']);
-                } else {
-                    this.router.navigate(['/sequences']);
-                }
-                this.loading = false;
-            },
-            err => console.log('Error editing sequence.'));
-            this.loading = false;
-    }*/
 
     loadExercisesToAdd() {
          this.exercisesService.getExercises().subscribe(

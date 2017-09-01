@@ -39,7 +39,7 @@ public class AdminSequencesCtrl extends Controller {
         String sequenceName = registerSequenceForm.get("sequenceName");
         
         List<Long> exerciseIds = new ArrayList<>();
-        List<Long> order = new ArrayList<>();
+        List<Integer> order = new ArrayList<>();
         int i = 0;
         while(true) {
             String key = "exercisesToAdd[" + i + "]";
@@ -52,7 +52,8 @@ public class AdminSequencesCtrl extends Controller {
                 }
 
                 exerciseIds.add((long)answerId);
-                order.add((long)0); //TODO mudar
+                int orderNumber = i+1;
+                order.add(orderNumber);
             } else {
                 break;
             }
@@ -136,7 +137,7 @@ public class AdminSequencesCtrl extends Controller {
             String sequenceName = editSequenceForm.get("sequenceName");
             sequence.setSequenceName(sequenceName);
              
-            List<Long> order = new ArrayList<>();
+            List<Integer> order = new ArrayList<>();
             List<Long> exerciseIds = new ArrayList<>();
             int i = 0;
             while(true) {
@@ -150,7 +151,7 @@ public class AdminSequencesCtrl extends Controller {
                     }
 
                     exerciseIds.add((long)answerId);
-                    order.add((long)0); // todo
+                    order.add(i+1);
                 } else {
                     break;
                 }
