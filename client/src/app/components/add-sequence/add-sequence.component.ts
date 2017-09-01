@@ -48,6 +48,7 @@ export class AddSequenceComponent implements OnInit {
                         res => {
                             this.newSequence.sequenceId = res.sequenceId;
                             this.newSequence.sequenceName = res.sequenceName;
+                            
                             // not the list of exercises, but only the ids and orders
                             let sequenceExercisesOrder = res.sequenceExercisesList;
                             this.sequenceChildren = res.sequenceChildren;
@@ -193,7 +194,7 @@ export class AddSequenceComponent implements OnInit {
         }).catch(() => {})});
     }
 
-    editSequence2() {
+    /*editSequence2() {
         this.loading = true;
         this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
             return exercise.exerciseId;
@@ -214,10 +215,7 @@ export class AddSequenceComponent implements OnInit {
             },
             err => console.log('Error editing sequence.'));
             this.loading = false;
-    }
-
-
-
+    }*/
 
     loadExercisesToAdd() {
          this.exercisesService.getExercises().subscribe(
@@ -376,5 +374,5 @@ export class AddSequenceComponent implements OnInit {
 
     goBack() {
         this.location.back();
-      }
+    }
 }

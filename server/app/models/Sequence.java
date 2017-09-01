@@ -31,9 +31,6 @@ public class Sequence extends Model {
     @JsonManagedReference
     private List<Child> sequenceChildren;
     
-    
-    //private List<Exercise> exerciseList;
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     private Caregiver author;
@@ -44,9 +41,17 @@ public class Sequence extends Model {
         this.name = name;
         this.author = author;
     }
-   
-    public void setSequenceExercisesById(List<Long> exerciseIds, List<Long> order){
+    
+    
+     public void setSequenceExercisesById(List<Long> exerciseIds, List<Long> order){
+        
+        for(SequenceExercise seqEx: sequenceExercisesList) {
+            seqEx.delete();
+        }
+        
         sequenceExercisesList.clear();
+        this.save();
+        
         exerciseIds.stream().map((d) -> Exercise.findExerciseById(d)).forEachOrdered((ex) -> {
             SequenceExercise sequenceExercise = new SequenceExercise(ex, this, 1);
             sequenceExercise.save();

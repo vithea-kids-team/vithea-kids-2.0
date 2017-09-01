@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import models.Caregiver;
 import models.Child;
 import models.Sequence;
+import models.SequenceExercise;
 import play.*;
 import play.data.DynamicForm;
 import play.data.FormFactory;
@@ -114,7 +115,6 @@ public class AdminSequencesCtrl extends Controller {
         return ok(Json.toJson(sequence));
     }
     
-    
      /*
      * EditSequence action
      */
@@ -218,6 +218,13 @@ public class AdminSequencesCtrl extends Controller {
             c.getSequencesList().remove(seq);
             c.save();
         });
+        
+        for(SequenceExercise seqEx: seq.getSequenceExercisesList()) {
+            seqEx.delete();
+        }
+        
+        seq.getSequenceExercisesList().clear();
+        
         seq.delete();
         
         return ok("Sequence deleted");
@@ -230,6 +237,4 @@ public class AdminSequencesCtrl extends Controller {
         wrapper.set(type, msg);
         return wrapper;
     }
-    
-
 }
