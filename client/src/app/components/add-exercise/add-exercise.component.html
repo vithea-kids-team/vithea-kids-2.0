@@ -65,7 +65,6 @@
                 </div>
             </div>
         </div>
-        <br>
 
         <div class="row">
             <label for="answer"> {{ '_Answer_' | translate }} <span class="text-danger"> * </span></label>
@@ -77,14 +76,13 @@
 
         <div class="row">
             <div *ngIf="newExercise.type == 'image' ">
-                <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <br>
+                <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <div style="max-height: 100px; overflow-y: auto;">
                     <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" required [multiSelect]="false" [selected]="newExercise.rightAnswer" name="newExercise.rightAnswerImgs" #rightAnswer="ngModel"> </image-picker>
                 </div>
             </div>
         </div>
-        <br>
 
         <div class="row">
             <label for="answers"> {{ '_Distractors_' | translate }}</label>
@@ -95,6 +93,7 @@
                 <input type="text" class="form-control" id="distractor3" maxlength="255" [(ngModel)]="newExercise.distractor3" name="distractor3" #distractor3="ngModel">
             </div>
         </div>
+
         <div class="row">
             <div *ngIf="newExercise.type === 'image' ">
                 <br>
