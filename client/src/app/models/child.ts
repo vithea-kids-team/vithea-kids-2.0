@@ -24,11 +24,17 @@ export class Child {
         promptingColor: boolean,
         promptingSize: boolean,
         promptingScratch: boolean,
-        promptingHide: boolean
+        promptingHide: boolean,
+        promptingRead: boolean
     }
     public reinforcement: {
         reinforcementStrategy: string,
         reinforcementResource: Resource
     }
+    public sequenceExercises: {
+        sequenceExercisesOrder: string,
+        sequenceExercisesCapitalization: string
+    }
+
     public emotions: boolean
 }

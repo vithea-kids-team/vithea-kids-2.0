@@ -22,9 +22,6 @@ public enum ReinforcementStrategy {
     public static final Finder<Integer, ReinforcementStrategy> find = new Finder<>(ReinforcementStrategy.class);
     
     public static ReinforcementStrategy find(int id) {
-       return find
-               .where()
-               .eq("id", id)
-               .findUnique();
+       return find.where().eq("id", id).findUnique();
     }    
 }

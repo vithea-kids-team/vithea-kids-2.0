@@ -27,6 +27,7 @@ import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 
+
 @Security.Authenticated(Secured.class)
 public class AdminExerciseCtrl extends Controller {
 
@@ -395,6 +396,12 @@ public class AdminExerciseCtrl extends Controller {
                     File file = resource.getFile();
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+                    
+                    //Thumbnails.of(new File("original.jpg"))
+        //.size(160, 160)
+        //.toFile(new File("thumbnail.jpg"));
+                    
+                    
                     
                     String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
                     String path = "../client/src/vithea-kids/assets/images/" + type + "/";

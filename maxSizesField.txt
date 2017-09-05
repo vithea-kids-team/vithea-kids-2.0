@@ -1,0 +1,30 @@
+Caregive
+username: 30
+password   255
+firstName 30
+lastName  50
+email 50
+
+Criança:
+username: 30
+firstName 30
+lastName 50
+password 255                        
+
+Catarina:
+greetingMsg   255 
+congratsExMsg   255 
+congratsFinalMsg 255                        
+
+Exercícios:
+questão: 255
+estímulo textual: 255
+resposta certa textual: 255
+distractor textual: 255
+
+Aula
+nome: 50
+
+Definicoes:
+topicos: 50
+niveis: 50

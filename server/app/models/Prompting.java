@@ -1,10 +1,6 @@
 package models;
 
 import com.avaje.ebean.Model;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
 
 @Entity
@@ -25,6 +21,7 @@ public class Prompting extends Model {
     private Boolean promptingSize;
     private Boolean promptingScratch;
     private Boolean promptingHide;
+    private Boolean promptingRead;
     
     public Prompting() { 
         this.promptingStrategy = PromptingStrategy.OFF;
@@ -32,6 +29,7 @@ public class Prompting extends Model {
         this.promptingSize = false;
         this.promptingScratch = false;
         this.promptingHide = false;
+        this.promptingRead = false;
     }
 
     public PromptingStrategy getPromptingStrategy() {
@@ -72,5 +70,13 @@ public class Prompting extends Model {
 
     public void setPromptingHide(Boolean promptingHide) {
         this.promptingHide = promptingHide;
+    }
+    
+    public Boolean getPromptingRead() {
+        return promptingRead;
+    }
+
+    public void setPromptingRead(Boolean promptingRead) {
+        this.promptingRead = promptingRead;
     }
 }

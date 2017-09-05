@@ -57,6 +57,9 @@ public class Child extends Model {
     @OneToOne(cascade = CascadeType.ALL)
     private Prompting prompting;
     
+    @OneToOne(cascade = CascadeType.ALL)
+    private SequenceExercises sequenceExercises;
+    
     private Boolean emotions;
 
     
@@ -95,6 +98,9 @@ public class Child extends Model {
     }
     public Boolean getEmotions() {
         return emotions;
+    }
+    public SequenceExercises getSequenceExercises() {
+        return sequenceExercises;
     }
 
     public void setAnimatedCharacter(AnimatedCharacter animatedCharacter) {
@@ -135,20 +141,17 @@ public class Child extends Model {
     public void setEmotions(Boolean emotions) {
         this.emotions = emotions;
     }
+    public void setSequenceExercises(SequenceExercises sequenceExercises){
+        this.sequenceExercises = sequenceExercises;
+    }
     
     public static final Finder<Long, Child> find = new Finder<>(Child.class);
     public static Child findByUsername(String username) {
         Logger.debug("Looking for child with username: " + username);
-        return find
-                .where()
-                .eq("childlogin_id", Login.findByUsername(username).getLoginId())
-                .findUnique();
+        return find.where() .eq("childlogin_id", Login.findByUsername(username).getLoginId()).findUnique();
     }
     public static Child findByChildId(Long childId) {
-        return find
-                .where()
-                .eq("id", childId)
-                .findUnique();
+        return find.where().eq("id", childId).findUnique();
     }
     
     @Override

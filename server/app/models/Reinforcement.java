@@ -1,10 +1,6 @@
 package models;
 
-import play.*;
-import play.mvc.*;
-
 import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,7 +41,4 @@ public class Reinforcement extends Model {
     public void setReinforcementResource(Resource reinforcementResource) {
         this.reinforcementResource = reinforcementResource;
     }
-    
-    
-    
 }

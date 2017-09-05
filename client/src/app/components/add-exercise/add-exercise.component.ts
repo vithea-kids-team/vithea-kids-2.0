@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { ActivatedRoute, Params }   from '@angular/Router';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/Router';
@@ -38,27 +38,28 @@ export class AddExerciseComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.resourcesService.fetchResources().subscribe(
-      res => {
+      resResources => {
         this.stimulusImgs = this.resourcesService.getResourcesByType('stimuli');
         this.rightAnswerImgs = this.resourcesService.getResourcesByType('stimuli');
         this.answersImgs1 = this.resourcesService.getResourcesByType('stimuli');
         this.answersImgs2 = this.resourcesService.getResourcesByType('stimuli');
         this.answersImgs3 = this.resourcesService.getResourcesByType('stimuli');
         this.loading = false;
+        this.resourcesService.fetchLevels().subscribe(
+          resLevels => {
+              this.levels = resLevels;
+              this.loading = false;
+              this.resourcesService.fetchTopics().subscribe(
+                resTopics => {
+                    this.topics = resTopics;
+                    this.loading = false;
+                }
+            )
+          }
+      )
       }
     )
-    this.resourcesService.fetchLevels().subscribe(
-        res => {
-            this.levels = res;
-            this.loading = false;
-        }
-    )
-    this.resourcesService.fetchTopics().subscribe(
-        res => {
-            this.topics = res;
-            this.loading = false;
-        }
-    )
+    this.loading = false;
 
     if (this.exercisesService.edited === true) {
       this.newExercise.exerciseId = this.exercisesService.exerciseId;
@@ -86,7 +87,6 @@ export class AddExerciseComponent implements OnInit {
       this.loading = false;
       this.exercisesService.edited = false;
     } else {
-
       this.newExercise.type = 'text';
       this.newExercise.answers = [];
       this.newExercise.answersImg = [];
@@ -111,7 +111,6 @@ export class AddExerciseComponent implements OnInit {
                 // text stuff
                 if (this.newExercise.type === 'text') {
                   this.newExercise.stimulus = res.question.stimulus;
-                  console.log(this.newExercise.stimulus);
                   this.newExercise.rightAnswer = res.rightAnswer.answerDescription;
                   res.answers.reverse();
                   if (res.answers.length === 2) {
@@ -152,6 +151,7 @@ export class AddExerciseComponent implements OnInit {
     }
   }
 
+
   goToPreferences() {
     this.exercisesService.edited = true;
     this.exercisesService.exerciseId = this.newExercise.exerciseId;
@@ -171,7 +171,6 @@ export class AddExerciseComponent implements OnInit {
       this.exercisesService.exerciseDistractor2 = this.newExercise.distractor2;
       this.exercisesService.exerciseDistractor3 = this.newExercise.distractor3;
     } else {
-
       this.exercisesService.exerciseStimulusText = this.newExercise.stimulusText;
       const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
       const answersImg1 = this.answersImgs1.filter((stimulus) => { return stimulus.selected; });

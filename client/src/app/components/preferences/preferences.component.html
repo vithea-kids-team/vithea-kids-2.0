@@ -39,11 +39,11 @@
                 <div class="panel-body">
                     <label for="reinforcement"> {{ '_Reinforcement_' | translate }}</label>
                     <p> {{ '_SelectImagesReinforcment_' | translate }}</p>
+                    <em *ngIf="reinforcementResources?.length === 0">{{ '_NoResources_' | translate }}</em>
                     <br>
                     <div style="max-height: 100px; overflow-y: auto;">
                         <image-picker [(ngModel)]="reinforcementResources" [multiSelect]="false" name="reinforcementResources"> </image-picker>
                     </div>
-                    <!--<file-upload [label]="'_UploadReinforcement_'" [resourceType]="'reinforcement'" (results)="updateReinforcement($event)"></file-upload>-->
                 </div>
             </div>
         </div>
@@ -66,8 +66,34 @@
                             <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingColor" (change)="updatePromptingColor($event)" name="promptingType">{{'_OptionsColor_' | translate}}</label>
                             <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingScratch" (change)="updatePromptingScratch($event)" name="promptingType">{{'_CrossDistractors_' | translate}}</label>
                             <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingHide" (change)="updatePromptingHide($event)" name="promptingType">{{'_DistractorsDisappear_' | translate}}</label>
+                            <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingRead" (change)="updatePromptingRead($event)" name="promptingRead">{{'_AnswersRead_' | translate}}</label>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class=row>
+            <h4>{{ '_ExerciseSequences_' | translate }}</h4>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="strategy"> {{ '_OrderExercises_' | translate }}</label>
+                        <br>
+                        <label class="radio-inline"><input type="radio" value="RANDOM" [(ngModel)]="prefs.sequenceExercisesOrder" name="sequenceExercisesOrder">{{'_RandomOrder_' | translate}}</label>
+                        <label class="radio-inline"><input type="radio" value="DEFAULT" [(ngModel)]="prefs.sequenceExercisesOrder" name="sequenceExercisesOrder">{{'_DefaultOrder_' | translate}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="strategy"> {{ '_CapitalizationExercises_' | translate }}</label>
+                        <br>
+                        <label class="radio-inline"><input type="radio" value="CAPITALIZATION" [(ngModel)]="prefs.sequenceExercisesCapitalization" name="sequenceExercisesCapitalization">{{'_AllCapsCapitalization_' | translate}}</label>
+                        <label class="radio-inline"><input type="radio" value="DEFAULT" [(ngModel)]="prefs.sequenceExercisesCapitalization" name="sequenceExercisesCapitalization">{{'_DefaultCapitalization_' | translate}}</label>
+                    </div>
+                    <!--<div class="form-group">
+                        <label for="strategy"> {{ '_QuestionRead_' | translate }}</label>
+                        <br>
+                        <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Yes_' | translate}}</label>
+                        <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_No_' | translate}}</label>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -76,9 +102,11 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <p> {{ '_SelectImagesAnimatedCharacter_' | translate }}</p>
+                    <em *ngIf="animatedCharactersResources?.length === 0">{{ '_NoResourcesAnimatedCharacter_' | translate }}</em>
                     <div style="max-height: 100px; overflow-y: auto;">
                         <image-picker [(ngModel)]="animatedCharactersResources" [multiSelect]="false" name="animatedCharacter"> </image-picker>
                     </div>
+                    <br>
                     <div class="form-group">
                         <label for="emotions"> {{ '_Emotions_' | translate }}</label>
                         <br>

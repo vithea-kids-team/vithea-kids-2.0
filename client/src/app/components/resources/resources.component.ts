@@ -111,7 +111,7 @@ export class ResourcesComponent implements OnInit, OnChanges {
     this.pagedItems = this.resources.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
-  reset(){
+  reset() {
     this.resourcesService.success = false;
     this.resourcesService.failure = false;
     this.resourcesService.textFailure = '';

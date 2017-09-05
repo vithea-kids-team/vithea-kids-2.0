@@ -11,6 +11,7 @@ public enum PromptingType {
     COLOR(1, "Color"),
     SCRATCH(2, "Scratch"),
     HIDE(3, "Hide");
+    //READ(4, "Read");
     
     private final int id;
     private final String type;

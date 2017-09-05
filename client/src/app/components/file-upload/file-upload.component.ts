@@ -29,7 +29,7 @@ export class FileUploadComponent {
       this.resourcesService.uploadFiles(files, this.resourceType, this.name).subscribe(
           res => {
             this.resourcesService.fetchResources().subscribe(
-              res => {
+              resResources => {
                 this.resourcesService.setSuccess(true);
                 this.resourcesService.setFailure(false);
                 this.resourcesService.setTextSuccess('Recurso multimédia adicionado com sucesso.');

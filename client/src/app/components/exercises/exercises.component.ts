@@ -55,6 +55,7 @@ export class ExercisesComponent implements OnInit, OnChanges {
     this.textFailure = this.exercisesService.getTextFailure();
   }
 
+
   public fetchExercises() {
     this.loading = true;
     this.updateSuccessFailure();
@@ -80,16 +81,44 @@ export class ExercisesComponent implements OnInit, OnChanges {
     this.childrenService.getSequence(id).subscribe(
       res => {
         this.sequence = res.json();
-        this.exercises = res.json().sequenceExercises;
-        this.setPage(1);
-        this.loading = false;
-      },
+
+        this.exercisesService.getExercises().subscribe(
+          result => {
+            this.exercises = result;
+            let sequenceExercisesOrder = res.json().sequenceExercisesList;
+            let exercises = [];
+            sequenceExercisesOrder.forEach(exor => {
+              let exercise = this.findExerciseById(exor.sequenceExerciseId.exercise_id);
+              if (exercise !== null) {
+                exercises.push(exercise);
+              }
+            });
+            this.setPage(1);
+            this.loading = false;
+          },
+          err => {
+            console.error('Error loading exercises.' + err);
+            this.exercises = [];
+            this.loading = false;
+          })
+        },
       err => {
-        console.error('Error loading sequence exercises.' + err);
-        this.exercises = [];
-      }
-    );
-  }
+          console.error('Error loading sequence exercises.' + err);
+          this.exercises = [];
+          this.loading = false;
+      });
+    }
+
+  findExerciseById(exerciseId: number) {
+    let length = this.exercises.length;
+    for (let i = 0; i < length; i++) {
+        let exercise = this.exercises[i];
+        if (exercise.exerciseId === exerciseId) {
+            return exercise;
+        }
+    }
+    return null;
+}
 
   public getExercises() {
     this.exercisesService.getExercises().subscribe(

@@ -8,10 +8,13 @@ export class Preferences {
     public animatedCharacterResourceId: number;
     public animatedCharacterResourcePath: string;
     public promptingStrategy: string;
-    public promptingColor: boolean;
-    public promptingSize: boolean;
-    public promptingScratch: boolean;
     public promptingHide: boolean;
+    public promptingRead: boolean;
+    public promptingScratch: boolean;
+    public promptingSize: boolean;
+    public promptingColor: boolean;
+    public sequenceExercisesCapitalization: string;
+    public sequenceExercisesOrder: string;
     public reinforcementStrategy: string;
     public reinforcementResourceId: number;
     public reinforcementResourcePath: string;

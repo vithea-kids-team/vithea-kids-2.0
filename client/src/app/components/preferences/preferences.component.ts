@@ -47,6 +47,7 @@ export class PreferencesComponent implements OnInit {
   getChildPreferences(id: number) {
      this.childService.getChild(id).subscribe(
       result => {
+
         this.prefs = new Preferences();
         this.prefs.greetingMessage = result.personalMessagesList.find((msg) => {
             return msg.messageType === 'GREETING_MESSAGE';
@@ -61,11 +62,15 @@ export class PreferencesComponent implements OnInit {
           this.prefs.animatedCharacterResourceId = result.animatedCharacter.resourceId;
           this.prefs.animatedCharacterResourcePath = result.animatedCharacter.resourcePath;
         }
+
         this.prefs.promptingStrategy = result.prompting.promptingStrategy;
         this.prefs.promptingColor = result.prompting.promptingColor;
         this.prefs.promptingSize = result.prompting.promptingSize;
         this.prefs.promptingScratch = result.prompting.promptingScratch;
         this.prefs.promptingHide = result.prompting.promptingHide;
+        this.prefs.promptingRead = result.prompting.promptingRead;
+        this.prefs.sequenceExercisesOrder = result.sequenceExercises.sequenceExercisesOrder;
+        this.prefs.sequenceExercisesCapitalization = result.sequenceExercises.sequenceExercisesCapitalization;
         this.prefs.reinforcementStrategy = result.reinforcement.reinforcementStrategy;
         const reinf = result.reinforcement.reinforcementResource;
 
@@ -143,6 +148,10 @@ export class PreferencesComponent implements OnInit {
 
   updatePromptingHide(e) {
     this.prefs.promptingHide = e.target.checked;
+  }
+
+  updatePromptingRead(e) {
+    this.prefs.promptingRead = e.target.checked;
   }
 
   goBack() {

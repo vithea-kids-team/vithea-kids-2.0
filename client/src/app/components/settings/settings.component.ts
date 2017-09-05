@@ -43,18 +43,20 @@ export class SettingsComponent implements OnInit {
         this.exercises = res;
         this.initTopicsInUse();
         this.initLevelsInUse();
-        }
-      )
-    this.resourcesService.fetchTopics().subscribe(
-      res => {
-        this.topics = res;
-        this.initTempTopics();
-        }
-      )
-    this.resourcesService.fetchLevels().subscribe(
-      res => {
-        this.levels = res;
-        this.initTempLevels();
+
+        this.resourcesService.fetchTopics().subscribe(
+          resTopics => {
+            this.topics = resTopics;
+            this.initTempTopics();
+
+            this.resourcesService.fetchLevels().subscribe(
+              resLevels => {
+                this.levels = resLevels;
+                this.initTempLevels();
+              }
+            )
+          }
+        )
       }
     )
   }

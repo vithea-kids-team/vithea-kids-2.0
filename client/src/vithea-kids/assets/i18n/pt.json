@@ -141,6 +141,7 @@
     "_EditResource_": "Editar multimédia",
     "_CreateResource_": "Adicionar multimédia",
     "_NoResources_": "Não existem recursos multimédia. Adicione um novo recurso no separador Multimédia.",
+    "_NoResourcesAnimatedCharacter_": "Não existem recursos multimédia para a personagem animada.",
     "_Emotions_": "Emoções",
     "_EmotionsOn_": "Com emoções",
     "_EmotionsOff_": "Sem emoções",
@@ -162,5 +163,13 @@
     "_SaveChangesBtn_": "Guardar alterações",
     "User already exists": "Este endereço de email já se encontra registado",
     "Username already exists": "Este nome de utilizador já se encontra registado",
-    "Class already exists": "Este nome de aula já se encontra registado"
+    "Class already exists": "Este nome de aula já se encontra registado",
+    "_OrderExercises_": "Ordenação",
+    "_RandomOrder_": "Aleatória",
+    "_DefaultOrder_": "Predefinida",
+    "_CapitalizationExercises_": "Capitalização do texto",
+    "_AllCapsCapitalization_": "Tudo em maiúsculas",
+    "_DefaultCapitalization_": "Predefinida",
+    "_QuestionRead_": "Personagem animada lê pergunta(s)",
+    "_AnswersRead_": "Personagem animada lê a resposta correcta e distractores"
 }

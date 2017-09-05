@@ -8,6 +8,7 @@ scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
   "mysql" % "mysql-connector-java" % "5.1.38",
+  "net.coobird" % "thumbnailator" % "0.4.8",
   "commons-io" % "commons-io" % "2.5",
   javaJdbc,
   cache,

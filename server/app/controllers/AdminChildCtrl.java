@@ -16,6 +16,9 @@ import models.Reinforcement;
 import models.ReinforcementStrategy;
 import models.Resource;
 import models.Sequence;
+import models.SequenceExercises;
+import models.SequenceExercisesCapitalization;
+import models.SequenceExercisesOrder;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -77,6 +80,7 @@ public class AdminChildCtrl extends Controller {
             
             child.setReinforcement(new Reinforcement());
             child.setPrompting(new Prompting());
+            child.setSequenceExercises(new SequenceExercises());
             child.setEmotions(false);
             
             child.save();
@@ -231,6 +235,9 @@ public class AdminChildCtrl extends Controller {
 	public String promptingSize;
 	public String promptingScratch;
 	public String promptingHide;
+        public String promptingRead;
+        public String sequenceExercisesOrder;
+        public String sequenceExercisesCapitalization;
 	public String reinforcementStrategy;
 	public String reinforcementResourceId;
         public String reinforcementResourcePath;
@@ -276,6 +283,7 @@ public class AdminChildCtrl extends Controller {
         p.setPromptingHide(Boolean.parseBoolean(prefs.promptingHide));
         p.setPromptingScratch(Boolean.parseBoolean(prefs.promptingScratch));
         p.setPromptingSize(Boolean.parseBoolean(prefs.promptingSize));
+        p.setPromptingRead(Boolean.parseBoolean(prefs.promptingRead));
         p.save();
          
         Logger.debug("Prompting startegy:" + prefs.promptingStrategy);
@@ -283,6 +291,7 @@ public class AdminChildCtrl extends Controller {
         Logger.debug("Prompting size:" + prefs.promptingSize);
         Logger.debug("Prompting scratch:" + prefs.promptingScratch);
         Logger.debug("Prompting hide:" + prefs.promptingHide);
+        Logger.debug("Prompting read:" + prefs.promptingRead);
         
         int reinforcementResourceId;
         try {
@@ -292,12 +301,19 @@ public class AdminChildCtrl extends Controller {
             reinforcementResourceId = -1;
         }
         
+        Logger.debug("Reinforcement strategy:" + prefs.reinforcementStrategy);
+        
         Reinforcement r = child.getReinforcement();
         r.setReinforcementResource(Resource.findById((long)reinforcementResourceId));
         r.setReinforcementStrategy(ReinforcementStrategy.valueOf(prefs.reinforcementStrategy));
         r.save();
-        
-        Logger.debug("Reinforcement startegy:" + prefs.reinforcementStrategy);
+       
+        SequenceExercises sq = child.getSequenceExercises();
+        Logger.debug("Sequence Exercises Order:" + prefs.sequenceExercisesOrder);
+        sq.setSequenceExercisesOrder(SequenceExercisesOrder.valueOf(prefs.sequenceExercisesOrder));    
+        Logger.debug("Sequence Exercises Capitalization:" + prefs.sequenceExercisesCapitalization);
+        sq.setSequenceExercisesCapitalization(SequenceExercisesCapitalization.valueOf(prefs.sequenceExercisesCapitalization));
+        sq.save();
         
         child.setEmotions(Boolean.parseBoolean(prefs.emotions));
         
