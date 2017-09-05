@@ -36,6 +36,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.IntentCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -71,6 +72,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormat.COLOR;
+import static java.lang.Enum.valueOf;
 
 /**
  * Updated by Soraia Meneses Alarcão on 21/07/2017
@@ -162,30 +164,34 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // Unity layout
         FrameLayout layout = (FrameLayout) findViewById(R.id.view1);
-        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        layout.addView(mUnityPlayer.getView(), 0, lp);
+       LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        View view =  mUnityPlayer.getView();
+        layout.addView(view, 0, lp);
 
         linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = (View) linflater.inflate(R.layout.repeat_button, null);
-        layout.addView(view);
+        View view1 = (View) linflater.inflate(R.layout.repeat_button, null);
+        layout.addView(view1);
 
-       /* ImageView repeat_view = (ImageView) findViewById(R.id.repeat_button_view);
+        layout.getChildAt(0).bringToFront();
+        layout.getChildAt(0).invalidate();
 
-        repeat_view.setOnClickListener(new View.OnClickListener() {
+        layout.getChildAt(1).bringToFront();
+        layout.getChildAt(0).invalidate();
 
-            @Override
-            public void onClick(View v) {
+        Log.d("layout",layout.getChildAt(0).toString());
+       /* linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view1 = (View) linflater.inflate(R.layout.repeat_button, null);
 
-                //Toast.makeText(getApplicationContext(), "hey", Toast.LENGTH_SHORT).show();
-                new ReadTask().execute(lastInstruction);
-            }
-        });*/
+        layout.addView(view1);*/
+
+
     }
     private void initUnityCharacter() {
         mUnityPlayer = new UnityPlayer(this);
         int glesMode = mUnityPlayer.getSettings().getInt("gles_mode", 1);
         boolean trueColor8888 = false;
         mUnityPlayer.init(glesMode, trueColor8888);
+
 
 
 
@@ -389,6 +395,18 @@ public class VitheaKidsActivity extends AppCompatActivity {
             // Send to Animated Character
             new ReadTask().execute(exercise.getQuestion().getQuestionDescription());
             lastInstruction = exercise.getQuestion().getQuestionDescription();
+
+            ImageView repeat_view = (ImageView) findViewById(R.id.repeat_button_view);
+
+            repeat_view.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                   // Toast.makeText(getApplicationContext(), lastInstruction, Toast.LENGTH_SHORT).show();
+                    new ReadTask().execute(lastInstruction);
+                }
+            });
         }
     }
     /**
@@ -428,10 +446,10 @@ public class VitheaKidsActivity extends AppCompatActivity {
         List<Answer> answers = exercise.getAnswers();
         List<Integer> idButtons = new ArrayList<>(Arrays.asList(R.id.button1, R.id.button2, R.id.button3, R.id.button4));
         List<Button> buttonList = new ArrayList<>();
+        int numberAnswers = answers.size();
 
         if (!answers.isEmpty()) {
             Collections.shuffle(answers);
-            int numberAnswers = answers.size();
 
             // FIXME Verify if will be possible to have more than 4 answers
             if(numberAnswers > 4) numberAnswers = 4;
@@ -487,7 +505,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
                             }
                         }
                     }
-                }
+                } // FIXME: 05/09/2017 update this when the server is ready
+                /*if(child.getUtterAnswers){
+                    for (int i = 0; i < numberAnswers; i++){
+                         new ReadTask().execute(answers.get(i).getAnswerDescription());
+                    }
+                }*/
             }
         }
     }
@@ -708,6 +731,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         for (PersonalMessage message : personalMessages) {
             if (message.getMessageType().equals(exercise_reinforcement)) {
                 sentence = message.getMessage();
+                Log.d("greetings", sentence);
                 break;
             }
         }
@@ -799,6 +823,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     }
 
+    protected  void backMenuHandler(){
+        CustomDialogClass cdd=new CustomDialogClass(this);
+        cdd.show();
+
+    }
+
     // logout
     // TODO Verify why sometimes new child inherit stuff from the last child
     private void exitHandler(){
@@ -876,6 +906,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
         if (id == R.id.exit) {
             exitHandler();
         }
+        if(id == R.id.back_menu_option){
+            backMenuHandler();
+        }
         else if(id == R.id.prompting_option){
             promptingHandler(item);
         }
@@ -890,12 +923,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         MenuItem item = menu.findItem(R.id.end_option);
+        MenuItem itemBack = menu.findItem(R.id.back_menu_option);
 
         if (!inSequenceScreen) {
             item.setEnabled(true);
+            itemBack.setEnabled(true);
         } else {
             // disabled
             item.setEnabled(false);
+            itemBack.setEnabled(false);
         }
 
         return super.onPrepareOptionsMenu(menu);

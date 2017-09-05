@@ -29,7 +29,7 @@
     <string name="prompting_option_text">Ligar/Desligar Ajuda</string>
     <string name="reinforcement_option_text">Ligar/Desligar Reforço</string>
     <string name="end_exercises_option_text">Terminar sessão de exercícios</string>
-    <string name="home_option_text">Voltar ao início</string>
+    <string name="home_option_text">Voltar ao menu</string>
 
 
     <!-- VITHEA-Kids - Placeholders -->
@@ -62,4 +62,10 @@
     <string name="InvalidPassword">Palavra-passe inválida</string>
     <string name="APP_PREFERENCES">AppPreferences</string>
     <string name="exercise">Escolhe a resposta certa</string>
+
+    <!-- dialog info -->
+
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+
 </resources>

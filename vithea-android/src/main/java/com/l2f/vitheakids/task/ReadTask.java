@@ -11,13 +11,12 @@ public class ReadTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 
 		if (params.length > 1 && !params[0].isEmpty() && !params[1].isEmpty()) {
-            UnityPlayer.UnitySendMessage("cat", "stop", params[0]);
-            UnityPlayer.UnitySendMessage("cat", "subs", "true");
-            UnityPlayer.UnitySendMessage("GameManager", "SayThis", params[0]);
+			UnityPlayer.UnitySendMessage("GameManager", "SayThisWithEmotion", params[0] + ";" + params[1] +";1");
+
 			//UnityPlayer.UnitySendMessage("GameManager", "SayThisWithEmotion", params[0] + ";" + params[1] +";1");
             // joy; amazed; sad ?
 		} else if (!params[0].isEmpty()) {
-            UnityPlayer.UnitySendMessage("GameManager", "subs", params[0]);
+            UnityPlayer.UnitySendMessage("GameManager", "SayThis", params[0]);
 		}
 		
 		return null;
