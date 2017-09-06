@@ -7,7 +7,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/relativeLayout2">
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/nextExerciseButton"
                 android:layout_width="wrap_content"
@@ -54,31 +55,77 @@
                 android:layout_marginTop="80dp"
                 android:text="Anterior"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-        </RelativeLayout>
+    </RelativeLayout>
 
-        <RelativeLayout
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/endExerciseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/endExerciseButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_home_white_24dp"
-                android:layout_margin="20dp"/>
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_home_white_24dp" />
 
-            <TextView
-                android:id="@+id/endExerciseTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="@+id/endExerciseButton"
-                android:layout_alignRight="@+id/endExerciseButton"
-                android:layout_alignTop="@+id/endExerciseButton"
-                android:layout_gravity="bottom|end"
-                android:layout_marginTop="80dp"
-                android:text="Terminar"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/endExerciseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="@+id/endExerciseButton"
+            android:layout_alignRight="@+id/endExerciseButton"
+            android:layout_alignTop="@+id/endExerciseButton"
+            android:layout_gravity="bottom|end"
+            android:layout_marginTop="80dp"
+            android:text="Terminar"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_alignBottom="@+id/relativeLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/repeat_button_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:src="@drawable/repeat"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="27dp" />
+
+        <TextView
+            android:id="@+id/repeatTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:text="Repetir \n Frase"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/repeat_button_view"
+            android:layout_alignStart="@+id/repeat_button_view" />
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

@@ -40,6 +40,7 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
         ResponseEntity<String> response = Api.get(url,activity);
         String exerciseInfo = response.getBody();
 
+        Log.d("body", response.getBody());
         ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true);
         // mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 

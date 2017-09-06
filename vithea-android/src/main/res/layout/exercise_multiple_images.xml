@@ -15,6 +15,8 @@
         android:textSize="20sp"
         />
 
+
+
     <TextView
         android:id="@+id/stimulusText"
         android:layout_width="wrap_content"
@@ -30,11 +32,12 @@
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/stimulusText"
-        android:layout_marginTop="40dp"
         android:columnCount="2"
         android:rowCount="2"
-        android:layout_centerHorizontal="true">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="19dp">
 
         <ImageView
             android:id="@+id/first"

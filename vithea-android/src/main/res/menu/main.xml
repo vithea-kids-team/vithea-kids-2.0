@@ -12,6 +12,11 @@
     <item
         android:id="@+id/end_option"
         android:title="@string/end_exercises_option_text"/>
+
+    <item
+        android:id="@+id/back_menu_option"
+        android:title="Voltar para aulas"
+        />
     <!--android:showAsAction="never"-->
 
 
