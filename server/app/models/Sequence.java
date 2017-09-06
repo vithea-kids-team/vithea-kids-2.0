@@ -43,7 +43,7 @@ public class Sequence extends Model {
     }
     
     
-     public void setSequenceExercisesById(List<Long> exerciseIds, List<Integer> order){
+    public void setSequenceExercisesById(List<Long> exerciseIds, List<Integer> order){
         
         for(SequenceExercise seqEx: sequenceExercisesList) {
             seqEx.delete();

@@ -219,6 +219,8 @@ public class AdminChildCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Invalid child id."));
         }
         
+        Logger.debug("TESTE: " + child.toString());
+   
         return  ok(Json.toJson(child.getSequencesList()));
     }
     

@@ -63,6 +63,10 @@ public class SequenceExercise extends Model {
         return this.exercise;
     }
 
+    public Long getExerciseId() {
+        return this.exercise.getExerciseId();
+    }
+    
     public void setExercise(Exercise exercise) {
         this.exercise = exercise;
     }

@@ -6,8 +6,11 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +22,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import static models.Exercise.findExerciseById;
+import static models.Sequence.findSequenceById;
 import play.Logger;
 
 @Entity
@@ -148,14 +153,61 @@ public class Child extends Model {
     public static final Finder<Long, Child> find = new Finder<>(Child.class);
     public static Child findByUsername(String username) {
         Logger.debug("Looking for child with username: " + username);
-        return find.where() .eq("childlogin_id", Login.findByUsername(username).getLoginId()).findUnique();
+        return find.where().eq("childlogin_id", Login.findByUsername(username).getLoginId()).findUnique();
     }
     public static Child findByChildId(Long childId) {
         return find.where().eq("id", childId).findUnique();
     }
     
+    public List<Exercise> getOrderedExercises(Long sequenceId){
+        TreeMap<Integer, Exercise> exercisesWithIndex = new TreeMap<>();
+        List<Exercise> exercises = new ArrayList<>();
+        Sequence sequence = findSequenceById(sequenceId);
+        int exerciseOrder;
+        long exerciseId;
+        List<SequenceExercise> sequenceExercisesList = sequence.getSequenceExercisesList();
+        
+        int length = sequenceExercisesList.size();
+        for(int i = 0; i < length; i++){
+            SequenceExercise se = sequenceExercisesList.get(i);
+            exerciseOrder = se.getExerciseOrder();
+            exerciseId = se.getExerciseId();
+            Exercise exercise = findExerciseById(exerciseId);
+            exercisesWithIndex.put(exerciseOrder, exercise);
+        }
+        
+        // iterar e retornar só os exercicios
+        for(Map.Entry<Integer,Exercise> entry : exercisesWithIndex.entrySet()) {
+            exercises.add(entry.getValue());
+        }
+        
+        return exercises;
+    }
+    
     @Override
     public String toString() {
-        return "Child{" + "childId=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", birthDate=" + birthDate + ", gender=" + gender + ", childLogin=" + childLogin + ", sequencesList=" + sequencesList + ", personalMessagesList=" + personalMessagesList + '}';
+        String child  = "";
+        List<Long> sequences = new ArrayList<>();
+        
+        child = "Child{" + "childId=" + id + ", firstName=" + firstName +     
+                ", lastName=" + lastName + ", birthDate=" + birthDate + 
+                ", gender=" + gender + ", childLogin=" + childLogin + 
+                ", sequencesList=" + sequencesList;
+        
+        int length = sequencesList.size();
+        for(int i = 0; i < length; i++){
+            Sequence seq = sequencesList.get(i);
+            Long sequenceId = seq.getSequenceId();
+            if(!sequences.contains(sequenceId)) sequences.add(sequenceId);
+        }
+        
+        length = sequences.size();
+        for (int i = 0; i < length; i++){
+            Long sequenceId = sequences.get(i);
+            List<Exercise> orderedExercises = getOrderedExercises(sequenceId);
+            child += ", sequenceNumber" + sequenceId + "=" + orderedExercises;
+        }
+        
+        return child + "}";
     }
 }
