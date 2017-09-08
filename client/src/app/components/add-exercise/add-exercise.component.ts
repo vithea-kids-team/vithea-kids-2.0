@@ -48,7 +48,6 @@ export class AddExerciseComponent implements OnInit {
         this.resourcesService.fetchLevels().subscribe(
           resLevels => {
               this.levels = resLevels;
-              this.loading = false;
               this.resourcesService.fetchTopics().subscribe(
                 resTopics => {
                     this.topics = resTopics;
@@ -56,7 +55,7 @@ export class AddExerciseComponent implements OnInit {
                 }
             )
           }
-      )
+        )
       }
     )
     this.loading = false;
@@ -196,6 +195,7 @@ export class AddExerciseComponent implements OnInit {
 
   registerExercise() {
     this.error = undefined;
+
     const stimulus = this.stimulusImgs.filter((stimulus) => { return stimulus.selected; });
     if (stimulus.length > 0) {
       this.newExercise.stimulus = stimulus[0].resourceId;
@@ -219,14 +219,13 @@ export class AddExerciseComponent implements OnInit {
         this.newExercise.answersImg.push(answersImg3[0].resourceId);
       }
     }
-
-    if (this.newExercise.distractor1 !== '') {
+    if (this.newExercise.distractor1 !== '' && this.newExercise.distractor1 !== undefined) {
       this.newExercise.answers.push(this.newExercise.distractor1);
     }
-    if (this.newExercise.distractor2 !== '') {
+    if (this.newExercise.distractor2 !== '' && this.newExercise.distractor2 !== undefined) {
       this.newExercise.answers.push(this.newExercise.distractor2);
     }
-    if (this.newExercise.distractor3 !== '') {
+    if (this.newExercise.distractor3 !== '' && this.newExercise.distractor3 !== undefined) {
       this.newExercise.answers.push(this.newExercise.distractor3);
     }
 

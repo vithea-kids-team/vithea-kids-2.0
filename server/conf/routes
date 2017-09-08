@@ -62,3 +62,4 @@ POST        /vithea-kids-api/uploadanimatedcharacter/:name  controllers.AdminCtr
 ### Child Application
 ###
 GET         /vithea-kids-api/getchildapp                    controllers.ChildAppCtrl.getChildApp
+GET         /vithea-kids-api/getChildSequencesApp           controllers.ChildAppCtrl.getChildSequencesApp

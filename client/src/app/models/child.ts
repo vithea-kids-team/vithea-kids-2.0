@@ -31,7 +31,7 @@ export class Child {
         reinforcementStrategy: string,
         reinforcementResource: Resource
     }
-    public sequenceExercises: {
+    public sequenceExercisesPreferences: {
         sequenceExercisesOrder: string,
         sequenceExercisesCapitalization: string
     }

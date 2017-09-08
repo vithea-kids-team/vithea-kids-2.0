@@ -1,0 +1,59 @@
+CaregiverLog:
+
+- caregiverId
+- exercisesAdded
+- exercisesEdited
+- exercisesRemoved
+- exercisesInUse (em pelo menos uma aula)
+- sequencesAdded
+- sequencesEdited
+- sequencesRemoved
+- sequencesInUse (em pelo menos uma criança)
+- topicsAdded
+- topicsRemoved
+- topicsInUse (em pelo menos uma aula)
+- levelsAdded
+- levelsRemoved
+- levelsInUse (em pelo menos uma aula)
+- multimediaStimulusQuestionsAdded
+- multimediaReinforcementAdded
+- multimediaRemoved
+
+
+ChildPreferencesLog:
+
+- childId
+- greetingMessageEdited
+- exerciseMessageEdited
+- reinforcementMessageEdited
+- animatedCharacterChanged
+- reinforcementImageChanged
+- promptingEdited
+- reinforcementEdited
+- promptingStrategyTypeEdited
+- orderEdited
+- capitalization
+- emotionsEdited
+
+
+SequenceLog:
+
+- sequenceId
+- childId
+- timestampBegin
+- timestampEnd
+- numberExercisesCorrect
+- numberExercisesSkipped
+- numberExercises
+- listExerciseLogs
+
+ExerciseLog
+
+- timestampBegin
+- timestampEnd
+- numberOfDistractorsSelected
+- numberOfWrongAttemps
+- correct
+- skipped 
+- promptingOn 
+- reinforcementOn

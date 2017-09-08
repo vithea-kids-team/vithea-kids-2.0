@@ -1,10 +1,8 @@
 package controllers;
 
-import javax.inject.Inject;
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import javax.inject.Inject;
 import models.Caregiver;
-
 import models.Login;
 import play.Logger;
 import play.data.DynamicForm;

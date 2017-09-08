@@ -1,4 +1,13 @@
 <div class="container">
+
+    <div class="row">
+        <div class="panel-default pull-right">
+            <a type="button" class="btn btn-default" (click)="goBack()">
+                <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
+            </a>
+        </div>
+    </div>
+
     <div class=row>
         <h2>{{ '_Settings_' | translate }}</h2>
     </div>
@@ -16,16 +25,16 @@
                         <label> {{ '_Topics_' | translate }} </label>
                         <div>
                             <ul class="list-group">
-                                <li class="list-group-item list-group-item__empty" *ngIf="!tempTopics || tempTopics.length === 0"><em>{{ '_NoTopics_' | translate }}</em></li>
-                                <li class="list-group-item list-group-item-content" *ngFor=" let topic of tempTopics">
-                                    <span>{{topic}}</span>
-                                    <a class="btn btn-secondary pull-right" style="padding:0" (click)="updateRemoveTopic(topic)"><i class="glyphicon glyphicon-remove"></i></a>
+                                <li class="list-group-item list-group-item__empty" *ngIf="topics || topics.length === 0"><em>{{ '_NoTopics_' | translate }}</em></li>
+                                <li class="list-group-item list-group-item-content" *ngFor=" let topic of topics">
+                                    <span>{{topic.topicDescription}}</span>
+                                    <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeTopic(topic.topicId)"><i class="glyphicon glyphicon-remove"></i></a>
                                 </li>
                             </ul>
                             <form class="input-group">
                                 <input class="form-control" maxlength="50" [(ngModel)]="newTopic" name="newTopic">
                                 <span class="input-group-btn">
-                            <a class="btn btn-primary" (click)="updateAddTopic(newTopic)"><i class="glyphicon glyphicon-plus"></i></a>
+                            <a ngif="" class="btn btn-primary" (click)="addTopic(newTopic)"><i class="glyphicon glyphicon-plus"></i></a>
                         </span>
                             </form>
                         </div>
@@ -39,30 +48,21 @@
                     <label> {{ '_Levels_' | translate }} </label>
                     <div>
                         <ul class="list-group">
-                            <li class="list-group-item list-group-item__empty" *ngIf="!tempLevels || tempLevels.length == 0"><em>{{ '_NoLevels_' | translate }}</em></li>
-                            <li class="list-group-item list-group-item-content" *ngFor=" let level of tempLevels">
-                                <span>{{level}}</span>
-                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="updateRemoveLevel(level)"><i class="glyphicon glyphicon-remove"></i></a>
+                            <li class="list-group-item list-group-item__empty" *ngIf="!levels || levels.length == 0"><em>{{ '_NoLevels_' | translate }}</em></li>
+                            <li class="list-group-item list-group-item-content" *ngFor=" let level of levels">
+                                <span>{{level.levelDescription}}</span>
+                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeLevel(level.levelId)"><i class="glyphicon glyphicon-remove"></i></a>
                             </li>
                         </ul>
                         <form class="input-group">
                             <input class="form-control" maxlength="50" [(ngModel)]="newLevel" name="newLevel">
                             <span class="input-group-btn">
-                            <a class="btn btn-primary" (click)="updateAddLevel(newLevel)"><i class="glyphicon glyphicon-plus"></i></a>
+                            <a class="btn btn-primary" (click)="addLevel(newLevel)"><i class="glyphicon glyphicon-plus"></i></a>
                         </span>
                         </form>
                     </div>
                 </div>
             </form>
         </div>
-    </div>
-
-    <div class=row>
-        <a type="button" (click)="saveChanges()" class="btn btn-success">
-            <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
-        </a>
-        <button type="button" (click)="goBack()" class="btn btn-secondary">
-            <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{ '_Cancel_' | translate }}
-        </button>
     </div>
 </div>

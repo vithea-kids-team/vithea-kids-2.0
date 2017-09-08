@@ -80,7 +80,7 @@ public class AdminChildCtrl extends Controller {
             
             child.setReinforcement(new Reinforcement());
             child.setPrompting(new Prompting());
-            child.setSequenceExercises(new SequenceExercises());
+            child.setSequenceExercisesPreferences(new SequenceExercises());
             child.setEmotions(false);
             
             child.save();
@@ -140,7 +140,7 @@ public class AdminChildCtrl extends Controller {
             child.setLastName(newUser.lastName);
             child.setGender(newUser.gender);
             child.setBirthDate(newUser.birthDate);
-
+            
             child.save();
             return ok(Json.toJson(child));
         }
@@ -220,6 +220,9 @@ public class AdminChildCtrl extends Controller {
         }
         
         Logger.debug("TESTE: " + child.toString());
+        ChildAppCtrl childAppCtrl = new ChildAppCtrl();
+        Result childApp = childAppCtrl.getChildApp();
+        Result childSequencesApp = childAppCtrl.getChildSequencesApp();
    
         return  ok(Json.toJson(child.getSequencesList()));
     }
@@ -310,7 +313,7 @@ public class AdminChildCtrl extends Controller {
         r.setReinforcementStrategy(ReinforcementStrategy.valueOf(prefs.reinforcementStrategy));
         r.save();
        
-        SequenceExercises sq = child.getSequenceExercises();
+        SequenceExercises sq = child.getSequenceExercisesPreferences();
         Logger.debug("Sequence Exercises Order:" + prefs.sequenceExercisesOrder);
         sq.setSequenceExercisesOrder(SequenceExercisesOrder.valueOf(prefs.sequenceExercisesOrder));    
         Logger.debug("Sequence Exercises Capitalization:" + prefs.sequenceExercisesCapitalization);

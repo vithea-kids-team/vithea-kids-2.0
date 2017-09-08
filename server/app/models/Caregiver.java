@@ -40,6 +40,19 @@ public class Caregiver extends Model {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "caregiver_child")
     private List<Child> childList;
+    
+    /*@OneToOne(cascade = CascadeType.ALL)
+    private List<ChildPreferencesLog> childPreferencesLog;
+
+    
+    
+    public List<ChildPreferencesLog> getChildPreferencesLog() {
+        return childPreferencesLog;
+    }
+
+    public void setChildPreferencesLog(List<ChildPreferencesLog> childPreferencesLog) {
+        this.childPreferencesLog = childPreferencesLog;
+    }*/
 
     /**
      * @return the caregiverId

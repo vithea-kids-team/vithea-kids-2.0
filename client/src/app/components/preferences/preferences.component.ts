@@ -69,8 +69,8 @@ export class PreferencesComponent implements OnInit {
         this.prefs.promptingScratch = result.prompting.promptingScratch;
         this.prefs.promptingHide = result.prompting.promptingHide;
         this.prefs.promptingRead = result.prompting.promptingRead;
-        this.prefs.sequenceExercisesOrder = result.sequenceExercises.sequenceExercisesOrder;
-        this.prefs.sequenceExercisesCapitalization = result.sequenceExercises.sequenceExercisesCapitalization;
+        this.prefs.sequenceExercisesOrder = result.sequenceExercisesPreferences.sequenceExercisesOrder;
+        this.prefs.sequenceExercisesCapitalization = result.sequenceExercisesPreferences.sequenceExercisesCapitalization;
         this.prefs.reinforcementStrategy = result.reinforcement.reinforcementStrategy;
         const reinf = result.reinforcement.reinforcementResource;
 

@@ -63,7 +63,7 @@ public class Child extends Model {
     private Prompting prompting;
     
     @OneToOne(cascade = CascadeType.ALL)
-    private SequenceExercises sequenceExercises;
+    private SequenceExercises sequenceExercisesPreferences;
     
     private Boolean emotions;
 
@@ -104,8 +104,8 @@ public class Child extends Model {
     public Boolean getEmotions() {
         return emotions;
     }
-    public SequenceExercises getSequenceExercises() {
-        return sequenceExercises;
+    public SequenceExercises getSequenceExercisesPreferences() {
+        return sequenceExercisesPreferences;
     }
 
     public void setAnimatedCharacter(AnimatedCharacter animatedCharacter) {
@@ -146,8 +146,8 @@ public class Child extends Model {
     public void setEmotions(Boolean emotions) {
         this.emotions = emotions;
     }
-    public void setSequenceExercises(SequenceExercises sequenceExercises){
-        this.sequenceExercises = sequenceExercises;
+    public void setSequenceExercisesPreferences(SequenceExercises sequenceExercisesPreferences){
+        this.sequenceExercisesPreferences = sequenceExercisesPreferences;
     }
     
     public static final Finder<Long, Child> find = new Finder<>(Child.class);
@@ -187,27 +187,40 @@ public class Child extends Model {
     @Override
     public String toString() {
         String child  = "";
-        List<Long> sequences = new ArrayList<>();
-        
-        child = "Child{" + "childId=" + id + ", firstName=" + firstName +     
+        List<Long> sequencesIds = new ArrayList<>();
+        TreeMap<Long,String> sequenceIdName =  new TreeMap<>();
+           
+        /*child = "Child{" + "childId=" + id + ", firstName=" + firstName +     
                 ", lastName=" + lastName + ", birthDate=" + birthDate + 
                 ", gender=" + gender + ", childLogin=" + childLogin + 
                 ", sequencesList=" + sequencesList;
+        
+        child = child.*/
         
         int length = sequencesList.size();
         for(int i = 0; i < length; i++){
             Sequence seq = sequencesList.get(i);
             Long sequenceId = seq.getSequenceId();
-            if(!sequences.contains(sequenceId)) sequences.add(sequenceId);
+            String sequenceName = seq.getSequenceName();
+            if(!sequencesIds.contains(sequenceId)) {
+                sequencesIds.add(sequenceId);
+                sequenceIdName.put(sequenceId, sequenceName);
+            }
+            
         }
         
-        length = sequences.size();
+        TreeMap<Long,List<Exercise>> sequenceWithorderedExercices = new TreeMap<>();
+        length = sequencesIds.size();
         for (int i = 0; i < length; i++){
-            Long sequenceId = sequences.get(i);
+            Long sequenceId = sequencesIds.get(i);
             List<Exercise> orderedExercises = getOrderedExercises(sequenceId);
-            child += ", sequenceNumber" + sequenceId + "=" + orderedExercises;
+            sequenceWithorderedExercices.put(sequenceId, orderedExercises);
         }
         
-        return child + "}";
+        child = ", sequenceIdName=" + sequenceIdName + 
+                ", sequenceWithorderedExercices=" + sequenceWithorderedExercices;
+        
+        
+        return child;
     }
 }

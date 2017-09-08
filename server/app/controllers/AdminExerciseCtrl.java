@@ -398,14 +398,16 @@ public class AdminExerciseCtrl extends Controller {
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
                     
                     //Thumbnails.of(new File("original.jpg"))
-        //.size(160, 160)
-        //.toFile(new File("thumbnail.jpg"));
+                    //.size(160, 160)
+                    //.toFile(new File("thumbnail.jpg"));
                     
                     
                     
                     String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
-                    String path = "../client/src/vithea-kids/assets/images/" + type + "/";
-                    String folderPath = "images/" + type + "/" + fileName2;
+                    String path = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" + File.separator + "assets" + File.separator + "images" + File.separator;
+                    //String path = "public" + File.separator + "images" + File.separator + type + File.separator; 
+                    
+                    String folderPath = "images" + File.separator + type + File.separator + fileName2;
                     
                     boolean uploaded = false;
                     try {
