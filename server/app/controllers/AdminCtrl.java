@@ -31,13 +31,16 @@ public class AdminCtrl extends Controller {
                 FilePart<File> resource = i.next();
                 if (resource != null) {
                     String fileName = resource.getFilename();
-                    
+                    String type = "animatedcharacter";
                     File file = resource.getFile();
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     
                     String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
-                    String path = "../client/src/vithea-kids/assets/images/animatedcharacter/";
-                    String folderPath = "images/animatedcharacter/" + fileName2;
+                    
+                    String path = "public" + File.separator + "images" + File.separator + type + File.separator; 
+                    //String path = "../client/src/vithea-kids/assets/images/animatedcharacter/";
+                    String folderPath = "images" + File.separator + type + File.separator + fileName2;
+                   //String folderPath = "images/animatedcharacter/" + fileName2;
 
                     boolean uploaded = false;
                     try {
