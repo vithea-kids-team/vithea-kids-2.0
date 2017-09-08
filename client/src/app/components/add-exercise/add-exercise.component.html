@@ -21,7 +21,7 @@
             <div *ngIf="topics" class="form-group">
                 <label for="topic"> {{ '_Topic_' | translate }} <span class="text-danger"> * </span></label>
                 <form class="input-group">
-                    <select class="form-control" id="topic" [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel" required>
+                    <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel">
                         <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
                     </select>
                     <span class="input-group-btn">
@@ -36,7 +36,7 @@
             <div *ngIf="levels" class="form-group">
                 <label for="level"> {{ '_Level_' | translate }} <span class="text-danger"> * </span></label>
                 <form class="input-group">
-                    <select class="form-control" id="level" [(ngModel)]="newExercise.level" name="level" #level="ngModel" required>
+                    <select class="form-control" id="level" required [(ngModel)]="newExercise.level" name="level" #level="ngModel">
                         <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
                     </select>
                     <span class="input-group-btn">

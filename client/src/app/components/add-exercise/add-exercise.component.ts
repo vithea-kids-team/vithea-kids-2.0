@@ -67,6 +67,14 @@ export class AddExerciseComponent implements OnInit {
       this.newExercise.question = this.exercisesService.exerciseQuestion;
       this.newExercise.topic = this.exercisesService.exerciseTopic;
       this.newExercise.level = this.exercisesService.exerciseLevel;
+
+      /*if (!(this.exercisesService.exerciseTopic === '' || this.exercisesService.exerciseTopic === undefined)) {
+        this.newExercise.topic = this.exercisesService.exerciseTopic;
+      }
+      if (!(this.exercisesService.exerciseLevel === '' || this.exercisesService.exerciseLevel === undefined)) {
+        this.newExercise.level = this.exercisesService.exerciseLevel;
+      }*/
+
       this.newExercise.question = this.exercisesService.exerciseQuestion;
 
       if (this.exercisesService.exerciseType === 'text') {

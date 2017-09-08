@@ -17,8 +17,8 @@ public class ChildAppCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "User does not exist"));
         }
         Logger.debug("User exists.");
-        //Child loggedChild = Child.findByUsername(user.getUsername());
-        Child loggedChild = Child.findByUsername("minisoraia");
+        Child loggedChild = Child.findByUsername(user.getUsername());
+        //Child loggedChild = Child.findByUsername("minisoraia");
 
         if (loggedChild == null) {
             return badRequest(buildJsonResponse("error", "Child does not exist."));
@@ -38,8 +38,8 @@ public class ChildAppCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "User does not exist"));
         }
         Logger.debug("User exists.");
-        //Child loggedChild = Child.findByUsername(user.getUsername());
-        Child loggedChild = Child.findByUsername("minisoraia");
+        Child loggedChild = Child.findByUsername(user.getUsername());
+        //Child loggedChild = Child.findByUsername("minisoraia");
 
         if (loggedChild == null) {
             return badRequest(buildJsonResponse("error", "Child does not exist."));

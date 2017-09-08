@@ -405,7 +405,7 @@ public class AdminExerciseCtrl extends Controller {
                     
                     String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
                     //String path = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" + File.separator + "assets" + File.separator + "images" + File.separator;
-                    String path = "public" + File.separator + "images" + File.separator + type + File.separator; 
+                    String path = File.separator + "public" + File.separator + "images" + File.separator + type + File.separator; 
                     
                     String folderPath = "images" + File.separator + type + File.separator + fileName2;
                     
@@ -414,7 +414,7 @@ public class AdminExerciseCtrl extends Controller {
                         FileUtils.moveFile(file, new File(path, fileName2));
                         uploaded = true;
                     } catch (IOException ioe) {
-                        System.out.println("Problem operating on filesystem");
+                        System.out.println("Problem operating on filesystem" + ioe);
                         uploaded = false;
                     }
                     
