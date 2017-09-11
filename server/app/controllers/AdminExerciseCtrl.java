@@ -387,7 +387,6 @@ public class AdminExerciseCtrl extends Controller {
         List<FilePart<File>> resources = body.getFiles();
 
         String path = ConfigFactory.load().getString("pathUploadResources") + type + "/";
-        
         Logger.debug(path);
         
         try {
