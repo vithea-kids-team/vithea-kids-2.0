@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.typesafe.config.ConfigFactory;
 import java.io.File;
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
@@ -30,10 +31,9 @@ import play.mvc.Http.MultipartFormData.FilePart;
 
 @Security.Authenticated(Secured.class)
 public class AdminExerciseCtrl extends Controller {
-
+    
     @Inject
     FormFactory formFactory;
-
     public Result registerExercise() {
         DynamicForm registerExerciseForm = formFactory.form().bindFromRequest();
 
@@ -386,6 +386,10 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug("body -> " + body);
         List<FilePart<File>> resources = body.getFiles();
 
+        String path = ConfigFactory.load().getString("pathUploadResources") + type + "/";
+        
+        Logger.debug(path);
+        
         try {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
                 FilePart<File> resource = i.next();
@@ -397,15 +401,8 @@ public class AdminExerciseCtrl extends Controller {
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
                     
-                    //Thumbnails.of(new File("original.jpg"))
-                    //.size(160, 160)
-                    //.toFile(new File("thumbnail.jpg"));
-                    
-                    
-                    
                     String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
-                    //String path = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" + File.separator + "assets" + File.separator + "images" + File.separator;
-                    String path = File.separator + "public" + File.separator + "images" + File.separator + type + File.separator; 
+                    //path = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" + File.separator + "assets" + File.separator + "images" + File.separator;
                     
                     String folderPath = "images" + File.separator + type + File.separator + fileName2;
                     
@@ -414,7 +411,7 @@ public class AdminExerciseCtrl extends Controller {
                         FileUtils.moveFile(file, new File(path, fileName2));
                         uploaded = true;
                     } catch (IOException ioe) {
-                        System.out.println("Problem operating on filesystem" + ioe);
+                        System.out.println("Problem operating on filesystem" + ioe.getMessage());
                         uploaded = false;
                     }
                     
