@@ -116,10 +116,11 @@ public class AdminChildCtrl extends Controller {
      * @param childId
      * @return
      */
-    public Result editchild(Long childId) {
+    public Result editChild(Long childId) {
         Form<EditChild> editChildForm = formFactory.form(EditChild.class).bindFromRequest();
 
         Logger.debug("DEBUG:" + editChildForm);
+        //getChildSequences(childId);
 
         EditChild newUser = editChildForm.get();
         Logger.debug("DEBUG:" + newUser.username + " " + newUser.firstName + " " + newUser.lastName + " " + newUser.gender + " " + newUser.birthDate);
@@ -224,7 +225,7 @@ public class AdminChildCtrl extends Controller {
         Result childApp = childAppCtrl.getChildApp();
         Result childSequencesApp = childAppCtrl.getChildSequencesApp();
    
-        return  ok(Json.toJson(child.getSequencesList()));
+        return ok(Json.toJson(child.getSequencesList()));
     }
     
     

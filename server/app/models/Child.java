@@ -213,9 +213,8 @@ public class Child extends Model {
                 sequencesIds.add(sequenceId);
                 sequenceIdName.put(sequenceId, sequenceName);
             }
-            
         }
-        
+    
         TreeMap<String,List<Exercise>> sequenceWithorderedExercices = new TreeMap<>();
         length = sequencesIds.size();
         for (int i = 0; i < length; i++){
@@ -225,7 +224,7 @@ public class Child extends Model {
             sequenceWithorderedExercices.put(nameSeq, orderedExercises);
         }
         
-        
+
         /*
         child = ", sequenceIdName=" + sequenceIdName + 
                 ", sequenceWithorderedExercices=" + sequenceWithorderedExercices;*/

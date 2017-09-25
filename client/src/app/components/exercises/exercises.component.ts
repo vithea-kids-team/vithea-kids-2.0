@@ -89,10 +89,12 @@ export class ExercisesComponent implements OnInit, OnChanges {
             let exercises = [];
             sequenceExercisesOrder.forEach(exor => {
               let exercise = this.findExerciseById(exor.sequenceExerciseId.exercise_id);
+
               if (exercise !== null) {
                 exercises.push(exercise);
               }
             });
+            this.exercises = exercises;
             this.setPage(1);
             this.loading = false;
           },
