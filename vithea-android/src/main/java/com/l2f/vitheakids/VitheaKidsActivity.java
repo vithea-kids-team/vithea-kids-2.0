@@ -347,7 +347,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 SequenceExercises seq = child.getSequencesList().get(position);
                 currentSequenceId = seq.getSequenceId();
 
-                if(child.getSequenceExercisesPreferences().getSequenceExercisesOrder().equals("Random")){
+                if(child.getSequenceExercisesPreferences().getSequenceExercisesOrder().equals("RANDOM")){
+                    Log.d("shuffleEnable", "true");
                     Collections.shuffle(seq.getSequenceExercises());
                 }
                 exercises = seq.getSequenceExercises();
@@ -456,19 +457,23 @@ public class VitheaKidsActivity extends AppCompatActivity {
             Collections.shuffle(answers);
 
             // FIXME Verify if will be possible to have more than 4 answers
-            if(numberAnswers > 4) numberAnswers = 4;
+            if (numberAnswers > 4) numberAnswers = 4;
 
-            for (int i = 0; i < numberAnswers; i++){
+            for (int i = 0; i < numberAnswers; i++) {
                 Button btn = (Button) findViewById(idButtons.get(i));
                 Answer answer = answers.get(i);
-                if(!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("Default"))
+                Log.d("answer", answer.getAnswerDescription());
+                if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
+                    Log.d("upperCase", " not cool");
                     btn.setText(answer.getAnswerDescription().toUpperCase());
-                else{
+                } else {
+                    Log.d("!upperCase", "cool");
                     btn.setText(answer.getAnswerDescription());
                 }
                 btn.setVisibility(View.VISIBLE);
+                Log.d("buttonAnswer", btn.getText().toString());
 
-                if (answer.getAnswerId() == exercise.getRightAnswer().getAnswerId()){ //right answer
+                if (answer.getAnswerId() == exercise.getRightAnswer().getAnswerId()) { //right answer
                     btn.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             rightAnswerHandler(v, child);
@@ -485,44 +490,45 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 }
                 buttonList.add(btn);
             }
-            for (int i = 0; i < numberAnswers; i++){
+            for (int i = 0; i < numberAnswers; i++) {
                 currentAnswers = new ArrayList<>();
                 currentAnswers.add(buttonList.get(i).getText().toString().toUpperCase());
+
             }
         }
+            // Prompting
+            // TODO REVIEW
+            if (promptingActive && child.getPrompting() != null) {
+                if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
+                    if (child.getPrompting().getPromptingColor()) {
 
-        // Prompting
-        // TODO REVIEW
-        if (promptingActive && child.getPrompting() != null ) {
-            if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
-                if (child.getPrompting().getPromptingColor()) {
-
-                    rightAnswerButton.setBackgroundDrawable(makeSelector(Color.parseColor("#66a3ff")));
-                }
-                if(child.getPrompting().getPromptingSize()) {
-                    rightAnswerButton.setTextSize(20);
-                }
-                if (child.getPrompting().getPromptingScratch()) {
-                    for (View v: buttonList) {
-                        if (v != rightAnswerButton){
-                            ((TextView)v).setPaintFlags(((TextView)v).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                ((Button)v).setTextColor(getColor(R.color.debug_red));
-                            } else {
-                                ((Button)v).setTextColor(getResources().getColor(R.color.debug_red));
+                        rightAnswerButton.setBackgroundDrawable(makeSelector(Color.parseColor("#66a3ff")));
+                    }
+                    if (child.getPrompting().getPromptingSize()) {
+                        rightAnswerButton.setTextSize(20);
+                    }
+                    if (child.getPrompting().getPromptingScratch()) {
+                        for (View v : buttonList) {
+                            if (v != rightAnswerButton) {
+                                ((TextView) v).setPaintFlags(((TextView) v).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    ((Button) v).setTextColor(getColor(R.color.debug_red));
+                                } else {
+                                    ((Button) v).setTextColor(getResources().getColor(R.color.debug_red));
+                                }
                             }
                         }
                     }
-                }
-                if(child.getPrompting().getPromptingRead()){
-                    for (int i = 0; i < numberAnswers; i++){
-                         new ReadTask().execute(answers.get(i).getAnswerDescription());
+                    if (child.getPrompting().getPromptingRead()) {
+                        for (int i = 0; i < numberAnswers; i++) {
+                            new ReadTask().execute(answers.get(i).getAnswerDescription());
+                        }
                     }
                 }
             }
+
         }
-    }
-    /***
+    /***}
      * Multiple images
      * @param exercise
      * @param container
