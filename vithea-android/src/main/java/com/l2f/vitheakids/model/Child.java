@@ -15,13 +15,16 @@ public class Child {
 	@JsonProperty private String lastName;
     @JsonProperty private String username;
     @JsonProperty private Boolean enabled;
-	@JsonProperty private List<SequenceExercises> sequencesList; // sequences or exercises in the sequence?
+    private List<SequenceExercises> sequencesList; // sequences or exercises in the sequence?
 	@JsonProperty private List<PersonalMessage> personalMessagesList;
 	@JsonProperty private Long childId;
 	@JsonProperty private AnimatedCharacter animatedCharacter;
 	@JsonProperty private Prompting prompting;
 	@JsonProperty private Reinforcement reinforcement;
+	@JsonProperty private SequenceExercisesPreferences sequenceExercisesPreferences;
 	@JsonProperty private Boolean emotions;
+
+
 
 	public String getFirstName() {
 		return firstName;
@@ -53,6 +56,9 @@ public class Child {
 	}
 	public Boolean getEmotions() {
 		return emotions;
+	}
+	public SequenceExercisesPreferences getSequenceExercisesPreferences() {
+		return sequenceExercisesPreferences;
 	}
 
 	public void setFirstName(String firstName) {

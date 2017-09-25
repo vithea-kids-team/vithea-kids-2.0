@@ -346,6 +346,10 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 Log.d(TAG, position + " " + id);
                 SequenceExercises seq = child.getSequencesList().get(position);
                 currentSequenceId = seq.getSequenceId();
+
+                if(child.getSequenceExercisesPreferences().getSequenceExercisesOrder().equals("Random")){
+                    Collections.shuffle(seq.getSequenceExercises());
+                }
                 exercises = seq.getSequenceExercises();
                 currentExercisePosition = 0;
                 inExercise = true;          // Start exercises
@@ -457,7 +461,11 @@ public class VitheaKidsActivity extends AppCompatActivity {
             for (int i = 0; i < numberAnswers; i++){
                 Button btn = (Button) findViewById(idButtons.get(i));
                 Answer answer = answers.get(i);
-                btn.setText(answer.getAnswerDescription().toUpperCase());
+                if(!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("Default"))
+                    btn.setText(answer.getAnswerDescription().toUpperCase());
+                else{
+                    btn.setText(answer.getAnswerDescription());
+                }
                 btn.setVisibility(View.VISIBLE);
 
                 if (answer.getAnswerId() == exercise.getRightAnswer().getAnswerId()){ //right answer
@@ -505,12 +513,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
                             }
                         }
                     }
-                } // FIXME: 05/09/2017 update this when the server is ready
-                /*if(child.getUtterAnswers){
+                }
+                if(child.getPrompting().getPromptingRead()){
                     for (int i = 0; i < numberAnswers; i++){
                          new ReadTask().execute(answers.get(i).getAnswerDescription());
                     }
-                }*/
+                }
             }
         }
     }
@@ -663,6 +671,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
         TextView endText = (TextView) findViewById(R.id.endExerciseTextView);
 
         Boolean isLastExercise = currentExercisePosition == exercises.size() - 1;
+        Log.d("POSICAO DO EXERCICIO",Integer.toString(currentExercisePosition) );
+
         if (isLastExercise && next != null) {
             next.setVisibility(View.INVISIBLE);
             nextText.setVisibility(View.INVISIBLE);
@@ -674,6 +684,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 }
             });
         } else {
+            Log.d("PROXIMO",Integer.toString(currentExercisePosition) );
+            next.setVisibility(View.VISIBLE);
             end.setVisibility(View.INVISIBLE);
             endText.setVisibility(View.INVISIBLE);
             next.setOnClickListener(new View.OnClickListener() {

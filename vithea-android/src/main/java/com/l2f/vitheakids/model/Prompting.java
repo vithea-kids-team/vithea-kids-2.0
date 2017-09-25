@@ -15,6 +15,7 @@ public class Prompting {
     @JsonProperty private Boolean promptingSize;
     @JsonProperty private Boolean promptingScratch;
     @JsonProperty private Boolean promptingHide;
+    @JsonProperty private Boolean promptingRead;
 
     public String getPromptingStrategy() {
         return promptingStrategy;
@@ -31,11 +32,18 @@ public class Prompting {
     public Boolean getPromptingHide() {
         return promptingHide;
     }
+    public Boolean getPromptingRead() {
+        return promptingRead;
+    }
 
     public void setPromptingStrategy(String promptingStrategy) { this.promptingStrategy = promptingStrategy; }
     public void setPromptingColor(Boolean promptingColor) {this.promptingColor = promptingColor; }
     public void setPromptingSize(Boolean promptingSize) {this.promptingSize = promptingSize; }
     public void setPromptingScratch(Boolean promptingScratch) {this.promptingScratch = promptingScratch; }
     public void setPromptingHide(Boolean promptingHide) {this.promptingHide = promptingHide; }
+    public void setPromptingRead(Boolean promptingRead) {
+        this.promptingRead = promptingRead;
+    }
+
 
 }

@@ -3,6 +3,10 @@ package models;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.gson.Gson;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
@@ -25,6 +29,9 @@ import javax.persistence.OneToOne;
 import static models.Exercise.findExerciseById;
 import static models.Sequence.findSequenceById;
 import play.Logger;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.logging.Level;
+import play.libs.Json;
 
 @Entity
 public class Child extends Model {
@@ -184,8 +191,8 @@ public class Child extends Model {
         return exercises;
     }
     
-    @Override
-    public String toString() {
+    
+    public Object toString1() {
         String child  = "";
         List<Long> sequencesIds = new ArrayList<>();
         TreeMap<Long,String> sequenceIdName =  new TreeMap<>();
@@ -209,18 +216,20 @@ public class Child extends Model {
             
         }
         
-        TreeMap<Long,List<Exercise>> sequenceWithorderedExercices = new TreeMap<>();
+        TreeMap<String,List<Exercise>> sequenceWithorderedExercices = new TreeMap<>();
         length = sequencesIds.size();
         for (int i = 0; i < length; i++){
             Long sequenceId = sequencesIds.get(i);
+            String nameSeq = sequenceIdName.get(sequenceId);
             List<Exercise> orderedExercises = getOrderedExercises(sequenceId);
-            sequenceWithorderedExercices.put(sequenceId, orderedExercises);
+            sequenceWithorderedExercices.put(nameSeq, orderedExercises);
         }
         
+        
+        /*
         child = ", sequenceIdName=" + sequenceIdName + 
-                ", sequenceWithorderedExercices=" + sequenceWithorderedExercices;
-        
-        
-        return child;
+                ", sequenceWithorderedExercices=" + sequenceWithorderedExercices;*/
+        System.out.println(sequenceWithorderedExercices.toString());
+        return sequenceWithorderedExercices;
     }
 }

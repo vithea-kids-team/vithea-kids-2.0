@@ -12,9 +12,16 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SequenceExercises {
 
-    @JsonProperty private Long sequenceId;
-    @JsonProperty private String sequenceName;
-    @JsonProperty private List<Exercise> sequenceExercises;
+     private Long sequenceId;
+     private String sequenceName;
+     private List<Exercise> sequenceExercises;
+
+
+    public SequenceExercises(Long id, String sequenceName, List<Exercise> sequenceExercises){
+        this.sequenceId = id;
+        this.sequenceName = sequenceName;
+        this.sequenceExercises=sequenceExercises;
+    }
 
     public Long getSequenceId() {
         return sequenceId;
