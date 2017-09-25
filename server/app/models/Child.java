@@ -206,7 +206,6 @@ public class Child extends Model {
                 sequencesIds.add(sequenceId);
                 sequenceIdName.put(sequenceId, sequenceName);
             }
-            
         }
         
         TreeMap<Long,List<Exercise>> sequenceWithorderedExercices = new TreeMap<>();
@@ -220,6 +219,7 @@ public class Child extends Model {
         child = ", sequenceIdName=" + sequenceIdName + 
                 ", sequenceWithorderedExercices=" + sequenceWithorderedExercices;
         
+        Logger.debug(child);
         
         return child;
     }
