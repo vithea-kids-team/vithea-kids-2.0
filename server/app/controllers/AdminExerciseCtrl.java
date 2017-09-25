@@ -386,8 +386,10 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug("body -> " + body);
         List<FilePart<File>> resources = body.getFiles();
 
-        String path = ConfigFactory.load().getString("pathUploadResources") + type + "/";
+        String path = ConfigFactory.load().getString("pathUploadResources") + type + File.separator;
         Logger.debug(path);
+        
+        Boolean DEBUG = true;
         
         try {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
@@ -401,7 +403,9 @@ public class AdminExerciseCtrl extends Controller {
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
                     
                     String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
-                    //path = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" + File.separator + "assets" + File.separator + "images" + File.separator;
+                    
+                    if (DEBUG) path = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" + 
+                            File.separator + "assets" + File.separator + "images" + File.separator + type;
                     
                     String folderPath = "images" + File.separator + type + File.separator + fileName2;
                     
