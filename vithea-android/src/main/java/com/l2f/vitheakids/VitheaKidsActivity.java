@@ -191,11 +191,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
         int glesMode = mUnityPlayer.getSettings().getInt("gles_mode", 1);
         boolean trueColor8888 = false;
         mUnityPlayer.init(glesMode, trueColor8888);
-
-
-
-
-
     }
     private void setupActionBar(String title) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -440,13 +435,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
             ImageView img = (ImageView) findViewById(R.id.stimulusImage);
             new LoadImageTask(this, img).execute(path);
         }
-      else{
+      else {
             ImageView img = (ImageView) findViewById(R.id.stimulusImage);
             img.setVisibility(View.GONE);
         }
 
         // Exercise Options
-        // TODO Deal with exercises with more than 4 answers
         // Init Buttons given the number of options
         List<Answer> answers = exercise.getAnswers();
         List<Integer> idButtons = new ArrayList<>(Arrays.asList(R.id.button1, R.id.button2, R.id.button3, R.id.button4));
@@ -456,7 +450,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
         if (!answers.isEmpty()) {
             Collections.shuffle(answers);
 
-            // FIXME Verify if will be possible to have more than 4 answers
             if (numberAnswers > 4) numberAnswers = 4;
 
             for (int i = 0; i < numberAnswers; i++) {
@@ -490,10 +483,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 }
                 buttonList.add(btn);
             }
+            currentAnswers = new ArrayList<>();
             for (int i = 0; i < numberAnswers; i++) {
-                currentAnswers = new ArrayList<>();
                 currentAnswers.add(buttonList.get(i).getText().toString().toUpperCase());
-
             }
         }
             // Prompting
@@ -501,7 +493,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
             if (promptingActive && child.getPrompting() != null) {
                 if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                     if (child.getPrompting().getPromptingColor()) {
-
                         rightAnswerButton.setBackgroundDrawable(makeSelector(Color.parseColor("#66a3ff")));
                     }
                     if (child.getPrompting().getPromptingSize()) {
@@ -520,8 +511,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
                         }
                     }
                     if (child.getPrompting().getPromptingRead()) {
-                        for (int i = 0; i < numberAnswers; i++) {
-                            new ReadTask().execute(answers.get(i).getAnswerDescription());
+                        for(int i = 0; i < currentAnswers.size(); i++){
+                            new ReadTask().execute(currentAnswers.get(i));
                         }
                     }
                 }
@@ -718,12 +709,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
         }
     }
 
-// **** Region Handlers - what happens when you do some actions ************************************
+//**** Region Handlers - what happens when you do some actions ************************************
 
     protected void rightAnswerHandler(View v, Child child) {
         inExercise = false;
         playMessage(child, "EXERCISE_REINFORCEMENT"); // TODO Only reinforcement?
         if(reinforcementActive) playReinforcement(child);
+        else nextExerciseHandler();
         attempts = 0;
     }
     private void playReinforcement(Child child) { // TODO child.getReinforcement() - efficiency
@@ -772,14 +764,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
         if (promptingActive && child.getPrompting() != null ) {
             Exercise exercise = exercises.get(currentExercisePosition);
             Boolean isTextExercise = exercise.getType().equals("TEXT");
-            if (child.getPrompting().getPromptingStrategy().equals("IF_NEEDED")) {
+            if (child.getPrompting().getPromptingStrategy().equals("IF_NEEDED") || child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                 if (child.getPrompting().getPromptingHide()) {
                     v.setVisibility(View.INVISIBLE);
-                } else {
-                    if (child.getPrompting().getPromptingColor() && isTextExercise) {
-                        rightAnswerButton.setBackgroundColor(Color.BLUE);
-                    }
-
+                    currentAnswers.remove(((Button) v).getText().toString().toUpperCase());
+                }
+                else {
                     if (child.getPrompting().getPromptingScratch() && isTextExercise) {
                         ((TextView)v).setPaintFlags(((TextView)v).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -788,25 +778,26 @@ public class VitheaKidsActivity extends AppCompatActivity {
                             ((Button)v).setTextColor(getResources().getColor(R.color.debug_red));
                         }
                     }
-
-                    if(child.getPrompting().getPromptingSize() && isTextExercise) {
-                        rightAnswerButton.setTextSize(20);
+                }
+                if (child.getPrompting().getPromptingColor() && isTextExercise) {
+                    rightAnswerButton.setBackgroundColor(Color.BLUE);
+                }
+                if(child.getPrompting().getPromptingSize() && isTextExercise) {
+                    rightAnswerButton.setTextSize(20);
+                }
+                if(child.getPrompting().getPromptingRead() && isTextExercise){
+                    for(int i = 0; i < currentAnswers.size(); i++){
+                        String answer = currentAnswers.get(i);
+                        Log.d("currentAnswers", answer);
+                        new ReadTask().execute(answer);
                     }
                 }
-            } else if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
-                if (child.getPrompting().getPromptingHide()) {
-                    v.setVisibility(View.INVISIBLE);
-                }
             }
-
-                    // Read answers
-//                    for (String cd : currentAnswers) {
-//                        new ReadTask().execute(cd);
-//                        lastInstruction = cd;
-//                    }
         }
 
-        new ReadTask().execute("Tenta outra vez."); // TODO Manter ou não ? Devia estar em string?
+        //if(!child.getPrompting().getPromptingRead() && isTextExercise){
+        //    new ReadTask().execute("Tenta outra vez."); // TODO Manter ou não ? Devia estar em string?
+        //}
     }
     private void previousExerciseHandler() {
         this.currentExercisePosition--;

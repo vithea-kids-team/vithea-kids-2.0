@@ -12,12 +12,12 @@ public class ReadTask extends AsyncTask<String, Void, Void> {
 
 		if (params.length > 1 && !params[0].isEmpty() && !params[1].isEmpty()) {
 			UnityPlayer.UnitySendMessage("GameManager", "SayThisWithEmotion", params[0] + ";" + params[1] +";1");
-
-			//UnityPlayer.UnitySendMessage("GameManager", "SayThisWithEmotion", params[0] + ";" + params[1] +";1");
-            // joy; amazed; sad ?
 		} else if (!params[0].isEmpty()) {
             UnityPlayer.UnitySendMessage("GameManager", "SayThis", params[0]);
 		}
+
+		// 1 second + 600 ms for each 5 characters
+		slowDown(1000 + (700*(params[0].length()/5)));
 		
 		return null;
 	}

@@ -389,29 +389,41 @@ public class AdminExerciseCtrl extends Controller {
         String path = ConfigFactory.load().getString("pathUploadResources") + type + File.separator;
         Logger.debug(path);
         
-        Boolean DEBUG = true;
+        Boolean DEVELOPMENT = true;
         
         try {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
                 FilePart<File> resource = i.next();
                 
                  if (resource != null) {
+                     
+                    File file = resource.getFile();
+                     
                     String fileName = resource.getFilename();
                     
-                    File file = resource.getFile();
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
                     
-                    String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
-                    
-                    if (DEBUG) path = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" + 
-                            File.separator + "assets" + File.separator + "images" + File.separator + type;
-                    
+                    String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName); 
                     String folderPath = "images" + File.separator + type + File.separator + fileName2;
                     
                     boolean uploaded = false;
+                    
                     try {
-                        FileUtils.moveFile(file, new File(path, fileName2));
+                        if (DEVELOPMENT) {
+                            String pathClient = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" +                             
+                                    File.separator + "assets" + File.separator + "images" + File.separator + type;          // path to the client
+                            File fileDestinationClient = new File(pathClient, fileName2);
+                            FileUtils.copyFile(file, fileDestinationClient);
+                            
+                            String pathServer = "public" + File.separator + "images" + File.separator + type;                // path to the server                   
+                            File fileDestinationServer = new File(pathServer, fileName2);
+                            FileUtils.copyFile(file, fileDestinationServer);
+                            
+                        }
+                        else {
+                            FileUtils.moveFile(file, new File(path, fileName2));
+                        }
                         uploaded = true;
                     } catch (IOException ioe) {
                         System.out.println("Problem operating on filesystem" + ioe.getMessage());

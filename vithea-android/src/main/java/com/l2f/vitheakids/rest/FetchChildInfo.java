@@ -80,9 +80,6 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
 
             allExercises.setSequencesList(sequencesList);
 
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
