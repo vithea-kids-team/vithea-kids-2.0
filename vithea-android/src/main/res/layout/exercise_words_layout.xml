@@ -58,6 +58,7 @@
                 android:visibility="invisible"
 				android:onClick="onClick"
                 android:background="@drawable/multiplechoice"
+				android:textAllCaps="false"
 				/>
             <!--Segunda escolha multipla-->
             <Button
@@ -74,7 +75,10 @@
                 android:textColor="@color/exercise_button_text_color"
                 android:textSize="14sp"
                 android:textStyle="bold"
-				android:visibility="invisible" />
+				android:visibility="invisible"
+				android:textAllCaps="false"
+				/>
+
         </TableRow>
 
         <TableRow
@@ -100,6 +104,8 @@
                 android:textStyle="bold"
                 android:visibility="invisible"
 				android:onClick="onClick"
+				android:textAllCaps="false"
+
 				/>
 
             <!--Quarta escolha multipla-->
@@ -119,6 +125,8 @@
                 android:textStyle="bold"
                 android:visibility="invisible"
 				android:onClick="onClick"
+				android:textAllCaps="false"
+
 				/>
         </TableRow>
     </TableLayout>
