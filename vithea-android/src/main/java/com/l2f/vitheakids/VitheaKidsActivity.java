@@ -740,6 +740,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 if(attempts == 0) {
                     setReinforcementView();
                 }
+                else nextExerciseHandler();
                 break;
             case "OFF": // TODO OFF Reinforcement
             default:
@@ -805,12 +806,11 @@ public class VitheaKidsActivity extends AppCompatActivity {
                         new ReadTask().execute(answer);
                     }
                 }
+                else {
+                    new ReadTask().execute("Tenta outra vez.");
+                }
             }
         }
-
-        //if(!child.getPrompting().getPromptingRead() && isTextExercise){
-        //    new ReadTask().execute("Tenta outra vez."); // TODO Manter ou não ? Devia estar em string?
-        //}
     }
     private void previousExerciseHandler() {
         this.currentExercisePosition--;

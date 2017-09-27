@@ -52,7 +52,7 @@ export class SettingsComponent implements OnInit {
                 resLevels => {
                   this.levels = resLevels;
                   this.tempTopics();
-                  this.tempTopics();
+                  this.tempLevels();
                 }
               )
             }

@@ -17,10 +17,10 @@ congratsExMsg   255
 congratsFinalMsg 255                        
 
 Exercícios:
-questão: 255
-estímulo textual: 255
-resposta certa textual: 255
-distractor textual: 255
+questão: 100
+estímulo textual: 75
+resposta certa textual: 75
+distractor textual: 75
 
 Aula
 nome: 50
