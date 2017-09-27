@@ -1,5 +1,6 @@
 package com.l2f.vitheakids.task;
 
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import android.app.Activity;
@@ -34,7 +35,8 @@ public class LoadImageTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 		
 		Log.d("LoadImageTask", params[0]);
-		imgLoad = LoadImageFromWeb(params[0]);
+		String url = params[0].replace("\\","/");
+		imgLoad = LoadImageFromWeb(url);
 		return null;
 	}
 	
@@ -48,8 +50,10 @@ public class LoadImageTask extends AsyncTask<String, Void, Void> {
 	
 	public static Bitmap LoadImageFromWeb(String urlString) {
 	    try {
+            Log.d("imageURL", urlString);
 			URL url = new URL(urlString);
-			return BitmapFactory.decodeStream(url.openConnection().getInputStream());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			return BitmapFactory.decodeStream(conn.getInputStream());
 	    } catch (Exception e) {
 			e.printStackTrace();
 	    }
