@@ -117,6 +117,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     private View characterContainer;
     private ActionBar actionBar;
+    private ImageView rightAnswer;
 
     // *************************************************************************************************
 
@@ -433,6 +434,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
         Resource stimulus = exercise.getQuestion().getStimulus();
         String path = stimulus != null ? stimulus.getResourcePath() : "";
 
+        Log.d("PATH: " , path );
+
         if (!path.isEmpty()) {
             String domain = getString(R.string.resources_addr_kids);
             path = domain + path;
@@ -464,16 +467,12 @@ public class VitheaKidsActivity extends AppCompatActivity {
             for (int i = 0; i < numberAnswers; i++) {
                 Button btn = (Button) findViewById(idButtons.get(i));
                 Answer answer = answers.get(i);
-                Log.d("answer", answer.getAnswerDescription());
                 if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
-                    Log.d("upperCase", " not cool");
                     btn.setText(answer.getAnswerDescription().toUpperCase());
                 } else {
-                    Log.d("!upperCase", "cool");
                     btn.setText(answer.getAnswerDescription());
                 }
                 btn.setVisibility(View.VISIBLE);
-                Log.d("buttonAnswer", btn.getText().toString());
 
                 if (answer.getAnswerId() == exercise.getRightAnswer().getAnswerId()) { //right answer
                     btn.setOnClickListener(new View.OnClickListener() {
@@ -580,12 +579,19 @@ public class VitheaKidsActivity extends AppCompatActivity {
                     option.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             rightAnswerHandler(v, child);
+
+
                         }
                     });
+                    rightAnswer=option;
+
+
+
                 } else {
                     option.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             distractorHandler(v);
+
                         }
                     });
                 }
@@ -594,6 +600,29 @@ public class VitheaKidsActivity extends AppCompatActivity {
         }
 
         // TODO Prompting
+
+
+        // TODO REVIEW
+        if (promptingActive && child.getPrompting() != null) {
+            if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
+               if (child.getPrompting().getPromptingColor()) {
+                   FrameLayout fr = (FrameLayout) rightAnswer.getParent();
+                   fr.setBackground(getResources().getDrawable(R.drawable.border));
+              }
+             //   if (child.getPrompting().getPromptingSize()) {
+             //       rightAnswerButton.setTextSize(20);
+             //   }
+                if (child.getPrompting().getPromptingScratch()) {
+                    for (View v : optionsList) {
+                        if (v != rightAnswer) {
+                            FrameLayout fr = (FrameLayout) v.getParent();
+                            ImageView im  = (ImageView) fr.getChildAt(1);// getting imageView that contais cruz.jpg
+                            im.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        }
     }
     public void setReinforcementView() {
         String imgURL;
@@ -778,10 +807,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
         if (promptingActive && child.getPrompting() != null ) {
             Exercise exercise = exercises.get(currentExercisePosition);
             Boolean isTextExercise = exercise.getType().equals("TEXT");
+            Boolean isImageExercise = exercise.getType().equals("IMAGE");
+
             if (child.getPrompting().getPromptingStrategy().equals("IF_NEEDED") || child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                 if (child.getPrompting().getPromptingHide()) {
                     v.setVisibility(View.INVISIBLE);
-                    currentAnswers.remove(((Button) v).getText().toString().toUpperCase());
+                    if(isTextExercise){
+                        currentAnswers.remove(((Button) v).getText().toString().toUpperCase());}
                 }
                 else {
                     if (child.getPrompting().getPromptingScratch() && isTextExercise) {
@@ -792,17 +824,31 @@ public class VitheaKidsActivity extends AppCompatActivity {
                             ((Button)v).setTextColor(getResources().getColor(R.color.debug_red));
                         }
                     }
+
+                    if (child.getPrompting().getPromptingScratch() && isImageExercise){
+                        FrameLayout fr = (FrameLayout) v.getParent();
+                        ImageView im  = (ImageView) fr.getChildAt(1);// getting imageView that contais cruz.jpg
+                        im.setVisibility(View.VISIBLE);
+                    }
                 }
                 if (child.getPrompting().getPromptingColor() && isTextExercise) {
                     rightAnswerButton.setBackgroundColor(Color.BLUE);
                 }
+
+                if (child.getPrompting().getPromptingColor() && isImageExercise) {
+                    FrameLayout fr = (FrameLayout) rightAnswer.getParent();
+                    fr.setBackground(getResources().getDrawable(R.drawable.border));
+                }
                 if(child.getPrompting().getPromptingSize() && isTextExercise) {
                     rightAnswerButton.setTextSize(20);
                 }
+
+                if(child.getPrompting().getPromptingSize() && isImageExercise) {
+                    rightAnswer.getLayoutParams().height=500;
+                    rightAnswer.getLayoutParams().width=500;               }
                 if(child.getPrompting().getPromptingRead() && isTextExercise){
                     for(int i = 0; i < currentAnswers.size(); i++){
                         String answer = currentAnswers.get(i);
-                        Log.d("currentAnswers", answer);
                         new ReadTask().execute(answer);
                     }
                 }
