@@ -55,12 +55,13 @@ export class AddSequenceComponent implements OnInit {
                             let newSequenceExercices: Array<Exercise> = [];
                             let newSequenceOrder: Array<number> = [];
                             let addedExercises2: Array<Exercise> = [];
+                            let exercise;
 
                             this.exercisesService.getExercises().subscribe(
                                 result => {
                                     this.exercises = result;
                                     sequenceExercisesOrder.forEach(exor => {
-                                        let exercise = this.findExerciseById(exor.sequenceExerciseId.exercise_id);
+                                        exercise = this.findExerciseById(exor.sequenceExerciseId.exercise_id);
                                         if (exercise !== null) {
                                             newSequenceOrder.push(exor.exerciseOrder);
                                             addedExercises2.push(exercise);
@@ -70,6 +71,7 @@ export class AddSequenceComponent implements OnInit {
 
                                     // rearrange the list of exercises to show them according to the orders' list
                                     let exercicesWithOrder = [];
+
                                     while (newSequenceOrder.length !== 0 && addedExercises2.length !== 0) {
                                         let exOr = [newSequenceOrder.pop(), addedExercises2.pop()];
                                         exercicesWithOrder.push(exOr);
@@ -144,6 +146,8 @@ export class AddSequenceComponent implements OnInit {
     }
 
     findExerciseById(exerciseId: number) {
+        console.log(exerciseId);
+        console.log(this.exercises);
         let length = this.exercises.length;
         for (let i = 0; i < length; i++) {
             let exercise = this.exercises[i];
@@ -247,7 +251,6 @@ export class AddSequenceComponent implements OnInit {
         }
       }
 
-    
       removeExercise(index: number) {
         this.exercises.push(this.addedExercises[index]);
         this.addedExercises.splice(index, 1);
@@ -279,8 +282,9 @@ export class AddSequenceComponent implements OnInit {
                 } else if (i === size - 1) {
                     this.exercises.pop();
                 } else {
-                    let exercises1 = this.exercises.splice(0, i);
-                    let exercises2 = this.exercises.splice(i, size);
+                    let exercisesTemp = this.exercises;
+                    let exercises1 = this.exercises.slice(0, i);
+                    let exercises2 = this.exercises.slice(i + 1, size);
                     this.exercises = exercises1.concat(exercises2);
                 }
             } else {
