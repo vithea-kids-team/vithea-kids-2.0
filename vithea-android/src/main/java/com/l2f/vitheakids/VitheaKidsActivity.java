@@ -417,12 +417,17 @@ public class VitheaKidsActivity extends AppCompatActivity {
     public void setSimpleMultipleChoiceExerciseView(Exercise exercise, LinearLayout container)  {
 
         // Layout
-        View ex_view = (View) linflater.inflate(R.layout.exercise_words_layout, null);
+        View ex_view = (View) linflater.inflate(R.layout.exercise_long_options_layout, null);
         container.addView(ex_view);
 
         // Question
+
         TextView questionText = (TextView) findViewById(R.id.questionText);
-        questionText.setText(exercise.getQuestion().getQuestionDescription());
+        if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
+            questionText.setText(exercise.getQuestion().getQuestionDescription().toUpperCase());
+        } else {
+            questionText.setText(exercise.getQuestion().getQuestionDescription());
+        }
 
         // Stimulus
         Resource stimulus = exercise.getQuestion().getStimulus();
@@ -438,7 +443,11 @@ public class VitheaKidsActivity extends AppCompatActivity {
       else {
             ImageView img = (ImageView) findViewById(R.id.stimulusImage);
             img.setVisibility(View.GONE);
-        }
+            LinearLayout layout = (LinearLayout) findViewById(R.id.layoutButtonText);
+            //change top margin
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)layout.getLayoutParams();
+            params.setMargins(0, 30, 0, 0);
+            layout.setLayoutParams(params);        }
 
         // Exercise Options
         // Init Buttons given the number of options
@@ -530,7 +539,11 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // Question
         TextView questionText = (TextView) findViewById(R.id.questionText);
-        questionText.setText(exercise.getQuestion().getQuestionDescription());
+        if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
+            questionText.setText(exercise.getQuestion().getQuestionDescription().toUpperCase());
+        } else {
+            questionText.setText(exercise.getQuestion().getQuestionDescription());
+        }
 
         // Stimulus
         TextView stimulusText = (TextView) findViewById(R.id.stimulusText);

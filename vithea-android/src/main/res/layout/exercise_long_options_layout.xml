@@ -1,55 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-	
-<!-- not being used-->
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/exercise_bg_color">
-            
-        <TextView 
-	        android:id="@+id/questionText"
-	        android:text="@string/question"	        
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-			android:textSize="20sp"
-			android:gravity="center"
 
-			android:layout_alignParentTop="true"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/questionText"
+        android:text="@string/question"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#404040"/>
 
 
-	<ImageView
-		android:id="@+id/stimulusImage"
-		android:layout_width="match_parent"
-		android:layout_height="300dp"
-		android:layout_below="@id/questionText"
-		android:layout_centerHorizontal="true"
-		android:layout_marginBottom="5dp"
-		android:layout_marginTop="5dp"
-		android:adjustViewBounds="false"
-		android:maxHeight="200dp"
-		android:maxWidth="500dp"></ImageView>
-
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/tableLayout1"
+    <ImageView
+        android:id="@+id/stimulusImage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/questionText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:maxHeight="200dp"
+        android:maxWidth="500dp"></ImageView>
+
+
+    <LinearLayout
+        android:id="@+id/layoutButtonText"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@id/stimulusImage">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
             <!--Primeira escolha multipla-->
             <Button
                 android:id="@+id/button1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_below="@id/stimulusImage"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
@@ -61,15 +56,15 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:visibility="invisible"
-				android:onClick="onClick"
+                android:onClick="onClick"
                 android:background="@drawable/multiplechoice"
-				android:textAllCaps="false"
-				/>
+                android:textAllCaps="false"
+                />
             <!--Segunda escolha multipla-->
             <Button
                 android:id="@+id/button2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
@@ -80,23 +75,16 @@
                 android:textColor="@color/exercise_button_text_color"
                 android:textSize="14sp"
                 android:textStyle="bold"
-				android:visibility="invisible"
-				android:textAllCaps="false"
-				/>
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+                android:visibility="invisible"
+                android:textAllCaps="false"
+                />
 
             <!--Terceira escolha multipla-->
             <Button
                 android:id="@+id/button3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
@@ -108,16 +96,16 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:visibility="invisible"
-				android:onClick="onClick"
-				android:textAllCaps="false"
+                android:onClick="onClick"
+                android:textAllCaps="false"
 
-				/>
+                />
 
             <!--Quarta escolha multipla-->
             <Button
                 android:id="@+id/button4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
@@ -129,21 +117,8 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:visibility="invisible"
-				android:onClick="onClick"
-				android:textAllCaps="false"
-
-				/>
-        </TableRow>
-    </TableLayout>
-
-	<ImageView
-		android:id="@+id/myI"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:cropToPadding="false"
-		android:layout_below="@+id/questionText"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentEnd="true"
-		android:layout_marginRight="69dp"
-		android:layout_marginEnd="69dp" />
+                android:onClick="onClick"
+                android:textAllCaps="false"
+                />
+    </LinearLayout>
 </RelativeLayout>
