@@ -35,8 +35,7 @@ public class LoadImageTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 		
 		Log.d("LoadImageTask", params[0]);
-		String url = params[0].replace("\\","/");
-		imgLoad = LoadImageFromWeb(url);
+		imgLoad = LoadImageFromWeb(params[0]);
 		return null;
 	}
 	
