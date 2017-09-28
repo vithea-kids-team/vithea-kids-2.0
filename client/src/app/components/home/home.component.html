@@ -9,7 +9,7 @@
         <div style="height:50px"></div>
         <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" [routerLink]="['/signup']"><span class="glyphicon glyphicon-ok"></span> Registar cuidador </a></p>
         <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" [routerLink]="['/login']"><span class="glyphicon glyphicon-play"></span> Entrar </a></p>
-        <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" href="vithea-kids/assets/vithea-kids.apk"><span class="glyphicon glyphicon-download"></span> Baixar aplicação </a></p>
+        <p *ngIf="!caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" href="vithea-kids/assets/vithea-kids.apk"><span class="glyphicon glyphicon-download"></span> Descarregar aplicação </a></p>
         <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" [routerLink]="['/children']"><span class="glyphicon glyphicon-user"></span> {{ '_Children_' | translate }} </a></p>
         <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" [routerLink]="['/exercises']"><span class="glyphicon glyphicon-file"></span> {{ '_Exercises_' | translate }} </a></p>
         <p *ngIf="caregiverService.isLoggedIn()"><a class="btn btn-lg btn-success" style="width:50%" [routerLink]="['/sequences']"><span class="glyphicon glyphicon-book"></span> {{ '_Sequences_' | translate }} </a></p>
