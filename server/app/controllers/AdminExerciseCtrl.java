@@ -405,7 +405,7 @@ public class AdminExerciseCtrl extends Controller {
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
                     
                     String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName); 
-                    String folderPath = "images" + File.separator + type + File.separator + fileName2;
+                    String folderPath = "images/" + type + "/" + fileName2;
                     
                     boolean uploaded = false;
                     
