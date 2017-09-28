@@ -354,9 +354,10 @@ public class AdminExerciseCtrl extends Controller {
         List<SequenceExercise> iterable2 = new ArrayList(sequenceExercise);
         
         iterable2.forEach((SequenceExercise seqex) -> {
-            if (seqex.getExercise().getExerciseId() == exercise.getExerciseId())
+            if (seqex.getExercise().getExerciseId() == exercise.getExerciseId()) {
                 sequenceExercise.remove(seqex);
                 seqex.delete();
+            }
         });
                 
         Sequence.getAll().forEach((seq) -> {
@@ -364,9 +365,10 @@ public class AdminExerciseCtrl extends Controller {
             List<SequenceExercise> iterable3 = new ArrayList(sequenceExerciseSeq);
             
             iterable3.forEach((SequenceExercise seqex) -> {
-            if (seqex.getExercise().getExerciseId() == exercise.getExerciseId())
-                sequenceExerciseSeq.remove(seqex);
-                seqex.delete();
+                if (seqex.getExercise().getExerciseId() == exercise.getExerciseId()) {
+                    sequenceExerciseSeq.remove(seqex);
+                    seqex.delete();
+                }
             });
             seq.save();
         });
@@ -377,8 +379,6 @@ public class AdminExerciseCtrl extends Controller {
 
         return ok(buildJsonResponse("success", "Exercise deleted successfully"));
     }
- 
-    
    
     public Result uploadResources(String type) {
         Logger.debug("Uploading " + type);
