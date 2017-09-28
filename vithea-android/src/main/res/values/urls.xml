@@ -5,10 +5,10 @@
     
     <!-- Resources Url -->
 
-    <string name="resources_addr_kids">https://6659c7b3.ngrok.io/vithea-kids/assets/</string>
+    <string name="resources_addr_kids">https://7b82936b.ngrok.io/vithea-kids/assets/</string>
     <!--<string name="resources_addr_kids">https://vithea.l2f.inesc-id.pt/vithea-kids/assets/</string>-->
     <!-- Services Url -->
-    <string name="ws_uri">https://6659c7b3.ngrok.io/vithea-kids-api/</string>
+    <string name="ws_uri">https://7b82936b.ngrok.io/vithea-kids-api/</string>
 
     <!-- <string name="ws_uri">https://vithea.l2f.inesc-id.pt/vithea-kids-api/</string>-->
 

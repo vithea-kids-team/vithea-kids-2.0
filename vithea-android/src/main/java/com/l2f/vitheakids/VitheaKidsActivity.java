@@ -609,9 +609,11 @@ public class VitheaKidsActivity extends AppCompatActivity {
                    FrameLayout fr = (FrameLayout) rightAnswer.getParent();
                    fr.setBackground(getResources().getDrawable(R.drawable.border));
               }
-             //   if (child.getPrompting().getPromptingSize()) {
-             //       rightAnswerButton.setTextSize(20);
-             //   }
+               if (child.getPrompting().getPromptingSize()) {
+                   rightAnswer.getLayoutParams().height=500;
+                   rightAnswer.getLayoutParams().width=500;
+               }
+
                 if (child.getPrompting().getPromptingScratch()) {
                     for (View v : optionsList) {
                         if (v != rightAnswer) {
