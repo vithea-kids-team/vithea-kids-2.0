@@ -610,8 +610,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
                    fr.setBackground(getResources().getDrawable(R.drawable.border));
               }
                if (child.getPrompting().getPromptingSize()) {
-                   rightAnswer.getLayoutParams().height=500;
-                   rightAnswer.getLayoutParams().width=500;
+                   rightAnswer.getLayoutParams().height=300;
+                   rightAnswer.getLayoutParams().width=300;
                }
 
                 if (child.getPrompting().getPromptingScratch()) {
@@ -846,8 +846,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 }
 
                 if(child.getPrompting().getPromptingSize() && isImageExercise) {
-                    rightAnswer.getLayoutParams().height=500;
-                    rightAnswer.getLayoutParams().width=500;               }
+                    rightAnswer.getLayoutParams().height=300;
+                    rightAnswer.getLayoutParams().width=300;               }
                 if(child.getPrompting().getPromptingRead() && isTextExercise){
                     for(int i = 0; i < currentAnswers.size(); i++){
                         String answer = currentAnswers.get(i);
