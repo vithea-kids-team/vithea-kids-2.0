@@ -834,7 +834,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
                     }
                 }
                 if (child.getPrompting().getPromptingColor() && isTextExercise) {
-                    rightAnswerButton.setBackgroundColor(Color.BLUE);
+                    rightAnswerButton.setBackgroundDrawable(makeSelector(Color.parseColor("#66a3ff")));
                 }
 
                 if (child.getPrompting().getPromptingColor() && isImageExercise) {
