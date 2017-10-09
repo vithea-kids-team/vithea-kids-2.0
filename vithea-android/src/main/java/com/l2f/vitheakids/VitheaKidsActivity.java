@@ -14,6 +14,7 @@ import com.l2f.vitheakids.task.ReadTask;
 import com.l2f.vitheakids.util.ConnectionDetector;
 import com.l2f.vitheakids.util.ExerciseMenuListWithoutImageAdapter;
 import com.l2f.vitheakids.util.CanvasUtil;
+import com.l2f.vitheakids.util.Prompting;
 import com.unity3d.player.*;
 
 import android.app.Activity;
@@ -501,27 +502,20 @@ public class VitheaKidsActivity extends AppCompatActivity {
             if (promptingActive && child.getPrompting() != null) {
                 if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                     if (child.getPrompting().getPromptingColor()) {
-                        rightAnswerButton.setBackgroundDrawable(makeSelector(Color.parseColor("#66a3ff")));
+                        Prompting.setButtonColor(this.getApplicationContext(), rightAnswerButton);
                     }
                     if (child.getPrompting().getPromptingSize()) {
-                        rightAnswerButton.setTextSize(20);
+                        Prompting.setSizeText(this.getApplicationContext(),rightAnswerButton);
                     }
                     if (child.getPrompting().getPromptingScratch()) {
-                        for (View v : buttonList) {
+                        for (Button v : buttonList) {
                             if (v != rightAnswerButton) {
-                                ((TextView) v).setPaintFlags(((TextView) v).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    ((Button) v).setTextColor(getColor(R.color.debug_red));
-                                } else {
-                                    ((Button) v).setTextColor(getResources().getColor(R.color.debug_red));
-                                }
+                                Prompting.scratchText(this.getApplicationContext(),v);
                             }
                         }
                     }
                     if (child.getPrompting().getPromptingRead()) {
-                        for(int i = 0; i < currentAnswers.size(); i++){
-                            new ReadTask().execute(currentAnswers.get(i));
-                        }
+                        Prompting.readAnswers(currentAnswers);
                     }
                 }
             }
@@ -606,26 +600,23 @@ public class VitheaKidsActivity extends AppCompatActivity {
         if (promptingActive && child.getPrompting() != null) {
             if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                if (child.getPrompting().getPromptingColor()) {
-                   FrameLayout fr = (FrameLayout) rightAnswer.getParent();
-                   fr.setBackground(getResources().getDrawable(R.drawable.border));
+                   Prompting.setImageColor(this.getApplicationContext(), rightAnswer);
               }
                if (child.getPrompting().getPromptingSize()) {
-                   rightAnswer.getLayoutParams().height=300;
-                   rightAnswer.getLayoutParams().width=300;
+                   Prompting.setImageSize(this.getApplicationContext(), rightAnswer);
                }
 
                 if (child.getPrompting().getPromptingScratch()) {
-                    for (View v : optionsList) {
+                    for (ImageView v : optionsList) {
                         if (v != rightAnswer) {
-                            FrameLayout fr = (FrameLayout) v.getParent();
-                            ImageView im  = (ImageView) fr.getChildAt(1);// getting imageView that contais cruz.jpg
-                            im.setVisibility(View.VISIBLE);
+                            Prompting.scratchImage(this.getApplicationContext(),v);
                         }
                     }
                 }
             }
         }
     }
+
     public void setReinforcementView() {
         String imgURL;
 
@@ -819,40 +810,32 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 }
                 else {
                     if (child.getPrompting().getPromptingScratch() && isTextExercise) {
-                        ((TextView)v).setPaintFlags(((TextView)v).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            ((Button)v).setTextColor(getColor(R.color.debug_red));
-                        } else {
-                            ((Button)v).setTextColor(getResources().getColor(R.color.debug_red));
-                        }
+                        Prompting.scratchText(this.getApplicationContext(), (Button) v);
                     }
 
                     if (child.getPrompting().getPromptingScratch() && isImageExercise){
-                        FrameLayout fr = (FrameLayout) v.getParent();
-                        ImageView im  = (ImageView) fr.getChildAt(1);// getting imageView that contais cruz.jpg
-                        im.setVisibility(View.VISIBLE);
+                        Prompting.scratchImage(this.getApplicationContext(), (ImageView) v);
                     }
                 }
                 if (child.getPrompting().getPromptingColor() && isTextExercise) {
-                    rightAnswerButton.setBackgroundDrawable(makeSelector(Color.parseColor("#66a3ff")));
+                    Prompting.setButtonColor(this.getApplicationContext(), (Button) rightAnswerButton);
                 }
 
                 if (child.getPrompting().getPromptingColor() && isImageExercise) {
-                    FrameLayout fr = (FrameLayout) rightAnswer.getParent();
-                    fr.setBackground(getResources().getDrawable(R.drawable.border));
+                   Prompting.setImageColor(this.getApplicationContext(),rightAnswer);
                 }
                 if(child.getPrompting().getPromptingSize() && isTextExercise) {
-                    rightAnswerButton.setTextSize(20);
+                    Prompting.setSizeText(this.getApplicationContext(), rightAnswerButton);
                 }
 
                 if(child.getPrompting().getPromptingSize() && isImageExercise) {
-                    rightAnswer.getLayoutParams().height=300;
-                    rightAnswer.getLayoutParams().width=300;               }
+                    Prompting.setImageSize(this.getApplicationContext(), rightAnswer);
+                }
+
+
                 if(child.getPrompting().getPromptingRead() && isTextExercise){
-                    for(int i = 0; i < currentAnswers.size(); i++){
-                        String answer = currentAnswers.get(i);
-                        new ReadTask().execute(answer);
-                    }
+                        Prompting.readAnswers(currentAnswers);
+
                 }
                 else {
                     new ReadTask().execute("Tenta outra vez.");
