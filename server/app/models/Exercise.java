@@ -40,7 +40,7 @@ public class Exercise extends Model {
     private Answer rightAnswer;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    private List<Answer> answersList;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
@@ -95,7 +95,7 @@ public class Exercise extends Model {
             answers.add(new Answer(s));
         }); 
         
-        this.answers = answers;
+        this.answersList = answers;
     }
     public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, String stimulusText, long answerResourceId, List<Long> distractorsResourcesIds) {
         this.author = loggedCaregiver;
@@ -124,11 +124,12 @@ public class Exercise extends Model {
         answers.add(this.rightAnswer);
         
         for(Long d : distractorsResourcesIds) {
+            System.out.println("distractor id: " + d);
             Resource distractor = Resource.findById(d);
             answers.add(new Answer(distractor));
         }   
         
-        this.answers = answers;
+        this.answersList = answers;
     }
     
     public String getExerciseName(){
@@ -155,10 +156,13 @@ public class Exercise extends Model {
         return rightAnswer;
     }
     public List<Answer> getAnswers() {
-       return answers;
+       return answersList;
     }
     public void resetAnswers(){
-        this.answers.clear();
+        answersList.clear();
+    }
+    public void removeAnswer(Answer ans){
+        answersList.remove(ans);
     }
     public Caregiver getAuthor() {
         return author;
@@ -197,7 +201,7 @@ public class Exercise extends Model {
         question.save();
         Logger.debug("New exercise :: setQuestion: " + question.getQuestionDescription() + " (" + question.getQuestionId() + ")");
         this.question = question;
-    }
+    }    
     public void setRightAnswer(Answer rightAnswer) {
         this.rightAnswer = rightAnswer;
     }
@@ -207,7 +211,7 @@ public class Exercise extends Model {
         rightAnswer.save();
         Logger.debug("New exercise :: setRightAnswer: " + rightAnswer.getAnswerDescription() +" (" + rightAnswer.getAnswerId() + ")");
         this.rightAnswer = rightAnswer;
-        this.answers.add(rightAnswer);
+        this.answersList.add(rightAnswer);
     }
     public void setAnswers(List<String> answerDescriptions, List<Long> answerStimulus) {
         Iterator<String> i = answerDescriptions.iterator(); 
@@ -219,11 +223,11 @@ public class Exercise extends Model {
             answer.setStimulus(stimulus);
             answer.save();
             Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");
-            this.answers.add(answer);
+            this.answersList.add(answer);
         }		
     }
     public void setAnswers(List<Answer> answers){
-        this.answers = answers;
+        this.answersList = answers;
     }
     
     public void setAuthor(Caregiver author) {

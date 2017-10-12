@@ -21,14 +21,14 @@
             <div *ngIf="topics" class="form-group">
                 <label for="topic"> {{ '_Topic_' | translate }} <span class="text-danger"> * </span></label>
                 <form class="input-group">
-                    <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" name="topic" #topic="ngModel">
+                    <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" (ngModelChange)="validateTopic()" name="topic" #topic="ngModel">
                         <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
                     </select>
                     <span class="input-group-btn">
                         <button (click)="goToPreferences()" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
                     </span>
                 </form>
-                <div *ngIf="!topic.valid && !topic.pristine" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
+                <div *ngIf="topicError" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
             </div>
         </div>
 
@@ -36,22 +36,22 @@
             <div *ngIf="levels" class="form-group">
                 <label for="level"> {{ '_Level_' | translate }} <span class="text-danger"> * </span></label>
                 <form class="input-group">
-                    <select class="form-control" id="level" required [(ngModel)]="newExercise.level" name="level" #level="ngModel">
+                    <select class="form-control" id="level" required [(ngModel)]="newExercise.level" (ngModelChange)="validateLevel()" name="level" #level="ngModel">
                         <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
                     </select>
                     <span class="input-group-btn">
                         <button (click)="goToPreferences()" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
                     </span>
                 </form>
-                <div *ngIf="!level.valid && !level.pristine" class="alert alert-danger"> {{ '_RequiredLevel_' | translate }} </div>
+                <div *ngIf="levelError" class="alert alert-danger"> {{ '_RequiredLevel_' | translate }} </div>
             </div>
         </div>
 
         <div class="row">
             <div class="form-group">
                 <label for="question"> {{'_Question_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="newExercise.question" name="question" #question="ngModel">
-                <div *ngIf="!question.valid && !question.pristine" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
+                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="newExercise.question" (ngModelChange)="validateQuestion()" name="question" #question="ngModel">
+                <div *ngIf="questionError" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
             </div>
         </div>
 
@@ -72,8 +72,8 @@
         <div class="row">
             <label for="answer"> {{ '_Answer_' | translate }} <span class="text-danger"> * </span></label>
             <div *ngIf="newExercise.type == 'text' ">
-                <input type="text" class="form-control" id="rightAnswer" required maxlength="75" [(ngModel)]="newExercise.rightAnswer" name="rightAnswer" #rightAnswer="ngModel">
-                <div *ngIf="!rightAnswer.valid && !rightAnswer.pristine" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
+                <input type="text" class="form-control" id="rightAnswer" maxlength="75" [(ngModel)]="newExercise.rightAnswer" (ngModelChange)="validateRightAnswerText()" name="rightAnswer" #rightAnswer="ngModel">
+                <div *ngIf="rightAnswerTextError" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
             </div>
         </div>
 
@@ -83,8 +83,10 @@
                 <p> {{ '_SelectImagesAnswer_' | translate }}</p>
                 <em *ngIf="rightAnswerImgs?.length === 0">{{ '_NoResources_' | translate }}</em>
                 <div style="max-height: 100px; overflow-y: auto;">
-                    <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" required [multiSelect]="false" [selected]="newExercise.rightAnswer" name="newExercise.rightAnswerImgs" #rightAnswer="ngModel"> </image-picker>
+                    <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" [multiSelect]="false" [selected]="newExercise.rightAnswer" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs" #rightAnswer="ngModel">
+                    </image-picker>
                 </div>
+                <div *ngIf="rightAnswerImageError" class="alert alert-danger"> {{ '_RequiredRightAnswerImage_' | translate }} </div>
             </div>
         </div>
 
@@ -129,14 +131,14 @@
         </div>
 
         <div class="row ">
-            <a *ngIf="!newExercise.exerciseId" type="button" (click)="registerExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid ">
-                <span class="glyphicon glyphicon-ok " style="font-size: small; " aria-hidden="true "></span> {{ '_CreateExercise_' | translate }}
+            <a *ngIf="!newExercise.exerciseId" type="button" (click)="submit()" class=" btn btn-success">
+                <span class=" glyphicon glyphicon-ok " style="font-size: small; " aria-hidden="true "></span> {{ '_CreateExercise_' | translate }}
             </a>
-            <a *ngIf="newExercise.exerciseId" type="button " (click)="registerExercise()" class="btn btn-success" [class.disabled]="!exerciseForm.form.valid ">
-                <span class="glyphicon glyphicon-ok" style="font-size: small; " aria-hidden="true "></span> {{ '_SaveChangesBtn_' | translate }}
+            <a *ngIf="newExercise.exerciseId " type="button " (click)="submit() " class="btn btn-success ">
+                <span class="glyphicon glyphicon-ok " style="font-size: small; " aria-hidden="true "></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
-            <button [routerLink]="['/exercises']" type="button" class="btn btn-secondary"> 
-                  <span class="glyphicon glyphicon-remove " style="font-size: small;" aria-hidden="true "></span> {{'_Cancel_' | translate }}
+            <button [routerLink]="[ '/exercises'] " type="button " class="btn btn-secondary "> 
+                  <span class="glyphicon glyphicon-remove " style="font-size: small; " aria-hidden="true "></span> {{'_Cancel_' | translate }}
             </button>
         </div>
     </form>

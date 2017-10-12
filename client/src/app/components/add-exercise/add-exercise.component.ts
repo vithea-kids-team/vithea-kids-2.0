@@ -32,8 +32,100 @@ export class AddExerciseComponent implements OnInit {
   public loading = false;
   public type = '';
 
+  public rightAnswerTextError;
+  public rightAnswerImageError;
+  public topicError;
+  public levelError;
+  public questionError;
+
+  public number = 0;
+
   constructor(public modal: Modal, public route: ActivatedRoute, public resourcesService: ResourcesService,
     public exercisesService: ExercisesService, public router: Router, public location: Location) {}
+
+validateTopic() {
+  if (this.newExercise.topic === undefined) {
+    this.topicError = true;
+  } else {
+    this.topicError = false;
+  }
+}
+
+validateLevel() {
+  if (this.newExercise.level === undefined) {
+    this.levelError = true;
+  } else {
+    this.levelError = false;
+  }
+}
+
+validateQuestion() {
+  if (this.newExercise.question === undefined) { // && this.newExercise.question === '') {
+    this.questionError = true;
+  } else {
+    this.questionError = false;
+    let question = this.newExercise.question.replace(/\s+/g, '');
+    if (question.length === 0) {
+      this.questionError = true;
+    } else {
+      this.questionError = false;
+    }
+  }
+}
+
+validateRightAnswerText() {
+  if (this.newExercise.rightAnswer === undefined) {
+    this.rightAnswerTextError = true;
+  } else {
+    let rightAnswer = this.newExercise.rightAnswer.replace(/\s+/g, '');
+    if (rightAnswer.length === 0) {
+      this.rightAnswerTextError = true;
+    } else {
+      this.rightAnswerTextError = false;
+    }
+  }
+}
+
+validateRightAnswerImage() {
+    if (this.number < 2 ) {
+      this.number++;
+    } else {
+      const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
+
+      if (rightAnswer.length === 0) {
+        this.rightAnswerImageError = true;
+      } else {
+        this.rightAnswerImageError = false;
+      }
+   }
+}
+
+submit () {
+
+  this.validateTopic();
+  this.validateLevel();
+  this.validateQuestion();
+
+  let submit = false;
+
+  if (this.newExercise.type === 'image') {
+    this.validateRightAnswerImage();
+    if (this.topicError === false && this.levelError === false && this.questionError === false &&
+      this.rightAnswerImageError === false) {
+      submit = true;
+    }
+  } else if (this.newExercise.type === 'text') {
+    this.validateRightAnswerText();
+    if (this.topicError === false && this.levelError === false && this.questionError === false &&
+      this.rightAnswerTextError === false) {
+      submit = true;
+    }
+  }
+
+  if (submit) {
+    this.registerExercise();
+  }
+}
 
   ngOnInit() {
     this.loading = true;

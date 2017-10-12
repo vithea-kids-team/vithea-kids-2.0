@@ -1,4 +1,4 @@
-import { Component, Input, Provider, forwardRef} from '@angular/core';
+import { Component, EventEmitter, Input, Output, Provider, forwardRef} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Resource } from '../../../models/resource';
 import { ResourcesService } from '../../../services/resources/resources.service';
@@ -19,6 +19,7 @@ export class ImagePickerComponent implements ControlValueAccessor {
 
   @Input() multiSelect: boolean;
   @Input() selected: Resource;
+  @Output() onSelected = new EventEmitter<String>();
 
   public _items: Array<Resource> = [];
 
@@ -28,32 +29,38 @@ export class ImagePickerComponent implements ControlValueAccessor {
     if (!this._items) {
       this._items = [];
     }
-
     if (this.selected != null) {
+      this.onSelected.emit('getItems');
       this._items.forEach((x) => {
         if (x.resourceId === this.selected.resourceId) {
           x.selected = true;
         }
       });
     }
+
     return this._items;
   }
 
   set items(i: Array<Resource>) {
     if (i !== this._items) {
       this._items = i;
+      this.onSelected.emit('setItems');
       this.onChange(i);
     }
   }
 
   writeValue(i: Array<Resource>) {
     this._items = i;
+    this.onSelected.emit('writeValue');
     this.onChange(i);
   }
 
   toggleItem(item) {
     item.selected = !item.selected;
     this.selected = null;
+
+    this.onSelected.emit('toggleItems');
+
     if (!this.multiSelect) {
       this._items.forEach((x) => {
         if (x !== item) {

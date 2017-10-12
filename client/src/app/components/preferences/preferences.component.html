@@ -36,14 +36,15 @@
                         <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.reinforcementStrategy" name="reinforcementStrategy">{{'_Disabled_' | translate}}</label>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" *ngIf="validateReinforcement()">
                     <label for="reinforcement"> {{ '_Reinforcement_' | translate }}</label>
                     <p> {{ '_SelectImagesReinforcment_' | translate }}</p>
                     <em *ngIf="reinforcementResources?.length === 0">{{ '_NoResources_' | translate }}</em>
                     <br>
                     <div style="max-height: 100px; overflow-y: auto;">
-                        <image-picker [(ngModel)]="reinforcementResources" [multiSelect]="false" name="reinforcementResources"> </image-picker>
+                        <image-picker [(ngModel)]="reinforcementResources" [multiSelect]="false" (onSelected)="validateReinforcementImagesAdded()" name="reinforcementResources"> </image-picker>
                     </div>
+                    <div *ngIf="reinforcementImageError" class="alert alert-danger"> {{ '_SelectImagesReinforcment_' | translate }} </div>
                 </div>
             </div>
         </div>
@@ -58,7 +59,7 @@
                         <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_IfNeeded_' | translate}}</label>
                         <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Disabled_' | translate}}</label>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="validatePrompting()">
                         <label for="strategy"> {{ '_Type_' | translate }}</label>
                         <br>
                         <div class="form-group checkbox-group">
@@ -114,6 +115,13 @@
                         <label class="radio-inline"><input type="radio" [value]="false" [(ngModel)]="prefs.emotions" name="emotions">{{'_EmotionsOff_' | translate}}</label>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="height: 70px;">
+                <div *ngIf="error" class="alert alert-danger"> {{ error | translate }} </div>
+                <loader *ngIf="loadingAdd" [height]="50"></loader>
             </div>
         </div>
 

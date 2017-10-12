@@ -28,7 +28,6 @@ import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 
-
 @Security.Authenticated(Secured.class)
 public class AdminExerciseCtrl extends Controller {
     
@@ -161,14 +160,16 @@ public class AdminExerciseCtrl extends Controller {
             String question = editExerciseForm.get("question");
             exercise.getQuestion().setQuestionDescription(question);
            
-        
+            List<Answer> answers = new ArrayList();
+            List<Answer> existingAnswers = exercise.getAnswers();
+            existingAnswers.remove(0);  // remove the right answer
+            
             // stimulus, answer, and distractors for text
             if(editExerciseForm.get("type").equals("text")) {
-                // right answer
-                String answer = editExerciseForm.get("rightAnswer");
-                exercise.getRightAnswer().setAnswerDescription(answer);
                 
-                List<Answer> answers = new ArrayList();
+                // right answer
+                String rightAnswer = editExerciseForm.get("rightAnswer");
+                exercise.getRightAnswer().setAnswerDescription(rightAnswer);
                 answers.add(exercise.getRightAnswer());
                 
                 // distractors
@@ -176,67 +177,158 @@ public class AdminExerciseCtrl extends Controller {
                 editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("answers"))).forEachOrdered((key) -> {
                     distractors.add(editExerciseForm.data().get(key));
                 });
-                distractors.forEach((s) -> {
-                    answers.add(new Answer(s));
-                });
-                exercise.setAnswers(answers);
+                
+                // redo
+                if(distractors.size() == 0) {   // exercise without distractors
+                    int sizeExistingAnswers = existingAnswers.size()-1;
+                    
+                    for(int i = sizeExistingAnswers; i >= sizeExistingAnswers; i--){
+                        Answer toRemoveAns = existingAnswers.get(i);
+                        exercise.removeAnswer(toRemoveAns);
+                        exercise.save();
+                        toRemoveAns.delete();
+                    }
+                }
+                else if(distractors.size() <= existingAnswers.size()-1) {     // less or actual distractors than existing ones
+                    
+                    List<Answer> toChange = existingAnswers.subList(0, distractors.size());
+                    List<Answer> toRemove = existingAnswers.subList(distractors.size(), existingAnswers.size());
+                     
+                    for(int i = 0; i < toChange.size(); i++){
+                        Answer ans = toChange.get(i);
+                        ans.setAnswerDescription(distractors.get(i));
+                        answers.add(ans);
+                    }
+                    
+                    int sizeToRemove = toRemove.size()-1;
+                    for(int i = sizeToRemove; i >= sizeToRemove; i--){
+                        Answer toRemoveAns = toRemove.get(i);
+                        exercise.removeAnswer(toRemoveAns);
+                        exercise.save();
+                        toRemoveAns.delete();
+                    }
+                    
+                }
+                else if(distractors.size() > existingAnswers.size()-1) {    // greater actual distractors than existing ones
+                     
+                    List<String> toAdd = distractors.subList(existingAnswers.size(), distractors.size());
+                    
+                    for(int i = 0; i < existingAnswers.size(); i++){
+                        Answer ans = existingAnswers.get(i);
+                        ans.setAnswerDescription(distractors.get(i));
+                        answers.add(ans);
+                    }
+                    
+                    for(int i = 0; i < toAdd.size(); i++){
+                        Answer newAns = new Answer(toAdd.get(i));
+                        answers.add(newAns);
+                    }
+                }
                 
                 // stimulus
                 long stimulusId;
                 try {
                     stimulusId = parseLong(editExerciseForm.get("stimulus"));
+                    exercise.getQuestion().setStimulus(stimulusId);
                 } catch (NumberFormatException e) {
                     stimulusId = -1;
                 }
-                exercise.getQuestion().setStimulus(stimulusId);
                 
+                exercise.setAnswers(answers);
             }
             // stimulus, answer and distractors for image
             else if(editExerciseForm.get("type").equals("image")) {
-                exercise.resetAnswers();
                 
+                // right answer
                 String rightAnswerDescription = "";
                 int answerResourceId;
                 try {
                     answerResourceId = parseInt(editExerciseForm.get("rightAnswerImg"));
+                    Answer rightAnswer = exercise.getRightAnswer();
+                    rightAnswer.setStimulus((long) answerResourceId);
+                    rightAnswer.save();
+                    answers.add(rightAnswer);
                 } catch (NumberFormatException e) {
                     answerResourceId = -1;
                 }
-                exercise.setRightAnswer(rightAnswerDescription, (long) answerResourceId);
-
                 
-                // distractors
+                // distractors                
                 List<Long> distractorsResourcesIds = new ArrayList<>();
-                List<String> distractorResourcesDecription = new ArrayList<>();
+                
                 Map<String, String> data = editExerciseForm.data();
                 int numberDistractors = data.size();
+                
                 for(int i = 0; i < numberDistractors; i++){
                     String key = "answersImg[" + i + "]";
                     if(data.containsKey(key)){
-                        int answerId;
-                        String answerDescription = "";
                         try {
-                            answerId = parseInt(data.get(key));
-                            Logger.debug("STUFF: " + answerId);
+                            answerResourceId = parseInt(data.get(key));
                         } catch (NumberFormatException e) {
-                            answerId = -1;
+                            answerResourceId = -1;
                         }
-                        distractorResourcesDecription.add(answerDescription);
-                        distractorsResourcesIds.add((long)answerId);
+                        distractorsResourcesIds.add((long)answerResourceId);
                     }
                 }
-                exercise.setAnswers(distractorResourcesDecription, distractorsResourcesIds);
-
-            
+                
+                if(distractorsResourcesIds.size() == 0) {   // exercise without distractors
+                    int sizeExistingAnswers = existingAnswers.size()-1;
+                    
+                    for(int i = sizeExistingAnswers; i >= sizeExistingAnswers; i--){
+                        Answer toRemoveAns = existingAnswers.get(i);
+                        exercise.removeAnswer(toRemoveAns);
+                        exercise.save();
+                        toRemoveAns.delete();
+                    }
+                }
+                else if(distractorsResourcesIds.size() <= existingAnswers.size()-1) {     // less or actual distractors than existing ones
+                    
+                    List<Answer> toChange = existingAnswers.subList(0, distractorsResourcesIds.size());
+                    List<Answer> toRemove = existingAnswers.subList(distractorsResourcesIds.size(), existingAnswers.size());
+                     
+                    for(int i = 0; i < toChange.size(); i++){
+                        Answer ans = toChange.get(i);
+                        ans.setAnswerDescription("");
+                        ans.setStimulus(distractorsResourcesIds.get(i));
+                        answers.add(ans);
+                    }
+                    
+                    int sizeToRemove = toRemove.size()-1;
+                    for(int i = sizeToRemove; i >= sizeToRemove; i--){
+                        Answer toRemoveAns = toRemove.get(i);
+                        exercise.removeAnswer(toRemoveAns);
+                        exercise.save();
+                        toRemoveAns.delete();
+                    }
+                }
+                else if(distractorsResourcesIds.size() > existingAnswers.size()-1) {    // greater actual distractors than existing ones
+                     
+                    List<Long> toAdd = distractorsResourcesIds.subList(existingAnswers.size(), distractorsResourcesIds.size());
+                    
+                    for(int i = 0; i < existingAnswers.size(); i++){
+                        Answer ans = existingAnswers.get(i);
+                        ans.setAnswerDescription("");
+                        ans.setStimulus(distractorsResourcesIds.get(i));
+                        answers.add(ans);
+                    }
+                    
+                    for(int i = 0; i < toAdd.size(); i++){
+                        Answer newAns = new Answer("");
+                        newAns.setStimulus(toAdd.get(i));
+                        answers.add(newAns);
+                    }
+                }
+                
                 // stimulus 
                 String stimulusText = editExerciseForm.get("stimulusText");
                 exercise.getQuestion().setStimulusText(stimulusText);
-               
+                
+                exercise.setAnswers(answers);
             }
-            
-            exercise.save();
-            return ok(Json.toJson(exercise));        
+               
         }
+            
+        exercise.save();
+        return ok(Json.toJson(exercise));        
     }
     
     public Result getExercise(Long exercise) {

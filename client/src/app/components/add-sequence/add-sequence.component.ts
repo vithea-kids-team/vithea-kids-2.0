@@ -28,8 +28,63 @@ export class AddSequenceComponent implements OnInit {
     public sequenceChildren: Array<Child> = [];
     loading = false;
 
+    public nameError;
+    public exercisesAddedError;
+    public childrenAddedError;
+
     constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService: ExercisesService,
         public childrenService: ChildrenService, public router: Router, public modal: Modal, public location: Location) { }
+
+    validateNameSequence() {
+        if (this.newSequence.sequenceName === undefined) {
+            this.nameError = true;
+          } else {
+            this.nameError = false;
+            let sequenceName = this.newSequence.sequenceName.replace(/\s+/g, '');
+            if (sequenceName.length === 0) {
+              this.nameError = true;
+            } else {
+              this.nameError = false;
+            }
+          }
+    }
+
+    validateExercisesAdded() {
+        if (this.addedExercises.length >= 1) {
+            this.exercisesAddedError = false;
+        } else {
+            this.exercisesAddedError = true;
+        }
+    }
+
+    validateChildrenAdded() {
+        if (this.addedChildren.length >= 1) {
+            this.childrenAddedError = false;
+        } else {
+            this.childrenAddedError = true;
+        }
+    }
+
+    submitRegisterSequence() {
+
+        this.validateChildrenAdded();
+        this.validateExercisesAdded();
+        this.validateNameSequence();
+
+        if (this.childrenAddedError === false && this.exercisesAddedError === false && this.nameError === false) {
+            this.registerSequence();
+        }
+    }
+
+    submitEditSequence() {
+        this.validateChildrenAdded();
+        this.validateExercisesAdded();
+        this.validateNameSequence();
+
+        if (this.childrenAddedError === false && this.exercisesAddedError === false && this.nameError === false) {
+            this.editSequence();
+        }
+    }
 
     ngOnInit() {
         this.loading = true;
@@ -251,24 +306,28 @@ export class AddSequenceComponent implements OnInit {
         }
       }
 
-      removeExercise(index: number) {
+    removeExercise(index: number) {
         this.exercises.push(this.addedExercises[index]);
         this.addedExercises.splice(index, 1);
+        this.validateExercisesAdded();
     }
 
     addExercise(index: number) {
         this.addedExercises.push(this.exercises[index]);
         this.exercises.splice(index, 1);
+        this.validateExercisesAdded();
     }
 
     removeChild(index: number) {
         this.children.push(this.addedChildren[index]);
         this.addedChildren.splice(index, 1);
+        this.validateChildrenAdded();
     }
 
     addChild(index: number) {
         this.addedChildren.push(this.children[index]);
         this.children.splice(index, 1);
+        this.validateChildrenAdded();
     }
 
     removeExerciseAdded(exercise: Exercise) {

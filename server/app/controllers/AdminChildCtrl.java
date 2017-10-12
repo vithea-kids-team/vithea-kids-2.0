@@ -292,7 +292,7 @@ public class AdminChildCtrl extends Controller {
         p.setPromptingRead(Boolean.parseBoolean(prefs.promptingRead));
         p.save();
          
-        Logger.debug("Prompting startegy:" + prefs.promptingStrategy);
+        Logger.debug("Prompting strategy:" + prefs.promptingStrategy);
         Logger.debug("Prompting color:" + prefs.promptingColor);
         Logger.debug("Prompting size:" + prefs.promptingSize);
         Logger.debug("Prompting scratch:" + prefs.promptingScratch);
