@@ -1,5 +1,7 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ResourcesService } from '../../services/resources/resources.service';
+import { ActivatedRoute, Params, Router } from '@angular/Router';
+import { ExercisesService} from '../../services/exercises/exercises.service';
 
 @Component({
   selector: 'file-upload',
@@ -16,7 +18,7 @@ export class FileUploadComponent {
 
   @ViewChild('input') input;
 
-  constructor(public resourcesService: ResourcesService) { }
+  constructor(public resourcesService: ResourcesService, public exercisesService: ExercisesService, public router: Router, public route: ActivatedRoute) { }
 
   toggleFileUpload() {
     this.input.nativeElement.click();
@@ -43,7 +45,30 @@ export class FileUploadComponent {
             this.resourcesService.setTextSuccess('Não foi possível adicionar o recurso multimédia.');
             console.error('Error uploading file', err)
         }
-        )
+      )
+    }
+  }
+
+  uploadFileCSV(e) {
+    let files = e.target.files;
+
+    if (files && files.length > 0) {
+      console.log(files.length);
+
+      this.resourcesService.uploadFiles(files, this.resourceType, this.name).subscribe(
+        res => {
+          this.router.navigate(['/exercises/']);
+          this.exercisesService.setSuccess(true);
+          this.exercisesService.setFailure(false);
+          this.exercisesService.setTextSuccess('Exercicío(s) adicionado(s) com sucesso.');
+        },
+        err => {
+          this.resourcesService.setSuccess(false);
+          this.resourcesService.setFailure(true);
+          this.resourcesService.setTextSuccess('Não foi possível adicionar os exercicíos.');
+          console.error('Error uploading file', err)
+        }
+      )
     }
   }
 }

@@ -71,7 +71,6 @@ public class Exercise extends Model {
         
         if (topic != -1) {
             this.topic = Topic.findTopicById(topic);
-            System.out.println(this.topic);
         }
         
         if (level != -1) {

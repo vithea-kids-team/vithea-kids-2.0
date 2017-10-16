@@ -64,6 +64,8 @@ export class ResourcesService {
   uploadFiles(files, type, name?) {
     if (type === 'animatedcharacter') {
       return this.http.upload('/uploadanimatedcharacter/' + name, files);
+    } else if (type === 'csvfile') {
+      return this.http.upload('/uploadcsvexercises', files);
     } else {
       return this.http.upload('/uploadresources/' + type, files);
     }

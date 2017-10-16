@@ -1,7 +1,14 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.Properties;
 import javax.inject.Inject;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import models.Caregiver;
 import models.Login;
 import play.Logger;
@@ -49,6 +56,9 @@ public class SecurityController extends Controller {
                     .setCookie(Http.Cookie.builder(AUTH_TOKEN, authToken).withSecure(ctx().request().secure()).build());
 
             Logger.debug("\t \t Returning authentication token.");
+            
+            //this.sendEmail("lua.svmac@gmail.com", "Teste", "Awesome! It works!");
+            
             return ok(authTokenJson);
         }
     }
@@ -95,6 +105,48 @@ public class SecurityController extends Controller {
             user.save();
             Logger.debug("\t \t \t Returning ok");
             return ok("User created successfully");
+        }
+    }
+    
+        public void sendEmail(String to, String subject, String body){
+        
+        // Recipient's email ID needs to be mentioned.
+        // Sender's email ID needs to be mentioned
+        String from = "lua.svmac@gmail.com"; //admin@vithea-kids.com
+
+        // Assuming you are sending email from localhost
+        String host = "localhost";
+
+        // Get system properties
+        Properties properties = System.getProperties();
+    
+        // Setup mail server
+        properties.setProperty("mail.smtp.host", host);
+
+        // Get the default Session object.
+        Session session = Session.getDefaultInstance(properties);
+        
+        try {
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(session);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress(from));
+
+            // Set To: header field of the header.
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+            // Set Subject: header field
+            message.setSubject(subject);
+
+            // Now set the actual message
+            message.setText(body);
+
+            // Send message
+            Transport.send(message);
+            System.out.println("Sent message successfully....");
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
         }
     }
 

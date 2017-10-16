@@ -1,4 +1,5 @@
 <div class="file-uploader">
     <a (click)="toggleFileUpload()" class="btn btn-primary">{{ label | translate }}</a>
-    <input #input type="file" (change)="uploadFile($event)" name="input-file" accept="image/*">
+    <!--<input #input type="file" (change)="uploadFile($event)" name="input-file" accept="image/*">-->
+    <input #input type="file" (change)="uploadFileCSV($event)" name="input-file" accept="file">
 </div>

@@ -8,20 +8,16 @@ scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
     "mysql" % "mysql-connector-java" % "5.1.38",
-    "net.coobird" % "thumbnailator" % "0.4.8",
     "commons-io" % "commons-io" % "2.5",
+    "org.json" % "org.json" % "chargebee-1.0",
+    "com.google.code.gson" % "gson" % "2.2.2",
     javaJdbc,
     cache,
     javaWs,
     filters
 )
 
-libraryDependencies += "org.json" % "org.json" % "chargebee-1.0"
-
-libraryDependencies += "com.google.code.gson" % "gson" % "2.2.2"
-
-lazy val myProject = (project in file("."))
-.enablePlugins(PlayJava, PlayEbean)
+lazy val myProject = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
 import com.typesafe.sbt.packager.MappingsHelper._
 mappings in Universal ++= directory(baseDirectory.value / "public")
@@ -37,4 +33,4 @@ EclipseKeys.createSrc := EclipseCreateSrc.ValueSet(EclipseCreateSrc.ManagedClass
 
 EclipseKeys.skipParents in ThisBuild := false
 
-fork in run := false
+fork in run := false

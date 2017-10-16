@@ -2,12 +2,17 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.ConfigFactory;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.*;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import models.Answer;
 import models.Caregiver;
@@ -18,6 +23,7 @@ import models.ResourceArea;
 import models.Sequence;
 import models.SequenceExercise;
 import models.Topic;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import play.Logger;
@@ -30,6 +36,47 @@ import play.mvc.Http.MultipartFormData.FilePart;
 
 @Security.Authenticated(Secured.class)
 public class AdminExerciseCtrl extends Controller {
+    
+    public static Result registerExerciseFromCSV(String topic, String level, String question, String rightAnswer, List<String> distractors){
+        
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+                    
+        Exercise exercise = null;
+        
+        // create topic (or find id by description if exists)
+        Long topicId;
+        Topic topicExists = Topic.findTopicByDescription(topic);
+        
+        if (topicExists == null) {
+            Topic newTopic = new Topic(topic, loggedCaregiver);
+            newTopic.save();
+            topicId = newTopic.getTopicId();
+        } else {
+            topicId = topicExists.getTopicId();
+        }
+        
+        // create level (or find id by description if exists)
+        Long levelId;
+        Level levelExists = Level.findLevelByDescription(level);
+        
+        if (levelExists == null) {
+            Level newLevel = new Level(level, loggedCaregiver);
+            newLevel.save();
+            levelId = newLevel.getLevelId();
+        } else {
+            levelId = levelExists.getLevelId();
+        }
+        
+        exercise = new Exercise(loggedCaregiver, topicId, levelId, question, -1, rightAnswer, distractors);
+        
+        exercise.save();
+        
+        return ok(Json.toJson(exercise));
+    }
+    
     
     @Inject
     FormFactory formFactory;
@@ -471,6 +518,13 @@ public class AdminExerciseCtrl extends Controller {
 
         return ok(buildJsonResponse("success", "Exercise deleted successfully"));
     }
+    
+    public String getExtension(String filename){
+        int i = filename.lastIndexOf('.');
+        
+        if (i > 0) return filename.substring(i+1);
+        else return "png";
+    }
    
     public Result uploadResources(String type) {
         Logger.debug("Uploading " + type);
@@ -489,9 +543,42 @@ public class AdminExerciseCtrl extends Controller {
                 
                  if (resource != null) {
                      
+                    // Resize
                     File file = resource.getFile();
-                     
+                    BufferedImage originalImage = ImageIO.read(file);
+                    BufferedImage thumbnail;
+                    int height = originalImage.getHeight();
+                    int width  = originalImage.getWidth();
+                    
+                    
+                    if(width > 640 || height > 480){
+                        int new_height = 0;
+                        int new_width  = 0;
+                        double ratio = 0;
+                        
+                        System.out.println(width + ", " + height);
+                        
+                        if(width >= 640) {
+                            new_width = 640;
+                            ratio = (new_width * 1.0)/width;
+                            new_height = (int) (height * ratio);
+                            System.out.println(new_width + ", " + new_height + ", " + ratio);
+                        }
+                        
+                        if(height >= 480) {
+                            new_height = 480;
+                            ratio = (new_height * 1.0)/height;
+                            new_width = (int) (width * ratio);
+                            System.out.println(new_width + ", " + new_height + ", " + ratio);
+                        }
+                        
+                        thumbnail = Thumbnails.of(originalImage).size(new_width, new_height).asBufferedImage();
+                    }
+                    else thumbnail = originalImage;
+                    
+                    // Change path and names
                     String fileName = resource.getFilename();
+                    String extension = this.getExtension(fileName);
                     
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                     Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
@@ -506,11 +593,13 @@ public class AdminExerciseCtrl extends Controller {
                             String pathClient = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" +                             
                                     File.separator + "assets" + File.separator + "images" + File.separator + type;          // path to the client
                             File fileDestinationClient = new File(pathClient, fileName2);
-                            FileUtils.copyFile(file, fileDestinationClient);
+                            ImageIO.write(thumbnail, extension, fileDestinationClient);
+                            //FileUtils.copyFile(file, fileDestinationClient);
                             
                             String pathServer = "public" + File.separator + "images" + File.separator + type;                // path to the server                   
                             File fileDestinationServer = new File(pathServer, fileName2);
-                            FileUtils.copyFile(file, fileDestinationServer);
+                            ImageIO.write(thumbnail, extension, fileDestinationServer);                            
+                            //FileUtils.copyFile(file, fileDestinationServer);
                             
                         }
                         else {
@@ -573,16 +662,18 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         
-        /*Sequence.getAll().forEach((seq) -> {
-            
-            seq.getSequenceExercises().remove(exercise);
-            seq.save();
-        });*/
-        
         Logger.debug("Deleting " + loggedCaregiver.getCaregiverLogin().getUsername() + "'s' resource. ");
 
+        try {
+            System.out.println(resource.getResourcePath());
+            
+            Path path = Paths.get("public/" + resource.getResourcePath());
+            Files.delete(path);
+        } catch (IOException e) {
+            return badRequest(buildJsonResponse("error", "Problem deleting resource " + resource.getResourcePath()));
+        }
+        
         resource.delete();
-
         return ok(buildJsonResponse("success", "Resource deleted successfully"));
      }
     

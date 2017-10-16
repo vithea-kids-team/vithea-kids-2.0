@@ -26,6 +26,7 @@ POST        /vithea-kids-api/child/:child/updatepreferences controllers.AdminChi
 
 # Exercise
 POST        /vithea-kids-api/registerexercise               controllers.AdminExerciseCtrl.registerExercise
+POST        /vithea-kids-api/uploadcsvexercises             controllers.AdminCtrl.uploadCSVExercises
 GET         /vithea-kids-api/exercise/:exercise             controllers.AdminExerciseCtrl.getExercise(exercise:Long)
 POST        /vithea-kids-api/editexercise/:exercise         controllers.AdminExerciseCtrl.editExercise(exercise:Long)
 GET         /vithea-kids-api/listexercises                  controllers.AdminExerciseCtrl.getExercises

@@ -1,13 +1,11 @@
 package models;
 
+import com.avaje.ebean.Model;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import com.avaje.ebean.Model;
-
-import java.util.List;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -58,14 +56,15 @@ public class Topic extends Model {
 	public static final Finder<Long, Topic> find = new Finder<>(Topic.class);
 
 	public static List<Topic> getAll() {
-        return find.all();
-    }
+            return find.all();
+        }
 
 	public static Topic findTopicById(Long topicId) {
-        return find
-		.where()
-		.eq("id", topicId)
-		.findUnique();
+            return find.where().eq("id", topicId).findUnique();
+        }
+        
+        public static Topic findTopicByDescription(String topicDescription) {
+            return find.where().eq("description", topicDescription).findUnique();
         }
         
         public static List<Topic> findByAuthor(Caregiver caregiver) {
