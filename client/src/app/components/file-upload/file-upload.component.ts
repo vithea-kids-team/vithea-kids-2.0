@@ -14,11 +14,13 @@ export class FileUploadComponent {
   @Input() label: string;
   @Input() name: string;
   @Input() resourceType: string;
+  @Input() image: boolean;
   @Output() results = new EventEmitter<any>();
 
   @ViewChild('input') input;
 
-  constructor(public resourcesService: ResourcesService, public exercisesService: ExercisesService, public router: Router, public route: ActivatedRoute) { }
+  constructor(public resourcesService: ResourcesService, public exercisesService: ExercisesService, 
+    public router: Router, public route: ActivatedRoute) { }
 
   toggleFileUpload() {
     this.input.nativeElement.click();

@@ -8,9 +8,9 @@ import { ResourcesService } from '../../services/resources/resources.service';
 })
 export class AdminComponent implements OnInit {
 
-  public avatarName: string = '';
+  public avatarName = '';
   public animatedCharactersResources;
-  public path: string = '';
+  public path = '';
 
   constructor(public resourcesService: ResourcesService) { }
 
@@ -29,7 +29,4 @@ export class AdminComponent implements OnInit {
     this.animatedCharactersResources.push(Object.assign({}, lastItem));
   }
 
-  updateFileCsv(results) {
-
-  }
 }
