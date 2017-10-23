@@ -25,6 +25,7 @@ public class SecurityController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "Authorization";
     public static final String AUTH_TOKEN = "authToken";
+    public AdminLogs adminLogs = new AdminLogs();
 
     public static Login getUser() {
         return (Login) Http.Context.current().args.get("user");
@@ -52,8 +53,7 @@ public class SecurityController extends Controller {
             String authToken = user.addSession();
             ObjectNode authTokenJson = Json.newObject();
             authTokenJson.put(AUTH_TOKEN, authToken);
-            response()
-                    .setCookie(Http.Cookie.builder(AUTH_TOKEN, authToken).withSecure(ctx().request().secure()).build());
+            response().setCookie(Http.Cookie.builder(AUTH_TOKEN, authToken).withSecure(ctx().request().secure()).build());
 
             Logger.debug("\t \t Returning authentication token.");
             
@@ -102,6 +102,48 @@ public class SecurityController extends Controller {
             user.setFirstName(signUpForm.get("firstname"));
             user.setLastName(signUpForm.get("lastname"));
             user.setGender(signUpForm.get("gender"));
+            user.save();
+            
+            // update path files
+            Logger.debug("\t \t Creating caregiver log files");
+            String path = "/Users/soraiamenesesalarcao/Desktop/Logs/";
+            
+            String pathExercises = path + "Log_caregiver_" +  user.getCaregiverId() + "_exercises.csv";
+            user.setPathExercisesLog(pathExercises);
+            adminLogs.createFile(pathExercises);
+            adminLogs.writeToFile(pathExercises, "exerciseId,caregiverId,timestamp,type,action,#answers,stimulus,default\n");
+            
+            
+            String pathSequences = path + "Log_caregiver_" +  user.getCaregiverId() + "_sequences.csv";
+            user.setPathSequencesLog(pathSequences);
+            adminLogs.createFile(pathSequences);
+            adminLogs.writeToFile(pathSequences, "sequenceId,caregiverId,timestamp,action,#exercises,#children\n");
+            
+            String pathResources = path + "Log_caregiver_" +  user.getCaregiverId() + "_resources.csv";
+            user.setPathResourcesLog(pathResources);
+            adminLogs.createFile(pathResources);
+            adminLogs.writeToFile(pathResources, "resourceId,caregiverId,exerciseId, timestamp,type,action,default\n");
+            
+            String pathTopics = path + "Log_caregiver_" +  user.getCaregiverId() + "_topics.csv";
+            user.setPathTopicsLog(pathTopics);
+            adminLogs.createFile(pathTopics);
+            adminLogs.writeToFile(pathTopics, "topicId,caregiverId,exerciseId,timestamp,action,description,default\n");
+            
+            String pathLevels = path + "Log_caregiver_" +  user.getCaregiverId() + "_levels.csv";
+            user.setPathLevelsLog(pathLevels);
+            adminLogs.createFile(pathLevels);
+            adminLogs.writeToFile(pathLevels, "levelId,caregiverId,exerciseId,timestamp,action,description,default\n");
+            
+            String pathChildren = path + "Log_caregiver_" +  user.getCaregiverId() + "_children.csv";
+            user.setPathChildrenLog(pathChildren);
+            adminLogs.createFile(pathChildren);
+            adminLogs.writeToFile(pathChildren, "childId,caregiverId,timestamp,action\n");
+            
+            String pathPrefs = path + "Log_caregiver_" +  user.getCaregiverId() + "_preferences.csv";
+            user.setPathPreferencesLog(pathPrefs);
+            adminLogs.createFile(pathPrefs);
+            adminLogs.writeToFile(pathPrefs, "childId,caregiverId,timestamp,type,strategy,strategy type(s),order,caps,emotions,char\n");
+            
             user.save();
             Logger.debug("\t \t \t Returning ok");
             return ok("User created successfully");

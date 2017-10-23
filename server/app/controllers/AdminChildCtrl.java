@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
@@ -35,6 +36,8 @@ public class AdminChildCtrl extends Controller {
     @Inject
     FormFactory formFactory;
     
+    public AdminLogs adminLogs = new AdminLogs();
+        
     public Result getPersonalMessages(Long childId) {
         Child child = Child.findByChildId(childId);
         if (child == null) {
@@ -93,7 +96,12 @@ public class AdminChildCtrl extends Controller {
             loggedCaregiver.addChild(child);
             Logger.debug(child.getChildLogin().getUsername() + " added to caregivers list.");
             loggedCaregiver.save();
-
+            
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String content = child.getChildId() + "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + "," + "create\n";
+            String pathChildren = loggedCaregiver.getPathChildrenLog();
+            adminLogs.writeToFile(pathChildren, content);
+            
             return ok(Json.toJson(child));
         }
     }
@@ -143,6 +151,17 @@ public class AdminChildCtrl extends Controller {
             child.setBirthDate(newUser.birthDate);
             
             child.save();
+            
+            Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+            if (loggedCaregiver == null) {
+                return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+            }
+            
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String content = child.getChildId() + "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + "," + "edit\n";
+            String pathChildren = loggedCaregiver.getPathChildrenLog();
+            adminLogs.writeToFile(pathChildren, content);
+            
             return ok(Json.toJson(child));
         }
     }
@@ -173,6 +192,11 @@ public class AdminChildCtrl extends Controller {
         });
         
         child.delete();
+            
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String content = child.getChildId() + "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + "," + "delete\n";
+        String pathChildren = loggedCaregiver.getPathChildrenLog();
+        adminLogs.writeToFile(pathChildren, content);
 
         return ok(buildJsonResponse("success", "User deleted successfully"));
     }
@@ -249,6 +273,7 @@ public class AdminChildCtrl extends Controller {
         public String reinforcementResourcePath;
 	public String emotions;
     }
+    
     public Result updatePreferences(Long childId) {
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
         if (loggedCaregiver == null) {
