@@ -6,6 +6,7 @@
     android:versionCode="1">
 
     <application
+        android:name = "com.l2f.vitheakids.Storage.ImageStorage"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"

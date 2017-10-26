@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Resource {
-
+    @JsonProperty private Long resourceId;
     @JsonProperty private String resourcePath;
     @JsonProperty private String resourceTypeDescription;
 
@@ -23,8 +23,11 @@ public class Resource {
 
     public void setResourcePath(String resourcePath) { this.resourcePath = resourcePath; }
     public void setResourceTypeDescription(String resourceTypeDescription) {this.resourceTypeDescription = resourceTypeDescription; }
-
     public boolean isAnimation() {
         return resourceTypeDescription != null && resourceTypeDescription.equals("animation");
+    }
+
+    public Long getResourceId() {
+        return resourceId;
     }
 }

@@ -1,5 +1,7 @@
 package com.l2f.vitheakids.model;
 
+import android.content.res.Resources;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -94,5 +96,15 @@ public class Child {
     public void setEmotions(Boolean emotions) {
         this.emotions = emotions;
     }
+
+
+	public List<Resource> getAllResourcesBySeqPosition(Integer position){
+		List<Resource> seqExercise = sequencesList.get(position).getAllResources();
+		Resource reinforcementResource = reinforcement.getReinforcementResource();
+        if(reinforcementResource!=null)
+		    seqExercise.add(reinforcementResource);
+
+		return seqExercise;
+	}
 
 }

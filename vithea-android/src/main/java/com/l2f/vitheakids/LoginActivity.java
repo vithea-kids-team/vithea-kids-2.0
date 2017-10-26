@@ -253,7 +253,7 @@ public class LoginActivity extends Activity implements TaskListener {
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getResources().getString(R.string.loading_login));
-        progressDialog.show();
+       // progressDialog.show();
     }
 
     /***

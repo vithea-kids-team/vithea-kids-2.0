@@ -1,8 +1,10 @@
 package com.l2f.vitheakids.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,5 +64,22 @@ public class Exercise {
         this.answers = answers;
     }
     public void setType(String type) {this.type = type;}
+
+    public  List<Resource> getAllUsedResources() {
+        List<Resource> resources = new ArrayList<Resource>();
+        Resource res1 = question.getStimulus();
+        if (res1!=null) {
+            resources.add(res1);
+        }
+        for (Answer answer : answers) {
+            res1 = answer.getStimulus();
+            if (res1!=null) {
+                resources.add(res1);
+            }
+        }
+        return resources;
+    }
+
+
 
 }

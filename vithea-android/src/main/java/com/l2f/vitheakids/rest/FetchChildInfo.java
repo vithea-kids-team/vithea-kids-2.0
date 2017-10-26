@@ -25,7 +25,9 @@ import com.l2f.vitheakids.model.AnimatedCharacter;
 import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.model.Exercise;
 import com.l2f.vitheakids.model.PersonalMessage;
+import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.model.SequenceExercises;
+import com.l2f.vitheakids.task.LoadImageTask;
 import com.l2f.vitheakids.task.ReadTask;
 import com.l2f.vitheakids.task.SwitchCharacterTask;
 import com.l2f.vitheakids.util.Api;
@@ -80,6 +82,7 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
 
             allExercises.setSequencesList(sequencesList);
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,3 +117,5 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
         }
     }
 }
+
+

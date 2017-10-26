@@ -1,5 +1,6 @@
 package com.l2f.vitheakids;
 
+import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.model.Exercise;
@@ -11,33 +12,23 @@ import com.l2f.vitheakids.model.SequenceLogInfo;
 import com.l2f.vitheakids.rest.FetchChildInfo;
 import com.l2f.vitheakids.task.LoadImageTask;
 import com.l2f.vitheakids.task.ReadTask;
-import com.l2f.vitheakids.util.ConnectionDetector;
 import com.l2f.vitheakids.util.ExerciseMenuListWithoutImageAdapter;
 import com.l2f.vitheakids.util.CanvasUtil;
 import com.l2f.vitheakids.util.Prompting;
 import com.unity3d.player.*;
 
-import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -62,18 +53,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static com.fasterxml.jackson.databind.jsonFormatVisitors.JsonValueFormat.COLOR;
-import static java.lang.Enum.valueOf;
 
 /**
  * Updated by Soraia Meneses Alarcão on 21/07/2017
@@ -120,6 +104,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private ImageView rightAnswer;
 
+    private ImageStorage imageStorage;
+
+    private String seqName;
     // *************************************************************************************************
 
     public void initActivePrompting(Boolean state){
@@ -135,11 +122,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
 
+        imageStorage = (ImageStorage) getApplication();
+
+
         getWindow().setFormat(PixelFormat.RGBX_8888); // <--- This makes xperia play happy
         setContentView(R.layout.main);
 
         initUnityCharacter();   // conf unity player
         initViews();            // conf views and layouts
+
 
         new FetchChildInfo(VitheaKidsActivity.this).execute();
 
@@ -335,7 +326,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         }
 
         lv.setAdapter(mAdapter);
-
+        final VitheaKidsActivity  act = this;
         // Setup onClickListener
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
@@ -348,19 +339,25 @@ public class VitheaKidsActivity extends AppCompatActivity {
                     Log.d("shuffleEnable", "true");
                     Collections.shuffle(seq.getSequenceExercises());
                 }
+
                 exercises = seq.getSequenceExercises();
                 currentExercisePosition = 0;
                 inExercise = true;          // Start exercises
                 inHomeScreen = false;       // Not in home screen
                 inSequenceScreen = false;   // Not in sequence screen
 
-                setExerciseView();          // Draw view exercise
-                setNavigationView();        // Button - skip, finish, etc
+                seqName = seq.getName();
+
+                List<Resource> resources = child.getAllResourcesBySeqPosition(position);
+                new LoadImageTask(resources,seq.getName(),act).execute();
+
+                         // Draw view exercise
             }
         });
 
     }
     public void setExerciseView() {
+
 
         setupActionBar(getString(R.string.exercise));
 
@@ -433,16 +430,14 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // Stimulus
         Resource stimulus = exercise.getQuestion().getStimulus();
-        String path = stimulus != null ? stimulus.getResourcePath() : "";
 
-        Log.d("PATH: " , path );
 
-        if (!path.isEmpty()) {
-            String domain = getString(R.string.resources_addr_kids);
-            path = domain + path;
+        if (stimulus!=(null)) {
 
-            ImageView img = (ImageView) findViewById(R.id.stimulusImage);
-            new LoadImageTask(this, img).execute(path);
+                    Bitmap image  = imageStorage.getImage(seqName,stimulus.getResourceId());
+                    ImageView img = (ImageView) findViewById(R.id.stimulusImage);
+                    img.setVisibility(View.VISIBLE);
+                    img.setImageBitmap(image);
         }
       else {
             ImageView img = (ImageView) findViewById(R.id.stimulusImage);
@@ -526,7 +521,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
      * @param exercise
      * @param container
      */
-    private void setImageMultipleChoiceExerciseView(Exercise exercise, LinearLayout container) {
+    private void setImageMultipleChoiceExerciseView(Exercise exercise, LinearLayout container)  {
         View ex_view = (View) linflater.inflate(R.layout.exercise_multiple_images, null);
         container.addView(ex_view);
 
@@ -555,6 +550,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
             // FIXME Verify if will be possible to have more than 4 answers
             if(numberAnswers > 4) numberAnswers = 4;
 
+
+
             for (int i = 0; i < numberAnswers; i++) {
                 ImageView option = (ImageView) findViewById(idImageViews.get(i));
                 Answer answer = answers.get(i);
@@ -564,7 +561,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 if (!path.isEmpty()) {
                     String domain = getString(R.string.resources_addr_kids);
                     path = domain + path;
-                    new LoadImageTask(this, option).execute(path);
+
+                    Bitmap bitmap = imageStorage.getImage(seqName, answerImage.getResourceId());
+                    option.setImageBitmap(bitmap);
                 }
 
                 option.setVisibility(View.VISIBLE);
@@ -618,15 +617,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
     }
 
     public void setReinforcementView() {
-        String imgURL;
-
+        Resource res;
+        //// FIXME: 18/10/2017 
         try {
-            imgURL = child.getReinforcement().getReinforcementResource().getResourcePath();
+            res = child.getReinforcement().getReinforcementResource();
         } catch (NullPointerException e) {
-            imgURL = "";
+            res = null;
         }
 
-        if (reinforcementActive && !imgURL.isEmpty()) {
+        if (reinforcementActive && res!=null) {
             hideActionBar(); // TODO maybe not hide?
 
             // Clear rightFrameLayout
@@ -644,10 +643,11 @@ public class VitheaKidsActivity extends AppCompatActivity {
             LinearLayout container = (LinearLayout) findViewById(R.id.scroll_container);
             container.addView(ref_view);
 
-            String path = getString(R.string.resources_addr_kids) + imgURL;
 
             ImageView image = (ImageView) findViewById(R.id.reinforcement_image);
-            new LoadImageTask(this, image).execute(path);
+            Bitmap bitmap = imageStorage.getImage(seqName, res.getResourceId());
+            image.setImageBitmap(bitmap);
+            image.setVisibility(View.VISIBLE);
 
             // equivalent to next button
             ImageButton closeReinforcement = (ImageButton) findViewById(R.id.closeReinforcement);

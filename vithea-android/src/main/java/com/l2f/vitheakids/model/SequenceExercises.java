@@ -3,6 +3,7 @@ package com.l2f.vitheakids.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,14 @@ public class SequenceExercises {
     @Override
     public String toString() {
         return "Exercise [name=" + sequenceName + "]";
+    }
+
+    public List<Resource> getAllResources(){
+        List<Resource> listResources = new ArrayList<Resource>();
+        for (Exercise exercise: sequenceExercises){
+            listResources.addAll(exercise.getAllUsedResources());
+        }
+        return listResources;
     }
 
 }
