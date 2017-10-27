@@ -1,13 +1,11 @@
 package models;
 
+import com.avaje.ebean.Model;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import java.util.List;
-
-import com.avaje.ebean.Model;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -58,16 +56,15 @@ public class Level extends Model {
 	public static final Finder<Long, Level> find = new Finder<>(Level.class);
 
 	public static List<Level> getAll() {
-        return find		
-		//.orderBy("level_description desc")
-		.all();
-    }
+            return find.all();
+        }
 	
 	public static Level findLevelById(Long levelId) {
-        return find
-		.where()
-		.eq("id", levelId)
-		.findUnique();
+            return find.where().eq("id", levelId).findUnique();
+        }
+        
+        public static Level findLevelByDescription(String levelDescription) {
+            return find.where().eq("description", levelDescription).findUnique();
         }
         
         public static List<Level> findByAuthor(Caregiver caregiver) {

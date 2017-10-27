@@ -41,18 +41,15 @@ public class Caregiver extends Model {
     @JoinTable(name = "caregiver_child")
     private List<Child> childList;
     
-    /*@OneToOne(cascade = CascadeType.ALL)
-    private List<ChildPreferencesLog> childPreferencesLog;
+    private String pathExercisesLog;
+    private String pathSequencesLog;
+    private String pathResourcesLog;
+    private String pathTopicsLog;
+    private String pathLevelsLog;
+    private String pathPreferencesLog;
+    private String pathChildrenLog;
 
-    
-    
-    public List<ChildPreferencesLog> getChildPreferencesLog() {
-        return childPreferencesLog;
-    }
 
-    public void setChildPreferencesLog(List<ChildPreferencesLog> childPreferencesLog) {
-        this.childPreferencesLog = childPreferencesLog;
-    }*/
 
     /**
      * @return the caregiverId
@@ -168,6 +165,63 @@ public class Caregiver extends Model {
      */
     public void removeChild(Child child) {
         childList.remove(child);
+    }
+    
+    
+    public String getPathExercisesLog() {
+        return pathExercisesLog;
+    }
+
+    public void setPathExercisesLog(String pathExercisesLog) {
+        this.pathExercisesLog = pathExercisesLog;
+    }
+
+    public String getPathSequencesLog() {
+        return pathSequencesLog;
+    }
+
+    public void setPathSequencesLog(String pathSequencesLog) {
+        this.pathSequencesLog = pathSequencesLog;
+    }
+
+    public String getPathResourcesLog() {
+        return pathResourcesLog;
+    }
+
+    public void setPathResourcesLog(String pathResourcesLog) {
+        this.pathResourcesLog = pathResourcesLog;
+    }
+
+    public String getPathTopicsLog() {
+        return pathTopicsLog;
+    }
+
+    public void setPathTopicsLog(String pathTopicsLog) {
+        this.pathTopicsLog = pathTopicsLog;
+    }
+
+    public String getPathLevelsLog() {
+        return pathLevelsLog;
+    }
+
+    public void setPathLevelsLog(String pathLevelsLog) {
+        this.pathLevelsLog = pathLevelsLog;
+    }
+
+    public String getPathPreferencesLog() {
+        return pathPreferencesLog;
+    }
+
+    public void setPathPreferencesLog(String pathPreferencesLog) {
+        this.pathPreferencesLog = pathPreferencesLog;
+    }
+    
+    public String getPathChildrenLog() {
+        return pathChildrenLog;
+    }
+
+    public void setPathChildrenLog(String pathChildrenLog) {
+        this.pathChildrenLog = pathChildrenLog;
     }
 
     public static final Finder<Long, Caregiver> find = new Finder<>(Caregiver.class);

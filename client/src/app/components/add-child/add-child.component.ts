@@ -28,8 +28,109 @@ export class AddChildComponent implements OnInit {
 
   public selDate: IMyDate;
 
+  public usernameError;
+  public genderError;
+  public lastNameError;
+  public firstNameError;
+  public passwordError;
+  public confirmpasswordError;
+
+
   constructor(public modal: Modal, public childService: ChildrenService, public location: Location,
     public router: Router, public route: ActivatedRoute) { }
+
+  validateUsername() {
+    if (this.model.username === undefined) {
+      this.usernameError = true;
+    } else {
+      this.usernameError = false;
+      let username = this.model.username.replace(/\s+/g, '');
+      if (username.length === 0) {
+        this.usernameError = true;
+      } else {
+        this.usernameError = false;
+      }
+    }
+  }
+
+  validatePassword() {
+    if (this.model.password === undefined) {
+      this.passwordError = true;
+    } else {
+      this.passwordError = false;
+    }
+  }
+
+  validateConfirmPassword() {
+    this.confirmpasswordError = false
+
+    if (this.model.confirmpassword === undefined) {
+      this.confirmpasswordError = true;
+    }
+
+  }
+
+  validateFirstName() {
+    if (this.model.firstName === undefined) {
+      this.firstNameError = true;
+    } else {
+      this.firstNameError = false;
+      let firstName = this.model.firstName.replace(/\s+/g, '');
+      if (firstName.length === 0) {
+        this.firstNameError = true;
+      } else {
+        this.firstNameError = false;
+      }
+    }
+  }
+
+  validateLastName() {
+    if (this.model.lastName === undefined) {
+      this.lastNameError = true;
+    } else {
+      this.lastNameError = false;
+      let lastName = this.model.lastName.replace(/\s+/g, '');
+      if (lastName.length === 0) {
+        this.lastNameError = true;
+      } else {
+        this.lastNameError = false;
+      }
+    }
+  }
+
+  validateGender() {
+    if (this.model.gender === undefined) {
+      this.genderError = true;
+    } else {
+      this.genderError = false;
+    }
+  }
+
+  submit() {
+    this.validateUsername();
+    this.validatePassword();
+    this.validateConfirmPassword();
+    this.validateFirstName();
+    this.validateLastName();
+    this.validateGender();
+
+    if (this.usernameError === false && this.passwordError === false && this.confirmpasswordError === false &&
+      this.firstNameError === false && this.lastNameError === false && this.genderError === false) {
+      this.createChild();
+    }
+  }
+
+  submitEdit() {
+    this.validateUsername();
+    this.validateFirstName();
+    this.validateLastName();
+    this.validateGender();
+
+    if (this.usernameError === false && this.firstNameError === false && this.lastNameError === false && this.genderError === false) {
+      this.createChild();
+    }
+  }
+
 
   ngOnInit() {
     this.loading = true;

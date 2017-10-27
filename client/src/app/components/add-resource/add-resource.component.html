@@ -18,11 +18,11 @@
             </div>
             <div *ngIf="newResource.type == 'stimulusanswers' " class="form-group">
                 <!--<image-picker [(ngModel)]="reinforcementImgs" required [multiSelect]="false" name="image"></image-picker>-->
-                <file-upload [label]="'_Upload_'" [resourceType]="'stimuli'" [name]="stimuli" (results)="goBack()"></file-upload>
+                <file-upload [label]="'_Upload_'" [resourceType]="'stimuli'" [name]="stimuli" [image]="true" (results)="goBack()"></file-upload>
             </div>
             <div *ngIf="newResource.type== 'reinforcement'" class="form-group">
                 <!--<image-picker [(ngModel)]="reinforcementImgs" required [multiSelect]="false" name="image"></image-picker>-->
-                <file-upload [label]="'_Upload_'" [resourceType]="'reinforcement'" [name]="reinforcement" (results)="goBack()"></file-upload>
+                <file-upload [label]="'_Upload_'" [resourceType]="'reinforcement'" [name]="reinforcement" [image]="true" (results)="goBack()"></file-upload>
             </div>
         </div>
 

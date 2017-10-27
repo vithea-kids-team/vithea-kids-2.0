@@ -62,8 +62,8 @@
                     <img *ngIf="exercise.question?.stimulus" class="thumbnail" [src]="'vithea-kids/assets/' + exercise.question?.stimulus?.resourcePath">
                     <p>{{ truncate(exercise.topic?.topicDescription, 25) }}&emsp;&emsp;{{ truncate(exercise.level?.levelDescription, 25) }}</p>
                     <div class="col-md-6 col-sm-6" *ngFor="let distractor of exercise.answers">{{ truncate(distractor?.answerDescription, 25) }}
-                        <span class="glyphicon glyphicon-check" style="font-size: small;" *ngIf="distractor.answerId == exercise.rightAnswer?.answerId"></span>
-                        <span class="glyphicon glyphicon-unchecked" style="font-size: small;" *ngIf="distractor.answerId != exercise.rightAnswer?.answerId"></span>
+                        <span class="glyphicon glyphicon-check" style="font-size: small;" *ngIf="distractor.answerId === exercise.rightAnswer?.answerId"></span>
+                        <span class="glyphicon glyphicon-unchecked" style="font-size: small;" *ngIf="distractor.answerId !== exercise.rightAnswer?.answerId"></span>
                         <img *ngIf="distractor.stimulus" class="thumbnail" [src]="'vithea-kids/assets/' + distractor.stimulus?.resourcePath">
                     </div>
                 </div>

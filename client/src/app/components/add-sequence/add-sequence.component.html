@@ -1,0 +1,112 @@
+<loader *ngIf="loading"></loader>
+<div class="container" *ngIf="!loading">
+    <h2 *ngIf="!newSequence.sequenceId">{{ '_CreateSequence_' | translate }}</h2>
+    <h2 *ngIf="newSequence.sequenceId">{{ '_EditSequence_' | translate }}</h2>
+
+    <div style="height: 50px;">
+        <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
+    </div>
+
+    <form ngSubmit="registerSequence()" #sequenceForm="ngForm" class="col-md-8">
+        <div class="row">
+            <div class="col-md-12 col-sm-12" style="padding-left:0">
+                <div class="form-group">
+                    <label for="sequenceName">{{ '_SequenceName_' | translate }}<span class="text-danger"> * </span></label>
+                    <input type="text" class="form-control" id="sequenceName" maxlength="50" required [(ngModel)]="newSequence.sequenceName" (ngModelChange)="validateNameSequence()" name="sequenceName" #sequenceName="ngModel">
+                    <div *ngIf="nameError" class="alert alert-danger"> {{ '_RequiredSequenceName_' | translate }} </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="row">
+                <h3>{{ '_AddExercisesToSequence_' | translate }}<span class=" text-danger "> * </span></h3>
+                <!--<loader *ngIf="!exercises "></loader>-->
+                <div *ngIf="exercises?.length> 0 || addedExercises?.length > 0">
+                    <div>
+                        <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
+                            <label>{{ '_ExercisesToAdd_' | translate }}</label>
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item__empty" *ngIf="exercises?.length === 0">{{ '_NoExercisesToAdd_' | translate }}</li>
+                                <li class="list-group-item list-group-item-content" *ngFor=" let exercise of exercises; let index = index">
+                                    <span>{{ truncate(exercise.question?.questionDescription, 15) }}</span>
+                                    <span class="grey">{{exercise.type | translate}}</span>
+                                    <a class="btn btn-success pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                                </li>
+                            </ul>
+                        </form>
+                        <div class="col-md-6 col-sm-6">
+                            <label>{{ '_SequenceExercises_' | translate }}</label>
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item__empty" *ngIf="addedExercises.length === 0"><em>{{ '_AddExercisesToSequence_' | translate }}</em></li>
+                                <li class="list-group-item list-group-item-content" *ngFor=" let exercise of addedExercises; let index = index">
+                                    <a class="btn btn-danger pull-left" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                                    <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
+                                    <span>{{truncate(exercise.question?.questionDescription, 15) }}</span>
+                                    <span class="grey">{{exercise.type | translate}}</span>
+                                    <a *ngIf="index >= 1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                                    <a class="btn btn-secondary pull-right" style="padding:0"></a>
+                                    <a *ngIf="index < addedExercises?.length-1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div *ngIf="exercisesAddedError" class="alert alert-danger"> {{ '_AddExercisesToSequence_' | translate }} </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="row">
+                <h3>{{ '_AssignChildrenToSequence_' | translate }}</h3>
+                <!--<loader *ngIf="!children"></loader>-->
+                <div *ngIf="children?.length > 0 || addedChildren?.length > 0">
+                    <div>
+                        <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
+                            <label>{{ '_ChildrenToAdd_' | translate }}</label>
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item__empty" *ngIf="children?.length === 0">{{ '_NoChildrenToAdd_' | translate }}</li>
+                                <li class="list-group-item list-group-item-content" *ngFor=" let child of children; let index = index">
+                                    <span>{{child.firstName}} {{child.lastName}}</span>
+                                    <a class="btn btn-success pull-right" style="padding:0" (click)="addChild(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                                </li>
+                            </ul>
+                        </form>
+                        <div class="col-md-6 col-sm-6">
+                            <label>{{ '_SequenceChildren_' | translate }}</label>
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item__empty" *ngIf="addedChildren.length === 0"><em>{{ '_AssignChildrenToSequence_' | translate }}</em></li>
+                                <li class="list-group-item list-group-item-content" *ngFor="let child of addedChildren; let index = index">
+                                    <span>{{child.firstName}} {{child.lastName}}</span>
+                                    <a class="btn btn-danger pull-left" style="padding:0" (click)="removeChild(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                                    <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div *ngIf="childrenAddedError" class="alert alert-danger"> {{ '_AssignChildrenToSequence_' | translate }} </div>
+            </div>
+        </div>
+
+        <div style="height: 70px; ">
+            <div *ngIf="error " class="alert alert-danger "> {{ error | translate }} </div>
+            <loader *ngIf="loadingAdd " [height]="50"></loader>
+        </div>
+
+        <div class="row">
+            <a *ngIf="!newSequence.sequenceId" type="button" (click)="submitRegisterSequence()" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_CreateSequence_' | translate }}
+            </a>
+            <a *ngIf="newSequence.sequenceId" type="button" (click)="submitEditSequence()" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
+            </a>
+            <button [routerLink]="['/sequences']" type="button" class="btn btn-secondary"> 
+              <span class="glyphicon glyphicon-remove" style="font-size: small;" aria-hidden="true"></span> {{'_Cancel_' | translate }}
+            </button>
+        </div>
+    </form>
+</div>

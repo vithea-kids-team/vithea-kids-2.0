@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import static java.lang.Integer.parseInt;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -21,6 +22,9 @@ import static play.mvc.Results.ok;
 @Security.Authenticated(Secured.class)
 public class AdminSequencesCtrl extends Controller {
 
+    public AdminLogs adminLogs = new AdminLogs();
+
+    
     @Inject
     FormFactory formFactory;
 
@@ -59,6 +63,7 @@ public class AdminSequencesCtrl extends Controller {
             }
             i++;
         }
+        int exercises = exerciseIds.size();
         
         List<Long> childrenIds = new ArrayList<>();
         int j = 0;
@@ -78,6 +83,7 @@ public class AdminSequencesCtrl extends Controller {
             }
             j++;
         }
+        int children = childrenIds.size();
         
         Sequence sequence = new Sequence(sequenceName, exerciseIds, order, childrenIds, Caregiver.findByUsername(SecurityController.getUser().username));
         sequence.save();
@@ -111,7 +117,12 @@ public class AdminSequencesCtrl extends Controller {
             }
         }
         
-        Logger.debug("number of child:" + sequence.getSequenceChildren().size());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String content = sequence.getSequenceId()+ "," + loggedCaregiver.getCaregiverId() + "," + 
+                timestamp.toLocalDateTime() + "," + "create" + "," + exercises + "," + children + "," + "\n";
+        String pathSequence = loggedCaregiver.getPathSequencesLog();
+        adminLogs.writeToFile(pathSequence, content);
+        
 
         return ok(Json.toJson(sequence));
     }
@@ -125,6 +136,11 @@ public class AdminSequencesCtrl extends Controller {
 
         if (editSequenceForm.hasErrors()) {
             return badRequest(editSequenceForm.errorsAsJson());
+        }
+        
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
                
         Sequence sequence = Sequence.findSequenceById(sequenceId);
@@ -158,6 +174,7 @@ public class AdminSequencesCtrl extends Controller {
                 i++;
             }
             sequence.setSequenceExercisesById(exerciseIds, order);
+            int exercises = exerciseIds.size();
         
             List<Long> childrenIds = new ArrayList<>();
             int j = 0;
@@ -178,14 +195,20 @@ public class AdminSequencesCtrl extends Controller {
                 j++;
             }
             sequence.setSequenceChildrensById(childrenIds);
+            int children = childrenIds.size();
         
             sequence.save();
+            
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String content = sequence.getSequenceId()+ "," + loggedCaregiver.getCaregiverId() + "," + 
+                timestamp.toLocalDateTime() + "," + "edit" + "," + exercises + "," + children + "\n";
+            String pathSequence = loggedCaregiver.getPathSequencesLog();
+            adminLogs.writeToFile(pathSequence, content);
         
             return ok(Json.toJson(sequence));
         }
     }
 
-    
     /*
      * GetSequences action
      */
@@ -214,6 +237,12 @@ public class AdminSequencesCtrl extends Controller {
      * DeleteSequence action
      */
     public Result deleteSequence (Long sequenceId) {
+        
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
         Sequence seq = Sequence.findSequenceById(sequenceId);
         Child.find.all().forEach((c) -> {
             c.getSequencesList().remove(seq);
@@ -227,6 +256,12 @@ public class AdminSequencesCtrl extends Controller {
         seq.getSequenceExercisesList().clear();
         
         seq.delete();
+        
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String content = seq.getSequenceId()+ "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + "," + "delete\n";
+        String pathSequence = loggedCaregiver.getPathSequencesLog();
+        adminLogs.writeToFile(pathSequence, content);
+                        
         
         return ok("Sequence deleted");
     }

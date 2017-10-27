@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import play.Logger;
 
 @Entity
 public class Answer extends Model {
@@ -80,6 +81,12 @@ public class Answer extends Model {
      */
     public void setStimulus(Long stimulusId) {
         this.stimulus = Resource.findById(stimulusId);
+    }
+    
+    public static final Finder<Long, Answer> find = new Finder<>(Answer.class);
+    public static Answer findAnswerById(Long id) {
+        Logger.debug("Looking for answers with id: " + id);
+        return find.where().eq("id", id).findUnique();
     }
     
 }

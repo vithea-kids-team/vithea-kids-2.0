@@ -8,6 +8,7 @@ export class Child {
     public gender: string
     public username: string
     public password: string
+    public confirmpassword: string
     public createdUtc: string
     public enabled: boolean
     public sequenceId: number

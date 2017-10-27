@@ -805,6 +805,11 @@ public class VitheaKidsActivity extends AppCompatActivity {
             if (child.getPrompting().getPromptingStrategy().equals("IF_NEEDED") || child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
                 if (child.getPrompting().getPromptingHide()) {
                     v.setVisibility(View.INVISIBLE);
+                    if(isImageExercise){
+                        FrameLayout fr = (FrameLayout) v.getParent();
+                        ImageView im  = (ImageView) fr.getChildAt(1);
+                        im.setVisibility(View.INVISIBLE);
+                    }
                     if(isTextExercise){
                         currentAnswers.remove(((Button) v).getText().toString().toUpperCase());}
                 }

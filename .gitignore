@@ -42,3 +42,8 @@ npm-debug.log
 /client_old
 /server/nbproject/private/
 server/conf/evolutions/
+*.jpg
+server/public/images/stimuli/1506613074488crocodilo.jpeg
+*.png
+server/public/images/stimuli/1506608156427darwin.gif
+*.gif

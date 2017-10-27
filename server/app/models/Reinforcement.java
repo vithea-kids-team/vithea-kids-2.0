@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Reinforcement extends Model {
@@ -19,7 +19,7 @@ public class Reinforcement extends Model {
     private ReinforcementStrategy reinforcementStrategy;
     
     @Column(nullable = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Resource reinforcementResource;
 
     public Reinforcement() {

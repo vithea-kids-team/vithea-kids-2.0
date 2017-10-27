@@ -67,11 +67,7 @@ public class Prompting {
         im.setVisibility(View.VISIBLE);
     }
 
-
-
-
-
-    public static StateListDrawable makeSelector(Context context,int color) {
+    public static StateListDrawable makeSelector(Context context, int color) {
 
         StateListDrawable stateListDrawable = new StateListDrawable();
         Drawable buttonSelected = context.getResources().getDrawable(R.drawable.buttonselected);
