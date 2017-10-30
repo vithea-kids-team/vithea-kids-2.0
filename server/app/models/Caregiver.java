@@ -50,7 +50,6 @@ public class Caregiver extends Model {
     private String pathChildrenLog;
 
 
-
     /**
      * @return the caregiverId
      */

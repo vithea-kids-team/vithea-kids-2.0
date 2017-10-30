@@ -111,18 +111,18 @@ public class SecurityController extends Controller {
             String pathExercises = path + "Log_caregiver_" +  user.getCaregiverId() + "_exercises.csv";
             user.setPathExercisesLog(pathExercises);
             adminLogs.createFile(pathExercises);
-            adminLogs.writeToFile(pathExercises, "exerciseId,caregiverId,timestamp,type,action,#answers,stimulus,default\n");
+            adminLogs.writeToFile(pathExercises, "exerciseId,caregiverId,timestamp,type,action,#answers,resources,stimulus,default\n");
             
             
             String pathSequences = path + "Log_caregiver_" +  user.getCaregiverId() + "_sequences.csv";
             user.setPathSequencesLog(pathSequences);
             adminLogs.createFile(pathSequences);
-            adminLogs.writeToFile(pathSequences, "sequenceId,caregiverId,timestamp,action,#exercises,#children\n");
+            adminLogs.writeToFile(pathSequences, "sequenceId,caregiverId,timestamp,action,#exercises,exercises,#children,children\n");
             
             String pathResources = path + "Log_caregiver_" +  user.getCaregiverId() + "_resources.csv";
             user.setPathResourcesLog(pathResources);
             adminLogs.createFile(pathResources);
-            adminLogs.writeToFile(pathResources, "resourceId,caregiverId,exerciseId, timestamp,type,action,default\n");
+            adminLogs.writeToFile(pathResources, "resourceId,caregiverId,exerciseId,timestamp,type,action,default\n");
             
             String pathTopics = path + "Log_caregiver_" +  user.getCaregiverId() + "_topics.csv";
             user.setPathTopicsLog(pathTopics);
@@ -142,7 +142,9 @@ public class SecurityController extends Controller {
             String pathPrefs = path + "Log_caregiver_" +  user.getCaregiverId() + "_preferences.csv";
             user.setPathPreferencesLog(pathPrefs);
             adminLogs.createFile(pathPrefs);
-            adminLogs.writeToFile(pathPrefs, "childId,caregiverId,timestamp,type,strategy,strategy type(s),order,caps,emotions,char\n");
+            adminLogs.writeToFile(pathPrefs, "childId,caregiverId,timestamp,greeetingMessage,exerciseReinforcementMessage,"
+                    + "sequenceReinforcementMessage,promptingStrat,promptingColor,promptingHide,promptingScratch,"
+                    + "promptingSize,promptingRead,reinforcementStrat,resourceId,order,caps,emotions,animatedChar\n");
             
             user.save();
             Logger.debug("\t \t \t Returning ok");

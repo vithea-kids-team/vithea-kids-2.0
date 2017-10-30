@@ -297,9 +297,12 @@ submit () {
     this.error = undefined;
 
     const stimulus = this.stimulusImgs.filter((stimulus) => { return stimulus.selected; });
-    if (stimulus.length > 0) {
+    if (stimulus.length === 1) {
       this.newExercise.stimulus = stimulus[0].resourceId;
+    } else {
+      this.newExercise.stimulus = null;
     }
+
     if (this.newExercise.type === 'image') {
       const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
       const answersImg1 = this.answersImgs1.filter((stimulus) => { return stimulus.selected; });

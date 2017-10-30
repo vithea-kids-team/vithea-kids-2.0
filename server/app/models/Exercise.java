@@ -163,6 +163,9 @@ public class Exercise extends Model {
     public void removeAnswer(Answer ans){
         answersList.remove(ans);
     }
+    public void removeQuestion(){
+        question.delete();
+    }
     public Caregiver getAuthor() {
         return author;
     }

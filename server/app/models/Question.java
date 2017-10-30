@@ -30,7 +30,7 @@ public class Question extends Model {
 
     private String stimulusText;
 
-    Question(String question) {
+    public Question(String question) {
         this.questionDescription = question;
     }
 

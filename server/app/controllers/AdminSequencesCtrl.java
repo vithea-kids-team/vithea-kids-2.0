@@ -32,6 +32,8 @@ public class AdminSequencesCtrl extends Controller {
     public Result registerSequence() {
         DynamicForm registerSequenceForm = formFactory.form().bindFromRequest();
 
+        String sexercisesIds = "", schildrenIds = "";
+        
         if (registerSequenceForm.hasErrors()) {
             return badRequest(registerSequenceForm.errorsAsJson());
         }
@@ -51,6 +53,7 @@ public class AdminSequencesCtrl extends Controller {
                 int answerId;
                 try {
                     answerId = parseInt(registerSequenceForm.data().get(key));
+                    sexercisesIds += answerId + " ";
                 } catch (NumberFormatException e) {
                     answerId = -1;
                 }
@@ -73,6 +76,7 @@ public class AdminSequencesCtrl extends Controller {
                 int childId;
                 try {
                     childId = parseInt(registerSequenceForm.data().get(key));
+                    schildrenIds += childId + " ";
                 } catch (NumberFormatException e) {
                     childId = -1;
                 }
@@ -119,7 +123,8 @@ public class AdminSequencesCtrl extends Controller {
         
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String content = sequence.getSequenceId()+ "," + loggedCaregiver.getCaregiverId() + "," + 
-                timestamp.toLocalDateTime() + "," + "create" + "," + exercises + "," + children + "," + "\n";
+                timestamp.toLocalDateTime() + "," + "create" + "," + exercises + "," + sexercisesIds + 
+                "," + children + "," + schildrenIds + "\n";
         String pathSequence = loggedCaregiver.getPathSequencesLog();
         adminLogs.writeToFile(pathSequence, content);
         
@@ -142,6 +147,8 @@ public class AdminSequencesCtrl extends Controller {
         if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
+        
+        String sexercisesIds = "", schildrenIds = "";
                
         Sequence sequence = Sequence.findSequenceById(sequenceId);
         
@@ -162,6 +169,7 @@ public class AdminSequencesCtrl extends Controller {
                     int answerId;
                     try {
                         answerId = parseInt(editSequenceForm.data().get(key));
+                        sexercisesIds += answerId + " ";     
                     } catch (NumberFormatException e) {
                         answerId = -1;
                     }
@@ -184,6 +192,7 @@ public class AdminSequencesCtrl extends Controller {
                     int childId;
                     try {
                         childId = parseInt(editSequenceForm.data().get(key));
+                        schildrenIds += childId + " ";
                     } catch (NumberFormatException e) {
                         childId = -1;
                     }
@@ -201,7 +210,8 @@ public class AdminSequencesCtrl extends Controller {
             
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             String content = sequence.getSequenceId()+ "," + loggedCaregiver.getCaregiverId() + "," + 
-                timestamp.toLocalDateTime() + "," + "edit" + "," + exercises + "," + children + "\n";
+                timestamp.toLocalDateTime() + "," + "edit" + "," + exercises + "," + sexercisesIds + 
+                "," + children + "," + schildrenIds + "\n";
             String pathSequence = loggedCaregiver.getPathSequencesLog();
             adminLogs.writeToFile(pathSequence, content);
         
@@ -262,7 +272,6 @@ public class AdminSequencesCtrl extends Controller {
         String pathSequence = loggedCaregiver.getPathSequencesLog();
         adminLogs.writeToFile(pathSequence, content);
                         
-        
         return ok("Sequence deleted");
     }
 

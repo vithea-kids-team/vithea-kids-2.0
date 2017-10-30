@@ -294,10 +294,18 @@ public class AdminChildCtrl extends Controller {
         
         UpdatePreferences prefs = updatePreferencesForm.get();
         
+        String greetingMessage = child.getPersonalMessagesList().get(0).getMessage();
+        String exerciseReinforcementMessage = child.getPersonalMessagesList().get(1).getMessage();
+        String sequenceReinforcementMessage = child.getPersonalMessagesList().get(2).getMessage();
+                
         this.setPersonalMessages(child, prefs.greetingMessage, prefs.exerciseReinforcementMessage, prefs.sequenceReinforcementMessage);
         Logger.debug("Greeting message:" + prefs.greetingMessage);
         Logger.debug("Exercise message:" + prefs.exerciseReinforcementMessage);
         Logger.debug("Sequence message:" + prefs.sequenceReinforcementMessage);
+        
+        Boolean greeting = !greetingMessage.equals(prefs.greetingMessage);
+        Boolean exerciseReinforcement = !exerciseReinforcementMessage.equals(prefs.exerciseReinforcementMessage);
+        Boolean sequenceReinforcement = !sequenceReinforcementMessage.equals(prefs.sequenceReinforcementMessage);
         
         int animatedCharResourceId;
         try {
@@ -351,6 +359,28 @@ public class AdminChildCtrl extends Controller {
         Logger.debug("Emotions:" + prefs.emotions);
         
         child.save();
+        
+        Reinforcement rchild = child.getReinforcement();
+        Prompting pchild = child.getPrompting();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String content = childId + "," + loggedCaregiver.getCaregiverId() + "," + timestamp + "," +
+                greeting + "," + exerciseReinforcement + "," + sequenceReinforcement + "," + 
+                pchild.getPromptingStrategy().name() + "," + pchild.getPromptingColor() + "," + pchild.getPromptingHide() + "," + 
+                pchild.getPromptingScratch() + "," + pchild.getPromptingSize() + "," + pchild.getPromptingRead() + ",";
+        
+        if(rchild.getReinforcementStrategy().name().equals("OFF")) content += rchild.getReinforcementStrategy().name() + ",,";
+        
+        else content += rchild.getReinforcementStrategy().name() + "," + rchild.getReinforcementResource().getResourceId() + ",";
+        
+        content += sq.getSequenceExercisesOrder() + "," + sq.getSequenceExercisesCapitalization() + "," + 
+                child.getEmotions() + ",";
+        
+        if(child.getAnimatedCharacter() == null) content += ",\n";
+        else content += child.getAnimatedCharacter().getAvatar().getResourceId() + "\n";
+           
+        String pathPreferences = loggedCaregiver.getPathPreferencesLog();
+        adminLogs.writeToFile(pathPreferences, content);
+        
         return ok();
     }
     

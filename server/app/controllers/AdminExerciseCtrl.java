@@ -18,6 +18,7 @@ import models.Answer;
 import models.Caregiver;
 import models.Exercise;
 import models.Level;
+import models.Question;
 import models.Resource;
 import models.ResourceArea;
 import models.Sequence;
@@ -127,6 +128,9 @@ public class AdminExerciseCtrl extends Controller {
         String question = registerExerciseForm.get("question");
         
         if(registerExerciseForm.get("type").equals("text")) {
+            
+            String sresourcesid = "";
+            
             String answer = registerExerciseForm.get("rightAnswer");
             List<String> distractors = new ArrayList();
             answers++;
@@ -146,8 +150,11 @@ public class AdminExerciseCtrl extends Controller {
             
         } else if(registerExerciseForm.get("type").equals("image")) {
             int answerResourceId;
+            String sresourcesid = "";
+            
             try {
                 answerResourceId = parseInt(registerExerciseForm.get("rightAnswerImg"));
+                sresourcesid += answerResourceId + " ";
                 answers++;
             } catch (NumberFormatException e) {
                 answerResourceId = -1;
@@ -166,6 +173,7 @@ public class AdminExerciseCtrl extends Controller {
                     int answerId;
                     try {
                         answerId = parseInt(data.get(key));
+                        sresourcesid += answerId + " ";
                     } catch (NumberFormatException e) {
                         answerId = -1;
                     }
@@ -192,7 +200,6 @@ public class AdminExerciseCtrl extends Controller {
         }
         
         exercise.save();
-        
         
         String content = exercise.getExerciseId()+ "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + ","  +
                 registerExerciseForm.get("type") + "," + "create" + "," + answers + "," + stimulus + "," + "false" + "\n";
@@ -227,6 +234,8 @@ public class AdminExerciseCtrl extends Controller {
 
         Logger.debug("DEBUG:" + editExerciseForm);
 
+        String sresourcesid = "";
+        
         if (editExerciseForm.hasErrors()) {
             return badRequest(editExerciseForm.errorsAsJson());
         }
@@ -311,7 +320,6 @@ public class AdminExerciseCtrl extends Controller {
                     distractors.add(editExerciseForm.data().get(key));
                 });
                 
-                // redo
                 if(distractors.size() == 0) {   // exercise without distractors
                     int sizeExistingAnswers = existingAnswers.size()-1;
                     
@@ -343,7 +351,6 @@ public class AdminExerciseCtrl extends Controller {
                         exercise.save();
                         toRemoveAns.delete();
                     }
-                    
                 }
                 else if(distractors.size() > existingAnswers.size()-1) {    // greater actual distractors than existing ones
                      
@@ -363,16 +370,20 @@ public class AdminExerciseCtrl extends Controller {
                 answerssize += answers.size();
                 
                 // stimulus
-                long stimulusId;
+                int stimulusId;
                 try {
-                    stimulusId = parseLong(editExerciseForm.get("stimulus"));
-                    exercise.getQuestion().setStimulus(stimulusId);
+                    stimulusId = parseInt(editExerciseForm.get("stimulus"));
+                    exercise.getQuestion().setStimulus((long)stimulusId);
                     stimulus = true;
                 } catch (NumberFormatException e) {
                     stimulusId = -1;
+                    exercise.removeQuestion();
+                    exercise.setQuestion(new Question(question));
+                    exercise.setExerciseName(question);
+
                     stimulus = false;
                 }
-                
+                System.out.println("image stimulus:" + stimulusId);
                 exercise.setAnswers(answers);
             }
             // stimulus, answer and distractors for image
@@ -386,6 +397,7 @@ public class AdminExerciseCtrl extends Controller {
                     Answer rightAnswer = exercise.getRightAnswer();
                     rightAnswer.setStimulus((long) answerResourceId);
                     rightAnswer.save();
+                    sresourcesid += answerResourceId + " ";
                     answers.add(rightAnswer);
                 } catch (NumberFormatException e) {
                     answerResourceId = -1;
@@ -406,6 +418,7 @@ public class AdminExerciseCtrl extends Controller {
                             answerResourceId = -1;
                         }
                         distractorsResourcesIds.add((long)answerResourceId);
+                        sresourcesid += answerResourceId + " ";
                     }
                 }
                 

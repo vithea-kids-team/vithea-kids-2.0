@@ -127,6 +127,9 @@ export class PreferencesComponent implements OnInit {
   updatePreferences() {
 
     this.validateReinforcementImagesAdded();
+
+    this.reinforcementImageError = false;
+
     if (this.reinforcementImageError === false) {
 
       const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
