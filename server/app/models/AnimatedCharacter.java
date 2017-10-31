@@ -24,7 +24,7 @@ public class AnimatedCharacter extends Model {
     private Resource avatar;
 
     public AnimatedCharacter(String path, String name) {
-        Resource avatar = new Resource(path, ResourceArea.ANIMATEDCHARACTER);
+        Resource avatar = new Resource(path, ResourceArea.ANIMATEDCHARACTER, false);
         avatar.save();
         
         this.avatar = avatar;

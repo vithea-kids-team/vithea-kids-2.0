@@ -19,10 +19,21 @@ public class Topic extends Model {
 
         @ManyToOne
         private Caregiver author;
+        
+        private Boolean defaultTopic;
 
-	public Topic(String topicDescription, Caregiver author) {
+    public Boolean getDefaultTopic() {
+        return defaultTopic;
+    }
+
+    public void setDefaultTopic(Boolean defaultTopic) {
+        this.defaultTopic = defaultTopic;
+    }
+
+	public Topic(String topicDescription, Caregiver author, Boolean def) {
             this.description = topicDescription;
             this.author = author;
+            this.defaultTopic = def;
 	}
 
 	/**

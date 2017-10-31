@@ -48,6 +48,16 @@ public class Exercise extends Model {
     
     @Column(nullable = false)
     private ExerciseType type;
+    
+    private Boolean defaultExercise;
+
+    public Boolean getDefaultExercise() {
+        return defaultExercise;
+    }
+
+    public void setDefaultExercise(Boolean defaultExercise) {
+        this.defaultExercise = defaultExercise;
+    }
 
     @OneToMany(mappedBy = "exercise")
     @JsonManagedReference
@@ -65,9 +75,10 @@ public class Exercise extends Model {
         this.sequencesExercise = sequencesExercise;
     }
    
-    public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, String answer, List<String> distractors) {
+    public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, String answer, List<String> distractors, Boolean def) {
         this.author = loggedCaregiver;
         this.type = ExerciseType.TEXT;
+        this.defaultExercise = def;
         
         if (topic != -1) {
             this.topic = Topic.findTopicById(topic);
@@ -96,10 +107,12 @@ public class Exercise extends Model {
         
         this.answersList = answers;
     }
-    public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, String stimulusText, long answerResourceId, List<Long> distractorsResourcesIds) {
+    
+    public Exercise(Caregiver loggedCaregiver, long topic, long level, String question, String stimulusText, long answerResourceId, List<Long> distractorsResourcesIds, Boolean def) {
         this.author = loggedCaregiver;
         this.type = ExerciseType.IMAGE;
-        
+        this.defaultExercise = def;
+         
         if (topic != -1) {
             this.topic = Topic.findTopicById(topic);
         }

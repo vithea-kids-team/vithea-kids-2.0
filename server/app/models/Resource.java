@@ -27,23 +27,35 @@ public class Resource extends Model {
 
     @Column(nullable = false)
     private ResourceArea resourceArea;
+    
+    private Boolean defaultResource;
+
+    public Boolean getDefaultResource() {
+        return defaultResource;
+    }
+
+    public void setDefaultResource(Boolean defaultResource) {
+        this.defaultResource = defaultResource;
+    }
 
     @ManyToOne
     @JsonIgnore
     @Column(nullable = true)
     private Caregiver owner;
     
-    public Resource(Caregiver owner, String path, ResourceArea resourceArea) {
+    public Resource(Caregiver owner, String path, ResourceArea resourceArea, Boolean def) {
         this.owner = owner;
         this.resourceType = new ResourceType("img");
         this.resourcePath = path;
         this.resourceArea = resourceArea;
+        this.defaultResource = def;
     }
     
-    public Resource(String path, ResourceArea resourceArea) {
+    public Resource(String path, ResourceArea resourceArea, Boolean def) {
         this.resourceType = new ResourceType("img");
         this.resourcePath = path;
         this.resourceArea = resourceArea;
+        this.defaultResource = def;
     }
     
     public Long getResourceId() {

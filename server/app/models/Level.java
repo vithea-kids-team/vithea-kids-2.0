@@ -17,12 +17,23 @@ public class Level extends Model {
 	
 	private String description;
         
+        private Boolean defaultLevel;
+
+        public Boolean getDefaultLevel() {
+         return defaultLevel;
+        }
+
+        public void setDefaultLevel(Boolean defaultLevel) {
+           this.defaultLevel = defaultLevel;
+        }
+        
         @ManyToOne
         private Caregiver author;
 
-        public Level(String levelDesc, Caregiver author) {
+        public Level(String levelDesc, Caregiver author, Boolean def) {
             this.description = levelDesc;
             this.author = author;
+            this.defaultLevel = def;
         }
 
 	/**

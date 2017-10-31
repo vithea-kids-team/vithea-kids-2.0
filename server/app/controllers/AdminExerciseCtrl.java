@@ -54,7 +54,7 @@ public class AdminExerciseCtrl extends Controller {
         Topic topicExists = Topic.findTopicByDescription(topic);
         
         if (topicExists == null) {
-            Topic newTopic = new Topic(topic, loggedCaregiver);
+            Topic newTopic = new Topic(topic, loggedCaregiver, false);
             newTopic.save();
             topicId = newTopic.getTopicId();
         } else {
@@ -66,14 +66,14 @@ public class AdminExerciseCtrl extends Controller {
         Level levelExists = Level.findLevelByDescription(level);
         
         if (levelExists == null) {
-            Level newLevel = new Level(level, loggedCaregiver);
+            Level newLevel = new Level(level, loggedCaregiver, false);
             newLevel.save();
             levelId = newLevel.getLevelId();
         } else {
             levelId = levelExists.getLevelId();
         }
         
-        exercise = new Exercise(loggedCaregiver, topicId, levelId, question, -1, rightAnswer, distractors);
+        exercise = new Exercise(loggedCaregiver, topicId, levelId, question, -1, rightAnswer, distractors, false);
         
         exercise.save();
         
@@ -140,7 +140,7 @@ public class AdminExerciseCtrl extends Controller {
             });
             answers += distractors.size();
             
-            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusId, answer, distractors);
+            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusId, answer, distractors, false);
             exercise.save();
             
             String content = stimulusId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
@@ -182,7 +182,7 @@ public class AdminExerciseCtrl extends Controller {
             }
             answers += distractorsResourcesIds.size();
             
-            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds);
+            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds, false);
             exercise.save();
             
             String content = answerResourceId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
@@ -543,7 +543,7 @@ public class AdminExerciseCtrl extends Controller {
         
         String topicDesc = addTopicForm.get("newTopic");
         
-        Topic topic = new Topic(topicDesc, loggedCaregiver);
+        Topic topic = new Topic(topicDesc, loggedCaregiver, false);
         topic.save();
         
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -569,7 +569,7 @@ public class AdminExerciseCtrl extends Controller {
         
         String levelDesc = addLevelForm.get("newLevel");
         
-        Level level = new Level(levelDesc, loggedCaregiver);
+        Level level = new Level(levelDesc, loggedCaregiver, false);
         level.save();
         
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -687,7 +687,7 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug("body -> " + body);
         List<FilePart<File>> resources = body.getFiles();
 
-        String path = ConfigFactory.load().getString("pathUploadResources") + type + File.separator;
+        String path = ConfigFactory.load().getString("vitheaRoot") + "/public/" + type + "/";
         Logger.debug(path);
         
         Boolean DEVELOPMENT = true;
@@ -786,7 +786,7 @@ public class AdminExerciseCtrl extends Controller {
                         
                         Logger.debug("Uploaded: " + uploaded);
                         
-                        Resource res = new Resource(loggedCaregiver, folderPath, resourceArea);
+                        Resource res = new Resource(loggedCaregiver, folderPath, resourceArea, false);
                         res.save();
                         
                         String content = res.getResourceId() + "," + loggedCaregiver.getCaregiverId() + "," + "," + timestamp.toLocalDateTime() + "," + 

@@ -1,6 +1,7 @@
 package controllers;
 
 import com.typesafe.config.ConfigFactory;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,7 +10,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.imageio.ImageIO;
 import models.AnimatedCharacter;
+import models.Caregiver;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import play.*;
@@ -26,37 +30,96 @@ public class AdminCtrl extends Controller {
         return ok(Json.toJson(AnimatedCharacter.findAll()));
     }
 
+    public String getExtension(String filename){
+        int i = filename.lastIndexOf('.');
+        
+        if (i > 0) return filename.substring(i+1);
+        else return "png";
+    }
+    
     public Result uploadAnimatedCharacter(String name) {
         Logger.debug("Uploading animated character");
         MultipartFormData<File> body = request().body().asMultipartFormData();
         List<FilePart<File>> resources = body.getFiles();
         
         String type = "animatedcharacter";
-        String path = ConfigFactory.load().getString("pathUploadResources") + type + "/";
+        
+        String path = ConfigFactory.load().getString("vitheaRoot") + "/public/" + type + "/";
         Logger.debug(path);
+        
+        Boolean DEVELOPMENT = true;
 
         try {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {
                 FilePart<File> resource = i.next();
                 if (resource != null) {
-                    String fileName = resource.getFilename();
                     
+                     // Resize
                     File file = resource.getFile();
-                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                    BufferedImage originalImage = ImageIO.read(file);
                     
-                    String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName);
-              
-                    //String path = "public" + File.separator + "images" + File.separator + type + File.separator; 
-                    //String path = "../client/src/vithea-kids/assets/images/animatedcharacter/";
-                    String folderPath = "images" + File.separator + type + File.separator + fileName2;
-                    //String folderPath = "images/animatedcharacter/" + fileName2;
-
+                    String fileName = resource.getFilename();
+                    String extension = this.getExtension(fileName);
+                    
+                    int height = originalImage.getHeight();
+                    int width  = originalImage.getWidth();
+                    
+                    int new_height = 0;
+                    int new_width  = 0;
+                    
+                    if(width > 640 || height > 480){
+                        double ratio = 0;
+                        
+                        System.out.println(width + ", " + height);
+                        
+                        if(width >= 640) {
+                            new_width = 640;
+                            ratio = (new_width * 1.0)/width;
+                            new_height = (int) (height * ratio);
+                        }
+                        
+                        if(height >= 480) {
+                            new_height = 480;
+                            ratio = (new_height * 1.0)/height;
+                            new_width = (int) (width * ratio);
+                        }
+                    }
+                    else {
+                        new_width = width;
+                        new_height = height;
+                    }                   
+                    
+                    // Change path and names                    
+                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                    Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
+                    
+                    String fileName2 = timestamp.getTime() + StringUtils.stripAccents(fileName); 
+                    String folderPath = "images/" + type + "/" + fileName2;
+                    
                     boolean uploaded = false;
+                     
                     try {
-                        FileUtils.moveFile(file, new File(path, fileName2   ));
+                        if (DEVELOPMENT) {
+                            String pathClient = ".." + File.separator + "client" + File.separator + "src" + File.separator + "vithea-kids" +                             
+                                    File.separator + "assets" + File.separator + "images" + File.separator + type;          // path to the client
+                            File fileDestinationClient = new File(pathClient, fileName2);
+                            if(!extension.equals("gif")) Thumbnails.of(file.getAbsolutePath()).size(new_width, new_height).imageType(BufferedImage.TYPE_INT_ARGB).toFile(fileDestinationClient);
+                            else FileUtils.copyFile(file, fileDestinationClient);
+
+                            
+                            String pathServer = "public" + File.separator + "images" + File.separator + type;                // path to the server                   
+                            File fileDestinationServer = new File(pathServer, fileName2);
+                            if(!extension.equals("gif")) Thumbnails.of(file.getAbsolutePath()).size(new_width, new_height).imageType(BufferedImage.TYPE_INT_ARGB).toFile(fileDestinationServer);
+                            else FileUtils.copyFile(file, fileDestinationServer);
+                            
+                        }
+                        else {
+                            //Thumbnails.of(file.getAbsolutePath()).size(new_width, new_height).imageType(BufferedImage.TYPE_INT_ARGB).toFile(fileDestinationServer);
+                            FileUtils.moveFile(file, new File(path, fileName2));
+                        }
                         uploaded = true;
                     } catch (IOException ioe) {
-                        System.out.println("Problem operating on filesystem");
+                        System.out.println("Problem operating on filesystem" + ioe.getMessage());
                         uploaded = false;
                     }
                     
@@ -76,9 +139,7 @@ public class AdminCtrl extends Controller {
         return null;
     }
 
-    
     public Result uploadCSVExercises(){
-        
         
         Logger.debug("Uploading csv exercises");
         MultipartFormData<File> body = request().body().asMultipartFormData();
@@ -133,8 +194,12 @@ public class AdminCtrl extends Controller {
         }
         return result;
     }
-
-
+    public Result uploadCSVTopics(){
+        return ok(Json.toJson("not yet implemented"));
+    }
+    public Result uploadCSVLevels(){
+        return ok(Json.toJson("not yet implemented"));
+    }
     public boolean validateTopic(String topic){
         if(!topic.matches("\\s+") && topic.length() > 0 && topic.length() <= 50) return true;
         else return false;
@@ -147,7 +212,6 @@ public class AdminCtrl extends Controller {
         if(!question.matches("\\s+") && question.length() > 0 && question.length() <= 100) return true;
         else return false;
     }
-    
     public boolean validaterightAnswer(String rightAnswer){
         if(!rightAnswer.matches("\\s+") && rightAnswer.length() > 0 && rightAnswer.length() <= 75) return true;
         else return false;
@@ -159,11 +223,4 @@ public class AdminCtrl extends Controller {
         return true;
     }
     
-    public Result uploadCSVTopics(){
-        return ok(Json.toJson("not yet implemented"));
-    }
-    
-    public Result uploadCSVLevels(){
-        return ok(Json.toJson("not yet implemented"));
-    }
 }

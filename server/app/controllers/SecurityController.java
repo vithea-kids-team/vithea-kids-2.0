@@ -1,6 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.typesafe.config.ConfigFactory;
+import java.io.File;
 import java.util.Properties;
 import javax.inject.Inject;
 import javax.mail.Message;
@@ -104,10 +106,15 @@ public class SecurityController extends Controller {
             user.setGender(signUpForm.get("gender"));
             user.save();
             
+            Boolean DEVELOPMENT = true;
+            String path = "";
+            
             // update path files
             Logger.debug("\t \t Creating caregiver log files");
-            String path = "/Users/soraiamenesesalarcao/Desktop/Logs/";
-            
+            if (DEVELOPMENT) path = ConfigFactory.load().getString("vitheaRoot") + "/public/logs/";
+            else path =  "public" + File.separator + "logs" + File.separator;
+            Logger.debug(path);
+           
             String pathExercises = path + "Log_caregiver_" +  user.getCaregiverId() + "_exercises.csv";
             user.setPathExercisesLog(pathExercises);
             adminLogs.createFile(pathExercises);
