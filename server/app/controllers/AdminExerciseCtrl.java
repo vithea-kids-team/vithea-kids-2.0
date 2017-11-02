@@ -690,7 +690,7 @@ public class AdminExerciseCtrl extends Controller {
         String path = ConfigFactory.load().getString("vitheaRoot") + "/public/" + type + "/";
         Logger.debug(path);
         
-        Boolean DEVELOPMENT = true;
+        Boolean DEVELOPMENT = Boolean.parseBoolean(ConfigFactory.load().getString("development"));
         
         try {
             for(Iterator<FilePart<File>> i = resources.iterator(); i.hasNext(); ) {

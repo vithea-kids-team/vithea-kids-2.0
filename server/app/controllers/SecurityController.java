@@ -106,7 +106,7 @@ public class SecurityController extends Controller {
             user.setGender(signUpForm.get("gender"));
             user.save();
             
-            Boolean DEVELOPMENT = true;
+            Boolean DEVELOPMENT = Boolean.parseBoolean(ConfigFactory.load().getString("development"));
             String path = "";
             
             // update path files
