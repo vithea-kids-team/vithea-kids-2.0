@@ -9,8 +9,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" [routerLink]="['/']" style="padding:0;margin:0">
-                    <img src="root/vitheakids2/public/images/VITHEAkidsLogo.png" alt="VITHEA Kids" style="max-height:100%">
-                    <!--<img src="vithea-kids/assets/images/VITHEAkidsLogo.png" alt="VITHEA Kids" style="max-height:100%">-->
+                    <!--<img src="images/VITHEAkidsLogo.png" alt="VITHEA Kids" style="max-height:100%">-->
+                    <img src="vithea-kids/assets/images/VITHEAkidsLogo.png" alt="VITHEA Kids" style="max-height:100%">
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="js-navbar-collapse" *ngIf="caregiverService.isLoggedIn()">
@@ -25,8 +25,8 @@
                         <a class="dropdown-toggle" data-toggle="dropdown">
                         {{caregiverService.getUsername()}} 
                         <!--<span class="glyphicon glyphicon-user"></span>-->
-                        <span class="caret"></span>
-                    </a>
+                    <span class="caret"></span>
+                </a>
                         <ul class="dropdown-menu">
                             <li> <a [routerLink]="['/settings']">{{'_Settings_' | translate }} <span class="glyphicon glyphicon-list pull-right log-out-icon"></span></a> </li>
                             <li><a [routerLink]="['/home']" (click)="caregiverService.logout()">{{'_SignOut_' | translate }} <span class="glyphicon glyphicon-log-out pull-right log-out-icon"></span></a></li>

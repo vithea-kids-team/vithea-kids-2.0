@@ -44,7 +44,7 @@ public class AdminCtrl extends Controller {
         
         String type = "animatedcharacter";
         
-        String path = ConfigFactory.load().getString("vitheaRoot") + "/public/images/" + type + "/";
+        String path = ConfigFactory.load().getString("vitheaRoot") + "/public/vithea-kids/assets/images/" + type + "/";
         Logger.debug(path);
         
         Boolean DEVELOPMENT = Boolean.parseBoolean(ConfigFactory.load().getString("development"));
