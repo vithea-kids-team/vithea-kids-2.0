@@ -687,7 +687,7 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug("body -> " + body);
         List<FilePart<File>> resources = body.getFiles();
 
-        String path = ConfigFactory.load().getString("vitheaRoot") + "/public/images/" + type + "/";
+        String path = ConfigFactory.load().getString("vitheaRoot") + "/public/" + type + "/";
         Logger.debug(path);
         
         Boolean DEVELOPMENT = Boolean.parseBoolean(ConfigFactory.load().getString("development"));
