@@ -33,7 +33,7 @@ cd "$ROOT"
 cp -r client/dist/vithea-kids/assets/* server/public/
 
 # copy the remaining resources
-cp -r client/dist/* server/public/
+cp client/dist/* server/public/
 
 # build with sbt
 cd server
