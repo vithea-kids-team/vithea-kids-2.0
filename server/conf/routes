@@ -6,15 +6,13 @@
 GET         /                                               controllers.HomeController.index(any = "")
 GET         /vithea-kids                                    controllers.HomeController.index(any = "")
 GET         /vithea-kids/                                   controllers.HomeController.index(any = "")
-
 GET         /images/*file                                   controllers.Assets.at(path="/public/images", file)
 GET         /images/stimuli/*file                           controllers.Assets.at(path="/public/images/stimuli", file)
 GET         /images/animatedcharacter/*file                 controllers.Assets.at(path="/public/images/animatedcharacter", file)
 GET         /images/reinforcement/*file                     controllers.Assets.at(path="/public/images/reinforcement", file)
-GET         /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)
-GET         /vithea-kids/assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
-GET         /vithea-kids/*any                               controllers.HomeController.index(any)
-
+#GET         /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)
+#GET         /vithea-kids/assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
+#GET         /vithea-kids/*any                               controllers.HomeController.index(any)
 
 # HomePage
 POST        /vithea-kids-api/signup                         controllers.SecurityController.signup
