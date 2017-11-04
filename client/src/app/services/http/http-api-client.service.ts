@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, RequestOptionsArgs, Response, Headers} from '@angular/http';
-import {Router} from '@angular/Router'
-import {Observable} from 'rxjs/Observable';
+import {Router} from '@angular/router'
+import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 
 @Injectable()

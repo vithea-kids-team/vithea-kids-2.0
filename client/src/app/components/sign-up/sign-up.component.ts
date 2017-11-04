@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Caregiver } from '../../models/caregiver';
-import { Router } from '@angular/Router';
+import { Router } from '@angular/router';
 import { CaregiverService } from '../../services/caregiver/caregiver.service';
 import { Overlay } from 'ngx-modialog';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';

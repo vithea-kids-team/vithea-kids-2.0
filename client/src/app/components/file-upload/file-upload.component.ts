@@ -1,6 +1,6 @@
 import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ResourcesService } from '../../services/resources/resources.service';
-import { ActivatedRoute, Params, Router } from '@angular/Router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ExercisesService} from '../../services/exercises/exercises.service';
 
 @Component({

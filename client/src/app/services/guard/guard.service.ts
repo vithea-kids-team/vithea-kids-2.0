@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Router } from '@angular/Router';
+import { Router } from '@angular/router';
 
 import { CaregiverService } from '../caregiver/caregiver.service';
 

@@ -1,4 +1,4 @@
-import { Routes } from '@angular/Router'
+import { Routes } from '@angular/router'
 
 import { AppComponent } from './components/app.component';
 import { ChildrenComponent } from './components/children/children.component';

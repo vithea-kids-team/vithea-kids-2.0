@@ -2,8 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { Resource } from '../../models/resource';
 import { ResourcesService } from '../../services/resources/resources.service';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Params, Router } from '@angular/Router';
-import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
 
 @Component({

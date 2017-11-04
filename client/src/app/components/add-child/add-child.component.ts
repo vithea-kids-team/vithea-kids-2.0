@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
-import { ActivatedRoute, Params, Router } from '@angular/Router';
-import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
 import { Overlay } from 'ngx-modialog';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';

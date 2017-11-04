@@ -1,8 +1,8 @@
 import 'rxjs/add/operator/switchMap';
 
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { ActivatedRoute, Params }   from '@angular/Router';
-import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute, Params }   from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 import { Child } from '../../models/child';
 import { ChildrenService } from '../../services/children/children.service';
 import { Location } from '@angular/common';

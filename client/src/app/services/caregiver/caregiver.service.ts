@@ -1,8 +1,8 @@
 import 'rxjs/add/operator/map'
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs/Observable';
+import { Observable} from 'rxjs/Rx';
 import { HttpApiClient } from '../http/http-api-client.service';
-import { Router } from '@angular/Router';
+import { Router } from '@angular/router';
 import { Caregiver } from '../../models/caregiver';
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { ActivatedRoute, Params }   from '@angular/Router';
+import { ActivatedRoute, Params }   from '@angular/router';
 import { Location } from '@angular/common';
 import { PaginationService } from '../../services/pagination/pagination.service';
 import { ResourcesService } from '../../services/resources/resources.service';
@@ -19,7 +19,6 @@ export class ResourcesComponent implements OnInit, OnChanges {
   public failure = false;
   public textSuccess;
   public textFailure;
-
 
   // pager object
   pager: any = {};

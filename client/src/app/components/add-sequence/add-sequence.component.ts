@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params }   from '@angular/Router';
-import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/Router';
+import { ActivatedRoute, Params }   from '@angular/router';
+import { Observable } from 'rxjs/Rx';
+import { Router } from '@angular/router';
 import { Sequence } from '../../models/sequence';
 import { Exercise } from '../../models/exercise';
 import { Child } from '../../models/child';
