@@ -10,7 +10,7 @@
             "vithea-kids/assets/images",
             "vithea-kids/assets/logs",
             "vithea-kids/assets/i18n",
-            "vithea-kids/assets/favicon.ico"
+            "vithea-kids/assets/images/favicon.ico"
         ],
         "index": "index.html",
         "main": "main.ts",

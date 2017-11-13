@@ -28,12 +28,10 @@
             <div class="col-md-3 col-sm-4" *ngFor="let resource of pagedItems">
                 <div class="panel panel-default" style="text-align: center" *ngIf="!loading">
                     <div style="min-height: 190px">
-                        <img *ngIf="resource" class="thumbnail" [src]="'vithea-kids/assets/' + resource.resourcePath">
+                        <img *ngIf="resource && development" class="thumbnail" [src]="'vithea-kids/assets/' + resource.resourcePath">
+                        <img *ngIf="resource && !development" class="thumbnail" [src]="'https://vithea.l2f.inesc-id.pt/' + resource.resourcePath">
                     </div>
                     <div class="panel-heading">
-                        <!--<button type="button" class="btn btn-primary" disabled [routerLink]="['/resources/' + resource.resourceId + '/edit']">
-                            <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
-                        </button>-->
                         <button type="button" class="btn btn-danger" (click)="deleteResource(resource.resourceId)">
                             <span class="glyphicon glyphicon-trash" style="font-size: small;"></span> {{ '_Delete_' | translate }}
                         </button>

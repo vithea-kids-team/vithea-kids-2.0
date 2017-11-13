@@ -20,6 +20,8 @@ export class ResourcesComponent implements OnInit, OnChanges {
   public textSuccess;
   public textFailure;
 
+  public development = false;
+
   // pager object
   pager: any = {};
 

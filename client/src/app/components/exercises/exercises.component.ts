@@ -26,6 +26,7 @@ export class ExercisesComponent implements OnInit, OnChanges {
   public failure = false;
   public textSuccess;
   public textFailure;
+  public development = false;
 
   // pager object
   pager: any = {};

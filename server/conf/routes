@@ -10,6 +10,9 @@ GET         /assets/*file                                   controllers.Assets.v
 GET         /vithea-kids/assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
 GET         /vithea-kids/*any                               controllers.HomeController.index(any)
 
+
+#GET         /files/*file                                    controllers.AdminExerciseCtrl.serve(file)
+
 # HomePage
 POST        /vithea-kids-api/signup                         controllers.SecurityController.signup
 POST        /vithea-kids-api/login                          controllers.SecurityController.login
@@ -50,9 +53,9 @@ PUT         /vithea-kids-api/addlevel                       controllers.AdminExe
 DELETE      /vithea-kids-api/removelevel/:level             controllers.AdminExerciseCtrl.removeLevel(level:Long)
 
 ### Resources
-GET         /vithea-kids-api/listresources                  controllers.AdminExerciseCtrl.getResources
-POST        /vithea-kids-api/uploadresources/:type          controllers.AdminExerciseCtrl.uploadResources(type:String)
-DELETE      /vithea-kids-api/removeresource/:resource       controllers.AdminExerciseCtrl.removeResource(resource:Long)
+GET         /vithea-kids-api/listresources                  controllers.AdminResourcesCtrl.getResources
+POST        /vithea-kids-api/uploadresources/:type          controllers.AdminResourcesCtrl.uploadResources(type:String)
+DELETE      /vithea-kids-api/removeresource/:resource       controllers.AdminResourcesCtrl.removeResource(resource:Long)
 
 ### Animated Characeters
 GET         /vithea-kids-api/listanimatedcharacters         controllers.AdminCtrl.getAnimatedCharacters

@@ -1,7 +1,8 @@
 <ul class="thumbnails image_picker_selector">
     <li *ngFor="let item of items; let index = index;" (click)="toggleItem(item);">
         <div class="thumbnail" [class.selected]="item.selected">
-            <img class="image_picker_image" [src]="'vithea-kids/assets/' + item.resourcePath" [alt]="'Image ' + index">
+            <img *ngIf="development" class="image_picker_image" [src]="'vithea-kids/assets/' + item.resourcePath" [alt]="'Image ' + index">
+            <img *ngIf="!development" class="image_picker_image" [src]="'https://vithea.l2f.inesc-id.pt/' + item.resourcePath" [alt]="'Image ' + index">
         </div>
     </li>
 </ul>

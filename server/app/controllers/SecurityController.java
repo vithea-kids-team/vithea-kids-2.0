@@ -111,8 +111,8 @@ public class SecurityController extends Controller {
             
             // update path files
             Logger.debug("\t \t Creating caregiver log files");
-            if (DEVELOPMENT) path = "public" + File.separator + "logs" + File.separator;
-            else path = ConfigFactory.load().getString("vitheaRoot") + "/public/logs/"; 
+            if (DEVELOPMENT) path = "logs" + File.separator;
+            else path = ConfigFactory.load().getString("vitheaLogs");
             Logger.debug(path);
            
             String pathExercises = path + "Log_caregiver_" +  user.getCaregiverId() + "_exercises.csv";
