@@ -20,13 +20,14 @@
         <div>
             <div class="row">
                 <h3>{{ '_AddExercisesToSequence_' | translate }}<span class=" text-danger "> * </span></h3>
+                <div *ngIf="exercises.length === 0"><em>{{ '_NoExercises_' | translate }}</em></div>
                 <!--<loader *ngIf="!exercises "></loader>-->
                 <div *ngIf="exercises?.length> 0 || addedExercises?.length > 0">
                     <div>
                         <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
                             <label>{{ '_ExercisesToAdd_' | translate }}</label>
                             <ul class="list-group">
-                                <li class="list-group-item list-group-item__empty" *ngIf="exercises?.length === 0">{{ '_NoExercisesToAdd_' | translate }}</li>
+                                <li class="list-group-item list-group-item__empty" *ngIf="exercises.length === 0">{{ '_NoExercisesToAdd_' | translate }}</li>
                                 <li class="list-group-item list-group-item-content" *ngFor=" let exercise of exercises; let index = index">
                                     <span>{{ truncate(exercise.question?.questionDescription, 15) }}</span>
                                     <span class="grey">{{exercise.type | translate}}</span>
@@ -60,13 +61,14 @@
         <div>
             <div class="row">
                 <h3>{{ '_AssignChildrenToSequence_' | translate }}</h3>
+                <div *ngIf="children.length === 0"><em>{{ '_NoChildren_' | translate }}</em></div>
                 <!--<loader *ngIf="!children"></loader>-->
                 <div *ngIf="children?.length > 0 || addedChildren?.length > 0">
                     <div>
                         <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
                             <label>{{ '_ChildrenToAdd_' | translate }}</label>
                             <ul class="list-group">
-                                <li class="list-group-item list-group-item__empty" *ngIf="children?.length === 0">{{ '_NoChildrenToAdd_' | translate }}</li>
+                                <li class="list-group-item list-group-item__empty" *ngIf="children.length === 0">{{ '_NoChildrenToAdd_' | translate }}</li>
                                 <li class="list-group-item list-group-item-content" *ngFor=" let child of children; let index = index">
                                     <span>{{child.firstName}} {{child.lastName}}</span>
                                     <a class="btn btn-success pull-right" style="padding:0" (click)="addChild(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>

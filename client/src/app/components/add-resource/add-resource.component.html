@@ -13,8 +13,8 @@
             <div *ngIf="!newResource.resourceId" class="form-group">
                 <label for="type"> {{ '_Type_' | translate }} <span class="text-danger"> * </span></label>
                 <br>
-                <label class="radio-inline"><input type="radio" value="stimulusanswers" [(ngModel)]="newResource.type" [checked]="newResource.type==stimulusanswers" name="type" >Estímulos e Respostas</label>
-                <label class="radio-inline"><input type="radio" value="reinforcement" [(ngModel)]="newResource.type" [checked]="newResource.type==reinforcement" name="type">Reforços</label>
+                <label class="radio-inline"><input type="radio" value="stimulusanswers" [(ngModel)]="newResource.type" [checked]="newResource.type==stimulusanswers" name="type" >{{ '_StimulusAnswers_' | translate }}</label>
+                <label class="radio-inline"><input type="radio" value="reinforcement" [(ngModel)]="newResource.type" [checked]="newResource.type==reinforcement" name="type">{{ '_Reinforcement_' | translate }}</label>
             </div>
             <div *ngIf="newResource.type == 'stimulusanswers' " class="form-group">
                 <!--<image-picker [(ngModel)]="reinforcementImgs" required [multiSelect]="false" name="image"></image-picker>-->

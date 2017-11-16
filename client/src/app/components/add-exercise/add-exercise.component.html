@@ -20,30 +20,28 @@
         <div class="row">
             <div *ngIf="topics" class="form-group">
                 <label for="topic"> {{ '_Topic_' | translate }} <span class="text-danger"> * </span></label>
-                <form class="input-group">
+                <p><em *ngIf="topics?.length === 0">{{ '_NoTopics_' | translate }}</em></p>
+                <div *ngIf="topics?.length > 0">
+                    <p> {{ '_SelectTopic_' | translate }}</p>
                     <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" (ngModelChange)="validateTopic()" name="topic" #topic="ngModel">
                         <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
                     </select>
-                    <span class="input-group-btn">
-                        <button (click)="goToPreferences()" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
-                    </span>
-                </form>
-                <div *ngIf="topicError" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
+                    <div *ngIf="topicError" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div *ngIf="levels" class="form-group">
                 <label for="level"> {{ '_Level_' | translate }} <span class="text-danger"> * </span></label>
-                <form class="input-group">
-                    <select class="form-control" id="level" required [(ngModel)]="newExercise.level" (ngModelChange)="validateLevel()" name="level" #level="ngModel">
-                        <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
-                    </select>
-                    <span class="input-group-btn">
-                        <button (click)="goToPreferences()" type="button" class="btn btn-primary"><i class="glyphicon glyphicon-list" style="font-size: small;" aria-hidden="true"></i></button>
-                    </span>
-                </form>
-                <div *ngIf="levelError" class="alert alert-danger"> {{ '_RequiredLevel_' | translate }} </div>
+                <p><em *ngIf="levels?.length === 0">{{ '_NoLevels_' | translate }}</em></p>
+                <div *ngIf="levels?.length > 0">
+                    <p> {{ '_SelectLevel_' | translate }}</p>
+                    <select class="form-control" id="level" required [(ngModel)]="newExercise.level" (ngModelChange)="validateLevel()" name="level" #topic="ngModel">
+                            <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
+                        </select>
+                    <div *ngIf="levelError" class="alert alert-danger">{{ '_RequiredLevel_' | translate }}</div>
+                </div>
             </div>
         </div>
 
@@ -61,8 +59,8 @@
                 <div *ngIf="newExercise.type == 'image'">
                     <input class="form-control" id="stimulusText" maxlength="75" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 </div>
+                <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
-                    <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                     <em *ngIf="stimulusImgs?.length === 0">{{ '_NoResources_' | translate }}</em>
                     <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [selected]="newExercise.stimulus" name="newExercise.stimulusImgs" [multiSelect]="false"> </image-picker>
                 </div>

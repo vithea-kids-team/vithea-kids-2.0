@@ -281,6 +281,7 @@ public class AdminExerciseCtrl extends Controller {
             // question
             String question = editExerciseForm.get("question");
             exercise.getQuestion().setQuestionDescription(question);
+            exercise.setExerciseName(question);
            
             List<Answer> answers = new ArrayList();
             List<Answer> existingAnswers = exercise.getAnswers();

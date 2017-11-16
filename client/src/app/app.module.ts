@@ -49,6 +49,7 @@ import { SequenceFilter } from './pipes/sequence-filter';
 import { ResourcesComponent } from  './components/resources/resources.component';
 import { ResourcesService } from './services/resources/resources.service';
 import { AddResourceComponent } from './components/add-resource/add-resource.component';
+import { ResourceTypeFilter } from './pipes/resources-type-filter';
 
 export function translateFactory(https: Http) {
   return  new TranslateStaticLoader(https, './vithea-kids/assets/i18n', '.json');
@@ -94,6 +95,7 @@ export function translateFactory(https: Http) {
     SettingsComponent,
     AdminComponent,
     ResourcesComponent,
+    ResourceTypeFilter,
     AddResourceComponent
   ],
   providers: [

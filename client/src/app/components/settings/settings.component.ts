@@ -107,7 +107,7 @@ export class SettingsComponent implements OnInit {
   addTopic() {
     this.topicExists = false;
 
-    if (this.newTopic === undefined ) {
+    if (this.newTopic === undefined  || this.newTopic.replace(/\s+/g, '').length === 0) {
       this.failure = true;
       this.success = false;
       this.textFailure = 'Não foi possível adicionar o tema por se encontrar vazio.';
@@ -165,7 +165,8 @@ export class SettingsComponent implements OnInit {
   addLevel() {
     this.levelExists = false;
 
-    if (this.newLevel === undefined ) {
+
+    if (this.newLevel === undefined || this.newLevel.replace(/\s+/g, '').length === 0) {
       this.failure = true;
       this.success = false;
       this.textFailure = 'Não foi possível adicionar o nível por se encontrar vazio.';
@@ -234,7 +235,8 @@ export class SettingsComponent implements OnInit {
             if (indexInUse !== -1) {
               this.failure = true;
               this.success = false;
-              this.textFailure = 'Não foi possível remover o tema ' + this.topicsInUseName.slice(indexInUse, indexInUse + 1) + ' por se encontrar associado a pelo menos um exercício.';
+              this.textFailure = 'Não foi possível remover o tema ' + this.topicsInUseName.slice(indexInUse, indexInUse + 1) + 
+              ' por se encontrar associado a pelo menos um exercício.';
             } else {
               this.loading = true;
               this.resourcesService.removeTopic(topic).subscribe(
@@ -285,7 +287,8 @@ export class SettingsComponent implements OnInit {
                 if (indexInUse !== -1) {
                   this.failure = true;
                   this.success = false;
-                  this.textFailure = 'Não foi possível remover o nível ' + this.levelsInUseName.slice(indexInUse, indexInUse + 1) + ' por se encontrar associado a pelo menos um exercício.';
+                  this.textFailure = 'Não foi possível remover o nível ' + this.levelsInUseName.slice(indexInUse, indexInUse + 1) + 
+                  ' por se encontrar associado a pelo menos um exercício.';
                 } else {
                   this.loading = true;
                   this.resourcesService.removeLevel(level).subscribe(
@@ -333,7 +336,7 @@ export class SettingsComponent implements OnInit {
       }).catch(() => {})});
     }
 
-  
+
     goBack() {
     this.location.back();
   }

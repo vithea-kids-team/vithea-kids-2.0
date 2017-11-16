@@ -4,3 +4,68 @@ img {
     max-height: 150px;
     max-width: 190px;
 }
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.search-input {
+    width: 28%;
+}
+
+.form-group input[type="checkbox"] {
+    display: none;
+}
+
+.form-group input[type="checkbox"]+.btn-group>label span {
+    width: 20px;
+}
+
+.form-group input[type="checkbox"]+.btn-group>label span:first-child {
+    display: none;
+}
+
+.form-group input[type="checkbox"]+.btn-group>label span:last-child {
+    display: inline-block;
+}
+
+.form-group input[type="checkbox"]:checked+.btn-group>label span:first-child {
+    display: inline-block;
+}
+
+.form-group input[type="checkbox"]:checked+.btn-group>label span:last-child {
+    display: none;
+}
+
+.filters-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.filter {
+    margin-right: 10px;
+}
+
+.filter:last-child {
+    margin-right: 0;
+}
+
+.filter label {
+    padding: 2px;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-group>button {
+    margin-bottom: 5px;
+}
+
+h3 {
+    color: darkgrey;
+}
