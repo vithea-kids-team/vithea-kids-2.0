@@ -203,6 +203,7 @@ export class AddChildComponent implements OnInit {
             },
             err => {
               console.error('Error registering new child.', err);
+              this.router.navigate(['/children/']);
               this.childService.setSuccess(false);
               this.childService.setFailure(true);
               this.childService.setTextFailure('Não foi possível registar a criança ' + childName + '.');
