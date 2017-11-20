@@ -2,5 +2,4 @@
 <settings>
   <integer name="splash_mode">0</integer>
   <bool name="useObb">False</bool>
-  <bool name="showSplash">True</bool>
 </settings>

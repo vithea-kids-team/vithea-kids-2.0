@@ -15,13 +15,13 @@ import java.util.concurrent.ConcurrentMap;
  */
 
 public class ImageStorage extends Application {
-    private ConcurrentMap<String, TreeMap<Long, Bitmap >> imgStorage = new ConcurrentHashMap<String, TreeMap<Long, Bitmap >>();
+    private ConcurrentMap<String, TreeMap<Long, byte[] >> imgStorage = new ConcurrentHashMap<String, TreeMap<Long,  byte[] >>();
 
-    public void addImage(String className, Long id, Bitmap img){
+    public void addImage(String className, Long id,  byte[] img){
 
-        TreeMap<Long, Bitmap > images = imgStorage.get(className);
+        TreeMap<Long,  byte[] > images = imgStorage.get(className);
         if(images==null){
-            TreeMap<Long, Bitmap > auxImages = new TreeMap<Long,Bitmap>();
+            TreeMap<Long,  byte[] > auxImages = new TreeMap<Long, byte[]>();
             Log.d("idBitmap", Long.toString(id));
             auxImages.put(id,img);
             imgStorage.put(className, auxImages);
@@ -31,8 +31,8 @@ public class ImageStorage extends Application {
         }
     }
 
-    public Bitmap getImage(String className, Long id){
-            TreeMap<Long,Bitmap> images = imgStorage.get(className);
+    public  byte[] getImage(String className, Long id){
+            TreeMap<Long, byte[]> images = imgStorage.get(className);
         return images.get(id);
     }
 
