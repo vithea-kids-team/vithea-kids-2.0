@@ -2,8 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, XHRBackend } from '@angular/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SpinnerComponent } from './vendor/angular2-spinner';
 import { MyDatePickerModule } from 'mydatepicker';
 import { ModalModule } from 'ngx-modialog';
@@ -51,20 +53,24 @@ import { ResourcesService } from './services/resources/resources.service';
 import { AddResourceComponent } from './components/add-resource/add-resource.component';
 import { ResourceTypeFilter } from './pipes/resources-type-filter';
 
-export function translateFactory(https: Http) {
-  return  new TranslateStaticLoader(https, './vithea-kids/assets/i18n', '.json');
+export function translateFactory(https: HttpClient) {
+  return  new TranslateHttpLoader(https, './vithea-kids/assets/i18n/', '.json');
 }
+
 
 @NgModule({
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes),
     TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: translateFactory,
-      deps: [Http]
+      loader: {
+        provide: TranslateLoader,
+        useFactory: translateFactory,
+        deps: [HttpClient]
+      }
     }),
     MyDatePickerModule,
     AlertModule.forRoot(),
