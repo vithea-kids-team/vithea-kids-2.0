@@ -3,7 +3,7 @@ package models;
 import com.avaje.ebean.Model.Finder;
 import javax.inject.Inject;
 
-public enum UserType {
+public enum UserType{
 
 	CAREGIVER(0), 
 	CHILD(1);

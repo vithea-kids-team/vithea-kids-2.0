@@ -72,9 +72,9 @@ public class AdminChildCtrl extends Controller {
             child.setBirthDate(registerChildForm.get("birthDate"));
             
             List<PersonalMessage> messages = child.getPersonalMessagesList();
-            messages.add(new PersonalMessage("", PersonalMessageType.GREETING_MESSAGE));
-            messages.add(new PersonalMessage("", PersonalMessageType.EXERCISE_REINFORCEMENT));
-            messages.add(new PersonalMessage("", PersonalMessageType.SEQUENCE_REINFORCEMENT));
+            messages.add(new PersonalMessage("Bem-vindo!", PersonalMessageType.GREETING_MESSAGE));
+            messages.add(new PersonalMessage("Muito bem!", PersonalMessageType.EXERCISE_REINFORCEMENT));
+            messages.add(new PersonalMessage("Parabéns!", PersonalMessageType.SEQUENCE_REINFORCEMENT));
             
             AnimatedCharacter defaultChar = AnimatedCharacter.findByName("cat");
             if(defaultChar != null) {

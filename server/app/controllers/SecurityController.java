@@ -12,7 +12,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import models.Caregiver;
+import models.Level;
 import models.Login;
+import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -48,6 +50,9 @@ public class SecurityController extends Controller {
         Logger.debug("\t Password:" + login.getPassword());
         Login user = Login.findByUsernameAndPassword(login.getUsername(), login.getPassword());
 
+        //Logger.debug(user.getUserType().toString());
+        
+        //  || user.getUserType() != 0
         if (user == null) {
             Logger.debug("\t \t Invalid user, returning unauthorized");
             return unauthorized("Invalid username or password");
@@ -154,12 +159,36 @@ public class SecurityController extends Controller {
                     + "promptingSize,promptingRead,reinforcementStrat,resourceId,order,caps,emotions,animatedChar\n");
             
             user.save();
+            
+            //Insert default content
+            createTopicsDefault(user);
+            createLevelsDefault(user);
+            //createExercisesDefault(user);
+            
             Logger.debug("\t \t \t Returning ok");
             return ok("User created successfully");
         }
     }
+   
+    public void createTopicsDefault(Caregiver loggedCaregiver){
+        Topic topic1 = new Topic("Animais", loggedCaregiver, true);
+        topic1.save();
+        Topic topic2 = new Topic("Alimentos", loggedCaregiver, true);
+        topic2.save();
+        Topic topic3 = new Topic("Objectos", loggedCaregiver, true);
+        topic3.save();        
+    }        
+
+    public void createLevelsDefault(Caregiver loggedCaregiver){
+        Level level1 = new Level("Fácil", loggedCaregiver, true);
+        level1.save();
+        Level level2 = new Level("Intermédio", loggedCaregiver, true);
+        level2.save();
+        Level level3 = new Level("Difícil", loggedCaregiver, true);
+        level3.save();
+    }
     
-        public void sendEmail(String to, String subject, String body){
+    public void sendEmail(String to, String subject, String body){
         
         // Recipient's email ID needs to be mentioned.
         // Sender's email ID needs to be mentioned

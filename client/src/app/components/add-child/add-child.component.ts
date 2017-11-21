@@ -121,7 +121,7 @@ export class AddChildComponent implements OnInit {
     this.validateGender();
 
     if (this.usernameError === false && this.passwordError === false && this.confirmpasswordError === false &&
-      this.firstNameError === false && this.passwordLengthError && this.lastNameError === false && this.genderError === false) {
+      this.firstNameError === false && this.passwordLengthError === false && this.lastNameError === false && this.genderError === false) {
       this.createChild();
     }
   }

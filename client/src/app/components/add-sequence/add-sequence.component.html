@@ -20,9 +20,9 @@
         <div>
             <div class="row">
                 <h3>{{ '_AddExercisesToSequence_' | translate }}<span class=" text-danger "> * </span></h3>
-                <div *ngIf="exercises.length === 0"><em>{{ '_NoExercises_' | translate }}</em></div>
+                <div *ngIf="exercises?.length === 0"><em>{{ '_NoExercises_' | translate }}</em></div>
                 <!--<loader *ngIf="!exercises "></loader>-->
-                <div *ngIf="exercises?.length> 0 || addedExercises?.length > 0">
+                <div *ngIf="exercises?.length > 0 || addedExercises?.length > 0">
                     <div>
                         <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
                             <label>{{ '_ExercisesToAdd_' | translate }}</label>
@@ -61,7 +61,7 @@
         <div>
             <div class="row">
                 <h3>{{ '_AssignChildrenToSequence_' | translate }}</h3>
-                <div *ngIf="children.length === 0"><em>{{ '_NoChildren_' | translate }}</em></div>
+                <div *ngIf="children?.length === 0"><em>{{ '_NoChildren_' | translate }}</em></div>
                 <!--<loader *ngIf="!children"></loader>-->
                 <div *ngIf="children?.length > 0 || addedChildren?.length > 0">
                     <div>

@@ -26,8 +26,8 @@
                     <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" (ngModelChange)="validateTopic()" name="topic" #topic="ngModel">
                         <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
                     </select>
-                    <div *ngIf="topicError" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
                 </div>
+                <div *ngIf="topicError" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
             </div>
         </div>
 
@@ -38,10 +38,10 @@
                 <div *ngIf="levels?.length > 0">
                     <p> {{ '_SelectLevel_' | translate }}</p>
                     <select class="form-control" id="level" required [(ngModel)]="newExercise.level" (ngModelChange)="validateLevel()" name="level" #topic="ngModel">
-                            <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
-                        </select>
-                    <div *ngIf="levelError" class="alert alert-danger">{{ '_RequiredLevel_' | translate }}</div>
+                        <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
+                    </select>
                 </div>
+                <div *ngIf="levelError" class="alert alert-danger">{{ '_RequiredLevel_' | translate }}</div>
             </div>
         </div>
 
