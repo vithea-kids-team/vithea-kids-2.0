@@ -1,5 +1,8 @@
 package com.l2f.vitheakids;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
@@ -12,6 +15,7 @@ import com.l2f.vitheakids.model.SequenceLogInfo;
 import com.l2f.vitheakids.rest.FetchChildInfo;
 import com.l2f.vitheakids.task.LoadImageTask;
 import com.l2f.vitheakids.task.ReadTask;
+import com.l2f.vitheakids.task.StopRead;
 import com.l2f.vitheakids.util.ExerciseMenuListWithoutImageAdapter;
 import com.l2f.vitheakids.util.CanvasUtil;
 import com.l2f.vitheakids.util.Prompting;
@@ -232,14 +236,14 @@ public class VitheaKidsActivity extends AppCompatActivity {
    @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mUnityPlayer.lowMemory();
+       // mUnityPlayer.lowMemory();
     }
     // Trim Memory Unity
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
         if (level == TRIM_MEMORY_RUNNING_CRITICAL) {
-            mUnityPlayer.lowMemory();
+            //mUnityPlayer.lowMemory();
         }
     }
     // This ensures the layout will be correct.
@@ -357,7 +361,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     }
     public void setExerciseView() {
-
+        //stop character taklk
+        new StopRead().execute();
 
         setupActionBar(getString(R.string.exercise));
 
@@ -392,9 +397,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
             container.addView(navigationView);
 
             // Send to Animated Character
-            new ReadTask().execute(exercise.getQuestion().getQuestionDescription());
+            readWithOrWithoutEmotion(child, exercise.getQuestion().getQuestionDescription());
             lastInstruction = exercise.getQuestion().getQuestionDescription();
-
+/*
             ImageView repeat_view = (ImageView) findViewById(R.id.repeat_button_view);
 
             repeat_view.setOnClickListener(new View.OnClickListener() {
@@ -403,9 +408,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                    // Toast.makeText(getApplicationContext(), lastInstruction, Toast.LENGTH_SHORT).show();
-                    new ReadTask().execute(lastInstruction);
+                    readWithOrWithoutEmotion(child, lastInstruction);
                 }
-            });
+            });*/
         }
     }
     /**
@@ -414,6 +419,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
      * @param container
      */
     public void setSimpleMultipleChoiceExerciseView(Exercise exercise, LinearLayout container)  {
+
 
         // Layout
         View ex_view = (View) linflater.inflate(R.layout.exercise_long_options_layout, null);
@@ -434,10 +440,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         if (stimulus!=(null)) {
 
-                    Bitmap image  = imageStorage.getImage(seqName,stimulus.getResourceId());
+                    byte[] image  = imageStorage.getImage(seqName,stimulus.getResourceId());
                     ImageView img = (ImageView) findViewById(R.id.stimulusImage);
-                    img.setVisibility(View.VISIBLE);
-                    img.setImageBitmap(image);
+                    setImageOfView(img,image);
         }
       else {
             ImageView img = (ImageView) findViewById(R.id.stimulusImage);
@@ -525,18 +530,22 @@ public class VitheaKidsActivity extends AppCompatActivity {
         View ex_view = (View) linflater.inflate(R.layout.exercise_multiple_images, null);
         container.addView(ex_view);
 
-        // Question
+        // Question & stimulus
         TextView questionText = (TextView) findViewById(R.id.questionText);
+        TextView stimulusText = (TextView) findViewById(R.id.stimulusText);
+        String stimulusTextContent = exercise.getQuestion().getStimulusText();
+
         if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
             questionText.setText(exercise.getQuestion().getQuestionDescription().toUpperCase());
+            stimulusText.setText(stimulusTextContent == null ? "" : stimulusTextContent.toUpperCase());
         } else {
             questionText.setText(exercise.getQuestion().getQuestionDescription());
+            stimulusText.setText(stimulusTextContent == null ? "" : stimulusTextContent.toUpperCase());
+
         }
 
         // Stimulus
-        TextView stimulusText = (TextView) findViewById(R.id.stimulusText);
-        String stimulusTextContent = exercise.getQuestion().getStimulusText();
-        stimulusText.setText(stimulusTextContent == null ? "" : stimulusTextContent);
+
 
         // TODO REVIEW number answers
         List<Answer> answers = exercise.getAnswers();
@@ -562,8 +571,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
                     String domain = getString(R.string.resources_addr_kids);
                     path = domain + path;
 
-                    Bitmap bitmap = imageStorage.getImage(seqName, answerImage.getResourceId());
-                    option.setImageBitmap(bitmap);
+                    byte[] bitmap = imageStorage.getImage(seqName, answerImage.getResourceId());
+                    setImageOfView(option,bitmap);
                 }
 
                 option.setVisibility(View.VISIBLE);
@@ -617,6 +626,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
     }
 
     public void setReinforcementView() {
+        new StopRead().execute();
+
         Resource res;
         //// FIXME: 18/10/2017 
         try {
@@ -639,16 +650,19 @@ public class VitheaKidsActivity extends AppCompatActivity {
             ScrollView scroll_view = (ScrollView) linflater.inflate(R.layout.scroll, null);
             rightFrameLayout.addView(scroll_view);
 
+
             View ref_view = (View) linflater.inflate(R.layout.reinforcement_view, null);
             LinearLayout container = (LinearLayout) findViewById(R.id.scroll_container);
             container.addView(ref_view);
 
 
             ImageView image = (ImageView) findViewById(R.id.reinforcement_image);
-            Bitmap bitmap = imageStorage.getImage(seqName, res.getResourceId());
-            image.setImageBitmap(bitmap);
-            image.setVisibility(View.VISIBLE);
+            byte[] bitmap = imageStorage.getImage(seqName, res.getResourceId());
+            Log.d("reinforcement", Integer.toString(bitmap.length));
+            //setImageOfView(image,bitmap);
+            Glide.with(VitheaKidsActivity.this).load(bitmap).apply(RequestOptions.skipMemoryCacheOf(true)).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(image);
 
+            image.setVisibility(View.VISIBLE);
             // equivalent to next button
             ImageButton closeReinforcement = (ImageButton) findViewById(R.id.closeReinforcement);
             closeReinforcement.setOnClickListener(new View.OnClickListener() {
@@ -784,11 +798,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // if generic, must check if it should say it worth joy or sadness
         if (!sentence.isEmpty()) {
-            if (child.getEmotions()) {
-                new ReadTask().execute(sentence, "joy");
-            } else {
-                new ReadTask().execute(sentence);
-            }
+            readWithOrWithoutEmotion(child,sentence);
             lastInstruction = sentence;
         }
     }
@@ -843,7 +853,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
                 }
                 else {
-                    new ReadTask().execute("Tenta outra vez.");
+                    readWithOrWithoutEmotion(child, "Tenta outra vez.");
                 }
             }
         }
@@ -1014,4 +1024,26 @@ public class VitheaKidsActivity extends AppCompatActivity {
         return stateListDrawable;
     }
 
+    /**
+     * readWithOrWithoutEmotion
+     * @param sentence
+     * Verify if the text has to be pronounced with emotion
+     * Launch a task to read the text
+     */
+    public void readWithOrWithoutEmotion(Child child, String sentence){
+
+        if (child.getEmotions()) {
+            new ReadTask().execute(sentence, "joy");
+        } else {
+            new ReadTask().execute(sentence);
+        }
+
+    }
+
+    public void setImageOfView(ImageView  imageView , byte[] bytes){
+        Glide.get(this.getApplicationContext()).clearMemory();
+        Glide.with(this.getApplicationContext()).load(bytes).apply(RequestOptions.skipMemoryCacheOf(true)).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(imageView);
+    }
+
 }
+

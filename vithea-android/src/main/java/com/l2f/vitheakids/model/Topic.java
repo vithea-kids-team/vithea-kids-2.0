@@ -9,6 +9,7 @@ public class Topic {
 
     private Long topicId;
     private String topicDescription;
+    private  Boolean defaultTopic;
 
     public Long getTopicId() {
         return topicId;
@@ -24,4 +25,11 @@ public class Topic {
         this.topicId = id;
     }
 
+    public Boolean getDefaultTopic() {
+        return defaultTopic;
+    }
+
+    public void setDefaultTopic(Boolean defaultTopic) {
+        this.defaultTopic = defaultTopic;
+    }
 }

@@ -46,8 +46,10 @@ public class Prompting {
     }
 
     public static void  readAnswers(List<String> currentAnswers){
+        String answers="";
         for(int i = 0; i < currentAnswers.size(); i++){
-            new ReadTask().execute(currentAnswers.get(i));
+            answers += currentAnswers.get(i)+ ".";
+            new ReadTask().execute(answers);
         }
     }
 

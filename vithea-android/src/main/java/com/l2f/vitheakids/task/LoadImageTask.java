@@ -1,5 +1,8 @@
 package com.l2f.vitheakids.task;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -7,9 +10,13 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.request.FutureTarget;
 import com.l2f.vitheakids.R;
 import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.VitheaKidsActivity;
@@ -20,7 +27,6 @@ import com.l2f.vitheakids.model.Resource;
  */
 
 public class LoadImageTask extends AsyncTask<String, Integer, Void> {
-	private Bitmap imgLoad;
 	private VitheaKidsActivity activity;
 	private long id;
 	private String url;
@@ -61,7 +67,7 @@ public class LoadImageTask extends AsyncTask<String, Integer, Void> {
 		for(Resource res : resources){
             Log.d("LoadImageTask", this.url+res.getResourcePath());
             Log.d("id", Long.toString(res.getResourceId()));
-            imgLoad = LoadImageFromWeb(this.url+res.getResourcePath());
+            byte[] imgLoad = LoadImageFromWeb(this.url+res.getResourcePath());
             imageStorage.addImage(className,res.getResourceId(), imgLoad);
             i++;
             progressN = ((i*100)/length);
@@ -85,12 +91,22 @@ public class LoadImageTask extends AsyncTask<String, Integer, Void> {
 
 	}
 	
-	public static Bitmap LoadImageFromWeb(String urlString) {
+	public  byte[] LoadImageFromWeb(String urlString) {
 	    try {
             Log.d("imageURL", urlString);
-			URL url = new URL(urlString);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			return BitmapFactory.decodeStream(conn.getInputStream());
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            URL url = new URL(urlString);
+            InputStream stream = url.openStream();
+
+
+            int bytesRead;
+            byte[] chunk = new byte[4096];
+            while ((bytesRead = stream.read(chunk)) > 0) {
+                outputStream.write(chunk, 0, bytesRead);
+            }
+
+            return outputStream.toByteArray();
 	    } catch (Exception e) {
 			e.printStackTrace();
 	    }
@@ -108,6 +124,8 @@ public class LoadImageTask extends AsyncTask<String, Integer, Void> {
         // Dismiss the progress dialog
         //mProgressDialog.dismiss();
     }
+
+
 
 }
 

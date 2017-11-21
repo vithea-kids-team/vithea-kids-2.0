@@ -9,6 +9,8 @@ public class Level {
 
     private Long levelId;
     private String levelDescription;
+    private  Boolean defaultLevel;
+
 
     public Long getLevelId() {
         return levelId;
@@ -24,4 +26,11 @@ public class Level {
         this.levelDescription = levelDescription;
     }
 
+    public Boolean getDefaultLevel() {
+        return defaultLevel;
+    }
+
+    public void setDefaultLevel(Boolean defaultLevel) {
+        this.defaultLevel = defaultLevel;
+    }
 }
