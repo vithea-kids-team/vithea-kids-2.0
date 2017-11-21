@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label for="password">{{ '_Password_' | translate }} <span class="text-danger"> * </span></label>
                 <input type="password" (ngModelChange)="validatePassword()" class="form-control" id="password" required minlength="6" maxlength="255" validateEqual="confirmpassword" reverse="true" [(ngModel)]="model.password" name="password" #password="ngModel">
-                <div *ngIf="passwordError" class="alert alert-danger"> {{ '_RequiredPassword_' | translate }} </div>
+                <div *ngIf="passwordError || passwordLengthError" class="alert alert-danger"> {{ '_RequiredPassword_' | translate }} </div>
             </div>
         </div>
         <div class=row>

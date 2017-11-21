@@ -27,6 +27,7 @@ export class SignUpComponent {
   public firstNameError;
   public emailError;
   public passwordError;
+  public passwordLengthError;
   public confirmpasswordError;
 
   constructor(public modal: Modal, public caregiverService: CaregiverService, public location: Location, public router: Router) { }
@@ -50,7 +51,12 @@ export class SignUpComponent {
     if (this.model.password === undefined) {
       this.passwordError = true;
     } else {
-      this.passwordError = false;
+      if (this.model.password.length < 6 || this.model.password.length > 255) {
+        this.passwordLengthError = true;
+      } else {
+        this.passwordLengthError = false;
+        this.passwordError = false;
+      }
     }
   }
 
@@ -117,7 +123,8 @@ export class SignUpComponent {
     this.validateEmail();
 
     if (this.usernameError === false && this.passwordError === false && this.confirmpasswordError === false &&
-      this.firstNameError === false && this.lastNameError === false && this.genderError === false && this.emailError === false) {
+      this.firstNameError === false && this.passwordLengthError && this.lastNameError === false &&
+      this.genderError === false && this.emailError === false) {
       this.createCaregiver();
     }
   }
@@ -130,7 +137,7 @@ export class SignUpComponent {
     this.validateGender();
     this.validateEmail();
 
-    if (this.usernameError === false && this.firstNameError === false && this.lastNameError === false && 
+    if (this.usernameError === false && this.firstNameError === false && this.lastNameError === false &&
       this.genderError === false && this.emailError === false) {
       this.createCaregiver();
     }

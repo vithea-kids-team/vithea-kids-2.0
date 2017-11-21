@@ -27,15 +27,19 @@
                             <ul class="list-group">
                                 <li class="list-group-item list-group-item__empty" *ngIf="!topics || topics.length === 0"><em>{{ '_AddTopics_' | translate }}</em></li>
                                 <li class="list-group-item list-group-item-content" *ngFor=" let topic of topics">
-                                    <span>{{topic.topicDescription}}</span>
-                                    <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeTopic(topic.topicId)"><i class="glyphicon glyphicon-remove"></i></a>
+                                    <div class="row">
+                                        <div class="col-sm-4">{{topic.topicDescription}}</div>
+                                        <div class="col-sm-8">
+                                            <a class="btn btn-danger pull-right" (click)="removeTopic(topic.topicId)"><i class="glyphicon glyphicon-trash"></i> Remover</a>
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                             <form class="input-group">
                                 <input class="form-control" maxlength="50" [(ngModel)]="newTopic" name="newTopic">
                                 <span class="input-group-btn">
-                                <a class="btn btn-success" (click)="addTopic()"><i class="glyphicon glyphicon-ok"></i></a >   
-                        </span>
+                                <a class="btn btn-success" (click)="addTopic()"><i class="glyphicon glyphicon-ok"></i> Adicionar</a >   
+                                </span>
                             </form>
                         </div>
                     </div>
@@ -50,15 +54,19 @@
                         <ul class="list-group">
                             <li class="list-group-item list-group-item__empty" *ngIf="!levels || levels.length === 0"><em>{{ '_AddLevels_' | translate }}</em></li>
                             <li class="list-group-item list-group-item-content" *ngFor=" let level of levels">
-                                <span>{{level.levelDescription}}</span>
-                                <a class="btn btn-secondary pull-right" style="padding:0" (click)="removeLevel(level.levelId)"><i class="glyphicon glyphicon-remove"></i></a>
+                                <div class="row">
+                                    <div class="col-sm-4">{{level.levelDescription}}</div>
+                                    <div class="col-sm-8">
+                                        <a class="btn btn-danger pull-right" (click)="removeLevel(level.levelId)"><i class="glyphicon glyphicon-trash"></i> Remover</a>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                         <form class="input-group">
                             <input class="form-control" maxlength="50" [(ngModel)]="newLevel" name="newLevel">
                             <span class="input-group-btn">
-                            <a class="btn btn-success" (click)="addLevel()"><i class="glyphicon glyphicon-ok"></i></a>
-                        </span>
+                                <a class="btn btn-success" (click)="addLevel()"><i class="glyphicon glyphicon-ok"></i> Adicionar</a>
+                            </span>
                         </form>
                     </div>
                 </div>

@@ -34,6 +34,7 @@ export class AddChildComponent implements OnInit {
   public firstNameError;
   public passwordError;
   public confirmpasswordError;
+  public passwordLengthError;
 
 
   constructor(public modal: Modal, public childService: ChildrenService, public location: Location,
@@ -57,7 +58,12 @@ export class AddChildComponent implements OnInit {
     if (this.model.password === undefined) {
       this.passwordError = true;
     } else {
-      this.passwordError = false;
+      if (this.model.password.length < 6 || this.model.password.length > 255) {
+        this.passwordLengthError = true;
+      } else {
+        this.passwordLengthError = false;
+        this.passwordError = false;
+      }
     }
   }
 
@@ -115,7 +121,7 @@ export class AddChildComponent implements OnInit {
     this.validateGender();
 
     if (this.usernameError === false && this.passwordError === false && this.confirmpasswordError === false &&
-      this.firstNameError === false && this.lastNameError === false && this.genderError === false) {
+      this.firstNameError === false && this.passwordLengthError && this.lastNameError === false && this.genderError === false) {
       this.createChild();
     }
   }

@@ -59,7 +59,7 @@
                 <div *ngIf="newExercise.type == 'image'">
                     <input class="form-control" id="stimulusText" maxlength="75" [(ngModel)]="newExercise.stimulusText" name="stimulusText" #stimulusText="ngModel">
                 </div>
-                <p> {{ '_SelectImagesStimulus_' | translate }}</p>
+                <p *ngIf="newExercise.type == 'text'"> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <div *ngIf="newExercise.type == 'text'" style="max-height: 100px; overflow-y: auto;">
                     <em *ngIf="stimulusImgs?.length === 0">{{ '_NoResources_' | translate }}</em>
                     <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [selected]="newExercise.stimulus" name="newExercise.stimulusImgs" [multiSelect]="false"> </image-picker>
