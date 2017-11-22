@@ -36,7 +36,7 @@ public class SecurityController extends Controller {
     }
 
     // returns an authToken
-    public Result login() {
+    public Result login(String type) {
         Logger.debug("Hit SecurityController.Login method");
         Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
 
@@ -49,8 +49,8 @@ public class SecurityController extends Controller {
         Logger.debug("\t Username:" + login.getUsername());
         Logger.debug("\t Password:" + login.getPassword());
         Login user = Login.findByUsernameAndPassword(login.getUsername(), login.getPassword());
-
-        if (user == null || user.getUserType() != 0) {
+        
+        if (user == null || (user.getUserType() == 0 && type.equals("child")) || (user.getUserType() == 1 && type.equals("caregiver"))) {
             Logger.debug("\t \t Invalid user, returning unauthorized");
             return unauthorized("Invalid username or password");
         } else {

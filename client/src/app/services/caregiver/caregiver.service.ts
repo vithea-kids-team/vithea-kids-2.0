@@ -46,7 +46,7 @@ export class CaregiverService {
 
   login(username, password) {
     return this.http
-      .post('/login', JSON.stringify({ username, password }))
+      .post('/login/caregiver', JSON.stringify({ username, password }))
       .map(res => {
           if (res) {
             this.failedLogin = false;

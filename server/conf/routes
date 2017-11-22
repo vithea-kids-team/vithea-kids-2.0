@@ -15,7 +15,7 @@ GET         /vithea-kids/*any                               controllers.HomeCont
 
 # HomePage
 POST        /vithea-kids-api/signup                         controllers.SecurityController.signup
-POST        /vithea-kids-api/login                          controllers.SecurityController.login
+POST        /vithea-kids-api/login/:type                     controllers.SecurityController.login(type:String)
 POST        /vithea-kids-api/logout                         controllers.SecurityController.logout
 
 # Child
