@@ -29,9 +29,21 @@
                             <ul class="list-group">
                                 <li class="list-group-item list-group-item__empty" *ngIf="exercises.length === 0">{{ '_NoExercisesToAdd_' | translate }}</li>
                                 <li class="list-group-item list-group-item-content" *ngFor=" let exercise of exercises; let index = index">
-                                    <span>{{ truncate(exercise.question?.questionDescription, 15) }}</span>
-                                    <span class="grey">{{exercise.type | translate}}</span>
-                                    <a class="btn btn-success pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                                    <div *ngIf="!loading" class="panel-body">
+
+                                        <span>{{ truncate(exercise.question?.questionDescription, 15) }}</span>
+                                        <span class="grey">{{exercise.type | translate}}</span>
+                                        <a class="btn btn-success pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
+                                        <p></p>
+                                        <span class="grey">{{ truncate(exercise.topic?.topicDescription, 25) }}&emsp;&emsp;{{ truncate(exercise.level?.levelDescription, 25) }}</span>
+                                        <p></p>
+                                        <div class="col-md-6 col-sm-6" *ngFor="let distractor of exercise.answers">
+                                            <span *ngIf="distractor.answerId === exercise.rightAnswer?.answerId" class="glyphicon glyphicon-check" style="font-size: small;"></span>
+                                            <span class="glyphicon glyphicon-unchecked" style="font-size: small;" *ngIf="distractor.answerId !== exercise.rightAnswer?.answerId"></span> {{ truncate(distractor?.answerDescription, 25) }}
+                                            <img *ngIf="distractor.stimulus && development" class="thumbnail" [src]="'vithea-kids/assets/' + distractor.stimulus?.resourcePath">
+                                            <img *ngIf="distractor.stimulus && !development" class="thumbnail" [src]="'https://vithea.l2f.inesc-id.pt/' + distractor.stimulus?.resourcePath">
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </form>
@@ -40,13 +52,24 @@
                             <ul class="list-group">
                                 <li class="list-group-item list-group-item__empty" *ngIf="addedExercises.length === 0"><em>{{ '_AddExercisesToSequence_' | translate }}</em></li>
                                 <li class="list-group-item list-group-item-content" *ngFor=" let exercise of addedExercises; let index = index">
-                                    <a class="btn btn-danger pull-left" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
-                                    <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
-                                    <span>{{truncate(exercise.question?.questionDescription, 15) }}</span>
-                                    <span class="grey">{{exercise.type | translate}}</span>
-                                    <a *ngIf="index >= 1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
-                                    <a class="btn btn-secondary pull-right" style="padding:0"></a>
-                                    <a *ngIf="index < addedExercises?.length-1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                                    <div *ngIf="!loading" class="panel-body">
+                                        <a class="btn btn-danger pull-left" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
+                                        <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
+                                        <span>{{ truncate(exercise.question?.questionDescription, 15) }}</span>
+                                        <span class="grey">{{exercise.type | translate}}</span>
+                                        <p></p>
+                                        <span class="grey">{{ truncate(exercise.topic?.topicDescription, 25) }}&emsp;&emsp;{{ truncate(exercise.level?.levelDescription, 25) }}</span>
+                                        <p></p>
+                                        <div class="col-md-6 col-sm-6" *ngFor="let distractor of exercise.answers">
+                                            <span *ngIf="distractor.answerId === exercise.rightAnswer?.answerId" class="glyphicon glyphicon-check" style="font-size: small;"></span>
+                                            <span class="glyphicon glyphicon-unchecked" style="font-size: small;" *ngIf="distractor.answerId !== exercise.rightAnswer?.answerId"></span> {{ truncate(distractor?.answerDescription, 25) }}
+                                            <img *ngIf="distractor.stimulus && development" class="thumbnail" [src]="'vithea-kids/assets/' + distractor.stimulus?.resourcePath">
+                                            <img *ngIf="distractor.stimulus && !development" class="thumbnail" [src]="'https://vithea.l2f.inesc-id.pt/' + distractor.stimulus?.resourcePath">
+                                        </div>
+                                        <a *ngIf="index >= 1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                                        <a class="btn btn-secondary pull-right" style="padding:0"></a>
+                                        <a *ngIf="index < addedExercises?.length-1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                                    </div>
                                 </li>
                             </ul>
                         </div>

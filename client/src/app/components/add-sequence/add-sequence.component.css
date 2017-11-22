@@ -3,6 +3,11 @@
     font-style: italic;
 }
 
+img {
+    display: inline;
+    max-height: 50px;
+}
+
 .list-group-item-content {
     background: aliceblue;
 }

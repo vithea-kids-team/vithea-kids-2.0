@@ -29,7 +29,6 @@ export class FileUploadComponent {
   uploadFile(e) {
     let files = e.target.files;
 
-    console.log("WE ARE UPLOADING BITCH")
     this.resourcesService.setUploading(true);
     this.resourcesService.setTextUploading('Recurso multimédia a ser adicionado. Por favor aguarde');
 

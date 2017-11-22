@@ -20,7 +20,7 @@
         <div class="row">
             <div *ngIf="topics" class="form-group">
                 <label for="topic"> {{ '_Topic_' | translate }} <span class="text-danger"> * </span></label>
-                <p><em *ngIf="topics?.length === 0">{{ '_NoTopics_' | translate }}</em></p>
+                <p *ngIf="topics?.length === 0">{{ '_NoTopics_' | translate }}</p>
                 <div *ngIf="topics?.length > 0">
                     <p> {{ '_SelectTopic_' | translate }}</p>
                     <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" (ngModelChange)="validateTopic()" name="topic" #topic="ngModel">
@@ -34,7 +34,7 @@
         <div class="row">
             <div *ngIf="levels" class="form-group">
                 <label for="level"> {{ '_Level_' | translate }} <span class="text-danger"> * </span></label>
-                <p><em *ngIf="levels?.length === 0">{{ '_NoLevels_' | translate }}</em></p>
+                <p *ngIf="levels?.length === 0">{{ '_NoLevels_' | translate }}</p>
                 <div *ngIf="levels?.length > 0">
                     <p> {{ '_SelectLevel_' | translate }}</p>
                     <select class="form-control" id="level" required [(ngModel)]="newExercise.level" (ngModelChange)="validateLevel()" name="level" #topic="ngModel">
