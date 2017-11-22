@@ -1,19 +1,15 @@
 package models;
 
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import play.data.validation.Constraints;
-
-import com.avaje.ebean.Model;
 import java.util.List;
 import java.util.Optional;
-import play.Logger;
+import javax.persistence.*;
+import play.data.validation.Constraints;
 
 @Entity
 public class Login extends Model {
@@ -95,9 +91,13 @@ public class Login extends Model {
 		this.enabled = enabled;
 	}
 
-	public UserType getUserType() {
-		return UserType.findById((long) this.userType);
-	}
+	//public UserType getUserType() {
+	//	return UserType.findById((long) this.userType);
+	//}
+        
+        public int getUserType(){
+            return this.userType;
+        }
 
 	public void setUserType(int userType) {
 		this.userType = userType;

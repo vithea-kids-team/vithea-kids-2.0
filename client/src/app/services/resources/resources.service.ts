@@ -14,8 +14,10 @@ export class ResourcesService {
   public tempStimuli: Array<Resource> = [];
   success = false
   failure = false;
+  uploading = false;
   textSuccess;
   textFailure;
+  textUploading;
 
   public resources = {
     stimuli: [],
@@ -138,12 +140,20 @@ export class ResourcesService {
     return this.failure;
   }
 
+  getUploading() {
+    return this.uploading;
+  }
+
   getTextSuccess() {
     return this.textSuccess;
   }
 
   getTextFailure() {
     return this.textFailure;
+  }
+
+  getTextUploading() {
+    return this.textUploading;
   }
 
   setSuccess(success: boolean) {
@@ -154,12 +164,20 @@ export class ResourcesService {
     this.failure = failure;
   }
 
+  setUploading(uploading: boolean) {
+    this.uploading = uploading;
+  }
+
   setTextSuccess(text: string) {
     this.textSuccess = text;
   }
 
   setTextFailure(text: string) {
     this.textFailure = text;
+  }
+
+  setTextUploading(text: string) {
+    this.textUploading = text;
   }
 
 }

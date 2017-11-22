@@ -102,7 +102,7 @@
         <div class="row">
             <div *ngIf="newExercise.type === 'image' ">
                 <br>
-                <p>{{ '_NoDistractors2_' | translate }}</p>
+                <p>{{ '_NoDistractors1_' | translate }}</p>
                 <em *ngIf="answersImgs1?.length === 0">{{ '_NoResources_' | translate }}</em>
                 <div style="max-height: 100px; overflow-y: auto; ">
                     <image-picker *ngIf=!loading id="answersImgs1" [(ngModel)]="answersImgs1" [multiSelect]="false" [selected]="newExercise.distractor1" name="answersImgs1" #answersimg1="ngModel"> </image-picker>
@@ -114,7 +114,7 @@
                     <image-picker *ngIf=!loading id="answersImgs2" [(ngModel)]="answersImgs2" [multiSelect]="false" [selected]="newExercise.distractor2" name="answersImgs2" #answersimg2="ngModel"> </image-picker>
                 </div>
                 <br>
-                <p>{{ '_NoDistractors2_' | translate }}</p>
+                <p>{{ '_NoDistractors3_' | translate }}</p>
                 <em *ngIf="answersImgs3?.length === 0">{{ '_NoResources_' | translate }}</em>
                 <div style="max-height: 100px; overflow-y: auto; ">
                     <image-picker *ngIf=!loading id="answersImgs3" [(ngModel)]="answersImgs3" [multiSelect]="false" [selected]="newExercise.distractor3" name="answersImgs3" #answersimg3="ngModel"> </image-picker>

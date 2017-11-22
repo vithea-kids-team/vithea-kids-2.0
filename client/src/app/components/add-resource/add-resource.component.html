@@ -7,9 +7,12 @@
         <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
     </div>
 
+    <alert *ngIf="uploading" type="info" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textUploading }} </alert>
+
     <form (ngSubmit)="createResource()" #resourceForm="ngForm" class="col-md-8">
 
         <div class="row">
+
             <div *ngIf="!newResource.resourceId" class="form-group">
                 <label for="type"> {{ '_Type_' | translate }} <span class="text-danger"> * </span></label>
                 <br>
@@ -17,11 +20,11 @@
                 <label class="radio-inline"><input type="radio" value="reinforcement" [(ngModel)]="newResource.type" [checked]="newResource.type==reinforcement" name="type">{{ '_Reinforcement_' | translate }}</label>
             </div>
             <div *ngIf="newResource.type == 'stimulusanswers' " class="form-group">
-                <!--<image-picker [(ngModel)]="reinforcementImgs" required [multiSelect]="false" name="image"></image-picker>-->
+                <span> {{ '_StimulusAnswersJust_' | translate }} </span>
                 <file-upload [label]="'_Upload_'" [resourceType]="'stimuli'" [name]="stimuli" [image]="true" (results)="goBack()"></file-upload>
             </div>
             <div *ngIf="newResource.type== 'reinforcement'" class="form-group">
-                <!--<image-picker [(ngModel)]="reinforcementImgs" required [multiSelect]="false" name="image"></image-picker>-->
+                <span> {{ '_ReinforcementJust_' | translate }} </span>
                 <file-upload [label]="'_Upload_'" [resourceType]="'reinforcement'" [name]="reinforcement" [image]="true" (results)="goBack()"></file-upload>
             </div>
         </div>

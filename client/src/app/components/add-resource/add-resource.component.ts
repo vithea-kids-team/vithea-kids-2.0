@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, DoCheck} from '@angular/core';
 import { Resource } from '../../models/resource';
 import { ResourcesService } from '../../services/resources/resources.service';
 import { Location } from '@angular/common';
@@ -12,7 +12,7 @@ import { IMyDpOptions, IMyDateModel, IMyDate } from 'mydatepicker';
   styleUrls: ['./add-resource.component.css']
 })
 
-export class AddResourceComponent implements OnInit {
+export class AddResourceComponent implements OnInit, DoCheck {
 
   public loading = false;
   public loadingAdd = false;
@@ -22,9 +22,23 @@ export class AddResourceComponent implements OnInit {
   public newResource: Resource = new Resource();
   public types = ['Estímulos e Respostas', 'Reforços']
 
+  public uploading = false;
+  public textUploading;
+
   constructor(public resourcesService: ResourcesService, public router: Router, public route: ActivatedRoute, public location: Location) { }
 
-    ngOnInit() {}
+    ngOnInit() {
+      this.reset();
+    }
+    
+    ngDoCheck() {
+      this.updateUploading();
+    }
+
+    public updateUploading() {
+      this.uploading = this.resourcesService.getUploading();
+      this.textUploading = this.resourcesService.getTextUploading();
+    }
 
     _UploadStimulus_(results, type) {
       this.loading = true;
@@ -47,6 +61,12 @@ export class AddResourceComponent implements OnInit {
 
       this.loading = false;
     }
+
+    reset() {
+      this.resourcesService.uploading = false;
+      this.resourcesService.textUploading = '';
+    }
+
 
     goBack() {
       this.location.back();

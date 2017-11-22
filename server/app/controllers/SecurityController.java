@@ -50,10 +50,7 @@ public class SecurityController extends Controller {
         Logger.debug("\t Password:" + login.getPassword());
         Login user = Login.findByUsernameAndPassword(login.getUsername(), login.getPassword());
 
-        //Logger.debug(user.getUserType().toString());
-        
-        //  || user.getUserType() != 0
-        if (user == null) {
+        if (user == null || user.getUserType() != 0) {
             Logger.debug("\t \t Invalid user, returning unauthorized");
             return unauthorized("Invalid username or password");
         } else {

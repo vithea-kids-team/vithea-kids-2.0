@@ -19,7 +19,7 @@ export class FileUploadComponent {
 
   @ViewChild('input') input;
 
-  constructor(public resourcesService: ResourcesService, public exercisesService: ExercisesService, 
+  constructor(public resourcesService: ResourcesService, public exercisesService: ExercisesService,
     public router: Router, public route: ActivatedRoute) { }
 
   toggleFileUpload() {
@@ -28,6 +28,10 @@ export class FileUploadComponent {
 
   uploadFile(e) {
     let files = e.target.files;
+
+    console.log("WE ARE UPLOADING BITCH")
+    this.resourcesService.setUploading(true);
+    this.resourcesService.setTextUploading('Recurso multimédia a ser adicionado. Por favor aguarde');
 
     if (files && files.length > 0) {
       this.resourcesService.uploadFiles(files, this.resourceType, this.name).subscribe(
