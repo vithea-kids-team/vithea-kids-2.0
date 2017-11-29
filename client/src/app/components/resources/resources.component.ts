@@ -20,7 +20,7 @@ export class ResourcesComponent implements OnInit, OnChanges {
   public textSuccess;
   public textFailure;
 
-  public development = true;
+  public development = false;
 
   public stimulusanswersFilter = true;
   public reinforcementFilter = true;

@@ -36,7 +36,7 @@ export const appRoutes: Routes = [
                                         { path: 'new', component: AddSequenceComponent, canActivate: [GuardService] },
                                         { path: ':sequenceid', component: ExercisesComponent, canActivate: [GuardService] },
                                         { path: ':sequenceid/edit', component: AddSequenceComponent, canActivate: [GuardService] }] },
-                          { path: 'preferences', component: PreferencesComponent, canActivate: [GuardService] }]} ]},
+                          { path: 'preferences', component: PreferencesComponent, canActivate: [GuardService] }]}]},
   { path: 'exercises',
     children: [{ path: '', component: ExercisesComponent, canActivate: [GuardService] },
               { path: 'new', component: AddExerciseComponent, canActivate: [GuardService] },

@@ -21,9 +21,6 @@ public enum PersonalMessageType {
     public static final Finder<Integer, PersonalMessageType> find = new Finder<>(PersonalMessageType.class);
     
     public static PersonalMessageType find(int id) {
-       return find
-               .where()
-               .eq("id", id)
-               .findUnique();
+       return find.where().eq("id", id).findUnique();
     }    
 }

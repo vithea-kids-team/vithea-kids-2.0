@@ -22,9 +22,6 @@ public enum PromptingStrategy {
     public static final Finder<Integer, PromptingStrategy> find = new Finder<>(PromptingStrategy.class);
     
     public static PromptingStrategy find(int id) {
-       return find
-               .where()
-               .eq("id", id)
-               .findUnique();
+       return find.where().eq("id", id).findUnique();
     }
 }

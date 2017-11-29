@@ -254,7 +254,6 @@ public class AdminChildCtrl extends Controller {
     
     
     public static class UpdatePreferences {
-
         public String greetingMessage;
         public String exerciseReinforcementMessage;
         public String sequenceReinforcementMessage;
@@ -286,30 +285,35 @@ public class AdminChildCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Invalid child id."));
         }
         
-        Form<UpdatePreferences> updatePreferencesForm = formFactory.form(UpdatePreferences.class).bindFromRequest();
         
-        if (updatePreferencesForm.hasErrors()) {
-            return badRequest(updatePreferencesForm.errorsAsJson());
+        DynamicForm prefs = formFactory.form().bindFromRequest();
+        Logger.debug("DEBUG:" + prefs);
+        
+        //Form<UpdatePreferences> updatePreferencesForm = formFactory.form(UpdatePreferences.class).bindFromRequest();
+        
+        if (prefs.hasErrors()) {
+            return badRequest(prefs.errorsAsJson());
         }
         
-        UpdatePreferences prefs = updatePreferencesForm.get();
+        //UpdatePreferences prefs = updatePreferencesForm.get();
         
         String greetingMessage = child.getPersonalMessagesList().get(0).getMessage();
         String exerciseReinforcementMessage = child.getPersonalMessagesList().get(1).getMessage();
         String sequenceReinforcementMessage = child.getPersonalMessagesList().get(2).getMessage();
                 
-        this.setPersonalMessages(child, prefs.greetingMessage, prefs.exerciseReinforcementMessage, prefs.sequenceReinforcementMessage);
-        Logger.debug("Greeting message:" + prefs.greetingMessage);
-        Logger.debug("Exercise message:" + prefs.exerciseReinforcementMessage);
-        Logger.debug("Sequence message:" + prefs.sequenceReinforcementMessage);
+        this.setPersonalMessages(child, prefs.get("greetingMessage"), prefs.get("exerciseReinforcementMessage"), 
+                prefs.get("sequenceReinforcementMessage"));
+        Logger.debug("Greeting message:" + prefs.get("greetingMessage"));
+        Logger.debug("Exercise message:" + prefs.get("exerciseReinforcementMessage"));
+        Logger.debug("Sequence message:" + prefs.get("sequenceReinforcementMessage"));
         
-        Boolean greeting = !greetingMessage.equals(prefs.greetingMessage);
-        Boolean exerciseReinforcement = !exerciseReinforcementMessage.equals(prefs.exerciseReinforcementMessage);
-        Boolean sequenceReinforcement = !sequenceReinforcementMessage.equals(prefs.sequenceReinforcementMessage);
+        Boolean greeting = !greetingMessage.equals(prefs.get("greetingMessage"));
+        Boolean exerciseReinforcement = !exerciseReinforcementMessage.equals(prefs.get("exerciseReinforcementMessage"));
+        Boolean sequenceReinforcement = !sequenceReinforcementMessage.equals(prefs.get("sequenceReinforcementMessage"));
         
         int animatedCharResourceId;
         try {
-            animatedCharResourceId = Integer.parseInt(prefs.animatedCharacterResourceId);
+            animatedCharResourceId = Integer.parseInt(prefs.get("animatedCharacterResourceId"));
             this.setAnimatedCharacter(child, (long)animatedCharResourceId);
         }
         catch (Exception e) {
@@ -317,46 +321,46 @@ public class AdminChildCtrl extends Controller {
         }
         
         Prompting p = child.getPrompting();
-        p.setPromptingStrategy(PromptingStrategy.valueOf(prefs.promptingStrategy));
-        p.setPromptingColor(Boolean.parseBoolean(prefs.promptingColor));
-        p.setPromptingHide(Boolean.parseBoolean(prefs.promptingHide));
-        p.setPromptingScratch(Boolean.parseBoolean(prefs.promptingScratch));
-        p.setPromptingSize(Boolean.parseBoolean(prefs.promptingSize));
-        p.setPromptingRead(Boolean.parseBoolean(prefs.promptingRead));
+        p.setPromptingStrategy(PromptingStrategy.valueOf(prefs.get("promptingStrategy")));
+        p.setPromptingColor(Boolean.parseBoolean(prefs.get("promptingColor")));
+        p.setPromptingHide(Boolean.parseBoolean(prefs.get("promptingHide")));
+        p.setPromptingScratch(Boolean.parseBoolean(prefs.get("promptingScratch")));
+        p.setPromptingSize(Boolean.parseBoolean(prefs.get("promptingSize")));
+        p.setPromptingRead(Boolean.parseBoolean(prefs.get("promptingRead")));
         p.save();
          
-        Logger.debug("Prompting strategy:" + prefs.promptingStrategy);
-        Logger.debug("Prompting color:" + prefs.promptingColor);
-        Logger.debug("Prompting size:" + prefs.promptingSize);
-        Logger.debug("Prompting scratch:" + prefs.promptingScratch);
-        Logger.debug("Prompting hide:" + prefs.promptingHide);
-        Logger.debug("Prompting read:" + prefs.promptingRead);
-        
+        Logger.debug("Prompting strategy:" + prefs.get("promptingStrategy"));
+        Logger.debug("Prompting color:" + prefs.get("promptingColor"));
+        Logger.debug("Prompting size:" + prefs.get("promptingSize"));
+        Logger.debug("Prompting scratch:" + prefs.get("promptingScratch"));
+        Logger.debug("Prompting hide:" + prefs.get("promptingHide"));
+        Logger.debug("Prompting read:" + prefs.get("promptingRead"));
+       
         int reinforcementResourceId;
         try {
-            reinforcementResourceId = Integer.parseInt(prefs.reinforcementResourceId);
+            reinforcementResourceId = Integer.parseInt(prefs.get("reinforcementResourceId"));
         }
         catch (Exception e) {
             reinforcementResourceId = -1;
         }
         
-        Logger.debug("Reinforcement strategy:" + prefs.reinforcementStrategy);
+        Logger.debug("Reinforcement strategy:" + prefs.get("reinforcementStrategy"));
         
         Reinforcement r = child.getReinforcement();
         r.setReinforcementResource(Resource.findById((long)reinforcementResourceId));
-        r.setReinforcementStrategy(ReinforcementStrategy.valueOf(prefs.reinforcementStrategy));
+        r.setReinforcementStrategy(ReinforcementStrategy.valueOf(prefs.get("reinforcementStrategy")));
         r.save();
        
         SequenceExercises sq = child.getSequenceExercisesPreferences();
-        Logger.debug("Sequence Exercises Order:" + prefs.sequenceExercisesOrder);
-        sq.setSequenceExercisesOrder(SequenceExercisesOrder.valueOf(prefs.sequenceExercisesOrder));    
-        Logger.debug("Sequence Exercises Capitalization:" + prefs.sequenceExercisesCapitalization);
-        sq.setSequenceExercisesCapitalization(SequenceExercisesCapitalization.valueOf(prefs.sequenceExercisesCapitalization));
+        Logger.debug("Sequence Exercises Order:" + prefs.get("sequenceExercisesOrder"));
+        sq.setSequenceExercisesOrder(SequenceExercisesOrder.valueOf(prefs.get("sequenceExercisesOrder")));    
+        Logger.debug("Sequence Exercises Capitalization:" + prefs.get("sequenceExercisesCapitalization"));
+        sq.setSequenceExercisesCapitalization(SequenceExercisesCapitalization.valueOf(prefs.get("sequenceExercisesCapitalization")));
         sq.save();
         
-        child.setEmotions(Boolean.parseBoolean(prefs.emotions));
+        child.setEmotions(Boolean.parseBoolean(prefs.get("emotions")));
         
-        Logger.debug("Emotions:" + prefs.emotions);
+        Logger.debug("Emotions:" + prefs.get("emotions"));
         
         child.save();
         
