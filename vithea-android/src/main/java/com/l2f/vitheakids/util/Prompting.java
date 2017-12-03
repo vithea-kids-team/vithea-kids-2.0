@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -29,6 +30,9 @@ import java.util.List;
 public class Prompting {
 
     public static void setButtonColor(Context context, Button view){
+
+        Log.d("pintei o botão", Integer.toString(view.getId()));
+
         view.setBackgroundDrawable(makeSelector(context, Color.parseColor("#66a3ff")));
     }
 
@@ -77,7 +81,6 @@ public class Prompting {
         buttonNormal.setColor(color);
         stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, buttonSelected );
         stateListDrawable.addState(new int[]{}, buttonNormal);
-
         return stateListDrawable;
     }
 

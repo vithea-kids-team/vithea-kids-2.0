@@ -419,7 +419,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
      * @param container
      */
     public void setSimpleMultipleChoiceExerciseView(Exercise exercise, LinearLayout container)  {
-
+        rightAnswerButton = null;
 
         // Layout
         View ex_view = (View) linflater.inflate(R.layout.exercise_long_options_layout, null);
@@ -626,7 +626,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
     }
 
     public void setReinforcementView() {
-        new StopRead().execute();
+        new StopRead().execute();//stop character talk and also  clean the text variable on unity
 
         Resource res;
         //// FIXME: 18/10/2017 
@@ -638,6 +638,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         if (reinforcementActive && res!=null) {
             hideActionBar(); // TODO maybe not hide?
+
+
+            playMessage(child, "SEQUENCE_REINFORCEMENT");
 
             // Clear rightFrameLayout
             LinearLayout rightFrameLayout = (LinearLayout) findViewById(R.id.rightFrame);
@@ -919,8 +922,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
         else item.setTitle("Desligar Reforço");
 
         if(!inSequenceScreen){
-            setExerciseView();
-            setNavigationView();
+           // setExerciseView();
+           // setNavigationView();
         }
     }
     private void promptingHandler(MenuItem item){
@@ -934,8 +937,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
         Log.e("sequence", "" + inSequenceScreen);
 
         if(!inSequenceScreen){
-            setExerciseView();
-            setNavigationView();
+           // setExerciseView();
+           // setNavigationView();
         }
     }
 
