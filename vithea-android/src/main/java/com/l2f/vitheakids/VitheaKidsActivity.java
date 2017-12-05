@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
@@ -58,10 +57,15 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 /**
  * Updated by Soraia Meneses Alarcão on 21/07/2017
@@ -103,6 +107,10 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private Button rightAnswerButton;
     private String lastInstruction;
     private List<Exercise> exercises;
+    private Date timestampBeginExercise;
+    private Date timestampEndExercise;
+
+    private DateFormat dateFormat;
 
     private View characterContainer;
     private ActionBar actionBar;
@@ -111,6 +119,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private ImageStorage imageStorage;
 
     private String seqName;
+
+    Logger logger = Log4jHelper.getLogger( "VitheaKidsActivity" );
     // *************************************************************************************************
 
     public void initActivePrompting(Boolean state){
@@ -138,6 +148,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         new FetchChildInfo(VitheaKidsActivity.this).execute();
 
+
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
     }
 
     @Override
@@ -145,6 +158,30 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         super.onStop();
         finish();
+    }
+
+    private String logExercise(Child child, boolean isCorrect){
+        String logString = "exerciseID: " + exercises.get(currentExercisePosition).getId() + "; ";
+        logString += "timestampBegin: " + dateFormat.format(timestampBeginExercise) + "; ";
+        logString += "timestampEnd: " + dateFormat.format(timestampEndExercise) + "; ";
+
+        logString += "numberOfWrongAttempts: " + attempts + "; ";
+
+        if (isCorrect) {
+            logString += "correct: true; skipped: false; ";
+        }
+        else {
+            logString += "correct: false; skipped: true; ";
+        }
+
+        logString += "promptingStrategy: " + child.getPrompting().getPromptingStrategy() + "; ";
+        logString += "reinforcementStrategy: " + child.getReinforcement().getReinforcementStrategy() + "; ";
+        logString += "\n";
+        return logString;
+    }
+
+    private String logSequence() {
+        return "";
     }
 
     private void initViews() {
@@ -161,7 +198,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // Unity layout
         FrameLayout layout = (FrameLayout) findViewById(R.id.view1);
-       LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         View view =  mUnityPlayer.getView();
         layout.addView(view, 0, lp);
 
@@ -346,6 +383,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
                 exercises = seq.getSequenceExercises();
                 currentExercisePosition = 0;
+                timestampBeginExercise = new Date();
                 inExercise = true;          // Start exercises
                 inHomeScreen = false;       // Not in home screen
                 inSequenceScreen = false;   // Not in sequence screen
@@ -761,6 +799,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
 //**** Region Handlers - what happens when you do some actions ************************************
 
     protected void rightAnswerHandler(View v, Child child) {
+        timestampEndExercise = new Date();
+        logger.info(logExercise(child, true));
         inExercise = false;
         playMessage(child, "EXERCISE_REINFORCEMENT"); // TODO Only reinforcement?
         if(reinforcementActive) playReinforcement(child);
@@ -868,6 +908,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         this.currentExercisePosition++;
         Boolean hasFinished = currentExercisePosition >= exercises.size();
         if (!hasFinished) {
+            timestampBeginExercise = new Date();
             inExercise = true;
             setExerciseView();
             setNavigationView();
@@ -876,7 +917,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         }
     }
     protected void endHandler() {
-        // TODO Send log and show results
+        // TODO Send logger and show results
         //new SendLogs(this, currentSequenceLog).execute();
         //setFinalResultsView();
 

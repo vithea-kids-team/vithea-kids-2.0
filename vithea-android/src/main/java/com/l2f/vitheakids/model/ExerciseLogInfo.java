@@ -1,20 +1,39 @@
 package com.l2f.vitheakids.model;
 
+import java.util.ArrayList;
+
+import java.util.logging.*;
+
 public class ExerciseLogInfo {
-	
-	private SimpleMultipleChoice exercise;
+	static int latestExerciseID = 0;
+
+	private int exerciseId;
+
+	private long timestampBegin;  //Date.getTime()
+	private long timestampEnd;
+
+	private int numberOfDistractorHits;
+	private int numberOfWrongAttempts;
 	private boolean correct;
 	private boolean skipped;
-	private int distractorHitsCount;
+
+	private ArrayList<String> promptingTypes;
+	private String promptingStrategy;
+
+	private String reinforcementStrategy;
+
+
+
+	private SimpleMultipleChoice exercise;
 	private boolean usingPrompting;
 	private boolean usingReinforcement;
 	
 	public ExerciseLogInfo() {
-		distractorHitsCount = 0;
+		numberOfDistractorHits = 0;
 	}
 	public ExerciseLogInfo(SimpleMultipleChoice exercise) {
 		this.exercise = exercise;
-		distractorHitsCount = 0;
+		numberOfDistractorHits = 0;
 	}
 	
 	@Override
@@ -23,11 +42,11 @@ public class ExerciseLogInfo {
 				"\n\tId: " + this.exercise.getExerciseId() +
 				"\n\tSkipped: " + this.skipped +
 				"\n\tCorrect: " + this.correct +
-				"\n\tDistractors Count: " + this.distractorHitsCount;
+				"\n\tDistractors Count: " + this.numberOfDistractorHits;
 	}
 	
 	public void incDistractorHitsCount() {
-		distractorHitsCount++;
+		numberOfDistractorHits++;
 	}
 
 	/**
@@ -49,10 +68,10 @@ public class ExerciseLogInfo {
         return skipped;
     }
     /**
-     * @return the distractorHitsCount
+     * @return the numberOfDistractorHits
      */
-    public int getDistractorHitsCount() {
-        return distractorHitsCount;
+    public int getNumberOfDistractorHits() {
+        return numberOfDistractorHits;
     }
     /**
      * @return the usingPrompting
@@ -86,10 +105,10 @@ public class ExerciseLogInfo {
 		this.skipped = skipped;
 	}
 	/**
-	 * @param distractorHitsCount the distractorHitsCount to set
+	 * @param numberOfDistractorHits the numberOfDistractorHits to set
 	 */
-	public void setDistractorHitsCount(int distractorHitsCount) {
-		this.distractorHitsCount = distractorHitsCount;
+	public void setNumberOfDistractorHits(int numberOfDistractorHits) {
+		this.numberOfDistractorHits = numberOfDistractorHits;
 	}
 	/**
 	 * @param usingPrompting the usingPrompting to set

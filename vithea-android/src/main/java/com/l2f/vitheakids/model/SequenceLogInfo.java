@@ -55,7 +55,7 @@ public class SequenceLogInfo {
 			subNode.put("exerciseId", eli.getExercise().getExerciseId());
 			subNode.put("correct", eli.getCorrect());
 			subNode.put("skipped", eli.getSkipped());
-			subNode.put("distractorHitsCount", eli.getDistractorHitsCount());
+			subNode.put("distractorHitsCount", eli.getNumberOfDistractorHits());
 			subNode.put("usingPrompting", eli.getUsingPrompting());
 			subNode.put("usingReinforcement", eli.getUsingReinforcement());
 			array.add(subNode);
