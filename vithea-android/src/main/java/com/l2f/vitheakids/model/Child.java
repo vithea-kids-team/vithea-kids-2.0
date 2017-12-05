@@ -101,6 +101,7 @@ public class Child {
 	public List<Resource> getAllResourcesBySeqPosition(Integer position){
 		List<Resource> seqExercise = sequencesList.get(position).getAllResources();
 		Resource reinforcementResource = reinforcement.getReinforcementResource();
+
         if(reinforcementResource!=null)
 		    seqExercise.add(reinforcementResource);
 
