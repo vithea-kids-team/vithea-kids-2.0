@@ -120,6 +120,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     private String seqName;
 
+    private Exercise currentExercise;
+
     Logger logger = Log4jHelper.getLogger( "VitheaKidsActivity" );
     // *************************************************************************************************
 
@@ -456,9 +458,10 @@ public class VitheaKidsActivity extends AppCompatActivity {
      * @param exercise
      * @param container
      */
+
     public void setSimpleMultipleChoiceExerciseView(Exercise exercise, LinearLayout container)  {
         rightAnswerButton = null;
-
+        currentExercise=exercise;
         // Layout
         View ex_view = (View) linflater.inflate(R.layout.exercise_long_options_layout, null);
         container.addView(ex_view);
@@ -492,15 +495,28 @@ public class VitheaKidsActivity extends AppCompatActivity {
             layout.setLayoutParams(params);        }
 
         // Exercise Options
-        // Init Buttons given the number of options
-        List<Answer> answers = exercise.getAnswers();
-        List<Integer> idButtons = new ArrayList<>(Arrays.asList(R.id.button1, R.id.button2, R.id.button3, R.id.button4));
-        List<Button> buttonList = new ArrayList<>();
-        int numberAnswers = answers.size();
+        //  shuffle exerciseOptions
+        if (!exercise.getAnswers().isEmpty()) {
+                List<Answer> answers = exercise.getAnswers();
+                Collections.shuffle(answers);
+                exercise.setAnswers(answers);
 
-        if (!answers.isEmpty()) {
-            Collections.shuffle(answers);
+                initButtons();
+            }
+        }
 
+
+    /**
+     * init exercise options
+     */
+        public void initButtons(){
+           // LinearLayout buttonsViews = (LinearLayout) findViewById(R.id.layoutButtonText);
+            //buttonsViews.removeAllViews();
+
+            List<Integer> idButtons = new ArrayList<>(Arrays.asList(R.id.button1, R.id.button2, R.id.button3, R.id.button4));
+            List<Button> buttonList = new ArrayList<>();
+            List<Answer> answers= currentExercise.getAnswers();
+            int numberAnswers = answers.size();
             if (numberAnswers > 4) numberAnswers = 4;
 
             for (int i = 0; i < numberAnswers; i++) {
@@ -513,7 +529,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
                 }
                 btn.setVisibility(View.VISIBLE);
 
-                if (answer.getAnswerId() == exercise.getRightAnswer().getAnswerId()) { //right answer
+                if (answer.getAnswerId() == currentExercise.getRightAnswer().getAnswerId()) { //right answer
                     btn.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             rightAnswerHandler(v, child);
@@ -534,30 +550,29 @@ public class VitheaKidsActivity extends AppCompatActivity {
             for (int i = 0; i < numberAnswers; i++) {
                 currentAnswers.add(buttonList.get(i).getText().toString().toUpperCase());
             }
-        }
+
             // Prompting
-            // TODO REVIEW
-            if (promptingActive && child.getPrompting() != null) {
-                if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
-                    if (child.getPrompting().getPromptingColor()) {
-                        Prompting.setButtonColor(this.getApplicationContext(), rightAnswerButton);
-                    }
-                    if (child.getPrompting().getPromptingSize()) {
-                        Prompting.setSizeText(this.getApplicationContext(),rightAnswerButton);
-                    }
-                    if (child.getPrompting().getPromptingScratch()) {
-                        for (Button v : buttonList) {
-                            if (v != rightAnswerButton) {
-                                Prompting.scratchText(this.getApplicationContext(),v);
-                            }
+             // TODO REVIEW
+                if (promptingActive && child.getPrompting() != null) {
+            if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
+                if (child.getPrompting().getPromptingColor()) {
+                    Prompting.setButtonColor(this.getApplicationContext(), rightAnswerButton);
+                }
+                if (child.getPrompting().getPromptingSize()) {
+                    Prompting.setSizeText(this.getApplicationContext(),rightAnswerButton);
+                }
+                if (child.getPrompting().getPromptingScratch()) {
+                    for (Button v : buttonList) {
+                        if (v != rightAnswerButton) {
+                            Prompting.scratchText(this.getApplicationContext(),v);
                         }
                     }
-                    if (child.getPrompting().getPromptingRead()) {
-                        Prompting.readAnswers(currentAnswers);
-                    }
+                }
+                if (child.getPrompting().getPromptingRead()) {
+                    Prompting.readAnswers(currentAnswers);
                 }
             }
-
+            }
         }
     /***}
      * Multiple images
@@ -978,7 +993,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
         Log.e("sequence", "" + inSequenceScreen);
 
         if(!inSequenceScreen){
-           // setExerciseView();
+           if(currentExercise.getType().equals("TEXT")){
+               initButtons(); //redraw buttons to clean all prompting types applied
+           }
            // setNavigationView();
         }
     }

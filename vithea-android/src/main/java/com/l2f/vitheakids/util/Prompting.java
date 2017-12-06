@@ -28,7 +28,6 @@ import java.util.List;
  */
 
 public class Prompting {
-
     public static void setButtonColor(Context context, Button view){
 
         Log.d("pintei o botão", Integer.toString(view.getId()));
@@ -85,4 +84,7 @@ public class Prompting {
     }
 
 
+    public static void resetPrompting() {
+
+    }
 }
