@@ -32,7 +32,7 @@ export class AddSequenceComponent implements OnInit {
     public exercisesAddedError;
     public childrenAddedError;
 
-    public development = false;
+    public development = true;
 
 
     constructor(public route: ActivatedRoute, public sequencesService: SequencesService, public exercisesService: ExercisesService,

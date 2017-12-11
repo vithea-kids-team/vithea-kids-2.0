@@ -4,6 +4,9 @@ import { Observable} from 'rxjs/Rx';
 import { HttpApiClient } from '../http/http-api-client.service';
 import { Router } from '@angular/router';
 import { Caregiver } from '../../models/caregiver';
+import { Overlay } from 'ngx-modialog';
+import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { Location } from '@angular/common';
 
 
 @Injectable()
@@ -17,7 +20,7 @@ export class CaregiverService {
   textSuccess;
   textFailure;
 
-  constructor(public http: HttpApiClient, public router: Router) { }
+  constructor(public http: HttpApiClient, public router: Router, public location: Location,public modal: Modal) { }
 
   getSuccess() {
     return this.success;
@@ -69,17 +72,29 @@ export class CaregiverService {
   }
 
   logout() {
-    localStorage.removeItem('Username')
-    localStorage.removeItem('Authorization');
-    this.loggedIn = false;
-    this.router.navigate(['/home']);
 
-    return this.http.post('/logout', JSON.stringify(null)).subscribe(
-      res => res,
-      err => {
-        console.error('Error logging out. ' + err);
+    const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+    .title('Sair').body('Tem a certeza que pretende terminar a sessão actual?').open();
+
+    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      if (result) {
+        return this.http.post('/logout', JSON.stringify(null)).subscribe(
+          res => {
+            if (res) {
+              localStorage.removeItem('Username')
+              localStorage.removeItem('Authorization');
+              this.loggedIn = false;
+              this.router.navigate(['/home']);
+            }
+          },
+          err => {
+            console.error('Error logging out. ' + err);
+          }
+        );
+      } else {
+        this.goBack();
       }
-    );
+    }).catch(() => {})});
   }
 
   isLoggedIn() {
@@ -96,5 +111,9 @@ export class CaregiverService {
 
   getUsername() {
     return localStorage.getItem('Username');
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

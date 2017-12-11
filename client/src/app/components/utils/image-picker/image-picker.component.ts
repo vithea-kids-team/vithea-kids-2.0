@@ -21,7 +21,7 @@ export class ImagePickerComponent implements ControlValueAccessor {
   @Input() selected: Resource;
   @Output() onSelected = new EventEmitter<String>();
 
-  public development = false;
+  public development = true;
 
   public _items: Array<Resource> = [];
 

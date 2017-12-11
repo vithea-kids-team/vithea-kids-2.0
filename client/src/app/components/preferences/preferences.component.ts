@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { Location } from '@angular/common';
 import { ChildrenService } from '../../services/children/children.service';
 import { ResourcesService } from '../../services/resources/resources.service';
-import { Overlay } from 'ngx-modialog';
+ 
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
 import { Router } from '@angular/router';
 import { Child } from '../../models/child';
