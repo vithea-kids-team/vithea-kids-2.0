@@ -1,7 +1,7 @@
 package controllers;
 
 import com.typesafe.config.ConfigFactory;
-import static controllers.AdminExerciseCtrl.buildJsonResponse;
+import static controllers.ChildAppCtrl.buildJsonResponse;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +37,16 @@ public class AdminResourcesCtrl extends Controller {
     public String getExtension(String filename){
         int i = filename.lastIndexOf('.');
         
-        if (i > 0) return filename.substring(i+1);
-        else return "png";
+        String extension;
+        
+        if (i > 0) extension = filename.substring(i+1);
+        else extension = "error";
+        
+        if(extension.equals("jpeg") || extension.equals("png") || extension.equals("gif") || 
+           extension.equals("jpg")  || extension.equals("bmp") || extension.equals("jpe")) {
+            return extension;
+        }
+        else return "error";
     }
     
     public Result uploadResources(String type) {
@@ -63,6 +71,9 @@ public class AdminResourcesCtrl extends Controller {
                     
                     String fileName = resource.getFilename();
                     String extension = this.getExtension(fileName);
+                    
+                    // validate extension
+                    if (extension.equals("error")) return badRequest("Invalid image format");
                     
                     int height = originalImage.getHeight();
                     int width  = originalImage.getWidth();

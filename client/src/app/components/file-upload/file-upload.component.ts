@@ -29,8 +29,8 @@ export class FileUploadComponent {
   uploadFile(e) {
     let files = e.target.files;
 
-    this.resourcesService.setUploading(true);
-    this.resourcesService.setTextUploading('Recurso multimédia a ser adicionado. Por favor aguarde');
+    //this.resourcesService.setUploading(true);
+    //this.resourcesService.setTextUploading('Recurso multimédia a ser adicionado. Por favor aguarde');
 
     if (files && files.length > 0) {
       this.resourcesService.uploadFiles(files, this.resourceType, this.name).subscribe(
@@ -45,10 +45,16 @@ export class FileUploadComponent {
             )
           },
           err => {
+            this.resourcesService.setUploading(false);
             this.resourcesService.setSuccess(false);
             this.resourcesService.setFailure(true);
-            this.resourcesService.setTextSuccess('Não foi possível adicionar o recurso multimédia.');
-            console.error('Error uploading file', err)
+
+          if (err === 'Invalid image format') {
+            this.resourcesService.setTextFailure('Não foi possível adicionar o recurso multimédia. O formato de imagem não é suportado.');
+          }  else {
+            this.resourcesService.setTextFailure('Não foi possível adicionar o recurso multimédia.');
+          }
+          console.error('Error uploading file', err)
         }
       )
     }

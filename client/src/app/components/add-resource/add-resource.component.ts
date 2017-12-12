@@ -24,20 +24,28 @@ export class AddResourceComponent implements OnInit, DoCheck {
 
   public uploading = false;
   public textUploading;
+  public failure = false;
+  public textFailure;
 
   constructor(public resourcesService: ResourcesService, public router: Router, public route: ActivatedRoute, public location: Location) { }
 
     ngOnInit() {
       this.reset();
     }
-    
+
     ngDoCheck() {
       this.updateUploading();
+      this.updateFailure();
     }
 
     public updateUploading() {
       this.uploading = this.resourcesService.getUploading();
       this.textUploading = this.resourcesService.getTextUploading();
+    }
+
+    public updateFailure() {
+      this.failure = this.resourcesService.getFailure();
+      this.textFailure = this.resourcesService.getTextFailure();
     }
 
     _UploadStimulus_(results, type) {

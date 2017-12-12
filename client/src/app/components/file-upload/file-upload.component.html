@@ -1,9 +1,9 @@
 <div *ngIf="image" class="file-uploader">
     <a (click)="toggleFileUpload()" class="btn btn-primary">{{ label | translate }}</a>
-    <input #input type="file" (change)="uploadFile($event)" name="input-file" accept="image/*">
+    <input #input type="file" (change)="uploadFile($event)" name="input-file" accept="image/x-png,image/gif,image/jpeg,image/jpg,image/jpe,image/bmp">
 </div>
 
-<div *ngIf="!image" class="file-uploader">
-    <a (click)="toggleFileUpload()" class="btn btn-primary">{{ label | translate }}</a>
-    <input #input type="file" (change)="uploadFileCSV($event)" name="input-file " accept="file">
+<div *ngIf="!image" class="file-uploader ">
+    <a (click)="toggleFileUpload() " class="btn btn-primary ">{{ label | translate }}</a>
+    <input #input type="file " (change)="uploadFileCSV($event) " name="input-file " accept="file ">
 </div>

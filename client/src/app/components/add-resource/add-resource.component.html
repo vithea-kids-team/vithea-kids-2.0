@@ -8,6 +8,7 @@
     </div>
 
     <alert *ngIf="uploading" type="info" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textUploading }} </alert>
+    <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
 
     <form (ngSubmit)="createResource()" #resourceForm="ngForm" class="col-md-8">
 
