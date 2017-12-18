@@ -3,6 +3,7 @@ package com.l2f.vitheakids;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.fasterxml.jackson.databind.PropertyName;
 import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
@@ -21,6 +22,7 @@ import com.l2f.vitheakids.util.CanvasUtil;
 import com.l2f.vitheakids.util.Prompting;
 import com.unity3d.player.*;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -56,6 +58,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -148,6 +151,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         initViews();            // conf views and layouts
 
 
+
         new FetchChildInfo(VitheaKidsActivity.this).execute();
 
 
@@ -204,21 +208,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
         View view =  mUnityPlayer.getView();
         layout.addView(view, 0, lp);
 
-        linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view1 = (View) linflater.inflate(R.layout.repeat_button, null);
-        layout.addView(view1);
-
-        layout.getChildAt(0).bringToFront();
-        layout.getChildAt(0).invalidate();
-
-        layout.getChildAt(1).bringToFront();
-        layout.getChildAt(0).invalidate();
-
-        Log.d("layout",layout.getChildAt(0).toString());
-       /* linflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view1 = (View) linflater.inflate(R.layout.repeat_button, null);
-
-        layout.addView(view1);*/
 
 
     }
@@ -400,8 +389,14 @@ public class VitheaKidsActivity extends AppCompatActivity {
         });
 
     }
+
+    LinearLayout exerciseView;
+    View exerciseLong;//view with option that should be redrawn
+    View imageOptionsView;
     public void setExerciseView() {
-        //stop character taklk
+        exerciseLong = null; //
+        imageOptionsView =null;
+        //stop character talk
         new StopRead().execute();
 
         setupActionBar(getString(R.string.exercise));
@@ -423,22 +418,34 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // Set exercise info
         if (child != null) {
-            Exercise exercise = exercises.get(currentExercisePosition);
+            currentExercise= exercises.get(currentExercisePosition);
+
+            // Layout
+            exerciseView = (LinearLayout) linflater.inflate(R.layout.main_exercise, null);
+            container.addView(exerciseView);
+
+            // Question
+            TextView questionText = (TextView) findViewById(R.id.questionText);
+            if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
+                questionText.setText(currentExercise.getQuestion().getQuestionDescription().toUpperCase());
+            } else {
+                questionText.setText(currentExercise.getQuestion().getQuestionDescription());
+            }
 
             // TODO TYPE OF EXERCISES - in the future factory?
-            if (exercise.getType().equals("TEXT")) {
-                setSimpleMultipleChoiceExerciseView(exercise, container);   //text
-            } else if (exercise.getType().equals("IMAGE")) {
-                setImageMultipleChoiceExerciseView(exercise, container);    // image
+            if (currentExercise.getType().equals("TEXT")) {
+                setSimpleMultipleChoiceExerciseView(currentExercise, exerciseView);   //text
+            } else if (currentExercise.getType().equals("IMAGE")) {
+                setImageMultipleChoiceExerciseView(currentExercise, exerciseView);    // image
             }
 
             // Exercises navigation
             View navigationView = linflater.inflate(R.layout.navigation_view, null);
-            container.addView(navigationView);
+            exerciseView.addView(navigationView);
 
             // Send to Animated Character
-            readWithOrWithoutEmotion(child, exercise.getQuestion().getQuestionDescription());
-            lastInstruction = exercise.getQuestion().getQuestionDescription();
+            readWithOrWithoutEmotion(child, currentExercise.getQuestion().getQuestionDescription());
+            lastInstruction = currentExercise.getQuestion().getQuestionDescription();
 /*
             ImageView repeat_view = (ImageView) findViewById(R.id.repeat_button_view);
 
@@ -458,22 +465,16 @@ public class VitheaKidsActivity extends AppCompatActivity {
      * @param exercise
      * @param container
      */
-
     public void setSimpleMultipleChoiceExerciseView(Exercise exercise, LinearLayout container)  {
         rightAnswerButton = null;
-        currentExercise=exercise;
-        // Layout
-        View ex_view = (View) linflater.inflate(R.layout.exercise_long_options_layout, null);
-        container.addView(ex_view);
 
-        // Question
-
-        TextView questionText = (TextView) findViewById(R.id.questionText);
-        if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
-            questionText.setText(exercise.getQuestion().getQuestionDescription().toUpperCase());
-        } else {
-            questionText.setText(exercise.getQuestion().getQuestionDescription());
+        if(exerciseLong!=null){
+          ViewGroup parent = (ViewGroup) exerciseLong.getParent();
+          parent.removeView(exerciseLong);
         }
+
+        exerciseLong = (View) linflater.inflate(R.layout.exercise_long_options_layout, null);
+        container.addView(exerciseLong);
 
         // Stimulus
         Resource stimulus = exercise.getQuestion().getStimulus();
@@ -481,11 +482,11 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         if (stimulus!=(null)) {
 
-                    byte[] image  = imageStorage.getImage(seqName,stimulus.getResourceId());
-                    ImageView img = (ImageView) findViewById(R.id.stimulusImage);
-                    setImageOfView(img,image);
+            byte[] image  = imageStorage.getImage(seqName,stimulus.getResourceId());
+            ImageView img = (ImageView) findViewById(R.id.stimulusImage);
+            setImageOfView(img,image);
         }
-      else {
+         else {
             ImageView img = (ImageView) findViewById(R.id.stimulusImage);
             img.setVisibility(View.GONE);
             LinearLayout layout = (LinearLayout) findViewById(R.id.layoutButtonText);
@@ -497,30 +498,21 @@ public class VitheaKidsActivity extends AppCompatActivity {
         // Exercise Options
         //  shuffle exerciseOptions
         if (!exercise.getAnswers().isEmpty()) {
-                List<Answer> answers = exercise.getAnswers();
+
+            List<Answer> answers = exercise.getAnswers();
+            if(exerciseLong==null) {
                 Collections.shuffle(answers);
                 exercise.setAnswers(answers);
-
-                initButtons();
             }
-        }
-
-
-    /**
-     * init exercise options
-     */
-        public void initButtons(){
-           // LinearLayout buttonsViews = (LinearLayout) findViewById(R.id.layoutButtonText);
-            //buttonsViews.removeAllViews();
-
             List<Integer> idButtons = new ArrayList<>(Arrays.asList(R.id.button1, R.id.button2, R.id.button3, R.id.button4));
             List<Button> buttonList = new ArrayList<>();
-            List<Answer> answers= currentExercise.getAnswers();
+
             int numberAnswers = answers.size();
             if (numberAnswers > 4) numberAnswers = 4;
 
             for (int i = 0; i < numberAnswers; i++) {
                 Button btn = (Button) findViewById(idButtons.get(i));
+                Prompting.makeSelector(this, R.color.exercise_button_color);
                 Answer answer = answers.get(i);
                 if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
                     btn.setText(answer.getAnswerDescription().toUpperCase());
@@ -552,47 +544,54 @@ public class VitheaKidsActivity extends AppCompatActivity {
             }
 
             // Prompting
-             // TODO REVIEW
-                if (promptingActive && child.getPrompting() != null) {
-            if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
-                if (child.getPrompting().getPromptingColor()) {
-                    Prompting.setButtonColor(this.getApplicationContext(), rightAnswerButton);
-                }
-                if (child.getPrompting().getPromptingSize()) {
-                    Prompting.setSizeText(this.getApplicationContext(),rightAnswerButton);
-                }
-                if (child.getPrompting().getPromptingScratch()) {
-                    for (Button v : buttonList) {
-                        if (v != rightAnswerButton) {
-                            Prompting.scratchText(this.getApplicationContext(),v);
+            // TODO REVIEW
+            if (promptingActive && child.getPrompting() != null) {
+                if (child.getPrompting().getPromptingStrategy().equals("ALWAYS")) {
+                    if (child.getPrompting().getPromptingColor()) {
+                        Prompting.setButtonColor(this.getApplicationContext(), rightAnswerButton);
+                    }
+                    if (child.getPrompting().getPromptingSize()) {
+                        Prompting.setSizeText(this.getApplicationContext(),rightAnswerButton);
+                    }
+                    if (child.getPrompting().getPromptingScratch()) {
+                        for (Button v : buttonList) {
+                            if (v != rightAnswerButton) {
+                                Prompting.scratchText(this.getApplicationContext(),v);
+                            }
                         }
                     }
+                    if (child.getPrompting().getPromptingRead()) {
+                        Prompting.readAnswers(currentAnswers);
+                    }
                 }
-                if (child.getPrompting().getPromptingRead()) {
-                    Prompting.readAnswers(currentAnswers);
-                }
-            }
             }
         }
+    }
+
+
+
     /***}
      * Multiple images
      * @param exercise
      * @param container
      */
     private void setImageMultipleChoiceExerciseView(Exercise exercise, LinearLayout container)  {
-        View ex_view = (View) linflater.inflate(R.layout.exercise_multiple_images, null);
-        container.addView(ex_view);
 
-        // Question & stimulus
-        TextView questionText = (TextView) findViewById(R.id.questionText);
+        if(imageOptionsView!=null){
+            Log.d("clean options", "clean");
+            ViewGroup parent = (ViewGroup) imageOptionsView.getParent();
+            parent.removeView(imageOptionsView);
+        }
+        imageOptionsView = (View) linflater.inflate(R.layout.exercise_multiple_images, null);
+        container.addView(imageOptionsView);
+
+        // stimulus
         TextView stimulusText = (TextView) findViewById(R.id.stimulusText);
         String stimulusTextContent = exercise.getQuestion().getStimulusText();
 
         if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
-            questionText.setText(exercise.getQuestion().getQuestionDescription().toUpperCase());
             stimulusText.setText(stimulusTextContent == null ? "" : stimulusTextContent.toUpperCase());
         } else {
-            questionText.setText(exercise.getQuestion().getQuestionDescription());
             stimulusText.setText(stimulusTextContent == null ? "" : stimulusTextContent.toUpperCase());
 
         }
@@ -606,7 +605,10 @@ public class VitheaKidsActivity extends AppCompatActivity {
         List<ImageView> optionsList = new ArrayList<>();
 
         if (!answers.isEmpty()) {
-            Collections.shuffle(answers);
+            if(imageOptionsView==null) {
+                Collections.shuffle(answers);
+                exercise.setAnswers(answers);
+            }
             int numberAnswers = answers.size();
 
             // FIXME Verify if will be possible to have more than 4 answers
@@ -973,9 +975,10 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private void reinforcementHandler(MenuItem item){
         reinforcementActive = !(reinforcementActive);
         if(reinforcementActive){
-            item.setTitle("Ligar Reforço");
+            item.setTitle("Desligar Reforço ");
         }
-        else item.setTitle("Desligar Reforço");
+        else
+            item.setTitle("Ligar Reforço");
 
         if(!inSequenceScreen){
            // setExerciseView();
@@ -985,17 +988,21 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private void promptingHandler(MenuItem item){
         promptingActive = !(promptingActive);
         if(promptingActive){
-            item.setTitle("Ligar Ajuda");
+            item.setTitle("Desligar Ajuda");
         }
-        else item.setTitle("Desligar Ajuda");
+        else item.setTitle("Ligar ajuda");
 
         Log.e("home", "" + inHomeScreen);
         Log.e("sequence", "" + inSequenceScreen);
 
         if(!inSequenceScreen){
            if(currentExercise.getType().equals("TEXT")){
-               initButtons(); //redraw buttons to clean all prompting types applied
+               setSimpleMultipleChoiceExerciseView(currentExercise,exerciseView); //redraw buttons to clean all prompting types applied
            }
+
+            if(currentExercise.getType().equals("IMAGE")){
+               setImageMultipleChoiceExerciseView(currentExercise,exerciseView); //redraw buttons to clean all prompting types applied
+            }
            // setNavigationView();
         }
     }

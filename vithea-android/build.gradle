@@ -51,7 +51,20 @@ android {
 		exclude 'META-INF/license.txt'
 		exclude 'META-INF/notice.txt'
     }
+	sourceSets {
+		main {
+			res.srcDirs =
+					[
+							'src/main/res/layouts/exercise',
+							'src/main/res/layouts/',
+							'src/main/res'
+
+					]
+		}
+	}
 }
+
+
 
 dependencies {
 	compile files('libs/android-logging-log4j-1.0.3.jar')
