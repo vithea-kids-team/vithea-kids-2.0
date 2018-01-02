@@ -112,6 +112,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private List<Exercise> exercises;
     private Date timestampBeginExercise;
     private Date timestampEndExercise;
+    private Date timestampBeginSequence;
+    private Date timestampEndSequence;
 
     private DateFormat dateFormat;
 
@@ -186,8 +188,17 @@ public class VitheaKidsActivity extends AppCompatActivity {
         return logString;
     }
 
-    private String logSequence() {
-        return "";
+    private String logSequence(Child child) {
+        String logString = "sequenceID: " + currentSequenceId + "; ";
+        logString += "childID: " + child.getChildId() + "; ";
+
+        logString += "timestampBegin: " + dateFormat.format(timestampBeginSequence) + "; ";
+        logString += "timestampEnd: " + dateFormat.format(timestampEndSequence) + "; ";
+
+        logString += "numberExercisesCorrect: " + "" + "; ";
+        logString += "numberExercisesSkipped: " + "" + "; ";
+
+        return logString;
     }
 
     private void initViews() {
@@ -374,6 +385,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
                 exercises = seq.getSequenceExercises();
                 currentExercisePosition = 0;
+                timestampBeginSequence = new Date();
                 timestampBeginExercise = new Date();
                 inExercise = true;          // Start exercises
                 inHomeScreen = false;       // Not in home screen
@@ -940,6 +952,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
         // TODO Send logger and show results
         //new SendLogs(this, currentSequenceLog).execute();
         //setFinalResultsView();
+
+        timestampEndSequence = new Date();
+        logger.info(logSequence(child));
 
         //Sequence reinforcement
         if(reinforcementActive) playMessage(child, "SEQUENCE_REINFORCEMENT");
