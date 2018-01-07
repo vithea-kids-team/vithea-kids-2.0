@@ -8,7 +8,7 @@ import android.os.Environment;
 
 import de.mindpipe.android.logging.log4j.LogConfigurator;
 
-public class Log4jHelper {
+public class LogHelper {    //Log4jHelper
     private final static LogConfigurator mLogConfigrator = new LogConfigurator();
 
     static {
@@ -16,7 +16,7 @@ public class Log4jHelper {
     }
 
     private static void configureLog4j() {
-        String fileName = Environment.getExternalStorageDirectory() + "/" + "exercises.log";
+        String fileName = Environment.getExternalStorageDirectory() + "/" + "exercisesLogs.json";
         String filePattern = "%d - [%c] - %p : %m%n";
         int maxBackupSize = 10;
         long maxFileSize = 1024 * 1024;

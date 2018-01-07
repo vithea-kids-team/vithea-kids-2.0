@@ -1,14 +1,19 @@
 package com.l2f.vitheakids;
 
-import android.app.Activity;
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import android.view.View;
@@ -36,7 +41,10 @@ import org.springframework.web.client.HttpClientErrorException;
  * Updated by Soraia Meneses Alarcão on 21/07/2017
  */
 
-public class LoginActivity extends Activity implements TaskListener {
+public class LoginActivity extends AppCompatActivity implements TaskListener,
+        ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private static final int PERMISSION_REQUEST_EXTERNAL_STORAGE = 0;
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -58,6 +66,8 @@ public class LoginActivity extends Activity implements TaskListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        checkStoragePermission();
+
         SharedPreferences settings = LoginActivity.this.getSharedPreferences(getString(R.string.APP_PREFERENCES), MODE_PRIVATE);
         cd = new ConnectionDetector(getApplicationContext());
         isInternetPresent = cd.isConnectingToInternet();
@@ -67,6 +77,9 @@ public class LoginActivity extends Activity implements TaskListener {
             LoginActivity.this.startActivity(i);
         } else {
             setContentView(R.layout.activity_login);
+
+            //TODO request storage permission
+
             ButterKnife.bind(this);
             if (!isInternetPresent)
                 Toast.makeText(getBaseContext(), "Não existe ligação de Internet disponível.", Toast.LENGTH_LONG).show();
@@ -97,6 +110,12 @@ public class LoginActivity extends Activity implements TaskListener {
 
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
     @Override
     protected void onStop(){
         super.onStop();
@@ -273,5 +292,71 @@ public class LoginActivity extends Activity implements TaskListener {
      */
     private void unlockScreenOrientation() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+    }
+
+
+    /** Storage Permission Methods **/
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        // BEGIN_INCLUDE(onRequestPermissionsResult)
+        if (requestCode == PERMISSION_REQUEST_EXTERNAL_STORAGE) {
+            // Request for write external storage permission.
+            if (grantResults.length == 1 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                // Permission request was denied.
+                requestStoragePermission();
+            }
+        }
+        // END_INCLUDE(onRequestPermissionsResult)
+    }
+
+    private void checkStoragePermission() {
+        // Check if the Storage permission has been granted
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // if was not granted
+            requestStoragePermission();
+        }
+    }
+
+    /**
+     * Requests the {@link android.Manifest.permission#WRITE_EXTERNAL_STORAGE} permission.
+     * If an additional rationale should be displayed, the user has to launch the request from
+     * an AlertDialog that includes additional information.
+     */
+    private void requestStoragePermission() {
+        // Permission has not been granted and must be requested.
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // Display a AlertDialog with a button to request the missing permission.
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            dialogBuilder.setTitle("Permissões");
+            dialogBuilder.setMessage("É necessária a permissão de armazenamento para a realização de testes.");
+            dialogBuilder.setCancelable(true);
+            dialogBuilder.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        // Request the permission
+                        ActivityCompat.requestPermissions(LoginActivity.this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                PERMISSION_REQUEST_EXTERNAL_STORAGE);
+                    }
+                });
+
+            AlertDialog permissionAlertDialog = dialogBuilder.create();
+            permissionAlertDialog.show();
+
+        } else {
+            //Permission is not available. Requesting storage permission.
+
+            // Request the permission. The result will be received in onRequestPermissionResult().
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_EXTERNAL_STORAGE);
+        }
     }
 }

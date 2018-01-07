@@ -1,5 +1,7 @@
 package com.l2f.vitheakids.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,13 +25,15 @@ public class SequenceLogInfo {
 	private int skippedCount;
 	private float distractorHitsAvg;
 	private Long sequenceId;
+	private DateFormat dateFormat;
 	
 	public SequenceLogInfo() {
 		exercisesDetails = new ArrayList<ExerciseLogInfo>();		
 		totalCount = 0;		
-		correctCount= 0;		
+		correctCount = 0;
 		skippedCount = 0;
 		distractorHitsAvg = 0;
+		dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	}
 	
 	@Override
@@ -43,6 +47,7 @@ public class SequenceLogInfo {
 				"\n\tCorrect Count: " + this.correctCount +
 				"\n\tDistractors Avg: " + this.distractorHitsAvg;
 	}
+	/*
 	public String toJSON() {
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -79,6 +84,7 @@ public class SequenceLogInfo {
 		}
 		return null;
 	}
+	*/
 	
 	public void incCorrectCount() {
 		correctCount++;

@@ -3,7 +3,6 @@ package com.l2f.vitheakids;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.fasterxml.jackson.databind.PropertyName;
 import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
@@ -22,10 +21,13 @@ import com.l2f.vitheakids.util.CanvasUtil;
 import com.l2f.vitheakids.util.Prompting;
 import com.unity3d.player.*;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -34,6 +36,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -60,8 +63,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -74,7 +75,7 @@ import org.apache.log4j.Logger;
  * Updated by Soraia Meneses Alarcão on 21/07/2017
  */
 
-public class VitheaKidsActivity extends AppCompatActivity {
+public class VitheaKidsActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private String TAG = VitheaKidsActivity.class.getSimpleName();
 
@@ -94,13 +95,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private String greetingMsg;
     private String exListMsg;
     public Child child = null;
-    private ExerciseLogInfo currentExerciseLog;
-    private SequenceLogInfo currentSequenceLog;
+    private ExerciseLogInfo currentExerciseLogInfo;
+    private SequenceLogInfo currentSequenceLogInfo;
 
     // Exercises
     private long currentSequenceId;
     private int currentExercisePosition;
     private int attempts = 0;
+    private boolean skipped = false;
+    private boolean correctAnswer = false;
     private boolean inExercise;
     private boolean inHomeScreen = true;
     private boolean inSequenceScreen;
@@ -115,8 +118,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
     private Date timestampBeginSequence;
     private Date timestampEndSequence;
 
-    private DateFormat dateFormat;
-
     private View characterContainer;
     private ActionBar actionBar;
     private ImageView rightAnswer;
@@ -127,7 +128,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     private Exercise currentExercise;
 
-    Logger logger = Log4jHelper.getLogger( "VitheaKidsActivity" );
+    private static final int PERMISSION_REQUEST_EXTERNAL_STORAGE = 0;
+
+    Logger logger;
     // *************************************************************************************************
 
     public void initActivePrompting(Boolean state){
@@ -139,6 +142,8 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        checkStoragePermission();
+        logger = LogHelper.getLogger( "VitheaKidsActivity" );
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
@@ -152,12 +157,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
         initUnityCharacter();   // conf unity player
         initViews();            // conf views and layouts
 
-
-
         new FetchChildInfo(VitheaKidsActivity.this).execute();
-
-
-        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     }
 
@@ -166,39 +166,6 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         super.onStop();
         finish();
-    }
-
-    private String logExercise(Child child, boolean isCorrect){
-        String logString = "exerciseID: " + exercises.get(currentExercisePosition).getId() + "; ";
-        logString += "timestampBegin: " + dateFormat.format(timestampBeginExercise) + "; ";
-        logString += "timestampEnd: " + dateFormat.format(timestampEndExercise) + "; ";
-
-        logString += "numberOfWrongAttempts: " + attempts + "; ";
-
-        if (isCorrect) {
-            logString += "correct: true; skipped: false; ";
-        }
-        else {
-            logString += "correct: false; skipped: true; ";
-        }
-
-        logString += "promptingStrategy: " + child.getPrompting().getPromptingStrategy() + "; ";
-        logString += "reinforcementStrategy: " + child.getReinforcement().getReinforcementStrategy() + "; ";
-        logString += "\n";
-        return logString;
-    }
-
-    private String logSequence(Child child) {
-        String logString = "sequenceID: " + currentSequenceId + "; ";
-        logString += "childID: " + child.getChildId() + "; ";
-
-        logString += "timestampBegin: " + dateFormat.format(timestampBeginSequence) + "; ";
-        logString += "timestampEnd: " + dateFormat.format(timestampEndSequence) + "; ";
-
-        logString += "numberExercisesCorrect: " + "" + "; ";
-        logString += "numberExercisesSkipped: " + "" + "; ";
-
-        return logString;
     }
 
     private void initViews() {
@@ -269,6 +236,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        checkStoragePermission();
         mUnityPlayer.resume();
     }
     // Low Memory Unity
@@ -385,8 +353,9 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
                 exercises = seq.getSequenceExercises();
                 currentExercisePosition = 0;
-                timestampBeginSequence = new Date();
-                timestampBeginExercise = new Date();
+
+                initNewSequenceLogInfo();
+
                 inExercise = true;          // Start exercises
                 inHomeScreen = false;       // Not in home screen
                 inSequenceScreen = false;   // Not in sequence screen
@@ -430,7 +399,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
         // Set exercise info
         if (child != null) {
-            currentExercise= exercises.get(currentExercisePosition);
+            currentExercise = exercises.get(currentExercisePosition);
 
             // Layout
             exerciseView = (LinearLayout) linflater.inflate(R.layout.main_exercise, null);
@@ -707,7 +676,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
             hideActionBar(); // TODO maybe not hide?
 
 
-            playMessage(child, "SEQUENCE_REINFORCEMENT");
+            playMessage(child, "EXERCISE_REINFORCEMENT");
 
             // Clear rightFrameLayout
             LinearLayout rightFrameLayout = (LinearLayout) findViewById(R.id.rightFrame);
@@ -764,15 +733,15 @@ public class VitheaKidsActivity extends AppCompatActivity {
         container.addView(results_view);
 
         TextView totalViewResult = (TextView) findViewById(R.id.totalViewResult);
-        totalViewResult.setText(Integer.valueOf(currentSequenceLog.getTotalCount()).toString());
+        totalViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getTotalCount()).toString());
 
         TextView skippedViewResult = (TextView) findViewById(R.id.skippedViewResult);
-        skippedViewResult.setText(Integer.valueOf(currentSequenceLog.getSkippedCount()).toString());
+        skippedViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getSkippedCount()).toString());
 
         TextView correctViewResult = (TextView) findViewById(R.id.correctViewResult);
-        correctViewResult.setText(Integer.valueOf(currentSequenceLog.getCorrectCount()).toString());
+        correctViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getCorrectCount()).toString());
 
-        Float distractorAvg = Float.valueOf(currentSequenceLog.getDistractorHitsAvg());
+        Float distractorAvg = Float.valueOf(currentSequenceLogInfo.getDistractorHitsAvg());
         TextView distractorViewResult = (TextView) findViewById(R.id.distractorViewResult);
         distractorViewResult.setText(String.format("%.2f", distractorAvg).toString());
 
@@ -808,6 +777,7 @@ public class VitheaKidsActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
+                    skipped = true;
                     nextExerciseHandler();
                 }
             });
@@ -831,14 +801,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
 //**** Region Handlers - what happens when you do some actions ************************************
 
     protected void rightAnswerHandler(View v, Child child) {
-        timestampEndExercise = new Date();
-        logger.info(logExercise(child, true));
         inExercise = false;
         playMessage(child, "EXERCISE_REINFORCEMENT"); // TODO Only reinforcement?
         if(reinforcementActive) playReinforcement(child);
         else nextExerciseHandler();
         attempts = 0;
     }
+
     private void playReinforcement(Child child) { // TODO child.getReinforcement() - efficiency
         switch (child.getReinforcement().getReinforcementStrategy()) {
             case "ALWAYS":
@@ -937,10 +906,14 @@ public class VitheaKidsActivity extends AppCompatActivity {
         setNavigationView();
     }
     protected void nextExerciseHandler() {
+        logExercise();
+
         this.currentExercisePosition++;
         Boolean hasFinished = currentExercisePosition >= exercises.size();
+
         if (!hasFinished) {
-            timestampBeginExercise = new Date();
+            initNewExerciseLogInfo();
+
             inExercise = true;
             setExerciseView();
             setNavigationView();
@@ -948,13 +921,13 @@ public class VitheaKidsActivity extends AppCompatActivity {
             endHandler();
         }
     }
+
     protected void endHandler() {
         // TODO Send logger and show results
         //new SendLogs(this, currentSequenceLog).execute();
         //setFinalResultsView();
 
-        timestampEndSequence = new Date();
-        logger.info(logSequence(child));
+        //logger.info(logSequence(child));
 
         //Sequence reinforcement
         if(reinforcementActive) playMessage(child, "SEQUENCE_REINFORCEMENT");
@@ -1128,5 +1101,150 @@ public class VitheaKidsActivity extends AppCompatActivity {
         Glide.with(this.getApplicationContext()).load(bytes).apply(RequestOptions.skipMemoryCacheOf(true)).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(imageView);
     }
 
+
+    /**
+     * Logs Methods
+     */
+    private void initNewExerciseLogInfo() {
+        correctAnswer = false;
+        skipped = false;
+        long childID = child.getChildId();
+        long exerciseID = exercises.get(currentExercisePosition).getId();
+        String promptingStrategy = child.getPrompting().getPromptingStrategy();
+        String reinforcementStrategy = child.getReinforcement().getReinforcementStrategy();
+
+        currentExerciseLogInfo = new ExerciseLogInfo(childID, exerciseID, promptingStrategy, reinforcementStrategy);
+    }
+
+    private void initNewSequenceLogInfo() {
+        timestampBeginSequence = new Date();
+
+        currentSequenceLogInfo = new SequenceLogInfo();
+
+        initNewExerciseLogInfo();
+    }
+
+    private void logExercise() {
+
+        timestampEndExercise = new Date();
+
+        //Log object parameters
+        long exerciseID = exercises.get(currentExercisePosition).getId();
+        int numberOfWrongAttempts = attempts;
+        String promptingStrategy = child.getPrompting().getPromptingStrategy();
+        String reinforcementStrategy = child.getReinforcement().getReinforcementStrategy();
+        boolean correctAnswer = true;   //TODO false = skipped
+
+        currentExerciseLogInfo.log(numberOfWrongAttempts, correctAnswer);
+
+    }
+
+    /*
+    private String logExerciseOld(Child child, boolean isCorrect){
+
+        timestampEndExercise = new Date();
+
+        String logString = "exerciseID: " + exercises.get(currentExercisePosition).getId() + "; ";
+        logString += "timestampBegin: " + dateFormat.format(timestampBeginExercise) + "; ";
+        logString += "timestampEnd: " + dateFormat.format(timestampEndExercise) + "; ";
+
+        logString += "numberOfWrongAttempts: " + attempts + "; ";
+
+        if (isCorrect) {
+            logString += "correct: true; skipped: false; ";
+        }
+        else {
+            logString += "correct: false; skipped: true; ";
+        }
+
+        logString += "promptingStrategy: " + child.getPrompting().getPromptingStrategy() + "; ";
+        logString += "reinforcementStrategy: " + child.getReinforcement().getReinforcementStrategy() + "; ";
+        logString += "\n";
+        return logString;
+    }
+
+
+    private String logSequence(Child child) {
+
+        timestampEndSequence = new Date();
+
+        String logString = "sequenceID: " + currentSequenceId + "; ";
+        logString += "childID: " + child.getChildId() + "; ";
+
+        logString += "timestampBegin: " + dateFormat.format(timestampBeginSequence) + "; ";
+        logString += "timestampEnd: " + dateFormat.format(timestampEndSequence) + "; ";
+
+        logString += "numberExercisesCorrect: " + "" + "; ";
+        logString += "numberExercisesSkipped: " + "" + "; ";
+        logString += "\n";
+
+        return logString;
+    }
+    */
+
+    /** Storage Permission Methods **/
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        // BEGIN_INCLUDE(onRequestPermissionsResult)
+        if (requestCode == PERMISSION_REQUEST_EXTERNAL_STORAGE) {
+            // Request for write external storage permission.
+            if (grantResults.length == 1 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                // Permission request was denied.
+                requestStoragePermission();
+            }
+        }
+        // END_INCLUDE(onRequestPermissionsResult)
+    }
+
+    private void checkStoragePermission() {
+        // Check if the Storage permission has been granted
+        if (ActivityCompat.checkSelfPermission(VitheaKidsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // if was not granted
+            requestStoragePermission();
+        }
+    }
+
+    /**
+     * Requests the {@link android.Manifest.permission#WRITE_EXTERNAL_STORAGE} permission.
+     * If an additional rationale should be displayed, the user has to launch the request from
+     * an AlertDialog that includes additional information.
+     */
+    private void requestStoragePermission() {
+        // Permission has not been granted and must be requested.
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // Display a AlertDialog with a button to request the missing permission.
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            dialogBuilder.setTitle("Permissões");
+            dialogBuilder.setMessage("É necessária a permissão de armazenamento para a realização de testes.");
+            dialogBuilder.setCancelable(true);
+            dialogBuilder.setNeutralButton(android.R.string.ok,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            // Request the permission
+                            ActivityCompat.requestPermissions(VitheaKidsActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    PERMISSION_REQUEST_EXTERNAL_STORAGE);
+                        }
+                    });
+
+            AlertDialog permissionAlertDialog = dialogBuilder.create();
+            permissionAlertDialog.show();
+
+        } else {
+            //Permission is not available. Requesting storage permission.
+
+            // Request the permission. The result will be received in onRequestPermissionResult().
+            ActivityCompat.requestPermissions(VitheaKidsActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_EXTERNAL_STORAGE);
+        }
+    }
 }
 
