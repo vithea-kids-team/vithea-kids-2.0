@@ -17,7 +17,8 @@ public class LogHelper {    //Log4jHelper
 
     private static void configureLog4j() {
         String fileName = Environment.getExternalStorageDirectory() + "/" + "exercisesLogs.json";
-        String filePattern = "%d - [%c] - %p : %m%n";
+        //String filePattern = "%d - [%c] - %p : %m%n";
+        String filePattern = "%m%n";
         int maxBackupSize = 10;
         long maxFileSize = 1024 * 1024;
 

@@ -51,4 +51,8 @@ public class SequenceExercises {
         return listResources;
     }
 
+    public int getNumberOfExercises(){
+        return sequenceExercises.size();
+    }
+
 }

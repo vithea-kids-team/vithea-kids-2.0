@@ -108,4 +108,13 @@ public class Child {
 		return seqExercise;
 	}
 
+	public SequenceExercises getSequenceBySequenceID(long id) {
+		for (SequenceExercises seq : sequencesList) {
+			if (seq.getSequenceId().equals(id)) {
+				return seq;
+			}
+		}
+		return null;
+	}
+
 }

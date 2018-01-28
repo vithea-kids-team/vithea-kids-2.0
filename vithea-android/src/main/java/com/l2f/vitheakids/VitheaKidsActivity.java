@@ -13,12 +13,15 @@ import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.model.SequenceExercises;
 import com.l2f.vitheakids.model.SequenceLogInfo;
 import com.l2f.vitheakids.rest.FetchChildInfo;
+import com.l2f.vitheakids.rest.FetchChildLogin;
+import com.l2f.vitheakids.rest.SendLogs;
 import com.l2f.vitheakids.task.LoadImageTask;
 import com.l2f.vitheakids.task.ReadTask;
 import com.l2f.vitheakids.task.StopRead;
 import com.l2f.vitheakids.util.ExerciseMenuListWithoutImageAdapter;
 import com.l2f.vitheakids.util.CanvasUtil;
 import com.l2f.vitheakids.util.Prompting;
+import com.l2f.vitheakids.util.TaskListener;
 import com.unity3d.player.*;
 
 import android.Manifest;
@@ -52,6 +55,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -70,12 +74,15 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 /**
  * Updated by Soraia Meneses Alarcão on 21/07/2017
  */
 
-public class VitheaKidsActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class VitheaKidsActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, TaskListener {
 
     private String TAG = VitheaKidsActivity.class.getSimpleName();
 
@@ -113,10 +120,6 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
     private Button rightAnswerButton;
     private String lastInstruction;
     private List<Exercise> exercises;
-    private Date timestampBeginExercise;
-    private Date timestampEndExercise;
-    private Date timestampBeginSequence;
-    private Date timestampEndSequence;
 
     private View characterContainer;
     private ActionBar actionBar;
@@ -129,6 +132,8 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
     private Exercise currentExercise;
 
     private static final int PERMISSION_REQUEST_EXTERNAL_STORAGE = 0;
+
+    private static final String SEQUENCE_LOG_TAG = "sequence_log";
 
     Logger logger;
     // *************************************************************************************************
@@ -733,17 +738,17 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         container.addView(results_view);
 
         TextView totalViewResult = (TextView) findViewById(R.id.totalViewResult);
-        totalViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getTotalCount()).toString());
+        //totalViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getNumberOfExercises()).toString());
 
         TextView skippedViewResult = (TextView) findViewById(R.id.skippedViewResult);
-        skippedViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getSkippedCount()).toString());
+        //skippedViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getSkippedCount()).toString());
 
         TextView correctViewResult = (TextView) findViewById(R.id.correctViewResult);
-        correctViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getCorrectCount()).toString());
+        //correctViewResult.setText(Integer.valueOf(currentSequenceLogInfo.getCorrectExercises()).toString());
 
-        Float distractorAvg = Float.valueOf(currentSequenceLogInfo.getDistractorHitsAvg());
+        //Float distractorAvg = Float.valueOf(currentSequenceLogInfo.getDistractorHitsAvg());
         TextView distractorViewResult = (TextView) findViewById(R.id.distractorViewResult);
-        distractorViewResult.setText(String.format("%.2f", distractorAvg).toString());
+        //distractorViewResult.setText(String.format("%.2f", distractorAvg).toString());
 
     }
     public void setNavigationView() {
@@ -927,7 +932,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         //new SendLogs(this, currentSequenceLog).execute();
         //setFinalResultsView();
 
-        //logger.info(logSequence(child));
+        logSequence();
 
         //Sequence reinforcement
         if(reinforcementActive) playMessage(child, "SEQUENCE_REINFORCEMENT");
@@ -1117,70 +1122,38 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
     }
 
     private void initNewSequenceLogInfo() {
-        timestampBeginSequence = new Date();
+        long childID = child.getChildId();
+        long sequenceID = currentSequenceId;
+        int numberOfExercises = child.getSequenceBySequenceID(sequenceID).getNumberOfExercises();
 
-        currentSequenceLogInfo = new SequenceLogInfo();
+        currentSequenceLogInfo = new SequenceLogInfo(childID, sequenceID, numberOfExercises);
 
         initNewExerciseLogInfo();
     }
 
     private void logExercise() {
 
-        timestampEndExercise = new Date();
-
         //Log object parameters
-        long exerciseID = exercises.get(currentExercisePosition).getId();
         int numberOfWrongAttempts = attempts;
-        String promptingStrategy = child.getPrompting().getPromptingStrategy();
-        String reinforcementStrategy = child.getReinforcement().getReinforcementStrategy();
         boolean correctAnswer = true;   //TODO false = skipped
 
-        currentExerciseLogInfo.log(numberOfWrongAttempts, correctAnswer);
+        // log() also adds the exerciseLogInfo to the current sequenceLogInfo
+        currentExerciseLogInfo.log(numberOfWrongAttempts, correctAnswer, currentSequenceLogInfo);
 
     }
 
-    /*
-    private String logExerciseOld(Child child, boolean isCorrect){
+    private void logSequence() {
+        String sequenceLogInfoJson = currentSequenceLogInfo.log();
 
-        timestampEndExercise = new Date();
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add(SEQUENCE_LOG_TAG, sequenceLogInfoJson);
 
-        String logString = "exerciseID: " + exercises.get(currentExercisePosition).getId() + "; ";
-        logString += "timestampBegin: " + dateFormat.format(timestampBeginExercise) + "; ";
-        logString += "timestampEnd: " + dateFormat.format(timestampEndExercise) + "; ";
+        //TODO URL
+        final String url = getString(R.string.ws_uri); // + getString(R.string.child_login_uri);
 
-        logString += "numberOfWrongAttempts: " + attempts + "; ";
+        new SendLogs(body, this, url, this).execute();
 
-        if (isCorrect) {
-            logString += "correct: true; skipped: false; ";
-        }
-        else {
-            logString += "correct: false; skipped: true; ";
-        }
-
-        logString += "promptingStrategy: " + child.getPrompting().getPromptingStrategy() + "; ";
-        logString += "reinforcementStrategy: " + child.getReinforcement().getReinforcementStrategy() + "; ";
-        logString += "\n";
-        return logString;
     }
-
-
-    private String logSequence(Child child) {
-
-        timestampEndSequence = new Date();
-
-        String logString = "sequenceID: " + currentSequenceId + "; ";
-        logString += "childID: " + child.getChildId() + "; ";
-
-        logString += "timestampBegin: " + dateFormat.format(timestampBeginSequence) + "; ";
-        logString += "timestampEnd: " + dateFormat.format(timestampEndSequence) + "; ";
-
-        logString += "numberExercisesCorrect: " + "" + "; ";
-        logString += "numberExercisesSkipped: " + "" + "; ";
-        logString += "\n";
-
-        return logString;
-    }
-    */
 
     /** Storage Permission Methods **/
 
@@ -1245,6 +1218,18 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
             ActivityCompat.requestPermissions(VitheaKidsActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     PERMISSION_REQUEST_EXTERNAL_STORAGE);
         }
+    }
+
+
+    /**  TaskListener Methods (for SendLogs task) **/
+    @Override
+    public void onTaskStarted() {
+        //TODO
+    }
+
+    @Override
+    public void onTaskFinished(ResponseEntity<String> response) {
+        //TODO
     }
 }
 
