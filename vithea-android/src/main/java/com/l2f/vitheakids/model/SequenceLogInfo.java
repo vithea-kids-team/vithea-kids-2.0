@@ -56,7 +56,7 @@ public class SequenceLogInfo {
 		// Time of the end of the sequence
 		this.timestampEndSequence = dateFormat.format(new Date());    //now
 
-		logger.info(sequenceLogInfoToJsonPretty());
+		logger.info(sequenceLogInfoToJson());
 
 		return sequenceLogInfoToJson();
 	}

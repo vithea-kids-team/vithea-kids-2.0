@@ -770,6 +770,8 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
                 @Override
                 public void onClick(View v) {
+                    skipped = true;
+                    logExercise();
                     endHandler();
                 }
             });
@@ -1135,7 +1137,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
         //Log object parameters
         int numberOfWrongAttempts = attempts;
-        boolean correctAnswer = true;   //TODO false = skipped
+        boolean correctAnswer = !skipped;
 
         // log() also adds the exerciseLogInfo to the current sequenceLogInfo
         currentExerciseLogInfo.log(numberOfWrongAttempts, correctAnswer, currentSequenceLogInfo);
@@ -1144,6 +1146,8 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
     private void logSequence() {
         String sequenceLogInfoJson = currentSequenceLogInfo.log();
+
+        Log.i("SEQUENCE_LOG", sequenceLogInfoJson);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add(SEQUENCE_LOG_TAG, sequenceLogInfoJson);
