@@ -70,7 +70,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -771,7 +770,6 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
                 @Override
                 public void onClick(View v) {
                     skipped = true;
-                    logExercise();
                     endHandler();
                 }
             });
@@ -809,6 +807,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
     protected void rightAnswerHandler(View v, Child child) {
         inExercise = false;
+        correctAnswer = true;
         playMessage(child, "EXERCISE_REINFORCEMENT"); // TODO Only reinforcement?
         if(reinforcementActive) playReinforcement(child);
         else nextExerciseHandler();
@@ -908,6 +907,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
     }
     private void previousExerciseHandler() {
         this.currentExercisePosition--;
+        initNewExerciseLogInfo();
         inExercise = true;
         setExerciseView();
         setNavigationView();
@@ -933,6 +933,8 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         // TODO Send logger and show results
         //new SendLogs(this, currentSequenceLog).execute();
         //setFinalResultsView();
+
+        if (skipped) logExercise();
 
         logSequence();
 
@@ -1137,14 +1139,14 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
         //Log object parameters
         int numberOfWrongAttempts = attempts;
-        boolean correctAnswer = !skipped;
 
         // log() also adds the exerciseLogInfo to the current sequenceLogInfo
-        currentExerciseLogInfo.log(numberOfWrongAttempts, correctAnswer, currentSequenceLogInfo);
+        currentExerciseLogInfo.log(numberOfWrongAttempts, correctAnswer, skipped, currentSequenceLogInfo, currentExercisePosition);
 
     }
 
     private void logSequence() {
+        //Log to file in the Android device
         String sequenceLogInfoJson = currentSequenceLogInfo.log();
 
         Log.i("SEQUENCE_LOG", sequenceLogInfoJson);
@@ -1152,9 +1154,10 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add(SEQUENCE_LOG_TAG, sequenceLogInfoJson);
 
-        //TODO URL
+        //TODO Endpoint
         final String url = getString(R.string.ws_uri); // + getString(R.string.child_login_uri);
 
+        //Send Logs to Server
         new SendLogs(body, this, url, this).execute();
 
     }

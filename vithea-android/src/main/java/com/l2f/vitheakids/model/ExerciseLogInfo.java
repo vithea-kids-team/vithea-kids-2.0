@@ -46,11 +46,13 @@ public class ExerciseLogInfo {
 		this.promptingStrategy = promptingStrategy;
 		this.reinforcementStrategy = reinforcementStrategy;
 		this.timestampBeginExercise = dateFormat.format(new Date());  //now
-		//dateFormat.format(timestampBeginExercise)
 
 		//TODO prompting types
 
 		numberOfDistractorHits = 0;
+
+		correct = false;
+		skipped = false;
 	}
 
 	public boolean isCorrect() {
@@ -61,10 +63,15 @@ public class ExerciseLogInfo {
 		return skipped;
 	}
 
-	public void log(int numberOfWrongAttempts, boolean correctAnswer, SequenceLogInfo currentSequenceLogInfo) {
+	public void log(int numberOfWrongAttempts, boolean correctAnswer, boolean skipped, SequenceLogInfo currentSequenceLogInfo, int currentExercisePosition) {
 		this.timestampEndExercise = dateFormat.format(new Date());  //now
 
 		this.numberOfDistractorHits = numberOfWrongAttempts;
+
+		this.correct = correctAnswer;
+		this.skipped = skipped;
+
+		/*
 		if (correctAnswer) {
 			this.correct = true;
 			this.skipped = false;
@@ -73,13 +80,14 @@ public class ExerciseLogInfo {
 			this.correct = false;
 			this.skipped = true;
 		}
+		*/
 
-		currentSequenceLogInfo.addFinishedExercise(this);
+		currentSequenceLogInfo.addFinishedExercise(this, currentExercisePosition);
 
-		//logger.info(exerciseLogInfoToJson());
+		//logger.info(exerciseLogInfoToJsonPretty());
 	}
 
-	public String exerciseLogInfoToJson() {
+	public String exerciseLogInfoToJsonPretty() {
 		ObjectMapper mapper = new ObjectMapper();
 
 		String logJsonString = "";

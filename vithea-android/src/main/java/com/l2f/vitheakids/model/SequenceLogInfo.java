@@ -56,6 +56,15 @@ public class SequenceLogInfo {
 		// Time of the end of the sequence
 		this.timestampEndSequence = dateFormat.format(new Date());    //now
 
+		for(ExerciseLogInfo e : exercisesLogs) {
+			if (e.isSkipped()) {
+				skippedExercises++;
+			}
+			else if (e.isCorrect()) {
+				correctExercises++;
+			}
+		}
+
 		logger.info(sequenceLogInfoToJson());
 
 		return sequenceLogInfoToJson();
@@ -90,14 +99,25 @@ public class SequenceLogInfo {
 	}
 
 
-	public void addFinishedExercise(ExerciseLogInfo exerciseLogInfo) {
+	public void addFinishedExercise(ExerciseLogInfo exerciseLogInfo, int currentExercisePosition) {
+		/*
 		if (exerciseLogInfo.isCorrect()) {		//correct exercise
 			this.correctExercises++;
 		}
 		else if (exerciseLogInfo.isSkipped()) {	//exercise skipped
 			this.skippedExercises++;
 		}
+		*/
 
-		exercisesLogs.add(exerciseLogInfo);
+		if (exercisesLogs.size() > currentExercisePosition) {
+			exercisesLogs.set(currentExercisePosition, exerciseLogInfo);
+
+		}
+		else {
+			exercisesLogs.add(currentExercisePosition, exerciseLogInfo);
+		}
+
+
+		//exercisesLogs.add(exerciseLogInfo);
 	}
 }
