@@ -18,8 +18,8 @@ import java.util.List;
  * Updated by Soraia Meneses Alarcão on 21/07/2017
  */
 
-@JsonPropertyOrder({ "childID", "sequenceID", "numberOfExercises", "correctExercises",
-		"skippedExercises", "exercisesLogs"})
+@JsonPropertyOrder({ "childID", "sequenceID", "timestampBeginSequence", "timestampEndSequence",
+		"numberOfExercises", "correctExercises", "skippedExercises", "exercisesLogs"})
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 public class SequenceLogInfo {
