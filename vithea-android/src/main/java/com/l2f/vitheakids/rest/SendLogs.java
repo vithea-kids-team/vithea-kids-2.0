@@ -43,7 +43,7 @@ public class SendLogs extends AsyncTask<Void, Void, ResponseEntity<String>> {
 		ResponseEntity<String> response = null;
 
 		try {
-			response = Api.post(url, body, this.activity);
+			response = Api.post(url, body, this.activity, "sendLogs");
 			Log.d(TAG, "response:" + response.getBody().toString());
 		}
 		catch (HttpClientErrorException e) {

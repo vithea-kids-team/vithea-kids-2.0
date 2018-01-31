@@ -435,4 +435,12 @@ public class AdminChildCtrl extends Controller {
         wrapper.set(type, msg);
         return wrapper;
     }
+
+    public Result saveLogsChild() {
+        
+        Logger.debug("SaveLogsChild chegueiiii!");
+       
+        return ok("not yet implemented");
+    }
+
 }

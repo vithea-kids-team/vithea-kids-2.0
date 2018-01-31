@@ -1149,13 +1149,13 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         //Log to file in the Android device
         String sequenceLogInfoJson = currentSequenceLogInfo.log();
 
-        Log.i("SEQUENCE_LOG", sequenceLogInfoJson);
+        //Log.i("SEQUENCE_LOG", sequenceLogInfoJson);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add(SEQUENCE_LOG_TAG, sequenceLogInfoJson);
 
         //TODO Endpoint
-        final String url = getString(R.string.ws_uri); // + getString(R.string.child_login_uri);
+        final String url = getString(R.string.ws_uri) + getString(R.string.child_sequence_uri);
 
         //Send Logs to Server
         new SendLogs(body, this, url, this).execute();

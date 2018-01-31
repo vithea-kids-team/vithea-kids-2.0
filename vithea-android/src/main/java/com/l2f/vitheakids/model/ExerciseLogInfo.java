@@ -63,6 +63,8 @@ public class ExerciseLogInfo {
 		return skipped;
 	}
 
+	public int getNumberOfDistractorHits() { return this.numberOfDistractorHits; }
+
 	public void log(int numberOfWrongAttempts, boolean correctAnswer, boolean skipped, SequenceLogInfo currentSequenceLogInfo, int currentExercisePosition) {
 		this.timestampEndExercise = dateFormat.format(new Date());  //now
 

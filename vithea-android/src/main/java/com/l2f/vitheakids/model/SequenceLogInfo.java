@@ -19,7 +19,8 @@ import java.util.List;
  */
 
 @JsonPropertyOrder({ "childID", "sequenceID", "timestampBeginSequence", "timestampEndSequence",
-		"numberOfExercises", "correctExercises", "skippedExercises", "exercisesLogs"})
+		"numberOfExercises", "correctExercises", "skippedExercises", "distractorHitsAvg",
+		"exercisesLogs"})
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 public class SequenceLogInfo {
@@ -37,7 +38,10 @@ public class SequenceLogInfo {
 	@JsonProperty private String timestampEndSequence;
 
 	@JsonProperty private List<ExerciseLogInfo> exercisesLogs;
-	private float distractorHitsAvg;
+
+	@JsonProperty private float distractorHitsAvg;
+	//sum of all distractors' hits of all exercises
+	private int totalDistractorHits;
 	
 	public SequenceLogInfo(long childID, long sequenceID, int numberOfExercises) {
 		this.childID = childID;
@@ -45,6 +49,8 @@ public class SequenceLogInfo {
 		this.numberOfExercises = numberOfExercises;
 		this.correctExercises = 0;
 		this.skippedExercises = 0;
+		this.distractorHitsAvg = 0;
+		this.totalDistractorHits = 0;
 
 		// Time of the beginning of the sequence
 		this.timestampBeginSequence = dateFormat.format(new Date());  //now
@@ -57,19 +63,28 @@ public class SequenceLogInfo {
 		this.timestampEndSequence = dateFormat.format(new Date());    //now
 
 		for(ExerciseLogInfo e : exercisesLogs) {
+			//Exercises that were skipped or right-answered
 			if (e.isSkipped()) {
 				skippedExercises++;
 			}
 			else if (e.isCorrect()) {
 				correctExercises++;
 			}
+
+			//Distractors' hits sum
+			totalDistractorHits += e.getNumberOfDistractorHits();
 		}
 
+		//Average of the distrators' hits
+		distractorHitsAvg = totalDistractorHits / numberOfExercises;
+
+		//Logs on logcat and on the file exercisesLogs.json on the Android device
 		logger.info(sequenceLogInfoToJson());
 
 		return sequenceLogInfoToJson();
 	}
 
+	//Prints "Pretty" Json: with EOLs and tabs
 	public String sequenceLogInfoToJsonPretty() {
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -84,6 +99,7 @@ public class SequenceLogInfo {
 		return logJsonString;
 	}
 
+	//Prints regular Json: in one line, without EOLs or tabs
 	public String sequenceLogInfoToJson() {
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -99,25 +115,15 @@ public class SequenceLogInfo {
 	}
 
 
+	//Every time an exercise is finished, its ExerciseLogInfo is added to the current SequenceLogInfo
 	public void addFinishedExercise(ExerciseLogInfo exerciseLogInfo, int currentExercisePosition) {
-		/*
-		if (exerciseLogInfo.isCorrect()) {		//correct exercise
-			this.correctExercises++;
-		}
-		else if (exerciseLogInfo.isSkipped()) {	//exercise skipped
-			this.skippedExercises++;
-		}
-		*/
-
+		//In the case of returning to a previous exercise, it is set, not added
 		if (exercisesLogs.size() > currentExercisePosition) {
 			exercisesLogs.set(currentExercisePosition, exerciseLogInfo);
-
 		}
+		//Otherwise, i.e. the first time this exercise's ExerciseLogInfo is added
 		else {
 			exercisesLogs.add(currentExercisePosition, exerciseLogInfo);
 		}
-
-
-		//exercisesLogs.add(exerciseLogInfo);
 	}
 }

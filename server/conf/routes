@@ -20,12 +20,14 @@ POST        /vithea-kids-api/logout                         controllers.Security
 
 # Child
 POST        /vithea-kids-api/registerchild                  controllers.AdminChildCtrl.registerchild
+POST        /vithea-kids-api/sendlogs                       controllers.AdminChildCtrl.saveLogsChild
 POST        /vithea-kids-api/editchild/:child               controllers.AdminChildCtrl.editChild(child:Long)
 GET         /vithea-kids-api/listchildren                   controllers.AdminChildCtrl.getChildren
 GET         /vithea-kids-api/child/:child                   controllers.AdminChildCtrl.getChild(child:Long)
 DELETE      /vithea-kids-api/deletechild/:child             controllers.AdminChildCtrl.deleteChild(child:Long)
 GET         /vithea-kids-api/child/:child/sequences         controllers.AdminChildCtrl.getChildSequences(child:Long)
 POST        /vithea-kids-api/child/:child/updatepreferences controllers.AdminChildCtrl.updatePreferences(child:Long)
+
 
 # Exercise
 POST        /vithea-kids-api/registerexercise               controllers.AdminExerciseCtrl.registerExercise

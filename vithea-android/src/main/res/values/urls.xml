@@ -5,16 +5,15 @@
     
     <!-- Resources Url -->
 
-    <!--    <string name="resources_addr_kids">https://fa81bba2.ngrok.io/vithea-kids/assets/</string>!-->
-       <string name="resources_addr_kids">https://vithea.l2f.inesc-id.pt/</string>
+    <string name="resources_addr_kids">http://63528200.ngrok.io/vithea-kids/assets/</string>
+    <!-- <string name="resources_addr_kids">https://vithea.l2f.inesc-id.pt/</string> !-->
     <!-- Services Url -->
-    <!--<string name="ws_uri">https://fa81bba2.ngrok.io/vithea-kids-api/</string>!-->
-
-
-    <string name="ws_uri">https://vithea.l2f.inesc-id.pt/vithea-kids-api/</string>
+    <string name="ws_uri">http://63528200.ngrok.io/vithea-kids-api/</string>
+    <!-- <string name="ws_uri">https://vithea.l2f.inesc-id.pt/vithea-kids-api/</string> !-->
 
  <!-- Endpoints -->
     <string name="child_login_uri">login/child</string>
+    <string name="child_sequence_uri">sendlogs</string>
     <string name="greeting_message">getchildapp</string>
     <string name= "SequencesOrdered">getChildSequencesApp</string>
 

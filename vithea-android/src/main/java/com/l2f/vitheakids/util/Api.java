@@ -88,7 +88,7 @@ public final class Api {
         return response;
     }
 
-    public static ResponseEntity<String> post(String url, MultiValueMap<String, Object> body, Activity act) {
+    public static ResponseEntity<String> post(String url, MultiValueMap<String, Object> body, Activity act, String requestType) {
         // Prepare acceptable media type
         List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
         acceptableMediaTypes.add(MediaType.APPLICATION_XML);
@@ -99,6 +99,13 @@ public final class Api {
         requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         requestHeaders.setAccept(acceptableMediaTypes);
+
+        //add token to header
+        String token = getToken(act);
+        if(!requestType.equals("login")) {
+            requestHeaders.add(AUTHORIZATION, token);
+        }
+        Log.d(AUTHORIZATION, token );
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(body,
                 requestHeaders);
