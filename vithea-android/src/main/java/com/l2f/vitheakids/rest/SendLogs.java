@@ -21,7 +21,7 @@ public class SendLogs extends AsyncTask<Void, Void, ResponseEntity<String>> {
 	private String TAG = VitheaKidsActivity.class.getSimpleName() + ": " + SendLogs.class.getName();
 
 	private final TaskListener listener;
-	private final  MultiValueMap<String, Object> body;
+	private final MultiValueMap<String, Object> body;
 	private final String url;
 	private final Activity activity;
 
@@ -44,7 +44,7 @@ public class SendLogs extends AsyncTask<Void, Void, ResponseEntity<String>> {
 
 		try {
 			response = Api.post(url, body, this.activity, "sendLogs");
-			Log.d(TAG, "response:" + response.getBody().toString());
+			//Log.d(TAG, "response:" + response.getBody().toString());
 		}
 		catch (HttpClientErrorException e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);

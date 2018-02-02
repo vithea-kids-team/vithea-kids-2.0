@@ -67,6 +67,8 @@ public class Child extends Model {
     
     private Boolean emotions;
 
+    private String pathAndroidSequencesLog;
+    private String pathAndroidSequencesExercisesLog;
     
     public AnimatedCharacter getAnimatedCharacter() {
         return animatedCharacter;
@@ -148,6 +150,22 @@ public class Child extends Model {
     }
     public void setSequenceExercisesPreferences(SequenceExercises sequenceExercisesPreferences){
         this.sequenceExercisesPreferences = sequenceExercisesPreferences;
+    }
+    
+    public String getPathAndroidSequencesLog() {
+        return pathAndroidSequencesLog;
+    }
+
+    public void setPathAndroidSequencesLog(String pathAndroidSequencesLog) {
+        this.pathAndroidSequencesLog = pathAndroidSequencesLog;
+    }
+
+    public String getPathAndroidSequencesExercisesLog() {
+        return pathAndroidSequencesExercisesLog;
+    }
+
+    public void setPathAndroidSequencesExercisesLog(String pathAndroidSequencesExercisesLog) {
+        this.pathAndroidSequencesExercisesLog = pathAndroidSequencesExercisesLog;
     }
     
     public static final Finder<Long, Child> find = new Finder<>(Child.class);

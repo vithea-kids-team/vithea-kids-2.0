@@ -222,7 +222,7 @@ public class Caregiver extends Model {
     public void setPathChildrenLog(String pathChildrenLog) {
         this.pathChildrenLog = pathChildrenLog;
     }
-
+    
     public static final Finder<Long, Caregiver> find = new Finder<>(Caregiver.class);
 
     public static Caregiver findByEmail(String email) {

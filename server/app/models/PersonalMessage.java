@@ -1,17 +1,11 @@
 package models;
 
 import com.avaje.ebean.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.inject.Key;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import play.Logger;
 
 /**
  *
@@ -61,10 +55,7 @@ public class PersonalMessage extends Model {
     public static final Finder<Long, PersonalMessage> find = new Finder<>(PersonalMessage.class);
 
     public static PersonalMessage findByType(Long typeId) {
-        return find
-                .where()
-                .eq("messagetype_id", typeId)
-                .findUnique();
+        return find.where().eq("messagetype_id", typeId).findUnique();
     }
 
     @Override

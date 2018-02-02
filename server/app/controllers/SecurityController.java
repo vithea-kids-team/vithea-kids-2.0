@@ -122,7 +122,6 @@ public class SecurityController extends Controller {
             adminLogs.createFile(pathExercises);
             adminLogs.writeToFile(pathExercises, "exerciseId,caregiverId,timestamp,type,action,#answers,resources,stimulus,default\n");
             
-            
             String pathSequences = path + "Log_caregiver_" +  user.getCaregiverId() + "_sequences.csv";
             user.setPathSequencesLog(pathSequences);
             adminLogs.createFile(pathSequences);
@@ -154,7 +153,6 @@ public class SecurityController extends Controller {
             adminLogs.writeToFile(pathPrefs, "childId,caregiverId,timestamp,greeetingMessage,exerciseReinforcementMessage,"
                     + "sequenceReinforcementMessage,promptingStrat,promptingColor,promptingHide,promptingScratch,"
                     + "promptingSize,promptingRead,reinforcementStrat,resourceId,order,caps,emotions,animatedChar\n");
-            
             user.save();
             
             //Insert default content

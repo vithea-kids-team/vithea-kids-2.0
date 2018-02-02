@@ -1,6 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.typesafe.config.ConfigFactory;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,8 @@ import models.Sequence;
 import models.SequenceExercises;
 import models.SequenceExercisesCapitalization;
 import models.SequenceExercisesOrder;
+import org.json.JSONException;
+import org.json.JSONObject;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -59,6 +63,7 @@ public class AdminChildCtrl extends Controller {
         if (existingUser != null) {
             return badRequest("Username already exists");
         } else {
+            
             Login user = new Login(registerChildForm.get("username"), registerChildForm.get("password"));
             user.setEnabled(true);
             user.setUserType(1);
@@ -87,6 +92,15 @@ public class AdminChildCtrl extends Controller {
             child.setEmotions(false);
             
             child.save();
+            
+            Boolean DEVELOPMENT = Boolean.parseBoolean(ConfigFactory.load().getString("development"));
+            String path = "";
+            
+            // update path files
+            Logger.debug("\t \t Creating child log files");
+            if (DEVELOPMENT) path = "logs" + File.separator;
+            else path = ConfigFactory.load().getString("vitheaLogs");
+            Logger.debug(path);
 
             Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
             if (loggedCaregiver == null) {
@@ -101,6 +115,20 @@ public class AdminChildCtrl extends Controller {
             String content = child.getChildId() + "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + "," + "create\n";
             String pathChildren = loggedCaregiver.getPathChildrenLog();
             adminLogs.writeToFile(pathChildren, content);
+            
+            String pathAndroidSequences = path + "Log_child_" +  child.getChildId()+ "_androidSequences.csv";
+            child.setPathAndroidSequencesLog(pathAndroidSequences);
+            adminLogs.createFile(pathAndroidSequences);
+            adminLogs.writeToFile(pathAndroidSequences, "sequenceId,timestampBeginSequence,timestampEndSequence,childId,numberOfExercises,"
+                    + "correctExercises,distractorHitsAvg\n");
+            
+            String pathAndroidSequencesExercises = path + "Log_child_" +  child.getChildId() + "_androidSequencesExercises.csv";
+            child.setPathAndroidSequencesExercisesLog(pathAndroidSequencesExercises);
+            adminLogs.createFile(pathAndroidSequencesExercises);
+            adminLogs.writeToFile(pathAndroidSequencesExercises, "sequenceId,timestampBeginSequence,timestampEndSequence,childId,exerciseId,"
+                    + "promptingStrategy,reinforcementStrategy,timestampBeginExercise,timestampEndExercise,numberOfDistractorHits,correct,skipped\n");            
+            
+            child.save();
             
             return ok(Json.toJson(child));
         }
@@ -243,11 +271,6 @@ public class AdminChildCtrl extends Controller {
         if (!children.contains(child)) {
             return badRequest(buildJsonResponse("error", "Invalid child id."));
         }
-        
-        Logger.debug("TESTE: " + child.toString());
-        ChildAppCtrl childAppCtrl = new ChildAppCtrl();
-        Result childApp = childAppCtrl.getChildApp();
-        Result childSequencesApp = childAppCtrl.getChildSequencesApp();
    
         return ok(Json.toJson(child.getSequencesList()));
     }
@@ -435,12 +458,86 @@ public class AdminChildCtrl extends Controller {
         wrapper.set(type, msg);
         return wrapper;
     }
-
+    
     public Result saveLogsChild() {
         
-        Logger.debug("SaveLogsChild chegueiiii!");
+        Child loggedChild= Child.findByUsername(SecurityController.getUser().username);
+        if (loggedChild == null) {
+            System.err.println("Child does not exist.");
+            return badRequest(buildJsonResponse("error", "Child does not exist."));
+        }
+        
+       DynamicForm sequenceLogsForm = formFactory.form().bindFromRequest();
        
-        return ok("not yet implemented");
+        if (sequenceLogsForm.hasErrors()) {
+            System.err.println("Form with errors.");
+            return badRequest(sequenceLogsForm.errorsAsJson());
+        }
+        
+        Logger.debug("DEBUG:" + sequenceLogsForm);
+        
+        String SEQUENCE_LOG_TAG = sequenceLogsForm.get("sequence_log");
+        
+        try {
+            JSONObject json = new JSONObject(SEQUENCE_LOG_TAG);
+            
+            String sequenceId = json.get("sequenceID").toString();
+            String childId = json.get("childID").toString();
+            String timestampBeginSequence = json.get("timestampBeginSequence").toString();
+            String timestampEndSequence = json.get("timestampEndSequence").toString();
+            String numberOfExercises = json.get("numberOfExercises").toString();
+            String correctExercises = json.get("correctExercises").toString();
+            String exercisesLogs = json.get("exercisesLogs").toString();
+            String distractorHitsAvg = json.get("distractorHitsAvg").toString();
+            
+            String content = sequenceId + "," + timestampBeginSequence + "," + 
+                    timestampEndSequence + "," + childId + "," + 
+                    numberOfExercises + "," + correctExercises + "," + 
+                    distractorHitsAvg;
+            
+            exercisesLogs = exercisesLogs.substring(1, exercisesLogs.length() - 1);
+            String[] split = exercisesLogs.split("\\},");
+            int numberExercises =  split.length;
+            
+            JSONObject json2;
+            String content2 = "";
+            
+            // para cada exercise
+            for (int i = 0; i < numberExercises; i++){
+                split[i] += "}";
+                json2 = new JSONObject(split[i]);
+            
+                String exerciseId = json2.get("exerciseID").toString();
+                String promptingStrategy = json2.get("promptingStrategy").toString();
+                String reinforcementStrategy = json2.get("reinforcementStrategy").toString();
+                String timestampBeginExercise = json2.get("timestampBeginExercise").toString();
+                String timestampEndExercise = json2.get("timestampEndExercise").toString();
+                String numberOfDistractorHits = json2.get("numberOfDistractorHits").toString();
+                String correct = json2.get("correct").toString();
+                String skipped = json2.get("skipped").toString();
+            
+                content2 += sequenceId + "," + timestampBeginSequence + "," + 
+                    timestampEndSequence + "," + childId + "," + exerciseId + "," + 
+                    promptingStrategy + "," + reinforcementStrategy + "," + 
+                    timestampBeginExercise + "," + timestampEndExercise + "," + 
+                    numberOfDistractorHits + "," + correct + "," + skipped + "\n";          
+            }
+            
+            System.out.println(loggedChild.getFirstName() + " " + loggedChild.getLastName());
+            
+            String pathAndroidSequences = loggedChild.getPathAndroidSequencesLog();
+            System.out.println(loggedChild.getPathAndroidSequencesLog());
+            adminLogs.writeToFile(pathAndroidSequences, content);
+            
+            String pathAndroidSequencesExercises = loggedChild.getPathAndroidSequencesExercisesLog();
+            adminLogs.writeToFile(pathAndroidSequencesExercises, content2);
+            
+           
+            return ok();
+        
+            
+        } catch (JSONException ex) {
+            return badRequest(sequenceLogsForm.errorsAsJson());
+        }
     }
-
 }
