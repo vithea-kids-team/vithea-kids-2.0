@@ -811,7 +811,6 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         playMessage(child, "EXERCISE_REINFORCEMENT"); // TODO Only reinforcement?
         if(reinforcementActive) playReinforcement(child);
         else nextExerciseHandler();
-        attempts = 0;
     }
 
     private void playReinforcement(Child child) { // TODO child.getReinforcement() - efficiency
@@ -927,6 +926,8 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         } else {
             endHandler();
         }
+
+        attempts = 0;
     }
 
     protected void endHandler() {
@@ -1119,10 +1120,10 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         skipped = false;
         long childID = child.getChildId();
         long exerciseID = exercises.get(currentExercisePosition).getId();
-        String promptingStrategy = child.getPrompting().getPromptingStrategy();
+        com.l2f.vitheakids.model.Prompting prompting = child.getPrompting();
         String reinforcementStrategy = child.getReinforcement().getReinforcementStrategy();
 
-        currentExerciseLogInfo = new ExerciseLogInfo(childID, exerciseID, promptingStrategy, reinforcementStrategy);
+        currentExerciseLogInfo = new ExerciseLogInfo(childID, exerciseID, prompting, reinforcementStrategy);
     }
 
     private void initNewSequenceLogInfo() {

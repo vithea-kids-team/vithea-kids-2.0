@@ -76,7 +76,7 @@ public class SequenceLogInfo {
 		}
 
 		//Average of the distrators' hits
-		distractorHitsAvg = totalDistractorHits / numberOfExercises;
+		distractorHitsAvg = (float) totalDistractorHits / (float) numberOfExercises;
 
 		//Logs on logcat and on the file exercisesLogs.json on the Android device
 		logger.info(sequenceLogInfoToJson());

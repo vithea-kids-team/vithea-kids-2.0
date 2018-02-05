@@ -2,11 +2,14 @@ package com.l2f.vitheakids.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Created by Claudia on 07/06/2017.
  * Updated by Soraia Meneses Alarcão on 21/07/2017
  */
+@JsonPropertyOrder({ "promptingStrategy", "promptingColor", "promptingSize", "promptingScratch",
+        "promptingHide", "promptingRead"})
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Prompting {
 

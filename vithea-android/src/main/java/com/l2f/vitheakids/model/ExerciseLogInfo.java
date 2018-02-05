@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 
-@JsonPropertyOrder({ "childID", "exerciseID", "promptingStrategy", "reinforcementStrategy",
+@JsonPropertyOrder({ "childID", "exerciseID", "prompting", "reinforcementStrategy",
 		"timestampBeginExercise", "timestampEndExercise", "numberOfDistractorHits",
 		"correct", "skipped"})
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -26,8 +26,8 @@ public class ExerciseLogInfo {
 	@JsonProperty private long childID;
 	@JsonProperty private long exerciseID;
 
-	//private ArrayList<String> promptingTypes;	//TODO
-	@JsonProperty private String promptingStrategy;
+	//Prompting Strategy + Prompting Types
+	@JsonProperty private Prompting prompting;
 
 	@JsonProperty private String reinforcementStrategy;
 
@@ -40,14 +40,13 @@ public class ExerciseLogInfo {
 	@JsonProperty private boolean skipped;
 
 
-	public ExerciseLogInfo(long childID, long exerciseID, String promptingStrategy, String reinforcementStrategy) {
+
+	public ExerciseLogInfo(long childID, long exerciseID, Prompting prompting, String reinforcementStrategy) {
 		this.childID = childID;
 		this.exerciseID = exerciseID;
-		this.promptingStrategy = promptingStrategy;
+		this.prompting = prompting;
 		this.reinforcementStrategy = reinforcementStrategy;
 		this.timestampBeginExercise = dateFormat.format(new Date());  //now
-
-		//TODO prompting types
 
 		numberOfDistractorHits = 0;
 
@@ -72,17 +71,6 @@ public class ExerciseLogInfo {
 
 		this.correct = correctAnswer;
 		this.skipped = skipped;
-
-		/*
-		if (correctAnswer) {
-			this.correct = true;
-			this.skipped = false;
-		}
-		else {	//skipped
-			this.correct = false;
-			this.skipped = true;
-		}
-		*/
 
 		currentSequenceLogInfo.addFinishedExercise(this, currentExercisePosition);
 
