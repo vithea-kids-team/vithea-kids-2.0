@@ -22,7 +22,7 @@ public class Question extends Model {
     
     @OneToOne
     @PrimaryKeyJoinColumn
-    private Exercise exercise;
+    private MultipleChoice exercise;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @Column(nullable = true)

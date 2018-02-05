@@ -63,7 +63,7 @@ public class Child extends Model {
     private Prompting prompting;
     
     @OneToOne(cascade = CascadeType.ALL)
-    private SequenceExercises sequenceExercisesPreferences;
+    private SequencePreferences sequenceExercisesPreferences;
     
     private Boolean emotions;
 
@@ -106,7 +106,7 @@ public class Child extends Model {
     public Boolean getEmotions() {
         return emotions;
     }
-    public SequenceExercises getSequenceExercisesPreferences() {
+    public SequencePreferences getSequenceExercisesPreferences() {
         return sequenceExercisesPreferences;
     }
 
@@ -148,7 +148,7 @@ public class Child extends Model {
     public void setEmotions(Boolean emotions) {
         this.emotions = emotions;
     }
-    public void setSequenceExercisesPreferences(SequenceExercises sequenceExercisesPreferences){
+    public void setSequenceExercisesPreferences(SequencePreferences sequenceExercisesPreferences){
         this.sequenceExercisesPreferences = sequenceExercisesPreferences;
     }
     

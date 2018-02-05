@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class SequenceExercises extends Model {
+public class SequencePreferences extends Model {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class SequenceExercises extends Model {
     
     private SequenceExercisesCapitalization sequenceExercisesCapitalization;
      
-    public SequenceExercises() {
+    public SequencePreferences() {
         this.sequenceExercisesOrder = SequenceExercisesOrder.DEFAULT;
         this.sequenceExercisesCapitalization = SequenceExercisesCapitalization.DEFAULT;
     }

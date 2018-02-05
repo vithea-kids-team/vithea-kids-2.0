@@ -24,7 +24,7 @@ public class Answer extends Model {
     @OneToOne
     @PrimaryKeyJoinColumn
     @Column(nullable = true)
-    private Exercise exercise;
+    private MultipleChoice exercise;
     
     @ManyToOne(cascade = CascadeType.PERSIST)
     @Column(nullable = true)

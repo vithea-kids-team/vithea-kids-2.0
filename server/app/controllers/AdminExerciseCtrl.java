@@ -10,6 +10,7 @@ import models.Answer;
 import models.Caregiver;
 import models.Exercise;
 import models.Level;
+import models.MultipleChoice;
 import models.Question;
 import models.Sequence;
 import models.SequenceExercise;
@@ -58,7 +59,7 @@ public class AdminExerciseCtrl extends Controller {
             levelId = levelExists.getLevelId();
         }
         
-        exercise = new Exercise(loggedCaregiver, topicId, levelId, question, -1, rightAnswer, distractors, false);
+        exercise = new MultipleChoice(loggedCaregiver, topicId, levelId, question, -1, rightAnswer, distractors, false);
         
         exercise.save();
         
@@ -125,7 +126,7 @@ public class AdminExerciseCtrl extends Controller {
             });
             answers += distractors.size();
             
-            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusId, answer, distractors, false);
+            exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusId, answer, distractors, false);
             exercise.save();
             
             String content = stimulusId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
@@ -167,7 +168,7 @@ public class AdminExerciseCtrl extends Controller {
             }
             answers += distractorsResourcesIds.size();
             
-            exercise = new Exercise(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds, false);
+            exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds, false);
             exercise.save();
             
             String content = answerResourceId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
@@ -228,10 +229,11 @@ public class AdminExerciseCtrl extends Controller {
         if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
-               
-        Exercise exercise = Exercise.findExerciseById(exerciseId);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+             
         
+        MultipleChoice exercise = (MultipleChoice) Exercise.findExerciseById(exerciseId);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
         if (exercise == null) {
             return badRequest(buildJsonResponse("error", "Exercise doesn't exist"));
         } else {
@@ -603,7 +605,7 @@ public class AdminExerciseCtrl extends Controller {
     }
     
     public Result deleteExercise(long exerciseId) {
-        Exercise exercise = Exercise.findExerciseById(exerciseId);
+        MultipleChoice exercise = (MultipleChoice) Exercise.findExerciseById(exerciseId); //TODO: generate this for any kind of exercise
 
         if (exercise == null) {
             return badRequest(buildJsonResponse("error", "Exercise doesn't exist"));
@@ -613,6 +615,7 @@ public class AdminExerciseCtrl extends Controller {
         if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
+        
         
         List<Answer> answers = exercise.getAnswers();
         List<Answer> iterable = new ArrayList(answers);

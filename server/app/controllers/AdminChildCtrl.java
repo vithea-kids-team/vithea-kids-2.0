@@ -19,7 +19,7 @@ import models.Reinforcement;
 import models.ReinforcementStrategy;
 import models.Resource;
 import models.Sequence;
-import models.SequenceExercises;
+import models.SequencePreferences;
 import models.SequenceExercisesCapitalization;
 import models.SequenceExercisesOrder;
 import org.json.JSONException;
@@ -88,7 +88,7 @@ public class AdminChildCtrl extends Controller {
             
             child.setReinforcement(new Reinforcement());
             child.setPrompting(new Prompting());
-            child.setSequenceExercisesPreferences(new SequenceExercises());
+            child.setSequenceExercisesPreferences(new SequencePreferences());
             child.setEmotions(false);
             
             child.save();
@@ -374,7 +374,7 @@ public class AdminChildCtrl extends Controller {
         r.setReinforcementStrategy(ReinforcementStrategy.valueOf(prefs.get("reinforcementStrategy")));
         r.save();
        
-        SequenceExercises sq = child.getSequenceExercisesPreferences();
+        SequencePreferences sq = child.getSequenceExercisesPreferences();
         Logger.debug("Sequence Exercises Order:" + prefs.get("sequenceExercisesOrder"));
         sq.setSequenceExercisesOrder(SequenceExercisesOrder.valueOf(prefs.get("sequenceExercisesOrder")));    
         Logger.debug("Sequence Exercises Capitalization:" + prefs.get("sequenceExercisesCapitalization"));
