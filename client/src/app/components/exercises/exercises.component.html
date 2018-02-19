@@ -61,16 +61,11 @@
             <p *ngIf="exercises?.length === 0 && sequenceId">{{ '_NoExercisesSequences1_' | translate }}{{sequence.sequenceName}}{{'_NoExercisesSequences2_' | translate }}</p>
             <div class="panel panel-default" *ngFor="let exercise of pagedItems | exerciseFilter:searchBy | exerciseTypeFilter: imageFilter:textFilter">
                 <div *ngIf="!loading" class="panel-body">
-                    <h4>{{ truncate(exercise.question?.questionDescription, 50)}}</h4>
-                    <h3>{{ truncate(exercise.question?.stimulusText, 50) }} </h3>
-                    <img *ngIf="exercise.question?.stimulus && development" class="thumbnail" [src]="'vithea-kids/assets/' + exercise.question?.stimulus?.resourcePath">
-                    <img *ngIf="exercise.question?.stimulus && !development" class="thumbnail" [src]="'https://vithea.l2f.inesc-id.pt/' + exercise.question?.stimulus?.resourcePath">
-                    <p>{{ truncate(exercise.topic?.topicDescription, 25) }}&emsp;&emsp;{{ truncate(exercise.level?.levelDescription, 25) }}</p>
-                    <div class="col-md-6 col-sm-6" *ngFor="let distractor of exercise.answers">
-                        <span *ngIf="distractor.answerId === exercise.rightAnswer?.answerId" class="glyphicon glyphicon-check" style="font-size: small;"></span>
-                        <span class="glyphicon glyphicon-unchecked" style="font-size: small;" *ngIf="distractor.answerId !== exercise.rightAnswer?.answerId"></span> {{ truncate(distractor?.answerDescription, 25) }}
-                        <img *ngIf="distractor.stimulus && development" class="thumbnail" [src]="'vithea-kids/assets/' + distractor.stimulus?.resourcePath">
-                        <img *ngIf="distractor.stimulus && !development" class="thumbnail" [src]="'https://vithea.l2f.inesc-id.pt/' + distractor.stimulus?.resourcePath">
+                    <div *ngIf="exercise.type.toLowerCase() == 'image'">
+                        <app-show-multiple-choice-exercise-image [exercise]="exercise"></app-show-multiple-choice-exercise-image>
+                    </div>
+                    <div *ngIf="exercise.type.toLowerCase() == 'text'">
+                        <app-show-multiple-choice-exercise-text [exercise]="exercise"></app-show-multiple-choice-exercise-text>
                     </div>
                 </div>
                 <div class="panel-heading">
@@ -83,24 +78,24 @@
                 </div>
             </div>
         </div>
-
-        <!-- pager -->
-        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-            <li [ngClass]="{disabled:pager.currentPage === 1}">
-                <a (click)="setPage(1)">{{ '_First_' | translate }}</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === 1}">
-                <a (click)="setPage(pager.currentPage - 1)">{{ '_Previous_' | translate }}</a>
-            </li>
-            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-                <a (click)="setPage(page)">{{page}}</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                <a (click)="setPage(pager.currentPage + 1)">{{ '_Next_' | translate }}</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                <a (click)="setPage(pager.totalPages)">{{ '_Last_' | translate }}</a>
-            </li>
-        </ul>
     </div>
+
+    <!-- pager -->
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(1)">{{ '_First_' | translate }}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="setPage(pager.currentPage - 1)">{{ '_Previous_' | translate }}</a>
+        </li>
+        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="setPage(page)">{{page}}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.currentPage + 1)">{{ '_Next_' | translate }}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="setPage(pager.totalPages)">{{ '_Last_' | translate }}</a>
+        </li>
+    </ul>
 </div>

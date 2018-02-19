@@ -26,7 +26,7 @@ export class PreferencesComponent implements OnInit {
 
   public loading = false;
 
-  public reinforcementImageError;
+  public reinforcementImageError = true;
 
   constructor(public modal: Modal, public route: ActivatedRoute, public childService: ChildrenService,
     public location: Location, public resourcesService: ResourcesService, public router: Router) { }
@@ -64,7 +64,7 @@ export class PreferencesComponent implements OnInit {
 
   validateReinforcementImagesAdded() {
     if (this.validateReinforcement) {
-      const reinforcementImage = this.reinforcementResources.filter((reinforcementImage) => { return reinforcementImage.selected; });
+      const reinforcementImage = this.reinforcementResources.filter((reinforcementImage2) => { return reinforcementImage2.selected; });
       if (reinforcementImage.length === 0) {
         this.reinforcementImageError = true;
       } else {
@@ -124,18 +124,20 @@ export class PreferencesComponent implements OnInit {
     );
   }
 
-  updatePreferences() {
-
+  submit () {
     this.validateReinforcementImagesAdded();
 
-    this.reinforcementImageError = false;
-
     if (this.reinforcementImageError === false) {
+      this.updatePreferences();
+    }
+  }
+  
+  updatePreferences() {
 
       const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
       .title('Editar prefererências').body('Tem a certeza que pretende editar as preferências da criança ' + this.childName + '?').open();
 
-      dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      dialogRef.then(dialogRef2 => { dialogRef2.result.then(result => {
         if (result) {
           const animchar = this.animatedCharactersResources.find((res) => { return res.selected });
           this.prefs.animatedCharacterResourceId = animchar ? animchar.resourceId : this.prefs.animatedCharacterResourceId;
@@ -163,7 +165,6 @@ export class PreferencesComponent implements OnInit {
           this.goBack();
         }
       }).catch(() => {})});
-    }
   }
 
   updateReinforcement(results) {

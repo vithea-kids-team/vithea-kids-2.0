@@ -47,6 +47,8 @@ import { AddMultipleChoiceExerciseTextComponent } from './components/add-multipl
 import { EditExerciseComponent } from './components/edit-exercise/edit-exercise.component';
 import { EditMultipleChoiceExerciseImageComponent } from './components/edit-multiple-choice-exercise-image/edit-multiple-choice-exercise-image.component';
 import { EditMultipleChoiceExerciseTextComponent } from './components/edit-multiple-choice-exercise-text/edit-multiple-choice-exercise-text.component';
+import { ShowMultipleChoiceExerciseTextComponent } from './components/show-multiple-choice-exercise-text/show-multiple-choice-exercise-text.component';
+import { ShowMultipleChoiceExerciseImageComponent } from './components/show-multiple-choice-exercise-image/show-multiple-choice-exercise-image.component';
 import { ExerciseFilter } from './pipes/exercise-filter';
 import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
 
@@ -63,7 +65,6 @@ import { ResourceTypeFilter } from './pipes/resources-type-filter';
 export function translateFactory(https: HttpClient) {
   return  new TranslateHttpLoader(https, './vithea-kids/assets/i18n/', '.json');
 }
-
 
 @NgModule({
   imports: [
@@ -97,6 +98,8 @@ export function translateFactory(https: HttpClient) {
     EditExerciseComponent,
     EditMultipleChoiceExerciseImageComponent,
     EditMultipleChoiceExerciseTextComponent,
+    ShowMultipleChoiceExerciseTextComponent,
+    ShowMultipleChoiceExerciseImageComponent,
     ImagePickerComponent,
     SignUpComponent,
     SequencesComponent,

@@ -5,25 +5,79 @@
     <h3> {{ childName }}</h3>
 
     <form (ngSubmit)="updatePreferences()" #preferencesdForm="ngForm" class="col-md-8">
-        <div class=row>
-            <h4>{{ '_PersonalMessages_' | translate }}</h4>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label>{{ 'GREETING_MESSAGE' | translate}}</label>
-                        <input type="text" class="form-control" name="GREETING_MESSAGE" maxlength="255" [(ngModel)]="prefs.greetingMessage">
-                    </div>
-                    <div class="form-group">
-                        <label>{{ 'EXERCISE_REINFORCEMENT' | translate}}</label>
-                        <input type="text" class="form-control" name="EXERCISE_REINFORCEMENT" maxlength="255" [(ngModel)]="prefs.exerciseReinforcementMessage">
-                    </div>
-                    <div class="form-group">
-                        <label>{{ 'SEQUENCE_REINFORCEMENT' | translate}}</label>
-                        <input type="text" class="form-control" name="SEQUENCE_REINFORCEMENT" maxlength="255" [(ngModel)]="prefs.sequenceReinforcementMessage">
+            <div class=row>
+                    <h4>{{ '_PersonalMessages_' | translate }}</h4>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label>{{ 'GREETING_MESSAGE' | translate}}</label>
+                                <input type="text" class="form-control" name="GREETING_MESSAGE" maxlength="255" [(ngModel)]="prefs.greetingMessage">
+                            </div>
+                            <div class="form-group">
+                                <label>{{ 'EXERCISE_REINFORCEMENT' | translate}}</label>
+                                <input type="text" class="form-control" name="EXERCISE_REINFORCEMENT" maxlength="255" [(ngModel)]="prefs.exerciseReinforcementMessage">
+                            </div>
+                            <div class="form-group">
+                                <label>{{ 'SEQUENCE_REINFORCEMENT' | translate}}</label>
+                                <input type="text" class="form-control" name="SEQUENCE_REINFORCEMENT" maxlength="255" [(ngModel)]="prefs.sequenceReinforcementMessage">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
+
+                <div class=row>
+                        <h4>{{ '_ExerciseSequences_' | translate }}</h4>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="strategy"> {{ '_OrderExercises_' | translate }}</label>
+                                    <br>
+                                    <label class="radio-inline"><input type="radio" value="RANDOM" [(ngModel)]="prefs.sequenceExercisesOrder" name="sequenceExercisesOrder">{{'_RandomOrder_' | translate}}</label>
+                                    <label class="radio-inline"><input type="radio" value="DEFAULT" [(ngModel)]="prefs.sequenceExercisesOrder" name="sequenceExercisesOrder">{{'_DefaultOrder_' | translate}}</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="strategy"> {{ '_CapitalizationExercises_' | translate }}</label>
+                                    <br>
+                                    <label class="radio-inline"><input type="radio" value="CAPITALIZATION" [(ngModel)]="prefs.sequenceExercisesCapitalization" name="sequenceExercisesCapitalization">{{'_AllCapsCapitalization_' | translate}}</label>
+                                    <label class="radio-inline"><input type="radio" value="DEFAULT" [(ngModel)]="prefs.sequenceExercisesCapitalization" name="sequenceExercisesCapitalization">{{'_DefaultCapitalization_' | translate}}</label>
+                                </div>
+                                <!--<div class="form-group">
+                                    <label for="strategy"> {{ '_QuestionRead_' | translate }}</label>
+                                    <br>
+                                    <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Yes_' | translate}}</label>
+                                    <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_No_' | translate}}</label>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                    
+                <div class=row>
+                        <h4>{{ '_Prompting_' | translate }}</h4>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="strategy"> {{ '_Strategy_' | translate }}</label>
+                                    <br>
+                                    <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Always_' | translate}}</label>
+                                    <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_IfNeeded_' | translate}}</label>
+                                    <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Disabled_' | translate}}</label>
+                                </div>
+                                <div class="form-group" *ngIf="validatePrompting()">
+                                    <label for="strategy"> {{ '_Type_' | translate }}</label>
+                                    <br>
+                                    <div class="form-group checkbox-group">
+                                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingSize" (change)="updatePromptingSize($event)" name="promptingType">{{'_OptionsSize_' | translate}}</label>
+                                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingColor" (change)="updatePromptingColor($event)" name="promptingType">{{'_OptionsColor_' | translate}}</label>
+                                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingScratch" (change)="updatePromptingScratch($event)" name="promptingType">{{'_CrossDistractors_' | translate}}</label>
+                                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingHide" (change)="updatePromptingHide($event)" name="promptingType">{{'_DistractorsDisappear_' | translate}}</label>
+                                        <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingRead" (change)="updatePromptingRead($event)" name="promptingRead">{{'_AnswersRead_' | translate}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
         <div class=row>
             <h4>{{ '_Reinforcements_' | translate }}</h4>
             <div class="panel panel-default">
@@ -48,56 +102,7 @@
                 </div>
             </div>
         </div>
-        <div class=row>
-            <h4>{{ '_Prompting_' | translate }}</h4>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="strategy"> {{ '_Strategy_' | translate }}</label>
-                        <br>
-                        <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Always_' | translate}}</label>
-                        <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_IfNeeded_' | translate}}</label>
-                        <label class="radio-inline"><input type="radio" value="OFF" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Disabled_' | translate}}</label>
-                    </div>
-                    <div class="form-group" *ngIf="validatePrompting()">
-                        <label for="strategy"> {{ '_Type_' | translate }}</label>
-                        <br>
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingSize" (change)="updatePromptingSize($event)" name="promptingType">{{'_OptionsSize_' | translate}}</label>
-                            <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingColor" (change)="updatePromptingColor($event)" name="promptingType">{{'_OptionsColor_' | translate}}</label>
-                            <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingScratch" (change)="updatePromptingScratch($event)" name="promptingType">{{'_CrossDistractors_' | translate}}</label>
-                            <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingHide" (change)="updatePromptingHide($event)" name="promptingType">{{'_DistractorsDisappear_' | translate}}</label>
-                            <label class="checkbox-label"><input type="checkbox" [checked]="prefs.promptingRead" (change)="updatePromptingRead($event)" name="promptingRead">{{'_AnswersRead_' | translate}}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class=row>
-            <h4>{{ '_ExerciseSequences_' | translate }}</h4>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="strategy"> {{ '_OrderExercises_' | translate }}</label>
-                        <br>
-                        <label class="radio-inline"><input type="radio" value="RANDOM" [(ngModel)]="prefs.sequenceExercisesOrder" name="sequenceExercisesOrder">{{'_RandomOrder_' | translate}}</label>
-                        <label class="radio-inline"><input type="radio" value="DEFAULT" [(ngModel)]="prefs.sequenceExercisesOrder" name="sequenceExercisesOrder">{{'_DefaultOrder_' | translate}}</label>
-                    </div>
-                    <div class="form-group">
-                        <label for="strategy"> {{ '_CapitalizationExercises_' | translate }}</label>
-                        <br>
-                        <label class="radio-inline"><input type="radio" value="CAPITALIZATION" [(ngModel)]="prefs.sequenceExercisesCapitalization" name="sequenceExercisesCapitalization">{{'_AllCapsCapitalization_' | translate}}</label>
-                        <label class="radio-inline"><input type="radio" value="DEFAULT" [(ngModel)]="prefs.sequenceExercisesCapitalization" name="sequenceExercisesCapitalization">{{'_DefaultCapitalization_' | translate}}</label>
-                    </div>
-                    <!--<div class="form-group">
-                        <label for="strategy"> {{ '_QuestionRead_' | translate }}</label>
-                        <br>
-                        <label class="radio-inline"><input type="radio" value="ALWAYS" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_Yes_' | translate}}</label>
-                        <label class="radio-inline"><input type="radio" value="IF_NEEDED" [(ngModel)]="prefs.promptingStrategy" name="promptingStrategy">{{'_No_' | translate}}</label>
-                    </div>-->
-                </div>
-            </div>
-        </div>
+    
         <div class=row>
             <h4>{{ '_AnimatedCharacter_' | translate }}</h4>
             <div class="panel panel-default">
@@ -126,7 +131,7 @@
         </div>
 
         <div class=row>
-            <a type="button" (click)="updatePreferences()" class="btn btn-success">
+            <a type="button" (click)="submit()" class="btn btn-success">
                 <span class="glyphicon glyphicon-ok" style="font-size: small;" aria-hidden="true"></span> {{ '_SaveChangesBtn_' | translate }}
             </a>
             <button [routerLink]="['/children']" type="button" class="btn btn-secondary"> 

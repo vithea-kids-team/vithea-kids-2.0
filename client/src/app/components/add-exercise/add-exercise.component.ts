@@ -42,8 +42,4 @@ export class AddExerciseComponent implements OnInit {
   goBack() {
     this.location.back();
   }
-
-  /*refresh() {
-    this.location.reload();
-  }*/
 }

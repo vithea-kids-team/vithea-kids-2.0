@@ -10,6 +10,9 @@ import { ChildrenService } from '../../services/children/children.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
 import { Overlay } from 'ngx-modialog';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import { ShowMultipleChoiceExerciseTextComponent } from '../../components/show-multiple-choice-exercise-text/show-multiple-choice-exercise-text.component';
+import { ShowMultipleChoiceExerciseImageComponent } from '../../components/show-multiple-choice-exercise-image/show-multiple-choice-exercise-image.component';
+
 
 @Component({
   selector: 'app-exercises',
@@ -26,7 +29,6 @@ export class ExercisesComponent implements OnInit, OnChanges {
   public failure = false;
   public textSuccess;
   public textFailure;
-  public development = true;
 
   // pager object
   pager: any = {};
@@ -55,7 +57,6 @@ export class ExercisesComponent implements OnInit, OnChanges {
     this.textSuccess = this.exercisesService.getTextSuccess();
     this.textFailure = this.exercisesService.getTextFailure();
   }
-
 
   public fetchExercises() {
     this.loading = true;
@@ -117,7 +118,7 @@ export class ExercisesComponent implements OnInit, OnChanges {
     for (let i = 0; i < length; i++) {
         let exercise = this.exercises[i];
         if (exercise.exerciseId === exerciseId) {
-            return exercise;
+          return exercise;
         }
     }
     return null;

@@ -64,7 +64,7 @@ submit () {
 
   if (this.topicError === false && this.levelError === false && this.questionError === false &&
     this.rightAnswerTextError === false) {
-      this.  registerMultipleChoiceTextExercise();
+      this.registerMultipleChoiceTextExercise();
   }
 }
 
@@ -140,22 +140,7 @@ submit () {
     }).catch(() => {})});
 }
 
-goBack() {
-  this.location.back();
-}
-
-/*
-updateType (type2: string) {
-    this.type = type2;
-}
-updateStimuli (results) {
-    this.loading = true;
-    const last = results.length - 1;
-    const lastItem = results[last];
-    lastItem.selected = false;
-    this.stimulusImgs.push(Object.assign({}, lastItem));
-    this.rightAnswerImgs.push(Object.assign({}, lastItem));
-    this.answersImgs.push(Object.assign({}, lastItem));
-    this.loading = false;
-  }*/
+  goBack() {
+    this.location.back();
+  }
 }

@@ -1,0 +1,9 @@
+<h4> {{ truncate(this.questionDescription, 50)}}</h4>
+<p>{{ truncate(this.stimulusText, 25) }}</p>
+<p>{{ truncate(this.topic, 25) }}&emsp;&emsp;{{ truncate(this.level, 25) }}</p>
+
+<div class="col-md-6 col-sm-6" *ngFor="let distractor of this.exercise.answers">
+    <span *ngIf="distractor.answerId === this.rightAnswer?.answerId" class="glyphicon glyphicon-check" style="font-size: small;"></span>
+    <span *ngIf="distractor.answerId !== this.rightAnswer?.answerId" class="glyphicon glyphicon-unchecked" style="font-size: small;"></span>
+    <img class="thumbnail" [src]="this.resourcePathInit + distractor.stimulus?.resourcePath">
+</div>
