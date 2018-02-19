@@ -4,7 +4,7 @@ import { Exercise } from '../models/exercise';
 @Pipe({
     name: 'exerciseTypeFilter',
     pure: false
-})
+})    
 export class ExerciseTypeFilter implements PipeTransform {
     transform(items: Array<Exercise>, image: boolean, text: boolean): Array<Exercise> {
         if (!items || (image && text)) {

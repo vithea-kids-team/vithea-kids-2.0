@@ -7,6 +7,7 @@ import { SequencesComponent } from './components/sequences/sequences.component';
 import { AddSequenceComponent } from './components/add-sequence/add-sequence.component';
 import { ExercisesComponent } from './components/exercises/exercises.component';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
+import { EditExerciseComponent } from './components/edit-exercise/edit-exercise.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -40,7 +41,7 @@ export const appRoutes: Routes = [
   { path: 'exercises',
     children: [{ path: '', component: ExercisesComponent, canActivate: [GuardService] },
               { path: 'new', component: AddExerciseComponent, canActivate: [GuardService] },
-              { path: ':exerciseid/edit', component: AddExerciseComponent, canActivate: [GuardService] },
+              { path: ':exerciseid/:type/edit', component: EditExerciseComponent, canActivate: [GuardService] },
               { path: 'new/:sequenceid', component: AddExerciseComponent, canActivate: [GuardService]  } ]},
   { path: 'sequences',
     children: [{ path: '', component: SequencesComponent, canActivate: [GuardService] },

@@ -1,0 +1,26 @@
+<loader *ngIf="loading"></loader>
+<div class="container" *ngIf="!loading">
+
+    <div class="row">
+        <div class="panel-default pull-right">
+            <a type="button" class="btn btn-default" (click)="goBack()">
+                <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <h2>{{ '_EditExercise_' | translate }}</h2>
+    </div>
+
+    <div class="row">
+        <div *ngIf="type == 'text'">
+            <app-edit-multiple-choice-exercise-text></app-edit-multiple-choice-exercise-text>
+        </div>
+
+        <div *ngIf="type == 'image'">
+            <app-edit-multiple-choice-exercise-image></app-edit-multiple-choice-exercise-image>
+        </div>
+    </div>
+
+</div>

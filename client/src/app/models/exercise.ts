@@ -1,5 +1,6 @@
 export class Exercise {
     public exerciseId: number
+    public sequenceId: number
     public exerciseName: string // for filter purposes, it is equal to exercise question description
     public type: string
     public topic: string
@@ -17,5 +18,4 @@ export class Exercise {
     public answersImg3: string
     public answers: Array<string>
     public answersImg: Array<string>
-    public sequenceId: number
 }

@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="panel-heading">
-                    <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/edit']">
+                    <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/' + exercise.type.toLowerCase() + '/edit']">
                         <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
                     </button>
                     <button type="button" class="btn btn-danger" (click)="deleteExercise(exercise.exerciseId)">

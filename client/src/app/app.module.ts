@@ -39,7 +39,14 @@ import { ChildFilter } from './pipes/child-filter';
 
 import { ExercisesComponent } from './components/exercises/exercises.component';
 import { ExercisesService } from './services/exercises/exercises.service';
+import { UtilsExercisesService} from './services/utils/utils-exercises.service';
+
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
+import { AddMultipleChoiceExerciseImageComponent } from './components/add-multiple-choice-exercise-image/add-multiple-choice-exercise-image.component';
+import { AddMultipleChoiceExerciseTextComponent } from './components/add-multiple-choice-exercise-text/add-multiple-choice-exercise-text.component';
+import { EditExerciseComponent } from './components/edit-exercise/edit-exercise.component';
+import { EditMultipleChoiceExerciseImageComponent } from './components/edit-multiple-choice-exercise-image/edit-multiple-choice-exercise-image.component';
+import { EditMultipleChoiceExerciseTextComponent } from './components/edit-multiple-choice-exercise-text/edit-multiple-choice-exercise-text.component';
 import { ExerciseFilter } from './pipes/exercise-filter';
 import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
 
@@ -85,6 +92,11 @@ export function translateFactory(https: HttpClient) {
     LoginComponent,
     AddChildComponent,
     AddExerciseComponent,
+    AddMultipleChoiceExerciseImageComponent,
+    AddMultipleChoiceExerciseTextComponent,
+    EditExerciseComponent,
+    EditMultipleChoiceExerciseImageComponent,
+    EditMultipleChoiceExerciseTextComponent,
     ImagePickerComponent,
     SignUpComponent,
     SequencesComponent,
@@ -113,7 +125,8 @@ export function translateFactory(https: HttpClient) {
     SequencesService,
     ResourcesService,
     PaginationService,
-    ResourcesComponent
+    ResourcesComponent,
+    UtilsExercisesService
   ],
   bootstrap: [AppComponent]
 })
