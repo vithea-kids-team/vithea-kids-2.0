@@ -42,13 +42,15 @@ import { ExercisesService } from './services/exercises/exercises.service';
 import { UtilsExercisesService} from './services/utils/utils-exercises.service';
 
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
-import { AddMultipleChoiceExerciseImageComponent } from './components/add-multiple-choice-exercise-image/add-multiple-choice-exercise-image.component';
-import { AddMultipleChoiceExerciseTextComponent } from './components/add-multiple-choice-exercise-text/add-multiple-choice-exercise-text.component';
+import { AddExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/add-exercise-mc-image/add-exercise-mc-image.component';
+import { AddExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/add-exercise-mc-text/add-exercise-mc-text.component';
+
 import { EditExerciseComponent } from './components/edit-exercise/edit-exercise.component';
-import { EditMultipleChoiceExerciseImageComponent } from './components/edit-multiple-choice-exercise-image/edit-multiple-choice-exercise-image.component';
-import { EditMultipleChoiceExerciseTextComponent } from './components/edit-multiple-choice-exercise-text/edit-multiple-choice-exercise-text.component';
-import { ShowMultipleChoiceExerciseTextComponent } from './components/show-multiple-choice-exercise-text/show-multiple-choice-exercise-text.component';
-import { ShowMultipleChoiceExerciseImageComponent } from './components/show-multiple-choice-exercise-image/show-multiple-choice-exercise-image.component';
+import { EditExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/edit-exercise-mc-image/edit-exercise-mc-image.component';
+import { EditExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/edit-exercise-mc-text/edit-exercise-mc-text.component';
+import { ShowExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/show-exercise-mc-image/show-exercise-mc-image.component';
+import { ShowExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/show-exercise-mc-text/show-exercise-mc-text.component';
+
 import { ExerciseFilter } from './pipes/exercise-filter';
 import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
 
@@ -93,13 +95,13 @@ export function translateFactory(https: HttpClient) {
     LoginComponent,
     AddChildComponent,
     AddExerciseComponent,
-    AddMultipleChoiceExerciseImageComponent,
-    AddMultipleChoiceExerciseTextComponent,
+    AddExerciseMultipleChoiceImageComponent,
+    AddExerciseMultipleChoiceTextComponent,
     EditExerciseComponent,
-    EditMultipleChoiceExerciseImageComponent,
-    EditMultipleChoiceExerciseTextComponent,
-    ShowMultipleChoiceExerciseTextComponent,
-    ShowMultipleChoiceExerciseImageComponent,
+    EditExerciseMultipleChoiceTextComponent,
+    EditExerciseMultipleChoiceImageComponent,
+    ShowExerciseMultipleChoiceTextComponent,
+    ShowExerciseMultipleChoiceImageComponent,
     ImagePickerComponent,
     SignUpComponent,
     SequencesComponent,

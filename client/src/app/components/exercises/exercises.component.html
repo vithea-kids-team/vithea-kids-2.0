@@ -62,10 +62,10 @@
             <div class="panel panel-default" *ngFor="let exercise of pagedItems | exerciseFilter:searchBy | exerciseTypeFilter: imageFilter:textFilter">
                 <div *ngIf="!loading" class="panel-body">
                     <div *ngIf="exercise.type.toLowerCase() == 'image'">
-                        <app-show-multiple-choice-exercise-image [exercise]="exercise"></app-show-multiple-choice-exercise-image>
+                        <app-show-exercise-mc-image [exercise]="exercise"></app-show-exercise-mc-image>
                     </div>
                     <div *ngIf="exercise.type.toLowerCase() == 'text'">
-                        <app-show-multiple-choice-exercise-text [exercise]="exercise"></app-show-multiple-choice-exercise-text>
+                        <app-show-exercise-mc-text [exercise]="exercise"></app-show-exercise-mc-text>
                     </div>
                 </div>
                 <div class="panel-heading">

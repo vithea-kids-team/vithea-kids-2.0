@@ -31,10 +31,10 @@
                                 <li class="list-group-item list-group-item-content" *ngFor=" let exercise of exercises; let index = index">
                                     <div *ngIf="!loading" class="panel-body">
                                         <div *ngIf="exercise.type.toLowerCase() == 'image'">
-                                            <app-show-multiple-choice-exercise-image [exercise]="exercise"></app-show-multiple-choice-exercise-image>
+                                            <app-show-exercise-mc-image [exercise]="exercise"></app-show-exercise-mc-image>
                                         </div>
                                         <div *ngIf="exercise.type.toLowerCase() == 'text'">
-                                            <app-show-multiple-choice-exercise-text [exercise]="exercise"></app-show-multiple-choice-exercise-text>
+                                            <app-show-exercise-mc-text [exercise]="exercise"></app-show-exercise-mc-text>
                                         </div> 
                                         <a class="btn btn-success pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
                                     </div>
@@ -50,16 +50,14 @@
                                         <a class="btn btn-danger pull-left" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
                                         <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
                                         <div *ngIf="exercise.type.toLowerCase() == 'image'">
-                                            <div>
-                                                <app-show-multiple-choice-exercise-image [exercise]="exercise"></app-show-multiple-choice-exercise-image>
-                                            </div>
-                                            <div *ngIf="exercise.type.toLowerCase() == 'text'">
-                                                <app-show-multiple-choice-exercise-text [exercise]="exercise"></app-show-multiple-choice-exercise-text>
-                                            </div> 
-                                            <a *ngIf="index >= 1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
-                                            <a class="btn btn-secondary pull-right" style="padding:0"></a>
-                                            <a *ngIf="index < addedExercises?.length-1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+                                            <app-show-exercise-mc-image [exercise]="exercise"></app-show-exercise-mc-image>
                                         </div>
+                                        <div *ngIf="exercise.type.toLowerCase() == 'text'">
+                                            <app-show-exercise-mc-text [exercise]="exercise"></app-show-exercise-mc-text>
+                                        </div> 
+                                        <a *ngIf="index >= 1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
+                                        <a class="btn btn-secondary pull-right" style="padding:0"></a>
+                                        <a *ngIf="index < addedExercises?.length-1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>
                                     </div>
                                 </li>
                             </ul>

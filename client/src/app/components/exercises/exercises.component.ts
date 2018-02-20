@@ -10,8 +10,8 @@ import { ChildrenService } from '../../services/children/children.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
 import { Overlay } from 'ngx-modialog';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
-import { ShowMultipleChoiceExerciseTextComponent } from '../../components/show-multiple-choice-exercise-text/show-multiple-choice-exercise-text.component';
-import { ShowMultipleChoiceExerciseImageComponent } from '../../components/show-multiple-choice-exercise-image/show-multiple-choice-exercise-image.component';
+import { ShowExerciseMultipleChoiceTextComponent } from '../../components/multiple-choice-exercise/show-exercise-mc-text/show-exercise-mc-text.component';
+import { ShowExerciseMultipleChoiceImageComponent } from '../../components/multiple-choice-exercise/show-exercise-mc-image/show-exercise-mc-image.component';
 
 
 @Component({

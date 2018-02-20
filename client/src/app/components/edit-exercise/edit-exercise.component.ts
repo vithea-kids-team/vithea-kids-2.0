@@ -9,8 +9,8 @@ import { ExercisesService } from '../../services/exercises/exercises.service';
 import { Overlay } from 'ngx-modialog';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
 import { Location } from '@angular/common';
-import { EditMultipleChoiceExerciseImageComponent } from '../../components/edit-multiple-choice-exercise-image/edit-multiple-choice-exercise-image.component';
-import { EditMultipleChoiceExerciseTextComponent } from '../../components/edit-multiple-choice-exercise-text/edit-multiple-choice-exercise-text.component';
+import { EditExerciseMultipleChoiceImageComponent } from '../../components/multiple-choice-exercise/edit-exercise-mc-image/edit-exercise-mc-image.component';
+import { EditExerciseMultipleChoiceTextComponent } from '../../components/multiple-choice-exercise/edit-exercise-mc-text/edit-exercise-mc-text.component';
 
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
