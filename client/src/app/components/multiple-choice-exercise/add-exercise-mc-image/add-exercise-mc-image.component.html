@@ -54,11 +54,17 @@
             <br>
             <p> {{ '_SelectImagesAnswer_' | translate }}</p>
             <em *ngIf="rightAnswerImgs?.length === 0">{{ '_NoResources_' | translate }}</em>
-            <div style="max-height: 100px; overflow-y: auto;">
-                <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" [multiSelect]="false" [selected]="newExercise.rightAnswer" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs" #rightAnswer="ngModel">
-                </image-picker>
-            </div>
-            <div *ngIf="rightAnswerImageError" class="alert alert-danger"> {{ '_RequiredRightAnswerImage_' | translate }} </div>
+                <div style="max-height: 120px; overflow-y: auto;">
+                    <image-picker *ngIf=!loading id="rightAnswer" [(ngModel)]="rightAnswerImgs" [multiSelect]="false" [selected]="newExercise.rightAnswer" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs" #rightAnswer="ngModel">
+                    </image-picker>
+                </div>
+                <div>
+                    <br>
+                    <button [routerLink]="[ '/exercises'] " type="button " class="btn btn-primary "> 
+                       <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar resposta correcta
+                    </button>
+                    <div *ngIf="rightAnswerImageError" class="alert alert-danger"> {{ '_RequiredRightAnswerImage_' | translate }} </div>
+                </div>
         </div>
 
         <div class="row">

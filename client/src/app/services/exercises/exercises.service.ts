@@ -25,6 +25,7 @@ export class ExercisesService {
   }
 
   addExercise(exercise: Exercise): Observable<Response> {
+    console.log(exercise);
     return this.http.post('/registerexercise', exercise);
   }
 

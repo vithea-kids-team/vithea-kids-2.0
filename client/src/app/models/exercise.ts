@@ -6,16 +6,24 @@ export class Exercise {
     public topic: string
     public level: string
     public question: string
-    public stimulusText: string
-    public stimulus: number
-    public rightAnswer: string
-    public rightAnswerImg: any
-    public distractor1: string
-    public distractor2: string
-    public distractor3: string
-    public answersImg1: string
-    public answersImg2: string
-    public answersImg3: string
-    public answers: Array<string>
-    public answersImg: Array<string>
+    public stimulus: string
+    public answers:  Array<string>
+    public rightAnswers: Array<string>
+    public distractors: Array<string>
+
+    //public distractor1: string
+    //public distractor2: string
+    //public distractor3: string
+    //public stimulusTextual: string;
+    //public rightAnswerIds: Array<number>;
+    //public distractorIds: Array<number>;
+    //public stimulusImageId: number;
+    //public rightAnswers
+    //public rightAnswer: string
+    //public rightAnswerImg: any
+    //public answersImg1: string
+    //public answersImg2: string
+    //public answersImg3: string
+    //public answers: Array<string>
+    //public answersImg: Array<string>
 }

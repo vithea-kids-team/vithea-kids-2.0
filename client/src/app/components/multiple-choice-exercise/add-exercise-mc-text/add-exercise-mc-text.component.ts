@@ -20,38 +20,49 @@ import { UtilsExercisesService} from '../../../services/utils/utils-exercises.se
 export class AddExerciseMultipleChoiceTextComponent implements OnInit {
 
   public newExercise = new Exercise();
-  public question = '';
   public newAnswer = '';
   public stimulusImgs = [];
   public topics = [];
   public levels = [];
   public error: string = undefined;
   public loading = false;
-  public type = '';
-
+  public type = ''; // ?
   public rightAnswerTextError;
   public rightAnswerImageError;
   public topicError;
   public levelError;
   public questionError;
-
   public number = 0;
+
+  // temp vars
+  public topic;
+  public level;
+  public question;
+  public distractor1;
+  public distractor2;
+  public distractor3;
+  public rightAnswer1;
+  public rightAnswer2;
+  public rightAnswer3;
+  public stimulus;
+
 
   constructor(public modal: Modal, public route: ActivatedRoute, public resourcesService: ResourcesService,
     public exercisesService: ExercisesService, public router: Router, public location: Location,
     public utilsService: UtilsExercisesService) {}
 
     validateTopic() {
-      this.topicError = this.utilsService.validateTopic(this.newExercise.topic);
+      this.topicError = this.utilsService.validateTopic(this.topic);
     }
     validateLevel() {
-      this.levelError = this.utilsService.validateLevel(this.newExercise.level);
+      this.levelError = this.utilsService.validateLevel(this.level);
     }
     validateQuestion() {
-      this.questionError = this.utilsService.validateQuestion(this.newExercise.question);
+      this.questionError = this.utilsService.validateQuestion(this.question);
     }
     validateRightAnswerText() {
-      this.rightAnswerTextError = this.utilsService.validateRightAnswerText(this.newExercise.rightAnswer);
+      this.rightAnswerTextError = false;
+      //this.utilsService.validateRightAnswerText(this.newExercise.rightAnswer);
     }
 
 
@@ -87,10 +98,16 @@ submit () {
     this.loading = false;
     this.newExercise.type = 'text';
     this.newExercise.answers = [];
+    this.newExercise.rightAnswers = [];
+    this.newExercise.distractors = [];
   }
 
   registerMultipleChoiceTextExercise() {
     this.error = undefined;
+
+    this.newExercise.topic = this.topic;
+    this.newExercise.level = this.level;
+    this.newExercise.question = this.question;
 
     const stimulus = this.stimulusImgs.filter((stimulus2) => { return stimulus2.selected; });
     if (stimulus.length === 1) {
@@ -99,15 +116,27 @@ submit () {
       this.newExercise.stimulus = null;
     }
 
-    if (this.newExercise.distractor1 !== '' && this.newExercise.distractor1 !== undefined) {
-      this.newExercise.answers.push(this.newExercise.distractor1);
+    if (this.rightAnswer1 !== '' && this.rightAnswer1 !== undefined) {
+      this.newExercise.rightAnswers.push(this.rightAnswer1);
     }
-    if (this.newExercise.distractor2 !== '' && this.newExercise.distractor2 !== undefined) {
-      this.newExercise.answers.push(this.newExercise.distractor2);
+    if (this.rightAnswer2 !== '' && this.rightAnswer2 !== undefined) {
+      this.newExercise.rightAnswers.push(this.rightAnswer2);
     }
-    if (this.newExercise.distractor3 !== '' && this.newExercise.distractor3 !== undefined) {
-      this.newExercise.answers.push(this.newExercise.distractor3);
+
+    if (this.rightAnswer3 !== '' && this.rightAnswer3 !== undefined) {
+      this.newExercise.rightAnswers.push(this.rightAnswer3);
     }
+
+    if (this.distractor1 !== '' && this.distractor1 !== undefined) {
+      this.newExercise.distractors.push(this.distractor1);
+    }
+    if (this.distractor2 !== '' && this.distractor2 !== undefined) {
+      this.newExercise.distractors.push(this.distractor2);
+    }
+    if (this.distractor3 !== '' && this.distractor3 !== undefined) {
+      this.newExercise.distractors.push(this.distractor3);
+    }
+
 
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Registar exercício').body('Tem a certeza que pretende registar o exercício?').open();
@@ -130,8 +159,8 @@ submit () {
             this.exercisesService.setSuccess(false);
             this.exercisesService.setFailure(true);
             this.exercisesService.setTextFailure('Não foi possível registar o exercício.');
-            this.newExercise.answers = [];
-            this.newExercise.answersImg = [];
+            //this.newExercise.answers = [];
+            //this.newExercise.answersImg = [];
           }
         );
       } else {

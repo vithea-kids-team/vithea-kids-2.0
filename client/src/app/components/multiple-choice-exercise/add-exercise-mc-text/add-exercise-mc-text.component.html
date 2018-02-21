@@ -13,7 +13,7 @@
                 <p *ngIf="topics?.length === 0">{{ '_NoTopics_' | translate }}</p>
                 <div *ngIf="topics?.length > 0">
                     <p> {{ '_SelectTopic_' | translate }}</p>
-                    <select class="form-control" id="topic" required [(ngModel)]="newExercise.topic" (ngModelChange)="validateTopic()" name="topic" #topic="ngModel">
+                    <select class="form-control" id="topic" required [(ngModel)]="this.topic" (ngModelChange)="validateTopic()" name="topic">
                         <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
                     </select>
                 </div>
@@ -27,7 +27,7 @@
                 <p *ngIf="levels?.length === 0">{{ '_NoLevels_' | translate }}</p>
                 <div *ngIf="levels?.length > 0">
                     <p> {{ '_SelectLevel_' | translate }}</p>
-                    <select class="form-control" id="level" required [(ngModel)]="newExercise.level" (ngModelChange)="validateLevel()" name="level" #topic="ngModel">
+                    <select class="form-control" id="level" required [(ngModel)]="this.level" (ngModelChange)="validateLevel()" name="level">
                         <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
                     </select>
                 </div>
@@ -38,7 +38,7 @@
         <div class="row">
             <div class="form-group">
                 <label for="question"> {{'_Question_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="newExercise.question" (ngModelChange)="validateQuestion()" name="question" #question="ngModel">
+                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="this.question" (ngModelChange)="validateQuestion()" name="question">
                 <div *ngIf="questionError" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                 <p> {{ '_SelectImagesStimulus_' | translate }}</p>
                 <div style="max-height: 100px; overflow-y: auto;">
                     <em *ngIf="stimulusImgs?.length === 0">{{ '_NoResources_' | translate }}</em>
-                    <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [selected]="newExercise.stimulus" name="newExercise.stimulusImgs" [multiSelect]="false"> </image-picker>
+                    <image-picker *ngIf=!loading [(ngModel)]="stimulusImgs" name="stimulusImgs" [selected]="this.stimulus" name="this.stimulusImgs" [multiSelect]="false"> </image-picker>
                 </div>
             </div>
         </div>
@@ -57,8 +57,14 @@
         <div class="row">
             <label for="answer"> {{ '_Answer_' | translate }} <span class="text-danger"> * </span></label>
             <div>
-                <input type="text" class="form-control" id="rightAnswer" maxlength="75" [(ngModel)]="newExercise.rightAnswer" (ngModelChange)="validateRightAnswerText()" name="rightAnswer" #rightAnswer="ngModel">
-                <div *ngIf="rightAnswerTextError" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
+                <input type="text" class="form-control" id="rightAnswer1" maxlength="75" [(ngModel)]="this.rightAnswer1" (ngModelChange)="validateRightAnswerText()" name="rightAnswer1">
+                <!--<input type="text" class="form-control" id="rightAnswer2" maxlength="75" [(ngModel)]="this.rightAnswer2" (ngModelChange)="validateRightAnswerText()" name="rightAnswer2">
+                <input type="text" class="form-control" id="rightAnswer3" maxlength="75" [(ngModel)]="this.rightAnswer3" (ngModelChange)="validateRightAnswerText()" name="rightAnswer3">
+                -->
+                <button [routerLink]="[ '/exercises'] " type="button " class="btn btn-primary "> 
+                    <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar resposta correcta
+                 </button>
+                 <div *ngIf="rightAnswerTextError" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
             </div>
         </div>
 
@@ -67,9 +73,9 @@
             <label for="answers"> {{ '_Distractors_' | translate }}</label>
             <div class="form-group">
                 <p>{{ '_NoDistractors_' | translate }}</p>
-                <input type="text" class="form-control" id="distractor1" maxlength="75" [(ngModel)]="newExercise.distractor1" name="distractor1" #distractor1="ngModel">
-                <input type="text" class="form-control" id="distractor2" maxlength="75" [(ngModel)]="newExercise.distractor2" name="distractor2" #distractor2="ngModel">
-                <input type="text" class="form-control" id="distractor3" maxlength="75" [(ngModel)]="newExercise.distractor3" name="distractor3" #distractor3="ngModel">
+                <input type="text" class="form-control" id="distractor1" maxlength="75" [(ngModel)]="this.distractor1" name="distractor1">
+                <input type="text" class="form-control" id="distractor2" maxlength="75" [(ngModel)]="this.distractor2" name="distractor2">
+                <input type="text" class="form-control" id="distractor3" maxlength="75" [(ngModel)]="this.distractor3" name="distractor3">
             </div>
         </div>
 
