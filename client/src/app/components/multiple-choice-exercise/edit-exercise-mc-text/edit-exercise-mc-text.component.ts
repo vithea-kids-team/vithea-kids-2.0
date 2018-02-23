@@ -114,7 +114,7 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
           (res: any) => {
 
             console.log(res);
-            
+
             this.exerciseId = res.exerciseId;
             this.exerciseId = res.exerciseId;
             this.exerciseName = res.name;

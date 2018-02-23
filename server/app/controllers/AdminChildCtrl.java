@@ -19,14 +19,13 @@ import models.Reinforcement;
 import models.ReinforcementStrategy;
 import models.Resource;
 import models.Sequence;
-import models.SequencePreferences;
 import models.SequenceExercisesCapitalization;
 import models.SequenceExercisesOrder;
+import models.SequencePreferences;
 import org.json.JSONException;
 import org.json.JSONObject;
 import play.Logger;
 import play.data.DynamicForm;
-import play.data.Form;
 import play.data.FormFactory;
 import play.db.ebean.Transactional;
 import play.libs.Json;
@@ -154,18 +153,14 @@ public class AdminChildCtrl extends Controller {
      * @return
      */
     public Result editChild(Long childId) {
-        Form<EditChild> editChildForm = formFactory.form(EditChild.class).bindFromRequest();
+        
+        DynamicForm editChildForm = formFactory.form().bindFromRequest();
 
         Logger.debug("DEBUG:" + editChildForm);
-        //getChildSequences(childId);
-
-        EditChild newUser = editChildForm.get();
-        Logger.debug("DEBUG:" + newUser.username + " " + newUser.firstName + " " + newUser.lastName + " " + newUser.gender + " " + newUser.birthDate);
 
         if (editChildForm.hasErrors()) {
             return badRequest(editChildForm.errorsAsJson());
         }
-
         Child child = Child.findByChildId(childId);
 
         if (child == null) {
@@ -173,11 +168,11 @@ public class AdminChildCtrl extends Controller {
         } else {
             Logger.debug("Editing child with id " + childId + ": " + child.getChildLogin().getUsername());
 
-            child.getChildLogin().setUsername(newUser.username);
-            child.setFirstName(newUser.firstName);
-            child.setLastName(newUser.lastName);
-            child.setGender(newUser.gender);
-            child.setBirthDate(newUser.birthDate);
+            child.getChildLogin().setUsername(editChildForm.get("username"));
+            child.setFirstName(editChildForm.get("firstName"));
+            child.setLastName(editChildForm.get("lastName"));
+            child.setGender(editChildForm.get("gender"));
+            child.setBirthDate(editChildForm.get("birthDate"));
             
             child.save();
             

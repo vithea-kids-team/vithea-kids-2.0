@@ -5,7 +5,6 @@
  */
 package controllers.ModelOperations;
 
-import static controllers.AdminExerciseCtrl.buildJsonResponse;
 import controllers.AdminLogs;
 import controllers.SecurityController;
 import static java.lang.Integer.parseInt;
@@ -25,7 +24,6 @@ import models.SequenceExercise;
 import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
-import static play.mvc.Results.badRequest;
 
 /**
  *
@@ -40,9 +38,9 @@ public class McOperations implements ExerciseOperations {
         boolean stimulus = false;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-       
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
        
+        System.out.println(registerExerciseForm);
         
         Exercise exercise = null;
         
@@ -74,17 +72,17 @@ public class McOperations implements ExerciseOperations {
         if(registerExerciseForm.get("type").equals("text")) {
             
             String sresourcesid = "";
-            
-            String answer = registerExerciseForm.get("rightAnswer");
+            List<String> rightAnswers = new ArrayList();
             List<String> distractors = new ArrayList();
-            answers++;
             
-            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("answers"))).forEachOrdered((key) -> {
+            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
+                rightAnswers.add(registerExerciseForm.data().get(key));
+            });
+            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
                 distractors.add(registerExerciseForm.data().get(key));
             });
-            answers += distractors.size();
             
-            exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusId, answer, distractors, false);
+            exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusId, rightAnswers, distractors, false);
             exercise.save();
             
             String content = stimulusId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
@@ -126,8 +124,8 @@ public class McOperations implements ExerciseOperations {
             }
             answers += distractorsResourcesIds.size();
             
-            exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds, false);
-            exercise.save();
+            //exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds, false);
+            //exercise.save();
             
             String content = answerResourceId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
                 timestamp.toLocalDateTime() + "," + "Answers" + "," + "addToExercise" + ","  + "," + "false" + "\n";
@@ -278,9 +276,9 @@ public class McOperations implements ExerciseOperations {
         if(editExerciseForm.get("type").equals("text")) {
 
             // right answer
-            String rightAnswer = editExerciseForm.get("rightAnswer");
-            exercise.getRightAnswer().setAnswerDescription(rightAnswer);
-            answers.add(exercise.getRightAnswer());
+            //String rightAnswer = editExerciseForm.get("rightAnswer");
+            //exercise.getRightAnswer().setAnswerDescription(rightAnswer);
+            //answers.add(exercise.getRightAnswer());
 
             // distractors
             List<String> distractors = new ArrayList();
@@ -299,7 +297,6 @@ public class McOperations implements ExerciseOperations {
                         toRemoveAns.delete();
                     }   
                 }
-
             }
             else if(distractors.size() <= existingAnswers.size()-1) {     // less or actual distractors than existing ones
 
@@ -331,7 +328,7 @@ public class McOperations implements ExerciseOperations {
                 }
 
                 for(int i = 0; i < toAdd.size(); i++){
-                    Answer newAns = new Answer(toAdd.get(i));
+                    Answer newAns = new Answer(toAdd.get(i), false);
                     answers.add(newAns);
                 }
             }
@@ -362,11 +359,11 @@ public class McOperations implements ExerciseOperations {
             int answerResourceId;
             try {
                 answerResourceId = parseInt(editExerciseForm.get("rightAnswerImg"));
-                Answer rightAnswer = exercise.getRightAnswer();
-                rightAnswer.setStimulus((long) answerResourceId);
-                rightAnswer.save();
+                //Answer rightAnswer = exercise.getRightAnswer();
+                //rightAnswer.setStimulus((long) answerResourceId);
+                //rightAnswer.save();
                 sresourcesid += answerResourceId + " ";
-                answers.add(rightAnswer);
+                //answers.add(rightAnswer);
             } catch (NumberFormatException e) {
                 answerResourceId = -1;
             }
@@ -433,7 +430,7 @@ public class McOperations implements ExerciseOperations {
                 }
 
                 for(int i = 0; i < toAdd.size(); i++){
-                    Answer newAns = new Answer("");
+                    Answer newAns = new Answer("", false);
                     newAns.setStimulus(toAdd.get(i));
                     answers.add(newAns);
                 }

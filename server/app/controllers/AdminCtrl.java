@@ -34,6 +34,7 @@ public class AdminCtrl extends Controller {
         
         return adminres.uploadResources(type + "_" + name);   
     }
+    
     public Result uploadCSVExercises(){
         
         Logger.debug("Uploading csv exercises");

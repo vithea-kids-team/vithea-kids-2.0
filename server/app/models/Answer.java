@@ -26,17 +26,29 @@ public class Answer extends Model {
     @Column(nullable = true)
     private MultipleChoice exercise;
     
+    private Boolean rightAnswer;
+    
     @ManyToOne(cascade = CascadeType.PERSIST)
     @Column(nullable = true)
     private Resource stimulus;
     
-    public Answer(String answer) {
+    public Answer(String answer, Boolean rightAnswer) {
         this.answerDescription = answer;
         this.stimulus = null;
+        this.rightAnswer = rightAnswer;
     }
-    Answer(Resource stimulus) {
+    Answer(Resource stimulus, Boolean rightAnswer) {
         this.answerDescription = null;
         this.stimulus = stimulus;
+        this.rightAnswer = rightAnswer;
+    }
+
+    public Boolean getRightAnswer() {
+        return rightAnswer;
+    }
+
+    public void setRightAnswer(Boolean rightAnswer) {
+        this.rightAnswer = rightAnswer;
     }
 
     /**

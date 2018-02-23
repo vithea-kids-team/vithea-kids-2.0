@@ -4,19 +4,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.ModelOperations.ContextOperation;
 import controllers.ModelOperations.ExerciseOperations;
 import controllers.ModelOperations.McOperations;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
 import java.sql.Timestamp;
 import java.util.*;
 import javax.inject.Inject;
-import models.Answer;
 import models.Caregiver;
 import models.Exercise;
 import models.Level;
 import models.MultipleChoice;
-import models.Question;
-import models.Sequence;
-import models.SequenceExercise;
 import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
@@ -29,6 +23,8 @@ public class AdminExerciseCtrl extends Controller {
     
     public AdminLogs adminLogs = new AdminLogs();
     
+    
+    //FIXME Adaptar
     public static Result registerExerciseFromCSV(String topic, String level, String question, String rightAnswer, List<String> distractors){
         
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
@@ -62,9 +58,9 @@ public class AdminExerciseCtrl extends Controller {
             levelId = levelExists.getLevelId();
         }
         
-        exercise = new MultipleChoice(loggedCaregiver, topicId, levelId, question, -1, rightAnswer, distractors, false);
+        //exercise = new MultipleChoice(loggedCaregiver, topicId, levelId, question, -1, rightAnswer, distractors, false);
         
-        exercise.save();
+        //exercise.save();
         
         return ok(Json.toJson(exercise));
     }
@@ -83,7 +79,7 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         
-        ExerciseOperations  contextExercise = new ContextOperation(registerExerciseForm.get("type")).selectExerciseOperations();
+        ExerciseOperations contextExercise = new ContextOperation(registerExerciseForm.get("type")).selectExerciseOperations();
         Exercise exercise = contextExercise.createExercise(registerExerciseForm);
          
         return ok(Json.toJson(exercise));
@@ -102,8 +98,6 @@ public class AdminExerciseCtrl extends Controller {
 
         Logger.debug("DEBUG:" + editExerciseForm);
 
-        
-        
         if (editExerciseForm.hasErrors()) {
             return badRequest(editExerciseForm.errorsAsJson());
         }
