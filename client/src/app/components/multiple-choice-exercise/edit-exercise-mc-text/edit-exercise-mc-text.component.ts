@@ -113,7 +113,7 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
         this.exercisesService.getExercise(exerciseId).subscribe(
           (res: any) => {
 
-            console.log(res);
+            console.log('exercise:' + res);
 
             this.exerciseId = res.exerciseId;
             this.exerciseId = res.exerciseId;
@@ -123,7 +123,7 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
             this.level = res.level.levelId;
             this.question = res.question.questionDescription;
             this.stimulus = res.question.stimulus;
-            //res.answers.reverse();
+            // res.answers.reverse();
 
             res.answers.forEach(element => {
               if (element.rightAnswer) {

@@ -21,10 +21,7 @@ public class Answer extends Model {
 
     private String answerDescription;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    @Column(nullable = true)
-    private MultipleChoice exercise;
+   
     
     private Boolean rightAnswer;
     
@@ -32,11 +29,22 @@ public class Answer extends Model {
     @Column(nullable = true)
     private Resource stimulus;
     
+    /**
+     * Answers of text exercises
+     * @param answer
+     * @param rightAnswer 
+     */
     public Answer(String answer, Boolean rightAnswer) {
         this.answerDescription = answer;
         this.stimulus = null;
         this.rightAnswer = rightAnswer;
     }
+    
+    /**
+     * Answers of image exercises
+     * @param stimulus
+     * @param rightAnswer 
+     */
     Answer(Resource stimulus, Boolean rightAnswer) {
         this.answerDescription = null;
         this.stimulus = stimulus;

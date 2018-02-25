@@ -24,6 +24,7 @@ import models.SequenceExercise;
 import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
+import scala.collection.concurrent.Debug;
 
 /**
  *
@@ -40,7 +41,7 @@ public class McOperations implements ExerciseOperations {
 
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
        
-        System.out.println(registerExerciseForm);
+        System.out.println("createExercise" + registerExerciseForm);
         
         Exercise exercise = null;
         
@@ -211,9 +212,9 @@ public class McOperations implements ExerciseOperations {
 
     @Override
     public Exercise editExercise(DynamicForm editExerciseForm, long exerciseId, Caregiver loggedCaregiver) {
-        
+        Debug.log(editExerciseForm);
         String sresourcesid = "";
-        MultipleChoice exercise = (MultipleChoice) Exercise.findExerciseById(exerciseId);
+        MultipleChoice exercise = (MultipleChoice) Exercise.findExerciseById(exerciseId); //getting exercise
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         
         Logger.debug("Editing exercise with id " + exerciseId);
@@ -266,7 +267,7 @@ public class McOperations implements ExerciseOperations {
 
         List<Answer> answers = new ArrayList();
         List<Answer> existingAnswers = exercise.getAnswers();
-        existingAnswers.remove(0);  // remove the right answer
+        //existingAnswers.remove(0);  // remove the right answer
 
         int answerssize = 0; 
         boolean stimulus = false;
@@ -282,57 +283,19 @@ public class McOperations implements ExerciseOperations {
 
             // distractors
             List<String> distractors = new ArrayList();
-            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("answers"))).forEachOrdered((key) -> {
+            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
                 distractors.add(editExerciseForm.data().get(key));
             });
-
-            if(distractors.size() == 0) {   // exercise without distractors
-                int sizeExistingAnswers = existingAnswers.size()-1;
-
-                if(sizeExistingAnswers>0){
-                    for(int i = sizeExistingAnswers; i >= sizeExistingAnswers; i--){
-                        Answer toRemoveAns = existingAnswers.get(i);
-                        exercise.removeAnswer(toRemoveAns);
-                        exercise.save();
-                        toRemoveAns.delete();
-                    }   
-                }
-            }
-            else if(distractors.size() <= existingAnswers.size()-1) {     // less or actual distractors than existing ones
-
-                List<Answer> toChange = existingAnswers.subList(0, distractors.size());
-                List<Answer> toRemove = existingAnswers.subList(distractors.size(), existingAnswers.size());
-
-                for(int i = 0; i < toChange.size(); i++){
-                    Answer ans = toChange.get(i);
-                    ans.setAnswerDescription(distractors.get(i));
-                    answers.add(ans);
-                }
-
-                int sizeToRemove = toRemove.size()-1;
-                for(int i = sizeToRemove; i >= sizeToRemove; i--){
-                    Answer toRemoveAns = toRemove.get(i);
-                    exercise.removeAnswer(toRemoveAns);
-                    exercise.save();
-                    toRemoveAns.delete();
-                }
-            }
-            else if(distractors.size() > existingAnswers.size()-1) {    // greater actual distractors than existing ones
-
-                List<String> toAdd = distractors.subList(existingAnswers.size(), distractors.size());
-
-                for(int i = 0; i < existingAnswers.size(); i++){
-                    Answer ans = existingAnswers.get(i);
-                    ans.setAnswerDescription(distractors.get(i));
-                    answers.add(ans);
-                }
-
-                for(int i = 0; i < toAdd.size(); i++){
-                    Answer newAns = new Answer(toAdd.get(i), false);
-                    answers.add(newAns);
-                }
-            }
-            answerssize += answers.size();
+            
+            //rightAnswers 
+            List<String> rightAnswers = new ArrayList();
+            
+             editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
+                rightAnswers.add(editExerciseForm.data().get(key));
+            });
+            
+            exercise.setAnswersText(rightAnswers, distractors);
+            
 
             // stimulus
             int stimulusId;
@@ -349,7 +312,7 @@ public class McOperations implements ExerciseOperations {
                 stimulus = false;
             }
             System.out.println("image stimulus:" + stimulusId);
-            exercise.setAnswers(answers);
+            //exercise.setAnswers(answers);
         }
         // stimulus, answer and distractors for image
         else if(editExerciseForm.get("type").equals("image")) {

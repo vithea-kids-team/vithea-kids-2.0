@@ -14,6 +14,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import static models.Exercise.find;
 import play.Logger;
@@ -46,7 +47,7 @@ public class MultipleChoice extends Exercise{
     //@OneToOne(mappedBy="exercise", cascade = CascadeType.ALL)
     //private Answer rightAnswer;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answersList;
     
     
@@ -230,6 +231,31 @@ public class MultipleChoice extends Exercise{
     }
     public void setAnswers(List<Answer> answers){
         this.answersList = answers;
+    }
+    
+    public void  setAnswersText (List<String> rightAnswers, List<String> distractors){
+      //remove all answers
+      List<Answer> arrayAux =  new ArrayList<Answer>(this.answersList);
+    
+      for(Answer a : arrayAux){
+        this.answersList.remove(a);
+        this.save();
+        a.delete();
+      }
+      
+      List<Answer> answers =  new ArrayList<Answer>();
+      for(String r : rightAnswers){
+          Answer rightAnswer = new Answer(r,true);
+          answers.add(rightAnswer);
+      }
+      
+      for(String d : distractors){
+         Answer rightAnswer = new Answer(d,false);
+        answers.add(rightAnswer);
+      }
+      
+      this.answersList = answers;
+        
     }
     
    
