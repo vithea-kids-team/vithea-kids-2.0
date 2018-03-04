@@ -27,13 +27,14 @@ export class ShowExerciseMultipleChoiceTextComponent implements OnInit {
 
     this.questionDescription = this.exercise.question.questionDescription;
     this.stimulus = this.exercise.question.stimulus;
-    this.resourcePath = this.exercise.question.stimulus.resourcePath;
-    if (this.stimulus && this.development) {
-      this.resourcePath = 'vithea-kids/assets/' + this.exercise.question.stimulus.resourcePath;
-    } else {
-      this.resourcePath = 'https://vithea.l2f.inesc-id.pt/' + this.exercise.question.stimulus.resourcePath;
+    if (this.stimulus) {
+      this.resourcePath = this.exercise.question.stimulus.resourcePath;
+      if (this.development) {
+        this.resourcePath = 'vithea-kids/assets/' + this.exercise.question.stimulus.resourcePath;
+      } else {
+        this.resourcePath = 'https://vithea.l2f.inesc-id.pt/' + this.exercise.question.stimulus.resourcePath;
+      }
     }
-    this.rightAnswer = this.exercise.rightAnswer;
     this.answers = this.exercise.answers;
     this.topic = this.exercise.topic.topicDescription;
     this.level = this.exercise.level.levelDescription;

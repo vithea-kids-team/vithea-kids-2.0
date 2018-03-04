@@ -34,7 +34,7 @@ export class UtilsExercisesService {
             return  false;
           }
         }
-      }
+    }
 
     validateRightAnswerImage(rightAnswer) {
         if (rightAnswer.length === 0) {
