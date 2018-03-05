@@ -120,12 +120,9 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
                 resTopics => {
                     this.topics = resTopics;
                     this.loading = false;
-                }
-            )
-          }
-        )
-      }
-    )
+                })
+          })
+      })
     this.editExercise.type = 'text';
     this.editExercise.answers = [];
     this.editExercise.distractors = [];
@@ -174,7 +171,7 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
                 break;
               }
             }
-            
+
             this.numDistractors = this.distractors.length;
             switch (this.numDistractors) {
               case 1: {

@@ -24,12 +24,13 @@ export class EditExerciseMultipleChoiceImageComponent implements OnInit {
   public error: string = undefined;
   public loading = false;
   public type = '';
-  public rightAnswerTextError;
-  public rightAnswerImageError;
+  public rightAnswerTextError = false;
+  public rightAnswerImageError = false;
   public topicError;
   public levelError;
   public questionError;
 
+   // temp vars
   public rightAnswerImgs1 = [];
   public rightAnswerImgs2 = [];
   public rightAnswerImgs3 = [];
@@ -44,14 +45,14 @@ export class EditExerciseMultipleChoiceImageComponent implements OnInit {
   public numRightAnswers = 1;
   public numDistractors = 1;
   public stimulus;
-  public distractors = [];
-  public rightAnswers = [];
   public rightAnswerImg1;
   public rightAnswerImg2;
   public rightAnswerImg3;
   public distractorImg1;
   public distractorImg2;
   public distractorImg3;
+  public distractors = [];
+  public rightAnswers = [];
 
   constructor(public modal: Modal, public route: ActivatedRoute, public resourcesService: ResourcesService,
     public exercisesService: ExercisesService, public router: Router, public location: Location,
@@ -67,14 +68,45 @@ export class EditExerciseMultipleChoiceImageComponent implements OnInit {
       this.questionError = this.utilsService.validateQuestion(this.question);
     }
     validateRightAnswerImage() {
-      this.rightAnswerImageError = false;
-      /*
-        if (this.number < 2 ) {
-          this.number++;
-        } else {
-          const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
+      if (this.rightAnswerImgs1.length === 0) {
+        return false;
+      }
+
+      switch (this.numRightAnswers) {
+        case 1: {
+          const rightAnswer = this.rightAnswerImgs1.filter((rAnswer) => { return rAnswer.selected; });
           this.rightAnswerImageError = this.utilsService.validateRightAnswerImage(rightAnswer);
-       }*/
+          break;
+        }
+        case 2: {
+          const rightAnswer1 = this.rightAnswerImgs1.filter((rAnswer) => { return rAnswer.selected; });
+          const rightAnswer2 = this.rightAnswerImgs2.filter((rAnswer) => { return rAnswer.selected; });
+          let res1 = this.utilsService.validateRightAnswerImage(rightAnswer1);
+          let res2 = this.utilsService.validateRightAnswerImage(rightAnswer2);
+          if (res1 === true || res2 === true) {
+            this.rightAnswerImageError = true;
+          }
+          if (res1 === false || res2 === false) {
+            this.rightAnswerImageError = false;
+          }
+          break;
+        }
+        case 3: {
+          const rightAnswer1 = this.rightAnswerImgs1.filter((rAnswer) => { return rAnswer.selected; });
+          const rightAnswer2 = this.rightAnswerImgs2.filter((rAnswer) => { return rAnswer.selected; });
+          const rightAnswer3 = this.rightAnswerImgs3.filter((rAnswer) => { return rAnswer.selected; });
+          let res1 = this.utilsService.validateRightAnswerImage(rightAnswer1);
+          let res2 = this.utilsService.validateRightAnswerImage(rightAnswer2);
+          let res3 = this.utilsService.validateRightAnswerImage(rightAnswer3);
+          if (res1 === true || res2 === true || res3 === true) {
+            this.rightAnswerImageError = true;
+          }
+          if (res1 === false || res2 === false || res3 === false) {
+            this.rightAnswerImageError = false;
+          }
+          break;
+        }
+      }
     }
 
   submit () {
@@ -101,9 +133,7 @@ export class EditExerciseMultipleChoiceImageComponent implements OnInit {
         this.distractorImgs1 = JSON.parse(JSON.stringify(temp));
         this.distractorImgs2 = JSON.parse(JSON.stringify(temp));
         this.distractorImgs3 = JSON.parse(JSON.stringify(temp));
-
         this.loading = false;
-
         this.resourcesService.fetchLevels().subscribe(
           resLevels => {
               this.levels = resLevels;
@@ -111,14 +141,9 @@ export class EditExerciseMultipleChoiceImageComponent implements OnInit {
                 resTopics => {
                     this.topics = resTopics;
                     this.loading = false;
-                }
-            )
-          }
-        )
-      }
-    )
-    this.loading = false;
-
+                })
+          })
+      })
     this.editExercise.type = 'image';
     this.editExercise.answers = [];
     this.editExercise.distractors = [];
@@ -183,6 +208,7 @@ export class EditExerciseMultipleChoiceImageComponent implements OnInit {
                 break;
               }
             }
+            this.loading = false;
           },
           err => {
             console.error('Error getting exercise.', err);
@@ -233,7 +259,7 @@ export class EditExerciseMultipleChoiceImageComponent implements OnInit {
       this.editExercise.distractors.push(distractor3[0].resourceId);
     }
 
-      const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
+    const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
       .title('Editar exercício').body(`Tem a certeza que pretende editar o exercício?`).open();
 
       dialogRef.then(dialogRef2 => { dialogRef2.result.then(result => {

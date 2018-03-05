@@ -1,6 +1,5 @@
 <loader *ngIf="loading"></loader>
 <div class="container" *ngIf="!loading">
-
     <div style="height: 50px;">
             <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
         </div>
@@ -62,14 +61,13 @@
                         <image-picker *ngIf=!loading id="rightAnswerImgs2" [(ngModel)]="rightAnswerImgs2" [multiSelect]="false" [selected]="this.rightAnswerImg2" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs2"> </image-picker>
                     </div>
                     <div *ngIf="numRightAnswers >= 3" style="max-height: 100px; overflow-y: auto;">
-                        <image-picker *ngIf=!loading id="rightAnswerImgs3" [(ngModel)]="rightAnswerImgs3" [multiSelect]="false" [selected]="this.rightAnswerImg3" (onSelected)="validateRightAnswerImage()" name="rightAnswerImg3s"> </image-picker>
+                        <image-picker *ngIf=!loading id="rightAnswerImgs3" [(ngModel)]="rightAnswerImgs3" [multiSelect]="false" [selected]="this.rightAnswerImg3" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs3"> </image-picker>
                     </div>
-                    <div>
-                        <a *ngIf="numRightAnswers < 3 && rightAnswerImgs?.length != 0" type="button " (click)="addRightAnswer()" class="btn btn-primary "> 
+
+                        <a *ngIf="numRightAnswers < 3" type="button " (click)="addRightAnswer()" class="btn btn-primary "> 
                                 <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar resposta
                             </a>
-                        <div *ngIf="rightAnswerImageError" class="alert alert-danger"> {{ '_RequiredRightAnswerImage_' | translate }} </div>
-                    </div>
+                        <div *ngIf="rightAnswerImageError && !rightAnswerImgs1.length===0" class="alert alert-danger"> {{ '_RequiredRightAnswerImage_' | translate }} </div>
             </div>
     
             <div class="row">
@@ -87,7 +85,7 @@
                             <image-picker *ngIf=!loading id="distractorImgs3" [(ngModel)]="distractorImgs3" [multiSelect]="false" [selected]="this.distractorImg3" name="distractorImgs3"> </image-picker>
                         </div>
                         <div>
-                            <a *ngIf="numDistractors < 3 && distractorImgs?.length != 0" type="button " (click)="addDistractor()" class="btn btn-primary "> 
+                            <a *ngIf="numDistractors < 3" type="button " (click)="addDistractor()" class="btn btn-primary "> 
                                 <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar distrator
                             </a>
                         </div>

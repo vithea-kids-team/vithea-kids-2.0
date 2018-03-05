@@ -24,12 +24,11 @@ export class AddExerciseMultipleChoiceImageComponent implements OnInit {
   public error: string = undefined;
   public loading = false;
   public type = '';
-  public rightAnswerTextError;
-  public rightAnswerImageError;
+  public rightAnswerTextError = false;
+  public rightAnswerImageError = false;
   public topicError;
   public levelError;
   public questionError;
-  public number = 0;
 
 
  // temp vars
@@ -64,14 +63,41 @@ export class AddExerciseMultipleChoiceImageComponent implements OnInit {
     this.questionError = this.utilsService.validateQuestion(this.question);
   }
   validateRightAnswerImage() {
-    this.rightAnswerImageError = false;
-    /*
-      if (this.number < 2 ) {
-        this.number++;
-      } else {
-        const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
+    switch (this.numRightAnswers) {
+      case 1: {
+        const rightAnswer = this.rightAnswerImgs1.filter((rAnswer) => { return rAnswer.selected; });
         this.rightAnswerImageError = this.utilsService.validateRightAnswerImage(rightAnswer);
-     }*/
+        break;
+      }
+      case 2: {
+        const rightAnswer1 = this.rightAnswerImgs1.filter((rAnswer) => { return rAnswer.selected; });
+        const rightAnswer2 = this.rightAnswerImgs2.filter((rAnswer) => { return rAnswer.selected; });
+        let res1 = this.utilsService.validateRightAnswerImage(rightAnswer1);
+        let res2 = this.utilsService.validateRightAnswerImage(rightAnswer2);
+        if (res1 === true || res2 === true) {
+          this.rightAnswerImageError = true;
+        }
+        if (res1 === false || res2 === false) {
+          this.rightAnswerImageError = false;
+        }
+        break;
+      }
+      case 3: {
+        const rightAnswer1 = this.rightAnswerImgs1.filter((rAnswer) => { return rAnswer.selected; });
+        const rightAnswer2 = this.rightAnswerImgs2.filter((rAnswer) => { return rAnswer.selected; });
+        const rightAnswer3 = this.rightAnswerImgs3.filter((rAnswer) => { return rAnswer.selected; });
+        let res1 = this.utilsService.validateRightAnswerImage(rightAnswer1);
+        let res2 = this.utilsService.validateRightAnswerImage(rightAnswer2);
+        let res3 = this.utilsService.validateRightAnswerImage(rightAnswer3);
+        if (res1 === true || res2 === true || res3 === true) {
+          this.rightAnswerImageError = true;
+        }
+        if (res1 === false || res2 === false || res3 === false) {
+          this.rightAnswerImageError = false;
+        }
+        break;
+      }
+    }
   }
 
   submit () {
@@ -110,11 +136,11 @@ export class AddExerciseMultipleChoiceImageComponent implements OnInit {
                 })
           })
       })
+      this.newExercise.type = 'image';
     this.loading = false;
     this.newExercise.answers = [];
     this.newExercise.rightAnswers = [];
     this.newExercise.distractors = [];
-    this.newExercise.type = 'image';
   }
 
   registerMultipleChoiceImageExercise() {

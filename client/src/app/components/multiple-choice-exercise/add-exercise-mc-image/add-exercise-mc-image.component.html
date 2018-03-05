@@ -68,7 +68,7 @@
                     <a *ngIf="numRightAnswers < 3 && rightAnswerImgs?.length != 0" type="button " (click)="addRightAnswer()" class="btn btn-primary "> 
                             <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar resposta
                         </a>
-                    <div *ngIf="rightAnswerImageError" class="alert alert-danger"> {{ '_RequiredRightAnswerImage_' | translate }} </div>
+                    <div *ngIf="rightAnswerImageError && !rightAnswerImgs1.length===0" class="alert alert-danger"> {{ '_RequiredRightAnswerImage_' | translate }} </div>
                 </div>
         </div>
 

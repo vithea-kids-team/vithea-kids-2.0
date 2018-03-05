@@ -188,8 +188,6 @@ submit () {
             this.exercisesService.setSuccess(false);
             this.exercisesService.setFailure(true);
             this.exercisesService.setTextFailure('Não foi possível registar o exercício.');
-            //this.newExercise.answers = [];
-            //this.newExercise.answersImg = [];
           }
         );
       } else {
