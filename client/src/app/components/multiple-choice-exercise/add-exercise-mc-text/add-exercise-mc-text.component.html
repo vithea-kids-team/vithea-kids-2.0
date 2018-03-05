@@ -57,14 +57,14 @@
         <div class="row">
             <label for="answer"> {{ '_Answer_' | translate }} <span class="text-danger"> * </span></label>
             <div>
-                <input type="text" class="form-control" id="rightAnswer1" maxlength="75" [(ngModel)]="this.rightAnswer1" (ngModelChange)="validateRightAnswerText()" name="rightAnswer1">
-                <!--<input type="text" class="form-control" id="rightAnswer2" maxlength="75" [(ngModel)]="this.rightAnswer2" (ngModelChange)="validateRightAnswerText()" name="rightAnswer2">
-                <input type="text" class="form-control" id="rightAnswer3" maxlength="75" [(ngModel)]="this.rightAnswer3" (ngModelChange)="validateRightAnswerText()" name="rightAnswer3">
-                -->
-                <button [routerLink]="[ '/exercises'] " type="button " class="btn btn-primary "> 
+                <input *ngIf="numRightAnswers >= 1" type="text" class="form-control" id="rightAnswer1" maxlength="75" [(ngModel)]="this.rightAnswer1" (ngModelChange)="validateRightAnswerText()" name="rightAnswer1">
+                <input *ngIf="numRightAnswers >= 2" type="text" class="form-control" id="rightAnswer2" maxlength="75" [(ngModel)]="this.rightAnswer2" (ngModelChange)="validateRightAnswerText()" name="rightAnswer2">
+                <input *ngIf="numRightAnswers == 3" type="text" class="form-control" id="rightAnswer3" maxlength="75" [(ngModel)]="this.rightAnswer3" (ngModelChange)="validateRightAnswerText()" name="rightAnswer3">
+                
+                <a *ngIf="numRightAnswers < 3" type="button " (click)="addRightAnswer()" class="btn btn-primary "> 
                     <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar resposta correcta
-                 </button>
-                 <div *ngIf="rightAnswerTextError" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
+                </a>
+                <div *ngIf="rightAnswerTextError" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
             </div>
         </div>
 
@@ -73,9 +73,13 @@
             <label for="answers"> {{ '_Distractors_' | translate }}</label>
             <div class="form-group">
                 <p>{{ '_NoDistractors_' | translate }}</p>
-                <input type="text" class="form-control" id="distractor1" maxlength="75" [(ngModel)]="this.distractor1" name="distractor1">
-                <input type="text" class="form-control" id="distractor2" maxlength="75" [(ngModel)]="this.distractor2" name="distractor2">
-                <input type="text" class="form-control" id="distractor3" maxlength="75" [(ngModel)]="this.distractor3" name="distractor3">
+                <input *ngIf="numDistractors >= 1"  type="text" class="form-control" id="distractor1" maxlength="75" [(ngModel)]="this.distractor1" name="distractor1">
+                <input *ngIf="numDistractors >= 2" type="text" class="form-control" id="distractor2" maxlength="75" [(ngModel)]="this.distractor2" name="distractor2">
+                <input *ngIf="numDistractors == 3" type="text" class="form-control" id="distractor3" maxlength="75" [(ngModel)]="this.distractor3" name="distractor3">
+
+                <a *ngIf="numDistractors < 3" type="button " (click)="addDistractor()" class="btn btn-primary "> 
+                    <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar distractor
+                </a>
             </div>
         </div>
 

@@ -39,6 +39,8 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
   public topic;
   public level;
   public question;
+  public numRightAnswers;
+  public numDistractors;
   public distractor1;
   public distractor2;
   public distractor3;
@@ -63,9 +65,37 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
     this.questionError = this.utilsService.validateQuestion(this.question);
   }
   validateRightAnswerText() {
-    this.rightAnswerTextError = false;
-    //this.utilsService.validateRightAnswerText(this.newExercise.rightAnswer);
-  }
+    switch (this.numRightAnswers) {
+      case 1: {
+        this.rightAnswerTextError = this.utilsService.validateRightAnswerText(this.rightAnswer1);
+        break;
+      }
+      case 2: {
+        let res1 = this.utilsService.validateRightAnswerText(this.rightAnswer1);
+        let res2 = this.utilsService.validateRightAnswerText(this.rightAnswer2);
+        if (res1 === true || res2 === true) {
+          this.rightAnswerTextError = true;
+        }
+        if (res1 === false || res2 === false) {
+          this.rightAnswerTextError = false;
+        }
+
+        break;
+      }
+      case 3: {
+        let res1 = this.utilsService.validateRightAnswerText(this.rightAnswer1);
+        let res2 = this.utilsService.validateRightAnswerText(this.rightAnswer2);
+        let res3 = this.utilsService.validateRightAnswerText(this.rightAnswer3);
+        if (res1 === true || res2 === true || res3 === true) {
+          this.rightAnswerTextError = true;
+        }
+        if (res1 === false || res2 === false || res3 === false) {
+          this.rightAnswerTextError = false;
+        }
+        break;
+      }
+    }
+}
 
   submit () {
     this.validateTopic();
@@ -134,7 +164,8 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
             });
 
             // add boolean
-            switch (this.rightAnswers.length) {
+            this.numRightAnswers = this.rightAnswers.length;
+            switch (this.numRightAnswers) {
               case 1: {
                 this.rightAnswer1 = this.rightAnswers[0].answerDescription;
                 break;
@@ -150,7 +181,8 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
               }
             }
 
-            switch (this.distractors.length) {
+            this.numDistractors = this.distractors.length;
+            switch (this.numDistractors) {
               case 1: {
                 this.distractor1 = this.distractors[0].answerDescription;
                 break;
@@ -246,6 +278,14 @@ editMultipleChoiceTextExercise() {
       }
     }).catch(() => {});
   });
+}
+
+addRightAnswer() {
+  this.numRightAnswers++;
+}
+
+addDistractor() {
+  this.numDistractors++;
 }
 
   goBack() {

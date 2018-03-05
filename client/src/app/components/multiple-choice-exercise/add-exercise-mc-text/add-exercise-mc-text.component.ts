@@ -38,6 +38,8 @@ export class AddExerciseMultipleChoiceTextComponent implements OnInit {
   public topic;
   public level;
   public question;
+  public numRightAnswers = 1;
+  public numDistractors = 1;
   public distractor1;
   public distractor2;
   public distractor3;
@@ -61,9 +63,36 @@ export class AddExerciseMultipleChoiceTextComponent implements OnInit {
       this.questionError = this.utilsService.validateQuestion(this.question);
     }
     validateRightAnswerText() {
-      this.rightAnswerTextError = false;
-      //this.utilsService.validateRightAnswerText(this.newExercise.rightAnswer);
-    }
+      switch (this.numRightAnswers) {
+        case 1: {
+          this.rightAnswerTextError = this.utilsService.validateRightAnswerText(this.rightAnswer1);
+          break;
+        }
+        case 2: {
+          let res1 = this.utilsService.validateRightAnswerText(this.rightAnswer1);
+          let res2 = this.utilsService.validateRightAnswerText(this.rightAnswer2);
+          if (res1 === true || res2 === true) {
+            this.rightAnswerTextError = true;
+          }
+          if (res1 === false || res2 === false) {
+            this.rightAnswerTextError = false;
+          }
+          break;
+        }
+        case 3: {
+          let res1 = this.utilsService.validateRightAnswerText(this.rightAnswer1);
+          let res2 = this.utilsService.validateRightAnswerText(this.rightAnswer2);
+          let res3 = this.utilsService.validateRightAnswerText(this.rightAnswer3);
+          if (res1 === true || res2 === true || res3 === true) {
+            this.rightAnswerTextError = true;
+          }
+          if (res1 === false || res2 === false || res3 === false) {
+            this.rightAnswerTextError = false;
+          }
+          break;
+        }
+      }
+  }
 
 
 submit () {
@@ -167,7 +196,15 @@ submit () {
         this.goBack();
       }
     }).catch(() => {})});
-}
+  }
+
+  addRightAnswer() {
+    this.numRightAnswers++;
+  }
+
+  addDistractor() {
+    this.numDistractors++;
+  }
 
   goBack() {
     this.location.back();

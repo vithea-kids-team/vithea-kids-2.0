@@ -1,6 +1,6 @@
 
 <h4> {{ truncate(this.questionDescription, 50)}}</h4>
-<img class="thumbnail" [src]="this.resourcePath">
+<img *ngIf="this.stimulus" class="thumbnail" [src]="this.resourcePath">
 <p>{{ truncate(this.topic, 25) }}&emsp;&emsp;{{ truncate(this.level, 25) }}</p>
 <div class="col-md-6 col-sm-6" *ngFor="let answer of this.answers">
         <span *ngIf="answer.rightAnswer" class="glyphicon glyphicon-check" style="font-size: small;"></span>
