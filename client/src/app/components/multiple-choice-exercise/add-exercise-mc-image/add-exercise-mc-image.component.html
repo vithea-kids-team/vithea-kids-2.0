@@ -56,13 +56,13 @@
             <p> {{ '_SelectImagesAnswer_' | translate }}</p>
             <em *ngIf="rightAnswerImgs1?.length === 0">{{ '_NoResources_' | translate }}</em>
                 <div *ngIf="numRightAnswers >= 1" style="max-height: 100px; overflow-y: auto;">
-                    <image-picker *ngIf=!loading id="rightAnswerImgs1" [(ngModel)]="rightAnswerImgs1" [multiSelect]="false" [selected]="this.rightAnswerImgs1" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs"> </image-picker>
+                    <image-picker *ngIf=!loading id="rightAnswerImgs1" [(ngModel)]="rightAnswerImgs1" [multiSelect]="false" [selected]="this.rightAnswerImgs1" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs1"> </image-picker>
                 </div>
                 <div *ngIf="numRightAnswers >= 2" style="max-height: 100px; overflow-y: auto;">
-                    <image-picker *ngIf=!loading id="rightAnswerImgs2" [(ngModel)]="rightAnswerImgs2" [multiSelect]="false" [selected]="this.rightAnswerImgs2" (onSelected)="validateRightAnswerImage()" name="rightAnswerImg2"> </image-picker>
+                    <image-picker *ngIf=!loading id="rightAnswerImgs2" [(ngModel)]="rightAnswerImgs2" [multiSelect]="false" [selected]="this.rightAnswerImgs2" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs2"> </image-picker>
                 </div>
                 <div *ngIf="numRightAnswers >= 3" style="max-height: 100px; overflow-y: auto;">
-                    <image-picker *ngIf=!loading id="rightAnswerImgs3" [(ngModel)]="rightAnswerImgs3" [multiSelect]="false" [selected]="this.rightAnswerImgs3" (onSelected)="validateRightAnswerImage()" name="rightAnswerImg3"> </image-picker>
+                    <image-picker *ngIf=!loading id="rightAnswerImgs3" [(ngModel)]="rightAnswerImgs3" [multiSelect]="false" [selected]="this.rightAnswerImgs3" (onSelected)="validateRightAnswerImage()" name="rightAnswerImgs3"> </image-picker>
                 </div>
                 <div>
                     <a *ngIf="numRightAnswers < 3 && rightAnswerImgs?.length != 0" type="button " (click)="addRightAnswer()" class="btn btn-primary "> 

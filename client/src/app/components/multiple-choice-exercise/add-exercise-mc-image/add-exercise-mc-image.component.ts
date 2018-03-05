@@ -19,12 +19,6 @@ import { UtilsExercisesService} from '../../../services/utils/utils-exercises.se
 export class AddExerciseMultipleChoiceImageComponent implements OnInit {
 
   public newExercise = new Exercise();
-  public rightAnswerImgs1 = [];
-  public rightAnswerImgs2 = [];
-  public rightAnswerImgs3 = [];
-  public distractorImgs1 = [];
-  public distractorImgs2 = [];
-  public distractorImgs3 = [];
   public topics = [];
   public levels = [];
   public error: string = undefined;
@@ -39,6 +33,12 @@ export class AddExerciseMultipleChoiceImageComponent implements OnInit {
 
 
  // temp vars
+ public rightAnswerImgs1 = [];
+ public rightAnswerImgs2 = [];
+ public rightAnswerImgs3 = [];
+ public distractorImgs1 = [];
+ public distractorImgs2 = [];
+ public distractorImgs3 = [];
  public exerciseId;
  public exerciseName;
  public topic;

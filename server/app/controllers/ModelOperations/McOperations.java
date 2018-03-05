@@ -12,7 +12,6 @@ import static java.lang.Long.parseLong;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import models.Answer;
 import models.Caregiver;
 import models.Exercise;
@@ -296,10 +295,6 @@ public class McOperations implements ExerciseOperations {
         exercise.getQuestion().setQuestionDescription(question);
         exercise.setExerciseName(question);
 
-        List<Answer> answers = new ArrayList();
-        List<Answer> existingAnswers = exercise.getAnswers();
-        //existingAnswers.remove(0);  // remove the right answer
-
         int answerssize = 0; 
         boolean stimulus = false;
 
@@ -315,10 +310,10 @@ public class McOperations implements ExerciseOperations {
             List<String> distractors = new ArrayList<String>();
             
             editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
-                rightAnswers.add(Long.parseLong(editExerciseForm.data().get(key)));
+                rightAnswers.add(editExerciseForm.data().get(key));
             });
             editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
-                distractors.add(Long.parseLong(editExerciseForm.data().get(key)));
+                distractors.add(editExerciseForm.data().get(key));
             });
             
             exercise.setAnswersText(rightAnswers, distractors);
@@ -339,7 +334,6 @@ public class McOperations implements ExerciseOperations {
                 stimulus = false;
             }
             System.out.println("image stimulus:" + stimulusId);
-            //exercise.setAnswers(answers);
         }
         // stimulus, answer and distractors for image
         else if(editExerciseForm.get("type").equals("image")) {
@@ -359,8 +353,7 @@ public class McOperations implements ExerciseOperations {
 
             exercise.setAnswersImg(rightAnswers, distractors);
 
-
-            // stimulus 
+            // stimulus
             String stimulusText = editExerciseForm.get("stimulusText");
             exercise.getQuestion().setStimulusText(stimulusText);
             if(stimulusText != null) {

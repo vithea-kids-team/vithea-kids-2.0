@@ -141,9 +141,6 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
       } else if (exerciseId) {
         this.exercisesService.getExercise(exerciseId).subscribe(
           (res: any) => {
-
-            console.log('exercise:' + res);
-
             this.exerciseId = res.exerciseId;
             this.exerciseId = res.exerciseId;
             this.exerciseName = res.name;
@@ -152,7 +149,6 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
             this.level = res.level.levelId;
             this.question = res.question.questionDescription;
             this.stimulus = res.question.stimulus;
-            // res.answers.reverse();
 
             res.answers.forEach(element => {
               if (element.rightAnswer) {
@@ -162,7 +158,6 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
               }
             });
 
-            // add boolean
             this.numRightAnswers = this.rightAnswers.length;
             switch (this.numRightAnswers) {
               case 1: {
@@ -179,7 +174,7 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
                 break;
               }
             }
-
+            
             this.numDistractors = this.distractors.length;
             switch (this.numDistractors) {
               case 1: {
@@ -209,9 +204,6 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
 
 editMultipleChoiceTextExercise() {
     this.error = undefined;
-
-    //this.editExercise.rightAnswers = [];
-    //this.editExercise.distractors = [];
 
     this.editExercise.level = this.level;
     this.editExercise.topic = this.topic;
@@ -244,13 +236,6 @@ editMultipleChoiceTextExercise() {
     if (this.distractor3 !== '' && this.distractor3 !== undefined) {
       this.editExercise.distractors.push(this.distractor3);
     }
-
-    console.log(this.rightAnswer1);
-    console.log(this.rightAnswer2);
-    console.log(this.rightAnswer3);
-    console.log(this.distractor1);
-    console.log(this.distractor2);
-    console.log(this.distractor3);
 
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Editar exercício').body(`Tem a certeza que pretende editar o exercício?`).open();
