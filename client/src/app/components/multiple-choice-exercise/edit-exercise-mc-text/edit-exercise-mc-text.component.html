@@ -62,7 +62,7 @@
                 <input *ngIf="numRightAnswers == 3" type="text" class="form-control" id="rightAnswer3" maxlength="75" [(ngModel)]="this.rightAnswer3" (ngModelChange)="validateRightAnswerText()" name="rightAnswer3">
                 
                 <a *ngIf="numRightAnswers < 3" type="button " (click)="addRightAnswer()" class="btn btn-primary "> 
-                    <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar resposta correcta
+                    <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar resposta
                 </a>
                 <div *ngIf="rightAnswerTextError" class="alert alert-danger"> {{ '_RequiredRightAnswer_' | translate }} </div>
             </div>

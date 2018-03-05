@@ -19,45 +19,59 @@ import { UtilsExercisesService} from '../../../services/utils/utils-exercises.se
 export class AddExerciseMultipleChoiceImageComponent implements OnInit {
 
   public newExercise = new Exercise();
-  public question = '';
-  public rightAnswerImgs = [];
-  public answersImgs1 = [];
-  public answersImgs2 = [];
-  public answersImgs3 = [];
+  public rightAnswerImgs1 = [];
+  public rightAnswerImgs2 = [];
+  public rightAnswerImgs3 = [];
+  public distractorImgs1 = [];
+  public distractorImgs2 = [];
+  public distractorImgs3 = [];
   public topics = [];
   public levels = [];
   public error: string = undefined;
   public loading = false;
   public type = '';
-
   public rightAnswerTextError;
   public rightAnswerImageError;
   public topicError;
   public levelError;
   public questionError;
-
   public number = 0;
+
+
+ // temp vars
+ public exerciseId;
+ public exerciseName;
+ public topic;
+ public level;
+ public question;
+ public numRightAnswers = 1;
+ public numDistractors = 1;
+ public stimulus;
+ public distractors = [];
+ public rightAnswers = [];
 
   constructor(public modal: Modal, public route: ActivatedRoute, public resourcesService: ResourcesService,
     public exercisesService: ExercisesService, public router: Router, public location: Location,
     public utilsService: UtilsExercisesService) {}
 
   validateTopic() {
-    this.topicError = this.utilsService.validateTopic(this.newExercise.topic);
+    this.topicError = this.utilsService.validateTopic(this.topic);
   }
   validateLevel() {
-    this.levelError = this.utilsService.validateLevel(this.newExercise.level);
+    this.levelError = this.utilsService.validateLevel(this.level);
   }
   validateQuestion() {
-    this.questionError = this.utilsService.validateQuestion(this.newExercise.question);
+    this.questionError = this.utilsService.validateQuestion(this.question);
   }
   validateRightAnswerImage() {
+    this.rightAnswerImageError = false;
+    /*
       if (this.number < 2 ) {
         this.number++;
       } else {
         const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
         this.rightAnswerImageError = this.utilsService.validateRightAnswerImage(rightAnswer);
-     }
+     }*/
   }
 
   submit () {
@@ -76,10 +90,14 @@ export class AddExerciseMultipleChoiceImageComponent implements OnInit {
     this.loading = true;
     this.resourcesService.fetchResources().subscribe(
       resResources => {
-        this.rightAnswerImgs = this.resourcesService.getResourcesByType('stimuli');
-        this.answersImgs1 = this.resourcesService.getResourcesByType('stimuli');
-        this.answersImgs2 = this.resourcesService.getResourcesByType('stimuli');
-        this.answersImgs3 = this.resourcesService.getResourcesByType('stimuli');
+        let temp = this.resourcesService.getResourcesByType('stimuli');
+
+        this.rightAnswerImgs1 = JSON.parse(JSON.stringify(temp));
+        this.rightAnswerImgs2 = JSON.parse(JSON.stringify(temp));
+        this.rightAnswerImgs3 = JSON.parse(JSON.stringify(temp));
+        this.distractorImgs1 = JSON.parse(JSON.stringify(temp));
+        this.distractorImgs2 = JSON.parse(JSON.stringify(temp));
+        this.distractorImgs3 = JSON.parse(JSON.stringify(temp));
         this.loading = false;
 
         this.resourcesService.fetchLevels().subscribe(
@@ -93,30 +111,49 @@ export class AddExerciseMultipleChoiceImageComponent implements OnInit {
           })
       })
     this.loading = false;
-
+    this.newExercise.answers = [];
+    this.newExercise.rightAnswers = [];
+    this.newExercise.distractors = [];
     this.newExercise.type = 'image';
-    this.newExercise.answersImg = [];
   }
 
   registerMultipleChoiceImageExercise() {
-    this.error = undefined;
+      this.error = undefined;
 
-      const rightAnswer = this.rightAnswerImgs.filter((rAnswer) => { return rAnswer.selected; });
-      const answersImg1 = this.answersImgs1.filter((stimulus) => { return stimulus.selected; });
-      const answersImg2 = this.answersImgs2.filter((stimulus) => { return stimulus.selected; });
-      const answersImg3 = this.answersImgs3.filter((stimulus) => { return stimulus.selected; });
+      this.newExercise.topic = this.topic;
+      this.newExercise.level = this.level;
+      this.newExercise.question = this.question;
+      if (this.stimulus !== '') {
+        this.newExercise.stimulusText = this.stimulus;
+      } else {
+        this.newExercise.stimulusText = null;
+      }
 
-      if (rightAnswer.length > 0) {
-        this.newExercise.rightAnswerImg = rightAnswer[0].resourceId;
+      const rightAnswer1 = this.rightAnswerImgs1.filter((rAnswer) => { return rAnswer.selected; });
+      const rightAnswer2 = this.rightAnswerImgs2.filter((rAnswer) => { return rAnswer.selected; });
+      const rightAnswer3 = this.rightAnswerImgs3.filter((rAnswer) => { return rAnswer.selected; });
+      const distractor1 = this.distractorImgs1.filter((stimulus) => { return stimulus.selected; });
+      const distractor2 = this.distractorImgs2.filter((stimulus) => { return stimulus.selected; });
+      const distractor3 = this.distractorImgs3.filter((stimulus) => { return stimulus.selected; });
+
+      if (rightAnswer1.length === 1) {
+        this.newExercise.rightAnswers.push(rightAnswer1[0].resourceId);
       }
-      if (answersImg1.length === 1) {
-        this.newExercise.answersImg.push(answersImg1[0].resourceId);
+      if (rightAnswer2.length === 1) {
+        this.newExercise.rightAnswers.push(rightAnswer2[0].resourceId);
       }
-      if (answersImg2.length === 1) {
-        this.newExercise.answersImg.push(answersImg2[0].resourceId);
+      if (rightAnswer3.length === 1) {
+        this.newExercise.rightAnswers.push(rightAnswer3[0].resourceId);
       }
-      if (answersImg3.length === 1) {
-        this.newExercise.answersImg.push(answersImg3[0].resourceId);
+
+      if (distractor1.length === 1) {
+        this.newExercise.distractors.push(distractor1[0].resourceId);
+      }
+      if (distractor2.length === 1) {
+        this.newExercise.distractors.push(distractor2[0].resourceId);
+      }
+      if (distractor3.length === 1) {
+        this.newExercise.distractors.push(distractor3[0].resourceId);
       }
 
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
@@ -141,13 +178,20 @@ export class AddExerciseMultipleChoiceImageComponent implements OnInit {
             this.exercisesService.setFailure(true);
             this.exercisesService.setTextFailure('Não foi possível registar o exercício.');
             this.newExercise.answers = [];
-            this.newExercise.answersImg = [];
           }
         );
       } else {
         this.goBack();
       }
     }).catch(() => {})});
+  }
+
+  addRightAnswer() {
+    this.numRightAnswers++;
+  }
+
+  addDistractor() {
+    this.numDistractors++;
   }
 
   goBack() {

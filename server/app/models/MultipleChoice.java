@@ -12,7 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -130,10 +129,6 @@ public class MultipleChoice extends Exercise{
         }
         
         List<Answer> answers = new ArrayList();
-        
-        //Resource rightAnswer = Resource.findById(answerResourceId);
-        //this.rightAnswer = new Answer(rightAnswer, true);
-        //answers.add(this.rightAnswer);
         
         for(Long a : rightAnswersResourceIds) {
             System.out.println("rightAnswer id: " + a);

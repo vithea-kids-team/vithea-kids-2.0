@@ -6,8 +6,4 @@
         <span *ngIf="answer.rightAnswer" class="glyphicon glyphicon-check" style="font-size: small;"></span>
         <span *ngIf="!answer.rightAnswer" class="glyphicon glyphicon-unchecked" style="font-size: small;"></span> 
         {{ truncate(answer?.answerDescription, 25) }}
-
-
-<!--        <span *ngIf="distractor.answerId !== this.rightAnswer.answerId" class="glyphicon glyphicon-unchecked" style="font-size: small;"></span> {{ truncate(distractor?.answerDescription, 25) }}-->
-
 </div>

@@ -71,8 +71,7 @@ public class McOperations implements ExerciseOperations {
         String question = registerExerciseForm.get("question");
         
         if(registerExerciseForm.get("type").equals("text")) {
-            
-            String sresourcesid = "";
+                        
             List<String> rightAnswers = new ArrayList();
             List<String> distractors = new ArrayList();
             
@@ -82,7 +81,7 @@ public class McOperations implements ExerciseOperations {
             registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
                 distractors.add(registerExerciseForm.data().get(key));
             });
-            
+          
             exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusId, rightAnswers, distractors, false);
             exercise.save();
             
@@ -90,8 +89,25 @@ public class McOperations implements ExerciseOperations {
             timestamp.toLocalDateTime() + "," + "Stimuli" + "," + "addToExercise" + "," + "false" + "\n";
             String pathResources = loggedCaregiver.getPathResourcesLog();
             adminLogs.writeToFile(pathResources, content);
-            
+           
         } else if(registerExerciseForm.get("type").equals("image")) {
+            
+            String stimulusText = registerExerciseForm.get("stimulusText");
+            if(stimulusText != null) stimulus = true;
+            else stimulus = false;
+            
+            List<Long> rightAnswers = new ArrayList();
+            List<Long> distractors = new ArrayList();
+            
+            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
+                rightAnswers.add(Long.parseLong(registerExerciseForm.data().get(key)));
+            });
+            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
+                distractors.add(Long.parseLong(registerExerciseForm.data().get(key)));
+            });
+            
+            /*
+       
             int answerResourceId;
             String sresourcesid = "";
             
@@ -103,15 +119,30 @@ public class McOperations implements ExerciseOperations {
                 answerResourceId = -1;
             }
             
-            String stimulusText = registerExerciseForm.get("stimulusText");
-            if(stimulusText != null) stimulus = true;
-            else stimulus = false;
+            
+            
+            List<Long> rigthAnswersResourcesIds = new ArrayList<>();
+            Map<String, String> data = registerExerciseForm.data();
+            int numberRightAnswers = data.size();
+            for(int i = 0; i < numberRightAnswers; i++){
+                String key = "rightAnswers[" + i + "]";
+                if(data.containsKey(key)){
+                    int answerId;
+                    try {
+                        answerId = parseInt(data.get(key));
+                        sresourcesid += answerId + " ";
+                    } catch (NumberFormatException e) {
+                        answerId = -1;
+                    }
+                    rigthAnswersResourcesIds.add((long)answerId);
+                }
+            }
             
             List<Long> distractorsResourcesIds = new ArrayList<>();
-            Map<String, String> data = registerExerciseForm.data();
-            int numberDistractors = data.size();
+            Map<String, String> data2 = registerExerciseForm.data();
+            int numberDistractors = data2.size();
             for(int i = 0; i < numberDistractors; i++){
-                String key = "answersImg[" + i + "]";
+                String key = "distractors[" + i + "]";
                 if(data.containsKey(key)){
                     int answerId;
                     try {
@@ -123,12 +154,12 @@ public class McOperations implements ExerciseOperations {
                     distractorsResourcesIds.add((long)answerId);
                 }
             }
-            answers += distractorsResourcesIds.size();
+            */
             
-            //exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusText, answerResourceId, distractorsResourcesIds, false);
-            //exercise.save();
+            exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusText, rightAnswers, distractors, false);
+            exercise.save();
             
-            String content = answerResourceId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
+            /*String content = answerResourceId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
                 timestamp.toLocalDateTime() + "," + "Answers" + "," + "addToExercise" + ","  + "," + "false" + "\n";
             String pathResources = loggedCaregiver.getPathResourcesLog();
             adminLogs.writeToFile(pathResources, content);
@@ -139,7 +170,7 @@ public class McOperations implements ExerciseOperations {
                 timestamp.toLocalDateTime() + "," + "Answers" + "," + "addToExercise" + "," + "," + "false" + "\n";
                 pathResources = loggedCaregiver.getPathResourcesLog();
                 adminLogs.writeToFile(pathResources, content);
-            }
+            }*/
         }
         
         exercise.save();

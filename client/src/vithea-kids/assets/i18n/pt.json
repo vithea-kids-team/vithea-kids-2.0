@@ -127,6 +127,7 @@
     "_SelectImagesReinforcment_": "Clique na imagem que pretende utilizar como reforço",
     "_SelectImagesStimulus_": "Clique na imagem que pretende utilizar como estímulo",
     "_SelectImagesAnswer_": "Clique na imagem que pretende utilizar como resposta",
+    "_SelectImagesDistractor_": "Clique na imagem que pretende utilizar como distrator",
     "_SelectImagesAnimatedCharacter_": "Clique na imagem que pretende utilizar como personagem animada",
     "_SelectTopic_": "Seleccione o tema que pretende utilizar",
     "_SelectLevel_": "Seleccione o nível de dificuldade que pretende utilizar",
