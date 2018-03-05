@@ -253,6 +253,43 @@ public class MultipleChoice extends Exercise{
         
     }
     
+    /**
+     * set all answers
+     * @param rightAnswers
+     * @param distractors 
+     */
+    
+    public void  setAnswersImg (List<Long> rightAnswers, List<Long> distractors){
+        
+        List<Answer> arrayAux =  new ArrayList<Answer>(this.answersList);
+        //remove all answers
+        for(Answer a : arrayAux){
+        this.answersList.remove(a);
+        this.save();
+        a.delete();
+        }
+        
+        Resource stimulus;
+        
+        List<Answer> answers =  new ArrayList<Answer>();
+
+        for(Long r : rightAnswers){
+            stimulus = Resource.findById(r);
+            Answer rightAnswer = new Answer(stimulus,true);
+            answers.add(rightAnswer);
+        }
+      
+        for(Long d : distractors){
+          stimulus = Resource.findById(d);
+          Answer rightAnswer = new Answer(stimulus,false);
+          answers.add(rightAnswer);
+        }
+      
+        this.answersList = answers;
+      
+    }
+
+    
    
     public void setType(ExerciseType type) {
         this.type = type;

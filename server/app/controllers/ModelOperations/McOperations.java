@@ -311,18 +311,14 @@ public class McOperations implements ExerciseOperations {
             //String rightAnswer = editExerciseForm.get("rightAnswer");
             //exercise.getRightAnswer().setAnswerDescription(rightAnswer);
             //answers.add(exercise.getRightAnswer());
-
-            // distractors
-            List<String> distractors = new ArrayList();
-            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
-                distractors.add(editExerciseForm.data().get(key));
+            List<String> rightAnswers = new ArrayList<String>();
+            List<String> distractors = new ArrayList<String>();
+            
+            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
+                rightAnswers.add(Long.parseLong(editExerciseForm.data().get(key)));
             });
-            
-            //rightAnswers 
-            List<String> rightAnswers = new ArrayList();
-            
-             editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
-                rightAnswers.add(editExerciseForm.data().get(key));
+            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
+                distractors.add(Long.parseLong(editExerciseForm.data().get(key)));
             });
             
             exercise.setAnswersText(rightAnswers, distractors);
@@ -347,89 +343,22 @@ public class McOperations implements ExerciseOperations {
         }
         // stimulus, answer and distractors for image
         else if(editExerciseForm.get("type").equals("image")) {
+            
+            List<Long> rightAnswers = new ArrayList<Long>();
+            List<Long> distractors = new ArrayList<Long>();
+            
+            //right answers
+            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
+                rightAnswers.add(Long.parseLong(editExerciseForm.data().get(key)));
+            });
+            
+           //distractors
+            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
+                distractors.add(Long.parseLong(editExerciseForm.data().get(key)));
+            });
 
-            // right answer
-            String rightAnswerDescription = "";
-            int answerResourceId;
-            try {
-                answerResourceId = parseInt(editExerciseForm.get("rightAnswerImg"));
-                //Answer rightAnswer = exercise.getRightAnswer();
-                //rightAnswer.setStimulus((long) answerResourceId);
-                //rightAnswer.save();
-                sresourcesid += answerResourceId + " ";
-                //answers.add(rightAnswer);
-            } catch (NumberFormatException e) {
-                answerResourceId = -1;
-            }
+            exercise.setAnswersImg(rightAnswers, distractors);
 
-            // distractors                
-            List<Long> distractorsResourcesIds = new ArrayList<>();
-
-            Map<String, String> data = editExerciseForm.data();
-            int numberDistractors = data.size();
-
-            for(int i = 0; i < numberDistractors; i++){
-                String key = "answersImg[" + i + "]";
-                if(data.containsKey(key)){
-                    try {
-                        answerResourceId = parseInt(data.get(key));
-                    } catch (NumberFormatException e) {
-                        answerResourceId = -1;
-                    }
-                    distractorsResourcesIds.add((long)answerResourceId);
-                    sresourcesid += answerResourceId + " ";
-                }
-            }
-
-            if(distractorsResourcesIds.size() == 0) {   // exercise without distractors
-                int sizeExistingAnswers = existingAnswers.size()-1;
-                if(sizeExistingAnswers>0){
-                    for(int i = sizeExistingAnswers; i >= sizeExistingAnswers; i--){
-                        Answer toRemoveAns = existingAnswers.get(i);
-                        exercise.removeAnswer(toRemoveAns);
-                        exercise.save();
-                        toRemoveAns.delete();
-                    }   
-                }
-            }
-            else if(distractorsResourcesIds.size() <= existingAnswers.size()-1) {     // less or actual distractors than existing ones
-
-                List<Answer> toChange = existingAnswers.subList(0, distractorsResourcesIds.size());
-                List<Answer> toRemove = existingAnswers.subList(distractorsResourcesIds.size(), existingAnswers.size());
-
-                for(int i = 0; i < toChange.size(); i++){
-                    Answer ans = toChange.get(i);
-                    ans.setAnswerDescription("");
-                    ans.setStimulus(distractorsResourcesIds.get(i));
-                    answers.add(ans);
-                }
-
-                int sizeToRemove = toRemove.size()-1;
-                for(int i = sizeToRemove; i >= sizeToRemove; i--){
-                    Answer toRemoveAns = toRemove.get(i);
-                    exercise.removeAnswer(toRemoveAns);
-                    exercise.save();
-                    toRemoveAns.delete();
-                }
-            }
-            else if(distractorsResourcesIds.size() > existingAnswers.size()-1) {    // greater actual distractors than existing ones
-
-                List<Long> toAdd = distractorsResourcesIds.subList(existingAnswers.size(), distractorsResourcesIds.size());
-
-                for(int i = 0; i < existingAnswers.size(); i++){
-                    Answer ans = existingAnswers.get(i);
-                    ans.setAnswerDescription("");
-                    ans.setStimulus(distractorsResourcesIds.get(i));
-                    answers.add(ans);
-                }
-
-                for(int i = 0; i < toAdd.size(); i++){
-                    Answer newAns = new Answer("", false);
-                    newAns.setStimulus(toAdd.get(i));
-                    answers.add(newAns);
-                }
-            }
-            answerssize += answers.size();
 
             // stimulus 
             String stimulusText = editExerciseForm.get("stimulusText");
@@ -438,7 +367,6 @@ public class McOperations implements ExerciseOperations {
                 if(stimulusText.isEmpty()) stimulus = false;
                 else stimulus = true;
             }
-            exercise.setAnswers(answers);
 
         }
         exercise.save();
