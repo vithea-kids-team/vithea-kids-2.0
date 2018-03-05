@@ -92,7 +92,7 @@ export class AddExerciseMultipleChoiceTextComponent implements OnInit {
           break;
         }
       }
-  }
+    }
 
 
 submit () {

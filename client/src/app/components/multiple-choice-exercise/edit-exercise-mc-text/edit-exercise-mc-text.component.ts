@@ -79,7 +79,6 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
         if (res1 === false || res2 === false) {
           this.rightAnswerTextError = false;
         }
-
         break;
       }
       case 3: {
@@ -95,7 +94,7 @@ export class EditExerciseMultipleChoiceTextComponent implements OnInit {
         break;
       }
     }
-}
+  }
 
   submit () {
     this.validateTopic();
