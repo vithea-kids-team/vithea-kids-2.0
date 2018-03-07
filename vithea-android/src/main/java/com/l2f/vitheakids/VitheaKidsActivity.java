@@ -506,7 +506,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
                 }
                 btn.setVisibility(View.VISIBLE);
 
-                if (answer.getAnswerId() == currentExercise.getRightAnswer().getAnswerId()) { //right answer
+                if (answer.isRightAnswer()) { //right answer
                     btn.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             rightAnswerHandler(v, child);
@@ -617,7 +617,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
                 option.setVisibility(View.VISIBLE);
 
-                if (answer.getAnswerId() == exercise.getRightAnswer().getAnswerId()) {
+                if (answer.isRightAnswer()) {
                     option.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             rightAnswerHandler(v, child);

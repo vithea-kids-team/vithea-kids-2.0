@@ -12,6 +12,7 @@ public class Answer {
     @JsonProperty private Long answerId;
     @JsonProperty private String answerDescription;
     @JsonProperty private Resource stimulus;
+    @JsonProperty private boolean rightAnswer;
 
     public Long getAnswerId() {
         return answerId;
@@ -33,4 +34,11 @@ public class Answer {
         this.answerDescription = answerDescription;
     }
 
+    public boolean isRightAnswer() {
+        return rightAnswer;
+    }
+
+    public void setRightAnswer(boolean rightAnswer) {
+        this.rightAnswer = rightAnswer;
+    }
 }

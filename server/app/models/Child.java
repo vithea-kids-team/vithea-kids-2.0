@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -67,7 +68,10 @@ public class Child extends Model {
     
     private Boolean emotions;
 
+    @JsonIgnore
     private String pathAndroidSequencesLog;
+    
+    @JsonIgnore
     private String pathAndroidSequencesExercisesLog;
     
     public AnimatedCharacter getAnimatedCharacter() {
