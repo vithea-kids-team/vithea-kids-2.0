@@ -76,7 +76,7 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
             sequenceWithorderedExercices = mapper1.readValue(bodyseq, new TypeReference<TreeMap<String,List<Exercise>>>(){});
 
             for(Map.Entry<String,List<Exercise>> entry : sequenceWithorderedExercices.entrySet()){
-                SequenceExercises seqEx  = new SequenceExercises(new Long(1111),entry.getKey(),entry.getValue());
+                SequenceExercises seqEx  = new SequenceExercises(new Long(1111),entry.getKey(),entry.getValue());//fixme should receive the id from server
                 sequencesList.add(seqEx);
             }
 
