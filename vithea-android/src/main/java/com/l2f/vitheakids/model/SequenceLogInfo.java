@@ -58,6 +58,22 @@ public class SequenceLogInfo {
 		this.exercisesLogs = new ArrayList<ExerciseLogInfo>();
 	}
 
+	public int getCorrectExercises() {
+		return correctExercises;
+	}
+
+	public void setCorrectExercises(int correctExercises) {
+		this.correctExercises = correctExercises;
+	}
+
+	public int getNumberOfExercises() {
+		return numberOfExercises;
+	}
+
+	public void setNumberOfExercises(int numberOfExercises) {
+		this.numberOfExercises = numberOfExercises;
+	}
+
 	public String log() {
 		// Time of the end of the sequence
 		this.timestampEndSequence = dateFormat.format(new Date());    //now

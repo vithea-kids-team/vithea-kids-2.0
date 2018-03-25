@@ -1,43 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
+    <LinearLayout
+        android:id="@+id/center_point"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal" />
+
     <RelativeLayout
         android:id="@+id/characterContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        >
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/center_point">
 
-        <FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:id="@+id/view1">
+        <FrameLayout
+            android:id="@+id/view1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true" >
 
+            <fragment
+                android:id="@+id/fragment2"
+                android:name="com.l2f.vitheakids.UnityFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </FrameLayout>
-
-
-
-
-
     </RelativeLayout>
 
-    <include
-
-        android:id="@+id/action_bar"
-        layout="@layout/toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/characterContainer"/>
-
     <LinearLayout
-        android:id="@+id/rightFrame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/action_bar"
+        android:id="@+id/exerciseContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:layout_alignLeft="@+id/center_point"
+        android:layout_alignParentRight="true"
         android:background="@color/nav_bg_color"
         android:orientation="vertical">
-   </LinearLayout>
+
+        <include
+            android:id="@+id/toolbar1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            layout="@layout/toolbar" />
+
+        <ScrollView
+            android:id="@+id/scrollview_container"
+            android:layout_weight="1.6"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:layout_below="@+id/toolbar1"
+            android:fadeScrollbars="false"
+            android:fillViewport="true">
+            >
+
+            <FrameLayout
+                android:id="@+id/child_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp"/>
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_weight="0.4"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_alignParentBottom="true">
+
+            <include
+                android:id="@+id/nav_view"
+                android:visibility="gone"
+                layout="@layout/navigation_view"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
 </RelativeLayout>

@@ -12,8 +12,7 @@ public class Question {
     private Resource stimulus;
     private String stimulusText;
 
-    public String getQuestionDescription() {
-        return questionDescription;
+    public String getQuestionDescription() {return questionDescription;
     }
     public Long getQuestionId() {
         return questionId;

@@ -60,7 +60,7 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
         ResponseEntity<String> responseChildSeq = Api.get(urlChildSeqOrdered,activity);
 
         String bodyseq = responseChildSeq.getBody();
-
+        Log.d("sequencia", bodyseq);
         ObjectMapper mapper1 = new ObjectMapper();
 
 
@@ -100,7 +100,7 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
             }
 
             //Greeting Message
-            ((VitheaKidsActivity) activity).playMessage(child, "GREETING_MESSAGE");
+            ((VitheaKidsActivity) activity).playReinforcementMessage(child, "GREETING_MESSAGE");
             ((VitheaKidsActivity) activity).child = child;              // store info of the child
             String promptingStrategy = child.getPrompting().getPromptingStrategy();
             String reinforcementStrategy = child.getReinforcement().getReinforcementStrategy();

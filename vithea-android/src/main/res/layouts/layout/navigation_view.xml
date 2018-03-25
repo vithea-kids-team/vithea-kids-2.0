@@ -7,10 +7,9 @@
     >
 
     <RelativeLayout
+        android:id="@+id/next"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/relativeLayout2">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/nextExerciseButton"
@@ -32,13 +31,13 @@
             android:layout_marginTop="80dp"
             android:text="Próximo"
             android:textAppearance="@style/TextAppearance.AppCompat.Button" />
-        </RelativeLayout>
+    </RelativeLayout>
 
-        <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+    <RelativeLayout
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/previousExerciseButton"
@@ -65,10 +64,10 @@
 
 
     <RelativeLayout
+        android:id="@+id/end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:orientation="horizontal">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/endExerciseButton"

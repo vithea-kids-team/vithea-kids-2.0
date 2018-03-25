@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_centerInParent="true"
+    tools:context="com.l2f.vitheakids.ReinforcementFragment"
+    >
+
+    <ImageView
+            android:id="@+id/reinforcement_image"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:maxHeight="300dp"
+            android:maxWidth="300dp"
+           />
+</LinearLayout>

@@ -83,7 +83,6 @@ public class LoadImageTask extends AsyncTask<String, Integer, Void> {
 		super.onPostExecute(result);
         progress.dismiss();
         activity.setExerciseView();
-        activity.setNavigationView();        // Button - skip, finish, etc
 
 		/*imgView.setVisibility(View.VISIBLE);
 		imgView.setImageBitmap(imgLoad);*/

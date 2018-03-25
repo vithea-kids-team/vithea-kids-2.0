@@ -117,4 +117,12 @@ public class Child {
 		return null;
 	}
 
+	public boolean  toUpperCase(){
+		if (this.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 }

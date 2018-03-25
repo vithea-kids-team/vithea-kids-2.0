@@ -1,0 +1,166 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/exercise_bg_color">
+
+        <TextView
+            android:id="@+id/questionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="assafsfsdfsd"
+            android:layout_marginBottom="5dp"
+            android:textSize="20sp"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/stimulusImage"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/questionText"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="false"
+            android:maxHeight="200dp"
+            android:maxWidth="500dp">
+        </ImageView>
+
+
+        <LinearLayout
+            android:id="@+id/layoutButtonText"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stimulusImage">
+
+            <!--Primeira escolha multipla-->
+            <Button
+                android:id="@+id/button1"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:onClick="onClick"
+                android:background="@drawable/multiplechoice"
+                android:textAllCaps="false"
+                />
+            <!--Segunda escolha multipla-->
+            <Button
+                android:id="@+id/button2"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/multiplechoice"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:textAllCaps="false"
+                />
+
+            <!--Terceira escolha multipla-->
+            <Button
+                android:id="@+id/button3"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/multiplechoice"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:onClick="onClick"
+                android:textAllCaps="false"
+
+                />
+
+            <!--Quarta escolha multipla-->
+            <Button
+                android:id="@+id/button4"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/multiplechoice"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:onClick="onClick"
+                android:textAllCaps="false"
+                />
+
+            <!--Quinta escolha multipla-->
+            <Button
+                android:id="@+id/button5"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/multiplechoice"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:onClick="onClick"
+                android:textAllCaps="false"
+                />
+            <!--Sexta escolha multipla-->
+            <Button
+                android:id="@+id/button6"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/multiplechoice"
+                android:padding="0dp"
+                android:textColor="@color/exercise_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:onClick="onClick"
+                android:textAllCaps="false"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+</FrameLayout>

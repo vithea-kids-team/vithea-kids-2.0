@@ -1,9 +1,15 @@
 package com.l2f.vitheakids.Storage;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.l2f.vitheakids.model.Resource;
 
 import java.util.TreeMap;
@@ -32,7 +38,7 @@ public class ImageStorage extends Application {
     }
 
     public  byte[] getImage(String className, Long id){
-            TreeMap<Long, byte[]> images = imgStorage.get(className);
+        TreeMap<Long, byte[]> images = imgStorage.get(className);
         return images.get(id);
     }
 
@@ -43,6 +49,11 @@ public class ImageStorage extends Application {
             while(this.imgStorage.get(resource.getResourceId()).equals(null));
 
         return true; //every image needed is in the storage
+    }
+
+    public void setImageOfView(Context context, ImageView imageView , byte[] bytes){
+        Glide.get(context).clearMemory();
+        Glide.with(context).load(bytes).apply(RequestOptions.skipMemoryCacheOf(true)).apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE)).into(imageView);
     }
 
 

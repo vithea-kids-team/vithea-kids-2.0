@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.l2f.vitheakids.R;
@@ -61,9 +62,15 @@ public class Prompting {
         fr.setBackground(context.getResources().getDrawable(R.drawable.border));
     }
 
-    public static void setImageSize(Context context, ImageView view){
-        view.getLayoutParams().height=300;
-        view.getLayoutParams().width=300;
+    public static void setImageSize(Context context, List<ImageView> views){
+        for(ImageView view: views) {
+            view.requestLayout();
+            int currentHeight = view.getMeasuredHeight();
+            int currentWidth = view.getMeasuredWidth();
+
+            view.getLayoutParams().height = currentHeight - 50;
+            view.getLayoutParams().width = currentWidth - 50;
+        }
     }
 
     public static void scratchImage(Context context, ImageView view){
@@ -71,7 +78,18 @@ public class Prompting {
         ImageView im  = (ImageView) fr.getChildAt(1);// getting imageView that contais cruz.jpg
         im.setVisibility(View.VISIBLE);
     }
+    public static void resetScratchImage(Context context, ImageView view){
+        FrameLayout fr = (FrameLayout) view.getParent();
+        ImageView im  = (ImageView) fr.getChildAt(1);// getting imageView that contais cruz.jpg
+        im.setVisibility(View.INVISIBLE);
+    }
 
+
+    /**
+     * Generates a new drawable with a new color
+     * @param color
+     * @return StateListDrawable
+     */
     public static StateListDrawable makeSelector(Context context, int color) {
 
         StateListDrawable stateListDrawable = new StateListDrawable();
