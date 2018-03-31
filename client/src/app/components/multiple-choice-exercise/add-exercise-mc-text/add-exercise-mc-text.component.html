@@ -38,7 +38,7 @@
         <div class="row">
             <div class="form-group">
                 <label for="question"> {{'_Question_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="this.question" (ngModelChange)="validateQuestion()" name="question">
+                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="this.question" (input)="validateQuestion()" name="question">
                 <div *ngIf="questionError" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
             </div>
         </div>
@@ -57,9 +57,9 @@
         <div class="row">
             <label for="answer"> {{ '_Answer_' | translate }} <span class="text-danger"> * </span></label>
             <div>
-                <input *ngIf="numRightAnswers >= 1" type="text" class="form-control" id="rightAnswer1" maxlength="75" [(ngModel)]="this.rightAnswer1" (ngModelChange)="validateRightAnswerText()" name="rightAnswer1">
-                <input *ngIf="numRightAnswers >= 2" type="text" class="form-control" id="rightAnswer2" maxlength="75" [(ngModel)]="this.rightAnswer2" (ngModelChange)="validateRightAnswerText()" name="rightAnswer2">
-                <input *ngIf="numRightAnswers == 3" type="text" class="form-control" id="rightAnswer3" maxlength="75" [(ngModel)]="this.rightAnswer3" (ngModelChange)="validateRightAnswerText()" name="rightAnswer3">
+                <input *ngIf="numRightAnswers >= 1" type="text" class="form-control" id="rightAnswer1" maxlength="75" [(ngModel)]="this.rightAnswer1" (input)="validateRightAnswerText()" name="rightAnswer1">
+                <input *ngIf="numRightAnswers >= 2" type="text" class="form-control" id="rightAnswer2" maxlength="75" [(ngModel)]="this.rightAnswer2" (input)="validateRightAnswerText()" name="rightAnswer2">
+                <input *ngIf="numRightAnswers == 3" type="text" class="form-control" id="rightAnswer3" maxlength="75" [(ngModel)]="this.rightAnswer3" (input)="validateRightAnswerText()" name="rightAnswer3">
                 
                 <a *ngIf="numRightAnswers < 3" type="button " (click)="addRightAnswer()" class="btn btn-primary "> 
                     <span class="glyphicon glyphicon-plus" style="font-size: small; "></span> Acrescentar resposta

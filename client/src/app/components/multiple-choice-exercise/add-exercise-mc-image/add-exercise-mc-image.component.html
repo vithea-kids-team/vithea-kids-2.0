@@ -38,7 +38,7 @@
         <div class="row">
             <div class="form-group">
                 <label for="question"> {{'_Question_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="this.question" (ngModelChange)="validateQuestion()" name="question">
+                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="this.question" (input)="validateQuestion()" name="question">
                 <div *ngIf="questionError" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }} </div>
             </div>
         </div>

@@ -31,7 +31,7 @@ export class ImagePickerComponent implements ControlValueAccessor {
     if (!this._items) {
       this._items = [];
     }
-    if (this.selected != null) {
+    if (this.selected != null) {  
       this.onSelected.emit('getItems');
       this._items.forEach((x) => {
         if (x.resourceId === this.selected.resourceId) {

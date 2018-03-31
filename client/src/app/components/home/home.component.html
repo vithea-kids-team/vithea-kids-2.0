@@ -1,6 +1,7 @@
 <div>
 
     <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
+    <alert *ngIf="success" type="success" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textSuccess }} </alert>
 
     <div class="home jumbotron centered">
         <p class="lead">

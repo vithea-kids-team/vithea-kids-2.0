@@ -61,6 +61,22 @@
             </div>
         </div>
         <div class=row>
+            <div class="form-group">
+                <label for="securityQuestion">{{ '_SecurityQuestion_' | translate }} <span class="text-danger"> * </span></label>
+                <select class="form-control" id="securityQuestion" required [(ngModel)]="model.securityQuestion" name="securityQuestion" #securityQuestion="ngModel" (ngModelChange)="validateSecurityQuestion()">
+                    <option *ngFor="let g of securityquestions" [value]="g">{{ g | translate }}</option>
+                </select>
+                <div *ngIf="securityQuestionError" class="alert alert-danger"> {{ '_RequiredSecurityQuestion_' | translate }} </div>
+            </div>
+        </div>
+        <div class=row>
+            <div class="form-group">
+                <label for="securityPassword">{{ '_SecurityPassword_' | translate }} <span class="text-danger"> * </span></label>
+                <input type="text" (ngModelChange)="validateSecurityPassword()" class="form-control" id="securityPassword" required maxlength="50" [(ngModel)]="model.securityPassword" name="securityPassword" #securityPassword="ngModel">
+                <div *ngIf="securityPasswordError" class="alert alert-danger"> {{ '_RequiredSecurityPassword_' | translate }}</div>
+            </div>
+        </div>
+        <div class=row>
             <div style="height: 70px;">
                 <div *ngIf="error" class="alert alert-danger">
                     {{ error | translate }}

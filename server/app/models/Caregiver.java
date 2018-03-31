@@ -49,7 +49,19 @@ public class Caregiver extends Model {
     private String pathPreferencesLog;
     private String pathChildrenLog;
 
+    @OneToOne
+    @Column(nullable = false)
+    @JoinColumn(name = "caregiversecurityquestion_id")
+    private SecurityQuestion securityQuestion;
 
+    public SecurityQuestion getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public void setSecurityQuestion(SecurityQuestion securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+    
     /**
      * @return the caregiverId
      */
@@ -166,7 +178,6 @@ public class Caregiver extends Model {
         childList.remove(child);
     }
     
-    
     public String getPathExercisesLog() {
         return pathExercisesLog;
     }
@@ -228,6 +239,10 @@ public class Caregiver extends Model {
     public static Caregiver findByEmail(String email) {
         return find.where().eq("email", email.toLowerCase()).findUnique();
     }
+    
+    //public static Caregiver findByUsername(String username) {
+    //    return find.where().eq("username", username).findUnique();
+    //}
 
     public static Caregiver findByUsername(String username) {
         Login l = Login.findByUsername(username);

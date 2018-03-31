@@ -7,4 +7,6 @@ export class Caregiver {
     public password: string
     public confirmpassword: string
     public email: string
+    public securityQuestion: string
+    public securityPassword: string
 }

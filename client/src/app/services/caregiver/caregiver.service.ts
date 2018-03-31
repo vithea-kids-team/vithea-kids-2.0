@@ -13,14 +13,16 @@ import { Location } from '@angular/common';
 export class CaregiverService {
 
   userObs: Observable<any>;
-  failedLogin: boolean = false;
-  loggedIn: boolean = false;
+  failedLogin = false;
+  loggedIn = false;
   success = false
   failure = false;
+  failurePassword = false;
   textSuccess;
   textFailure;
+  textFailurePassword;
 
-  constructor(public http: HttpApiClient, public router: Router, public location: Location,public modal: Modal) { }
+  constructor(public http: HttpApiClient, public router: Router, public location: Location, public modal: Modal) { }
 
   getSuccess() {
     return this.success;
@@ -28,8 +30,14 @@ export class CaregiverService {
   getFailure() {
     return this.failure;
   }
+  getFailurePassword() {
+    return this.failurePassword;
+  }
   getTextSuccess() {
     return this.textSuccess;
+  }
+  getTextFailurePassword() {
+    return this.textFailurePassword;
   }
   getTextFailure() {
     return this.textFailure;
@@ -45,6 +53,14 @@ export class CaregiverService {
   }
   setTextFailure(text: string) {
     this.textFailure = text;
+  }
+
+  fetchQuestion(username) {
+    return this.http.post('/getsecurityquestion', JSON.stringify({username}));
+  }
+
+  recoverPassword(username, securityAnswer, password) {
+    return this.http.post('/recoverpassword', JSON.stringify({username, securityAnswer, password}));
   }
 
   login(username, password) {
@@ -72,11 +88,10 @@ export class CaregiverService {
   }
 
   logout() {
-
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Sair').body('Tem a certeza que pretende terminar a sessão actual?').open();
 
-    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+    dialogRef.then(dialogRef2 => { dialogRef2.result.then(result => {
       if (result) {
         return this.http.post('/logout', JSON.stringify(null)).subscribe(
           res => {

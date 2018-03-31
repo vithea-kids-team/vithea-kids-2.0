@@ -22,7 +22,6 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { AdminComponent } from './components/admin/admin.component';
 
 import { CaregiverService } from './services/caregiver/caregiver.service';
@@ -61,6 +60,9 @@ import { SequenceFilter } from './pipes/sequence-filter';
 
 import { ResourcesComponent } from  './components/resources/resources.component';
 import { ResourcesService } from './services/resources/resources.service';
+
+import { RecoverPasswordComponent } from  './components/recover-password/recover-password.component';
+
 import { AddResourceComponent } from './components/add-resource/add-resource.component';
 import { ResourceTypeFilter } from './pipes/resources-type-filter';
 
@@ -115,10 +117,10 @@ export function translateFactory(https: HttpClient) {
     LoaderComponent,
     SpinnerComponent,
     FileUploadComponent,
-    SettingsComponent,
     AdminComponent,
     ResourcesComponent,
     ResourceTypeFilter,
+    RecoverPasswordComponent,
     AddResourceComponent
   ],
   providers: [

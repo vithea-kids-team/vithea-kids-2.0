@@ -17,6 +17,8 @@ export class SignUpComponent {
   model: Caregiver = new Caregiver()
 
   genders = ['Female', 'Male', 'Other'];
+  securityquestions = ['Qual o seu grupo musical favorito quando era criança?', 'Qual foi o primeiro filme que viu no cinema?', 
+  'Qual o apelido do seu professor do 3º ano?', 'Qual o nome do seu segundo animal de estimação?'];
 
   loading: boolean = false;
   error: string = undefined;
@@ -29,9 +31,38 @@ export class SignUpComponent {
   public passwordError;
   public passwordLengthError;
   public confirmpasswordError;
+  public securityQuestionError;
+  public securityPasswordError;
 
   constructor(public modal: Modal, public caregiverService: CaregiverService, public location: Location, public router: Router) { }
 
+  validateSecurityQuestion() {
+    if (this.model.securityQuestion === undefined) {
+      this.securityQuestionError = true;
+    } else {
+      this.securityQuestionError = false;
+      let securityQuestion = this.model.securityQuestion.replace(/\s+/g, '');
+      if (securityQuestion.length === 0) {
+        this.securityQuestionError = true;
+      } else {
+        this.securityQuestionError = false;
+      }
+    }
+  }
+
+  validateSecurityPassword() {
+    if (this.model.securityPassword === undefined) {
+      this.securityPasswordError = true;
+    } else {
+      this.securityPasswordError = false;
+      let securityAnswer = this.model.securityPassword.replace(/\s+/g, '');
+      if (securityAnswer.length === 0) {
+        this.securityPasswordError = true;
+      } else {
+        this.securityPasswordError = false;
+      }
+    }
+  }
 
   validateUsername() {
     if (this.model.username === undefined) {
@@ -61,12 +92,15 @@ export class SignUpComponent {
   }
 
   validateConfirmPassword() {
-    this.confirmpasswordError = false
-
     if (this.model.confirmpassword === undefined) {
       this.confirmpasswordError = true;
+    } else {
+      if (this.model.password !== this.model.confirmpassword) {
+        this.confirmpasswordError = true;
+      } else {
+        this.confirmpasswordError = false;
+      }
     }
-
   }
 
   validateFirstName() {
@@ -121,10 +155,13 @@ export class SignUpComponent {
     this.validateLastName();
     this.validateGender();
     this.validateEmail();
+    this.validateSecurityQuestion();
+    this.validateSecurityPassword();
 
     if (this.usernameError === false && this.passwordError === false && this.confirmpasswordError === false &&
       this.firstNameError === false && this.passwordLengthError === false && this.lastNameError === false &&
-      this.genderError === false && this.emailError === false) {
+      this.genderError === false && this.emailError === false && this.securityQuestionError === false &&
+      this.securityPasswordError === false) {
       this.createCaregiver();
     }
   }
@@ -136,9 +173,12 @@ export class SignUpComponent {
     this.validateLastName();
     this.validateGender();
     this.validateEmail();
+    this.validateSecurityQuestion();
+    this.validateSecurityPassword();
 
     if (this.usernameError === false && this.firstNameError === false && this.lastNameError === false &&
-      this.genderError === false && this.emailError === false) {
+      this.genderError === false && this.emailError === false && this.securityQuestionError === false &&
+      this.securityPasswordError === false) {
       this.createCaregiver();
     }
   }

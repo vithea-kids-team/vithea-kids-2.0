@@ -3,17 +3,11 @@ package controllers;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.ConfigFactory;
 import java.io.File;
-import java.util.Properties;
 import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import models.Caregiver;
 import models.Level;
 import models.Login;
+import models.SecurityQuestion;
 import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
@@ -29,6 +23,7 @@ public class SecurityController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "Authorization";
     public static final String AUTH_TOKEN = "authToken";
+    public static final String SECURITY_QUESTION = "securityQuestion";
     public AdminLogs adminLogs = new AdminLogs();
 
     public static Login getUser() {
@@ -60,9 +55,7 @@ public class SecurityController extends Controller {
             response().setCookie(Http.Cookie.builder(AUTH_TOKEN, authToken).withSecure(ctx().request().secure()).build());
 
             Logger.debug("\t \t Returning authentication token.");
-            
-            //this.sendEmail("lua.svmac@gmail.com", "Teste", "Awesome! It works!");
-            
+                        
             return ok(authTokenJson);
         }
     }
@@ -76,6 +69,52 @@ public class SecurityController extends Controller {
         getUser().removeSession(token);
         Logger.debug("\t Redirecting...");
         return redirect("/");
+    }
+    
+    public Result getQuestion(){
+        Logger.debug("Hit SecurityController.getQuestion method");
+        
+        DynamicForm questionForm = formFactory.form().bindFromRequest();
+        String username = questionForm.get("username");
+        
+        Caregiver caregiver = Caregiver.findByUsername(username);
+        
+        if(caregiver != null){
+            SecurityQuestion securityQuestion = caregiver.getSecurityQuestion();
+            if(securityQuestion != null){ 
+                String question = securityQuestion.getQuestion();
+                ObjectNode questionJson = Json.newObject();
+                questionJson.put(SECURITY_QUESTION, question);
+                return ok(questionJson);
+            }
+            else badRequest("Security Question does not exist"); 
+        }
+        return badRequest("Username does not exist");
+    }
+    
+    public Result recoverPassword() {
+        Logger.debug("Hit SecurityController.recoverPassword method");  
+      
+        DynamicForm recoverPasswordForm = formFactory.form().bindFromRequest();
+        String username = recoverPasswordForm.get("username");
+        String password = recoverPasswordForm.get("password");
+        String securityAnswer = recoverPasswordForm.get("securityAnswer");
+        
+        Caregiver caregiver = Caregiver.findByUsername(username);
+        String caregiverSecurityAnswer = caregiver.getSecurityQuestion().getAnswer();
+            
+        System.out.println(caregiverSecurityAnswer);
+        System.out.println(securityAnswer);
+        
+        if(caregiverSecurityAnswer.equals(securityAnswer)) {
+            Login findByUsername = Login.findByUsername(username);
+            findByUsername.setPassword(password);
+            findByUsername.setEnabled(true);
+            findByUsername.save();
+        }
+        else return badRequest("Wrong security answer");
+        
+    return ok("Password changed successfully");
     }
 
     public Result signup() {
@@ -106,7 +145,13 @@ public class SecurityController extends Controller {
             user.setFirstName(signUpForm.get("firstname"));
             user.setLastName(signUpForm.get("lastname"));
             user.setGender(signUpForm.get("gender"));
+            
+            SecurityQuestion securityQuestion = new SecurityQuestion(signUpForm.get("securityQuestion"), signUpForm.get("securityPassword"));
+            securityQuestion.save();
+            user.setSecurityQuestion(securityQuestion);
             user.save();
+            
+            System.out.println(user.getSecurityQuestion().getQuestion());
             
             Boolean DEVELOPMENT = Boolean.parseBoolean(ConfigFactory.load().getString("development"));
             String path = "";
@@ -181,48 +226,6 @@ public class SecurityController extends Controller {
         level2.save();
         Level level3 = new Level("Difícil", loggedCaregiver, true);
         level3.save();
-    }
-    
-    public void sendEmail(String to, String subject, String body){
-        
-        // Recipient's email ID needs to be mentioned.
-        // Sender's email ID needs to be mentioned
-        String from = "lua.svmac@gmail.com"; //admin@vithea-kids.com
-
-        // Assuming you are sending email from localhost
-        String host = "localhost";
-
-        // Get system properties
-        Properties properties = System.getProperties();
-    
-        // Setup mail server
-        properties.setProperty("mail.smtp.host", host);
-
-        // Get the default Session object.
-        Session session = Session.getDefaultInstance(properties);
-        
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
-
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
-
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Set Subject: header field
-            message.setSubject(subject);
-
-            // Now set the actual message
-            message.setText(body);
-
-            // Send message
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-        }
     }
 
 }
