@@ -16,6 +16,7 @@ import { ResourcesComponent } from './components/resources/resources.component';
 import { AddResourceComponent } from './components/add-resource/add-resource.component';
 import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { EditCaregiverComponent } from './components/edit-caregiver/edit-caregiver.component';
 import { GuardService } from './services/guard/guard.service';
 
 export const appName = 'vithea-kids';
@@ -24,6 +25,7 @@ export const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
   { path: 'signup', component: SignUpComponent },
+  { path: 'editCaregiver', component: EditCaregiverComponent},
   { path: 'login', component: LoginComponent },
   { path: 'recover', component: RecoverPasswordComponent },
   { path: 'admin', component: AdminComponent, canActivate: [GuardService] },

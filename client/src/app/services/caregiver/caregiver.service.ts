@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/map'
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Response } from '@angular/http';
 import { HttpApiClient } from '../http/http-api-client.service';
 import { Router } from '@angular/router';
 import { Caregiver } from '../../models/caregiver';
@@ -23,6 +24,14 @@ export class CaregiverService {
   textFailurePassword;
 
   constructor(public http: HttpApiClient, public router: Router, public location: Location, public modal: Modal) { }
+
+  editCaregiver(caregiver: Caregiver): Observable<Response> {
+    return this.http.post('/editcaregiver/' + caregiver.id, caregiver);
+  }
+
+  getCaregiver(id: number): Observable<Caregiver> {
+    return this.http.get('/caregiver/' + id).map(result => result && result.json());
+  }
 
   getSuccess() {
     return this.success;

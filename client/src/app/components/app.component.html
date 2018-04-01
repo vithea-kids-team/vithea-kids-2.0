@@ -26,6 +26,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a (click)="caregiverService.logout()">{{'_SignOut_' | translate }} <span class="glyphicon glyphicon-log-out pull-right log-out-icon"></span></a></li>
+                            <li><a [routerLink]="['/editCaregiver']">{{'_EditCaregiver_' | translate }} <span class="glyphicon glyphicon-log-out pull-right log-out-icon"></span></a></li>
                         </ul>
                     </li>
                 </ul>

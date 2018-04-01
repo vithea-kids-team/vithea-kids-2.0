@@ -17,6 +17,7 @@ import { appRoutes } from './app.routing';
 import { AppComponent } from './components/app.component';
 import { ImagePickerComponent } from './components/utils/image-picker/image-picker.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { EditCaregiverComponent } from './components/edit-caregiver/edit-caregiver.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -106,6 +107,7 @@ export function translateFactory(https: HttpClient) {
     ShowExerciseMultipleChoiceImageComponent,
     ImagePickerComponent,
     SignUpComponent,
+    EditCaregiverComponent,
     SequencesComponent,
     AddSequenceComponent,
     PreferencesComponent,
