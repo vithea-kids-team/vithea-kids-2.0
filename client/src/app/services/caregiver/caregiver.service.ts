@@ -26,11 +26,14 @@ export class CaregiverService {
   constructor(public http: HttpApiClient, public router: Router, public location: Location, public modal: Modal) { }
 
   editCaregiver(caregiver: Caregiver): Observable<Response> {
-    return this.http.post('/editcaregiver/' + caregiver.id, caregiver);
+    return this.http.post('/editcaregiver/', caregiver);
   }
 
-  getCaregiver(id: number): Observable<Caregiver> {
-    return this.http.get('/caregiver/' + id).map(result => result && result.json());
+  /*getCaregiver(): Observable<Caregiver> {
+    return this.http.get('/loggedcaregiver/').map(result => result && result.json());
+  }*/
+  getCaregiver(username) {
+    return this.http.get('/loggedcaregiver/' + username);
   }
 
   getSuccess() {
@@ -73,8 +76,7 @@ export class CaregiverService {
   }
 
   login(username, password) {
-    return this.http
-      .post('/login/caregiver', JSON.stringify({ username, password }))
+    return this.http.post('/login/caregiver', JSON.stringify({ username, password }))
       .map(res => {
           if (res) {
             this.failedLogin = false;

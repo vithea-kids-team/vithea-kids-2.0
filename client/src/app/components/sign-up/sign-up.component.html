@@ -10,21 +10,21 @@
         <div class=row>
             <div class="form-group">
                 <label for="username">{{ '_Username_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (ngModelChange)="validateUsername()" class="form-control" id="username" required pattern="^[A-Za-z0-9_-]{3,15}$" maxlength="30" [(ngModel)]="model.username" name="username" #username="ngModel">
+                <input type="text" (input)="validateUsername()" class="form-control" id="username" required pattern="^[A-Za-z0-9_-]{3,15}$" maxlength="30" [(ngModel)]="model.username" name="username" #username="ngModel">
                 <div *ngIf="usernameError" class="alert alert-danger"> {{ '_RequiredUsername_' | translate }} </div>
             </div>
         </div>
         <div class=row>
             <div class="form-group">
                 <label for="password">{{ '_Password_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="password" (ngModelChange)="validatePassword()" class="form-control" id="password" required minlength="6" maxlength="255" validateEqual="confirmpassword" reverse="true" [(ngModel)]="model.password" name="password" #password="ngModel">
+                <input type="password" (input)="validatePassword()" class="form-control" id="password" required minlength="6" maxlength="255" validateEqual="confirmpassword" reverse="true" [(ngModel)]="model.password" name="password" #password="ngModel">
                 <div *ngIf="passwordError || passwordLengthError" class="alert alert-danger"> {{ '_RequiredPassword_' | translate }} </div>
             </div>
         </div>
         <div class=row>
             <div class="form-group">
                 <label for="confirmpassword">{{ '_ConfirmPassword_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="password" (ngModelChange)="validateConfirmPassword()" class="form-control" id="confirmpassword" required validateEqual="password" [(ngModel)]="model.confirmpassword" name="confirmpassword" #confirmpassword="ngModel">
+                <input type="password" (input)="validateConfirmPassword()" class="form-control" id="confirmpassword" required validateEqual="password" [(ngModel)]="model.confirmpassword" name="confirmpassword" #confirmpassword="ngModel">
                 <div *ngIf="!confirmpassword.valid && !confirmpassword.pristine && !confirmpasswordError" class="alert alert-danger"> {{ '_RequiredConfirmPassword_' | translate }} </div>
                 <div *ngIf="confirmpasswordError" class="alert alert-danger"> {{ '_RequiredConfirmPassword_' | translate }} </div>
             </div>
@@ -32,21 +32,21 @@
         <div class=row>
             <div class="form-group">
                 <label for="firstName">{{ '_FirstName_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (ngModelChange)="validateFirstName()" class="form-control" id="firstName" required maxlength="30" [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
+                <input type="text" (input)="validateFirstName()" class="form-control" id="firstName" required maxlength="30" [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
                 <div *ngIf="firstNameError" class="alert alert-danger"> {{ '_RequiredFirstName_' | translate }} </div>
             </div>
         </div>
         <div class=row>
             <div class="form-group">
                 <label for="lastName">{{ '_LastName_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (ngModelChange)="validateLastName()" class="form-control" id="lastName" required maxlength="50" [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel">
+                <input type="text" (input)="validateLastName()" class="form-control" id="lastName" required maxlength="50" [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel">
                 <div *ngIf="lastNameError" class="alert alert-danger"> {{ '_RequiredLastName_' | translate }} </div>
             </div>
         </div>
         <div class=row>
             <div class="form-group">
                 <label for="email">{{ '_Email_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (ngModelChange)="validateEmail()" class="form-control" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" maxlength="50" [(ngModel)]="model.email" name="email" #email="ngModel">
+                <input type="text" (input)="validateEmail()" class="form-control" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" maxlength="50" [(ngModel)]="model.email" name="email" #email="ngModel">
                 <div *ngIf="!email.valid && !email.pristine" class="alert alert-danger"> {{ '_RequiredEmail_' | translate }} </div>
                 <div *ngIf="emailError" class="alert alert-danger"> {{ '_RequiredEmail_' | translate }}</div>
             </div>
@@ -72,7 +72,7 @@
         <div class=row>
             <div class="form-group">
                 <label for="securityPassword">{{ '_SecurityPassword_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (ngModelChange)="validateSecurityPassword()" class="form-control" id="securityPassword" required maxlength="50" [(ngModel)]="model.securityPassword" name="securityPassword" #securityPassword="ngModel">
+                <input type="text" (input)="validateSecurityPassword()" class="form-control" id="securityPassword" required maxlength="50" [(ngModel)]="model.securityPassword" name="securityPassword" #securityPassword="ngModel">
                 <div *ngIf="securityPasswordError" class="alert alert-danger"> {{ '_RequiredSecurityPassword_' | translate }}</div>
             </div>
         </div>

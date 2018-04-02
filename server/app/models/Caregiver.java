@@ -22,7 +22,6 @@ public class Caregiver extends Model {
     private Long id;
 
     private String firstName;
-
     private String lastName;
 
     @Column(length = 255, unique = true, nullable = false)
@@ -54,6 +53,17 @@ public class Caregiver extends Model {
     @JoinColumn(name = "caregiversecurityquestion_id")
     private SecurityQuestion securityQuestion;
 
+    public Caregiver(String email, String gender, String firstName, String lastName, 
+            String securityQuestion, String securityPassword ){
+        this.email = email;
+        this.gender = gender;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        SecurityQuestion secQuestion = new SecurityQuestion(securityQuestion, securityPassword);
+        secQuestion.save();
+        this.securityQuestion = secQuestion;
+    }
+    
     public SecurityQuestion getSecurityQuestion() {
         return securityQuestion;
     }

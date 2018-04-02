@@ -35,29 +35,45 @@ export class EditCaregiverComponent  implements OnInit {
   public securityPasswordError;
 
   // temp vars
+  public caregiverId;
   public firstName;
   public lastName;
   public gender;
-  public confirmpassword: string
-  public email: string
-  public securityQuestion: string
-  public securityPassword: string
+  public email;
+  public securityQuestion;
+  public securityPassword;
 
   constructor(public modal: Modal, public caregiverService: CaregiverService, public location: Location, public router: Router) { }
 
   ngOnInit() {
     this.loading = true;
-  
-
-
+    this.caregiverService.getCaregiver(this.caregiverService.getUsername()).subscribe(
+      (res: any) => {
+        console.log(res.json());
+        this.caregiverId = res.json().caregiverId;
+        console.log(this.caregiverId);
+        this.firstName = res.json().firstName;
+        this.lastName = res.json().lastName;
+        this.gender = res.json().gender;
+        this.email = res.json().email;
+        this.securityQuestion = res.json().securityQuestion.question;
+        this.securityPassword = res.json().securityQuestion.password;
+        this.loading = false;
+      },
+      err => {
+        console.error('Error getting caregiver.', err);
+        this.loading = false;
+    }
+    );
   }
 
+
   validateSecurityQuestion() {
-    if (this.model.securityQuestion === undefined) {
+    if (this.securityQuestion === undefined) {
       this.securityQuestionError = true;
     } else {
       this.securityQuestionError = false;
-      let securityQuestion = this.model.securityQuestion.replace(/\s+/g, '');
+      let securityQuestion = this.securityQuestion.replace(/\s+/g, '');
       if (securityQuestion.length === 0) {
         this.securityQuestionError = true;
       } else {
@@ -67,11 +83,11 @@ export class EditCaregiverComponent  implements OnInit {
   }
 
   validateSecurityPassword() {
-    if (this.model.securityPassword === undefined) {
+    if (this.securityPassword === undefined) {
       this.securityPasswordError = true;
     } else {
       this.securityPasswordError = false;
-      let securityAnswer = this.model.securityPassword.replace(/\s+/g, '');
+      let securityAnswer = this.securityPassword.replace(/\s+/g, '');
       if (securityAnswer.length === 0) {
         this.securityPasswordError = true;
       } else {
@@ -80,25 +96,25 @@ export class EditCaregiverComponent  implements OnInit {
     }
   }
 
-  validatePassword() {
-    if (this.model.password === undefined) {
+  /*validatePassword() {
+    if (this.password === undefined) {
       this.passwordError = true;
     } else {
-      if (this.model.password.length < 6 || this.model.password.length > 255) {
+      if (this.model.password.length < 6 || this.password.length > 255) {
         this.passwordLengthError = true;
       } else {
         this.passwordLengthError = false;
         this.passwordError = false;
       }
     }
-  }
+  }*/
 
   validateFirstName() {
-    if (this.model.firstName === undefined) {
+    if (this.firstName === undefined) {
       this.firstNameError = true;
     } else {
       this.firstNameError = false;
-      let firstName = this.model.firstName.replace(/\s+/g, '');
+      let firstName = this.firstName.replace(/\s+/g, '');
       if (firstName.length === 0) {
         this.firstNameError = true;
       } else {
@@ -112,7 +128,7 @@ export class EditCaregiverComponent  implements OnInit {
       this.lastNameError = true;
     } else {
       this.lastNameError = false;
-      let lastName = this.model.lastName.replace(/\s+/g, '');
+      let lastName = this.lastName.replace(/\s+/g, '');
       if (lastName.length === 0) {
         this.lastNameError = true;
       } else {
@@ -122,7 +138,7 @@ export class EditCaregiverComponent  implements OnInit {
   }
 
   validateGender() {
-    if (this.model.gender === undefined) {
+    if (this.gender === undefined) {
       this.genderError = true;
     } else {
       this.genderError = false;
@@ -130,7 +146,7 @@ export class EditCaregiverComponent  implements OnInit {
   }
 
   validateEmail() {
-    if (this.model.email === undefined) {
+    if (this.email === undefined) {
       this.emailError = true;
     } else {
       this.emailError = false;
@@ -172,7 +188,7 @@ export class EditCaregiverComponent  implements OnInit {
           },
           err => {
             this.error = err._body;
-            console.error('Error registering new caregiver. ' + err);
+            console.error('Error editing caregiver. ' + err);
             this.caregiverService.setFailure(true);
             this.caregiverService.setSuccess(false);
             this.caregiverService.setTextFailure('Não foi possível editar o cuidador ' + caregiverName + '.');

@@ -1,4 +1,5 @@
-<div class="container">
+<loader *ngIf="loading"></loader>
+<div class="container" *ngIf="!loading">
 
     <h2>{{ '_EditCaregiver_' | translate }}</h2>
 
@@ -10,29 +11,29 @@
         <div class=row>
             <div class="form-group">
                 <label for="firstName">{{ '_FirstName_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (ngModelChange)="validateFirstName()" class="form-control" id="firstName" required maxlength="30" [(ngModel)]="model.firstName" name="firstName" #firstName="ngModel">
+                <input type="text" (input)="validateFirstName()" class="form-control" id="firstName" required maxlength="30" [(ngModel)]="this.firstName" name="firstName">
                 <div *ngIf="firstNameError" class="alert alert-danger"> {{ '_RequiredFirstName_' | translate }} </div>
             </div>
         </div>
         <div class=row>
             <div class="form-group">
                 <label for="lastName">{{ '_LastName_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (ngModelChange)="validateLastName()" class="form-control" id="lastName" required maxlength="50" [(ngModel)]="model.lastName" name="lastName" #lastName="ngModel">
+                <input type="text" (input)="validateLastName()" class="form-control" id="lastName" required maxlength="50" [(ngModel)]="this.lastName" name="lastName">
                 <div *ngIf="lastNameError" class="alert alert-danger"> {{ '_RequiredLastName_' | translate }} </div>
             </div>
         </div>
         <div class=row>
             <div class="form-group">
                 <label for="email">{{ '_Email_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (ngModelChange)="validateEmail()" class="form-control" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" maxlength="50" [(ngModel)]="model.email" name="email" #email="ngModel">
-                <div *ngIf="!email.valid && !email.pristine" class="alert alert-danger"> {{ '_RequiredEmail_' | translate }} </div>
+                <input type="text" (input)="validateEmail()" class="form-control" id="email" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" maxlength="50" [(ngModel)]="this.email" name="email">
+                <!--<div *ngIf="!email.valid && !email.pristine" class="alert alert-danger"> {{ '_RequiredEmail_' | translate }} </div>-->
                 <div *ngIf="emailError" class="alert alert-danger"> {{ '_RequiredEmail_' | translate }}</div>
             </div>
-        </div>
+        </div>  
         <div class=row>
             <div class="form-group">
                 <label for="gender">{{ '_Gender_' | translate }} <span class="text-danger"> * </span></label>
-                <select class="form-control" id="gender" required [(ngModel)]="model.gender" name="gender" #gender="ngModel" (ngModelChange)="validateGender()">
+                <select class="form-control" id="gender" required [(ngModel)]="this.gender" name="gender" (ngModelChange)="validateGender()">
                     <option *ngFor="let g of genders" [value]="g">{{ g | uppercase | translate }}</option>
                 </select>
                 <div *ngIf="genderError" class="alert alert-danger"> {{ '_RequiredGender_' | translate }} </div>
@@ -41,7 +42,7 @@
         <div class=row>
             <div class="form-group">
                 <label for="securityQuestion">{{ '_SecurityQuestion_' | translate }} <span class="text-danger"> * </span></label>
-                <select class="form-control" id="securityQuestion" required [(ngModel)]="model.securityQuestion" name="securityQuestion" #securityQuestion="ngModel" (ngModelChange)="validateSecurityQuestion()">
+                <select class="form-control" id="securityQuestion" required [(ngModel)]="this.securityQuestion" name="securityQuestion" (ngModelChange)="validateSecurityQuestion()">
                     <option *ngFor="let g of securityquestions" [value]="g">{{ g | translate }}</option>
                 </select>
                 <div *ngIf="securityQuestionError" class="alert alert-danger"> {{ '_RequiredSecurityQuestion_' | translate }} </div>
@@ -62,13 +63,6 @@
                 <div *ngIf="passwordError || passwordLengthError" class="alert alert-danger"> {{ '_RequiredPassword_' | translate }} </div>
             </div>
         </div>-->
-        <div class=row>
-            <div style="height: 70px;">
-                <div *ngIf="error" class="alert alert-danger"> {{ error | translate }}
-                </div>
-                <loader *ngIf="loading" [height]="50"></loader>
-            </div>
-        </div>
 
         <div class=row>
             <a type="button" (click)="submit()" class="btn btn-success">

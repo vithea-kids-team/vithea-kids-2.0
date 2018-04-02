@@ -25,7 +25,7 @@ export const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
   { path: 'signup', component: SignUpComponent },
-  { path: 'editCaregiver', component: EditCaregiverComponent},
+  { path: 'editCaregiver', component: EditCaregiverComponent, canActivate: [GuardService] },
   { path: 'login', component: LoginComponent },
   { path: 'recover', component: RecoverPasswordComponent },
   { path: 'admin', component: AdminComponent, canActivate: [GuardService] },
