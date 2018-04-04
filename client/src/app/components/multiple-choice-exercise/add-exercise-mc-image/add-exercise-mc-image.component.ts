@@ -136,7 +136,7 @@ export class AddExerciseMultipleChoiceImageComponent implements OnInit {
                 })
           })
       })
-      this.newExercise.type = 'image';
+    this.newExercise.type = 'image';
     this.loading = false;
     this.newExercise.answers = [];
     this.newExercise.rightAnswers = [];

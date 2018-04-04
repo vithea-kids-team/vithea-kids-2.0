@@ -1,0 +1,21 @@
+.list-group-item-content {
+    background: aliceblue;
+}
+
+.list-group-item__empty {
+    border: none;
+    padding: 0;
+}
+
+.border{
+
+    border-style: solid;
+    border-width: thin;
+    border-color: rgb(114, 16, 16);
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+
+    position: center;
+   
+}

@@ -19,6 +19,7 @@ import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.model.Exercise;
+import com.l2f.vitheakids.model.MultipleChoice;
 import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.util.Prompting;
 
@@ -41,7 +42,7 @@ import static android.graphics.Color.parseColor;
 public class MultipleChoiceTextFragment extends Fragment {
 
 
-    private Exercise exercise;
+    private MultipleChoice exercise;
     private Child child;
     private OnFragmentInteractionListener mListener;
     private ImageStorage imageStorage;
@@ -59,7 +60,7 @@ public class MultipleChoiceTextFragment extends Fragment {
      * @param imageStorage //storage with the images of the class
      * @return
      */
-    public static MultipleChoiceTextFragment newInstance(Exercise exercise, Child child, ImageStorage imageStorage, String seqName) {
+    public static MultipleChoiceTextFragment newInstance(MultipleChoice exercise, Child child, ImageStorage imageStorage, String seqName) {
         MultipleChoiceTextFragment fragment = new MultipleChoiceTextFragment();
         fragment.exercise = exercise;
         fragment.child = child;
@@ -107,12 +108,12 @@ public class MultipleChoiceTextFragment extends Fragment {
 
         // Exercise Options
         //  shuffle exerciseOptions
-        if (!exercise.getAnswers().isEmpty()) {
+        if (!exercise.getAnswersList().isEmpty()) {
 
-            answers = exercise.getAnswers();
+            answers = exercise.getAnswersList();
             // if(exerciseLong==null) { //todo  keep  the answers order  when redrawn
             Collections.shuffle(answers);
-            exercise.setAnswers(answers);
+            exercise.setAnswersList(answers);
             // }
             drawAnswers();
         }

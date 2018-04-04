@@ -5,6 +5,7 @@
  */
 package controllers.ModelOperations;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import controllers.AdminLogs;
 import controllers.SecurityController;
 import static java.lang.Integer.parseInt;
@@ -33,7 +34,7 @@ public class McOperations implements ExerciseOperations {
     public AdminLogs adminLogs = new AdminLogs();
     
     @Override
-    public Exercise createExercise(DynamicForm registerExerciseForm) {  
+    public Exercise createExercise(DynamicForm registerExerciseForm, JsonNode json) {  
         int answers = 0;
         boolean stimulus = false;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -71,8 +72,8 @@ public class McOperations implements ExerciseOperations {
         
         if(registerExerciseForm.get("type").equals("text")) {
                         
-            List<String> rightAnswers = new ArrayList();
-            List<String> distractors = new ArrayList();
+            List<String> rightAnswers = new ArrayList<String>();
+            List<String> distractors = new ArrayList<String>();
             
             registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
                 rightAnswers.add(registerExerciseForm.data().get(key));
@@ -95,8 +96,8 @@ public class McOperations implements ExerciseOperations {
             if(stimulusText != null) stimulus = true;
             else stimulus = false;
             
-            List<Long> rightAnswers = new ArrayList();
-            List<Long> distractors = new ArrayList();
+            List<Long> rightAnswers = new ArrayList<Long>();
+            List<Long> distractors = new ArrayList<Long>();
             
             registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
                 rightAnswers.add(Long.parseLong(registerExerciseForm.data().get(key)));

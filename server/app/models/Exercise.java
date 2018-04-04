@@ -3,9 +3,13 @@ package models;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +18,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import play.Logger;
@@ -22,18 +27,18 @@ import play.Logger;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dtype")
 public class Exercise extends Model {
 	
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String name;
     
-    @Column(insertable=false, updatable=false)  //type to differenciate the kind of exercise
-    public String dtype;
-
-
+    @Column(insertable=false, updatable=false)
+    public String dtype; //type to differ the kind of exercise
+    
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     private Caregiver author;
@@ -43,14 +48,31 @@ public class Exercise extends Model {
     
     private Boolean defaultExercise;
     
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @Column(nullable = true)
+    private Topic topic;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @Column(nullable = true)
+    private Level level;
+    
     @OneToMany(mappedBy = "exercise")
     @JsonManagedReference
     private List<SequenceExercise> sequencesExercise = new ArrayList<SequenceExercise>();
     
-    public Exercise(String name, Caregiver author, Boolean defaultExercise) {
+    public Exercise(String name, Caregiver author, Boolean defaultExercise, Long topic, Long level) {
         this.name = name;
         this.author = author;
         this.defaultExercise = defaultExercise;
+        
+        if (topic != -1) {
+            this.topic = Topic.findTopicById(topic);
+        }
+        
+        if (level != -1) {
+            this.level = Level.findLevelById(level);
+        }
+        
     }
 
     public Boolean getDefaultExercise() {
@@ -90,6 +112,39 @@ public class Exercise extends Model {
      public void setAuthor(Caregiver author) {
             this.author = author;
     }
+     
+    public void setTopic(Long topicId) {
+        Topic topic = Topic.findTopicById(topicId);
+        if (topic == null) throw new NullPointerException("Topic does not exist");
+        Logger.debug("New exercise :: setTopic: " + topic.getTopicDescription());
+        this.topic = topic;
+    }
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+    public void setLevel(Long levelId) {
+        Level level = Level.findLevelById(levelId);
+        if (level == null) throw new NullPointerException("Level does not exist");
+        Logger.debug("New exercise :: setLevel: " + level.getLevelDescription());
+        this.level = level;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public List<SequenceExercise> getSequencesExercise() {
+        return sequencesExercise;
+    }
+     
 
     public static final Finder<Long, Exercise> find = new Finder<>(Exercise.class);
     

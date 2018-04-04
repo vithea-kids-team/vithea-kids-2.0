@@ -128,6 +128,7 @@ export class ExercisesComponent implements OnInit, OnChanges {
     this.exercisesService.getExercises().subscribe(
       result => {
         this.exercises = result;
+        console.log(this.exercises);
         this.setPage(1);
         this.loading = false;
       },

@@ -9,6 +9,10 @@ package controllers.ModelOperations;
  *
  * @author silvi
  */
+/**
+ * Factory to get the right operations to apply  to a given exercise
+ * @author silvi
+ */
 public class ContextOperation {
     String exerciseType;
     
@@ -20,6 +24,10 @@ public class ContextOperation {
         
         if(exerciseType.equals("text") || exerciseType.equals("image")){
             return new McOperations();
+        }
+        
+        if(exerciseType.equals("selectionImage")){
+            return new SelectionImageOperations();
         }
         return null;
     }

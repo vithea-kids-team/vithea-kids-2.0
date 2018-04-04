@@ -44,6 +44,8 @@ import { UtilsExercisesService} from './services/utils/utils-exercises.service';
 import { AddExerciseComponent } from './components/add-exercise/add-exercise.component';
 import { AddExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/add-exercise-mc-image/add-exercise-mc-image.component';
 import { AddExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/add-exercise-mc-text/add-exercise-mc-text.component';
+import { AddExerciseSelectionImageComponent} from './components/selection-image-exercise/add-exercise-selectionImage/add-exercise-selectionImage.component';
+
 
 import { EditExerciseComponent } from './components/edit-exercise/edit-exercise.component';
 import { EditExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/edit-exercise-mc-image/edit-exercise-mc-image.component';
@@ -97,6 +99,7 @@ export function translateFactory(https: HttpClient) {
     AddExerciseComponent,
     AddExerciseMultipleChoiceImageComponent,
     AddExerciseMultipleChoiceTextComponent,
+    AddExerciseSelectionImageComponent,
     EditExerciseComponent,
     EditExerciseMultipleChoiceTextComponent,
     EditExerciseMultipleChoiceImageComponent,

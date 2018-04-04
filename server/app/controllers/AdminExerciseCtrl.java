@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.ModelOperations.ContextOperation;
 import controllers.ModelOperations.ExerciseOperations;
@@ -70,6 +71,8 @@ public class AdminExerciseCtrl extends Controller {
     FormFactory formFactory;
     public Result registerExercise() {
         DynamicForm registerExerciseForm = formFactory.form().bindFromRequest();
+        JsonNode json = request().body().asJson();
+        Logger.debug("JSON " + json);
         if (registerExerciseForm.hasErrors()) {
             return badRequest(registerExerciseForm.errorsAsJson());
         }
@@ -79,8 +82,9 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         
+       
         ExerciseOperations contextExercise = new ContextOperation(registerExerciseForm.get("type")).selectExerciseOperations();
-        Exercise exercise = contextExercise.createExercise(registerExerciseForm);
+        Exercise exercise = contextExercise.createExercise(registerExerciseForm, json);
          
         return ok(Json.toJson(exercise));
     }

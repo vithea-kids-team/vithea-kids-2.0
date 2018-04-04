@@ -5,6 +5,7 @@
  */
 package controllers.ModelOperations;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Caregiver;
 import models.Exercise;
 import models.MultipleChoice;
@@ -17,7 +18,7 @@ import play.data.DynamicForm;
 public interface ExerciseOperations {
     
     
-    public Exercise createExercise(DynamicForm form);
+    public Exercise createExercise(DynamicForm form, JsonNode json);
     public void deleteExercise(long exerciseId, Caregiver loggedCaregiver, MultipleChoice exercise);
     public Exercise editExercise(DynamicForm registerExerciseForm, long id, Caregiver loggedCaregiver);
     

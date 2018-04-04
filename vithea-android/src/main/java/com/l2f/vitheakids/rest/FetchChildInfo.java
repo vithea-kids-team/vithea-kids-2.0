@@ -5,30 +5,24 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import org.springframework.http.ResponseEntity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import com.l2f.vitheakids.R;
 import com.l2f.vitheakids.VitheaKidsActivity;
 import com.l2f.vitheakids.model.AnimatedCharacter;
 import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.model.Exercise;
-import com.l2f.vitheakids.model.PersonalMessage;
-import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.model.SequenceExercises;
-import com.l2f.vitheakids.task.LoadImageTask;
-import com.l2f.vitheakids.task.ReadTask;
 import com.l2f.vitheakids.task.SwitchCharacterTask;
 import com.l2f.vitheakids.util.Api;
 
@@ -62,7 +56,7 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
         String bodyseq = responseChildSeq.getBody();
         Log.d("sequencia", bodyseq);
         ObjectMapper mapper1 = new ObjectMapper();
-
+        mapper1.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
 
         // String JSON -> class
         Child allExercises = null;

@@ -16,6 +16,7 @@ import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.model.Exercise;
+import com.l2f.vitheakids.model.MultipleChoice;
 import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.util.Prompting;
 
@@ -34,7 +35,7 @@ import java.util.List;
  */
 public class MultipleChoiceImageFragment extends Fragment {
 
-    private Exercise exercise;
+    private MultipleChoice exercise;
     private Child child;
     private ImageStorage imageStorage;
     private String seqName;
@@ -55,7 +56,7 @@ public class MultipleChoiceImageFragment extends Fragment {
      *
      * @return A new instance of fragment MultipleChoiceImageFragment.
      */
-    public static MultipleChoiceImageFragment newInstance(Exercise exercise, Child child, ImageStorage imageStorage, String seqName) {
+    public static MultipleChoiceImageFragment newInstance(MultipleChoice exercise, Child child, ImageStorage imageStorage, String seqName) {
         MultipleChoiceImageFragment fragment = new MultipleChoiceImageFragment();
         fragment.child=child;
         fragment.exercise=exercise;
@@ -86,7 +87,7 @@ public class MultipleChoiceImageFragment extends Fragment {
             stimulusText.setText(stimulusTextContent);
         }
         //getting answers to shuffle
-        answers = exercise.getAnswers();
+        answers = exercise.getAnswersList();
 
         drawAnswers();
 
@@ -102,7 +103,7 @@ public class MultipleChoiceImageFragment extends Fragment {
         for (int i = 0; i < numberAnswers; i++) {
             ImageView option = (ImageView) fragmentView.findViewById(idImageViews.get(i));
             Answer answer = answers.get(i);
-            Resource answerImage = exercise.getAnswers().get(i).getStimulus();
+            Resource answerImage = exercise.getAnswersList().get(i).getStimulus();
             String path = answerImage != null ? answerImage.getResourcePath() : "";
 
             if (!path.isEmpty()) {

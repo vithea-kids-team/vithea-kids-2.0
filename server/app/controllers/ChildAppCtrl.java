@@ -46,7 +46,6 @@ public class ChildAppCtrl extends Controller {
         //Logger.debug("NOT XPTO: " + Json.stringify(toJson));
 
         System.out.println(Json.stringify(Json.toJson(loggedChild.toString1())));
-        
         return ok(Json.toJson(loggedChild.toString1()));
 
     }

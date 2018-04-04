@@ -4,8 +4,10 @@ import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.model.Exercise;
 import com.l2f.vitheakids.model.ExerciseLogInfo;
+import com.l2f.vitheakids.model.MultipleChoice;
 import com.l2f.vitheakids.model.PersonalMessage;
 import com.l2f.vitheakids.model.Resource;
+import com.l2f.vitheakids.model.SelectionImageExercise;
 import com.l2f.vitheakids.model.SequenceLogInfo;
 import com.l2f.vitheakids.rest.FetchChildInfo;
 import com.l2f.vitheakids.rest.SendLogs;
@@ -263,16 +265,21 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         if (child != null) {
             currentExercise = exercises.get(currentExercisePosition);
             fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
+            if(currentExercise instanceof MultipleChoice) {
+                if (((MultipleChoice)currentExercise).getType().equals("TEXT")) {
+                    fragmentTransaction.replace(R.id.child_fragment_container, MultipleChoiceTextFragment.newInstance((MultipleChoice) currentExercise, child, imageStorage, seqName));
+                    readWithOrWithoutEmotion(child, ((MultipleChoice)currentExercise).getQuestion().getQuestionDescription());
 
-            if (currentExercise.getType().equals("TEXT")) {
-                fragmentTransaction.replace(R.id.child_fragment_container,  MultipleChoiceTextFragment.newInstance(currentExercise, child, imageStorage,seqName));
-            } else if (currentExercise.getType().equals("IMAGE")) {
-                fragmentTransaction.replace(R.id.child_fragment_container,  MultipleChoiceImageFragment.newInstance(currentExercise, child, imageStorage,seqName));
+                } else if (((MultipleChoice)currentExercise).getType().equals("IMAGE")) {
+                    fragmentTransaction.replace(R.id.child_fragment_container, MultipleChoiceImageFragment.newInstance((MultipleChoice) currentExercise, child, imageStorage, seqName));
+                }
+            }
+            else if(currentExercise instanceof SelectionImageExercise){
+                // FIXME: 03/04/2018
             }
             fragmentTransaction.commit();
 
             // Send to Animated Character
-            readWithOrWithoutEmotion(child, currentExercise.getQuestion().getQuestionDescription());
 
         }
     }
@@ -519,11 +526,11 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         Log.e("sequence", "" + inSequenceScreen);
 
         if(!inSequenceScreen){
-            if(currentExercise.getType().equals("TEXT")){
+            if(((MultipleChoice)currentExercise).getType().equals("TEXT")){
                MultipleChoiceTextFragment multipleChoiceExercise = (MultipleChoiceTextFragment) getSupportFragmentManager().findFragmentById(R.id.child_fragment_container);
                multipleChoiceExercise.drawAnswers();
             }
-            if(currentExercise.getType().equals("IMAGE")){
+            if(((MultipleChoice)currentExercise).getType().equals("IMAGE")){
                 Log.d("clean prompting","Clean ajudas");
                 MultipleChoiceImageFragment multipleChoiceExercise = (MultipleChoiceImageFragment) getSupportFragmentManager().findFragmentById(R.id.child_fragment_container);
                 multipleChoiceExercise.drawAnswers(); //redraw buttons to clean all prompting types applied

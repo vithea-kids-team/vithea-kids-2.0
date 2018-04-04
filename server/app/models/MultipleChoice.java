@@ -18,28 +18,13 @@ import javax.persistence.OneToOne;
 import static models.Exercise.find;
 import play.Logger;
 
-/**
- *
- * @author silvi
- */
-
-
 
 @Entity
-@DiscriminatorValue( "multipleChoice" )
+@DiscriminatorValue( "MultipleChoice" )
 public class MultipleChoice extends Exercise{
     
-    @Column(nullable = false)
-    private ExerciseType type; //type of multiple_choice 
+    private ExerciseType type1; //type of multiple_choice 
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @Column(nullable = true)
-    private Topic topic;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @Column(nullable = true)
-    private Level level;
-
     @OneToOne(mappedBy="exercise", cascade = CascadeType.ALL)
     private Question question;
 
@@ -62,17 +47,10 @@ public class MultipleChoice extends Exercise{
      * @param def  
      */
     public MultipleChoice(Caregiver loggedCaregiver, long topic, long level, String question, long stimulusId, List<String> rightAnswers, List<String> distractors, Boolean def) {
-        super(question, loggedCaregiver, def);
+        super(question, loggedCaregiver, def, topic, level);
         
-        this.type = ExerciseType.TEXT;
+        this.type1 = ExerciseType.TEXT;
         
-        if (topic != -1) {
-            this.topic = Topic.findTopicById(topic);
-        }
-        
-        if (level != -1) {
-            this.level = Level.findLevelById(level);
-        }
         
         if (stimulusId != -1) {
             Resource stimulus = Resource.findById(stimulusId);
@@ -110,17 +88,9 @@ public class MultipleChoice extends Exercise{
      */
     
      public MultipleChoice(Caregiver loggedCaregiver, long topic, long level, String question, String stimulusText, List<Long> rightAnswersResourceIds, List<Long> distractorsResourcesIds, Boolean def) {
-        super(question, loggedCaregiver, def);
+        super(question, loggedCaregiver, def, topic, level);
 
-        this.type = ExerciseType.IMAGE;
-         
-        if (topic != -1) {
-            this.topic = Topic.findTopicById(topic);
-        }
-        
-        if (level != -1) {
-            this.level = Level.findLevelById(level);
-        }
+        this.type1 = ExerciseType.IMAGE;
         
         if (stimulusText != null && !stimulusText.isEmpty()) {
             this.question = new Question(question, stimulusText);
@@ -145,13 +115,6 @@ public class MultipleChoice extends Exercise{
         this.answersList = answers;
     }
     
-    public Topic getTopic() {
-        return topic;
-    }
-    
-    public Level getLevel() {
-        return level;
-    }
     public Question getQuestion() {
         return question;
     }
@@ -169,27 +132,9 @@ public class MultipleChoice extends Exercise{
     }
  
     public ExerciseType getType() {
-        return type;
+        return type1;
     }
   
-    public void setTopic(Topic topic) {
-        this.topic = topic;
-    }
-    public void setTopic(Long topicId) {
-        Topic topic = Topic.findTopicById(topicId);
-        if (topic == null) throw new NullPointerException("Topic does not exist");
-        Logger.debug("New exercise :: setTopic: " + topic.getTopicDescription());
-        this.topic = topic;
-    }
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-    public void setLevel(Long levelId) {
-        Level level = Level.findLevelById(levelId);
-        if (level == null) throw new NullPointerException("Level does not exist");
-        Logger.debug("New exercise :: setLevel: " + level.getLevelDescription());
-        this.level = level;
-    }
     public void setQuestion(Question question) {
             this.question = question;
     }
@@ -200,17 +145,7 @@ public class MultipleChoice extends Exercise{
         Logger.debug("New exercise :: setQuestion: " + question.getQuestionDescription() + " (" + question.getQuestionId() + ")");
         this.question = question;
     }    
-    /*public void setRightAnswer(Answer rightAnswer) {
-        this.rightAnswer = rightAnswer;
-    }
-    public void setRightAnswer(String rightAnswerDescription, Long resource) {
-        Answer rightAnswer = new Answer(rightAnswerDescription, true);
-        rightAnswer.setStimulus(resource);
-        rightAnswer.save();
-        Logger.debug("New exercise :: setRightAnswer: " + rightAnswer.getAnswerDescription() +" (" + rightAnswer.getAnswerId() + ")");
-        this.rightAnswer = rightAnswer;
-        this.answersList.add(rightAnswer);
-    }*/
+ 
     public void setAnswers(List<String> answerDescriptions, List<Long> answerStimulus) {
         Iterator<String> i = answerDescriptions.iterator(); 
         Iterator<Long> j = answerStimulus.iterator();		
@@ -257,8 +192,7 @@ public class MultipleChoice extends Exercise{
      * set all answers
      * @param rightAnswers
      * @param distractors 
-     */
-    
+     */   
     public void  setAnswersImg (List<Long> rightAnswers, List<Long> distractors){
         
         List<Answer> arrayAux =  new ArrayList<Answer>(this.answersList);
@@ -289,14 +223,13 @@ public class MultipleChoice extends Exercise{
       
     }
 
-    
-   
     public void setType(ExerciseType type) {
-        this.type = type;
+        this.type1 = type;
     }
 
     public static List<Exercise> getAll() {
         return find.all();
     }
+    
     
 }

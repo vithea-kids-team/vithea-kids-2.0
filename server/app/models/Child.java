@@ -239,10 +239,6 @@ public class Child extends Model {
             sequenceWithorderedExercices.put(nameSeq, orderedExercises);
         }
         
-
-        /*
-        child = ", sequenceIdName=" + sequenceIdName + 
-                ", sequenceWithorderedExercices=" + sequenceWithorderedExercices;*/
         System.out.println(sequenceWithorderedExercices.toString());
         return sequenceWithorderedExercices;
     }

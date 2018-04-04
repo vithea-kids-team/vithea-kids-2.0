@@ -59,16 +59,13 @@ export class ImagePickerComponent implements ControlValueAccessor {
 
   toggleItem(item) {
     item.selected = !item.selected;
-    this.selected = null;
-
-    this.onSelected.emit('toggleItems');
-
     if (!this.multiSelect) {
       this._items.forEach((x) => {
         if (x !== item) {
           x.selected = false;
         }
       });
+      this.onSelected.emit('toggleItems');
     }
   }
 

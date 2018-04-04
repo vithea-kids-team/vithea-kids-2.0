@@ -61,13 +61,10 @@
             <p *ngIf="exercises?.length === 0 && sequenceId">{{ '_NoExercisesSequences1_' | translate }}{{sequence.sequenceName}}{{'_NoExercisesSequences2_' | translate }}</p>
             <div class="panel panel-default" *ngFor="let exercise of pagedItems | exerciseFilter:searchBy | exerciseTypeFilter: imageFilter:textFilter">
                 <div *ngIf="!loading" class="panel-body">
-                    <div *ngIf="exercise.type.toLowerCase() == 'image'">
-                        <app-show-exercise-mc-image [exercise]="exercise"></app-show-exercise-mc-image>
+                    <div *ngIf="exercise.dtype.toLowerCase() == 'multiplechoice'">
+                        <app-show-exercise-mc-image [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'image'" ></app-show-exercise-mc-image>
+                        <app-show-exercise-mc-text [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'text'" ></app-show-exercise-mc-text>                
                     </div>
-                    <div *ngIf="exercise.type.toLowerCase() == 'text'">
-                        <app-show-exercise-mc-text [exercise]="exercise"></app-show-exercise-mc-text>
-                    </div>
-                </div>
                 <div class="panel-heading">
                     <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/' + exercise.type.toLowerCase() + '/edit']">
                         <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}

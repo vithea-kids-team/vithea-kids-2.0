@@ -1,5 +1,7 @@
 package com.l2f.vitheakids.model;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -46,7 +48,7 @@ public class SequenceExercises {
     public List<Resource> getAllResources(){
         List<Resource> listResources = new ArrayList<Resource>();
         for (Exercise exercise: sequenceExercises){
-            listResources.addAll(exercise.getAllUsedResources());
+            listResources.addAll(((MultipleChoice) exercise).getAllUsedResources());
         }
         return listResources;
     }

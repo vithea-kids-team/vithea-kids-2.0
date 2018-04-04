@@ -1,3 +1,4 @@
+import { SelectionArea } from './selectionArea';
 export class Exercise {
     public exerciseId: number
     public sequenceId: number
@@ -6,6 +7,8 @@ export class Exercise {
     public topic: string
     public level: string
     public question: string
+
+    // multiple choice
     public stimulus: string
     public answers:  Array<string>
     public rightAnswers: Array<string>
@@ -25,4 +28,10 @@ export class Exercise {
     public answersImg2: string
     public answersImg3: string
     public answersImg: Array<string>
+
+    // selectionImage
+    public widthOriginal: number;
+    public heightOriginal: number;
+    public selectionsAreas: Array<SelectionArea>;
+
 }

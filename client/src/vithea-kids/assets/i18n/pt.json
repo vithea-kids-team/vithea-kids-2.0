@@ -80,6 +80,13 @@
     "_StimulusAnswersJust_": "Adicione imagens para serem utilizadas como opção de resposta e estímulos na criação de exercícios",
     "_ReinforcementJust_": "Adicione imagens para serem utilizadas como reforço na resolução de exercícios",
 
+    "__COMMENT__": "Execise SelectionView ******************************************************************************************",
+    "_selectionImage_": "Estímulo",
+    "_chooseImage__" : "Clique na imagem que pretende utilizar para a seleccção de partes da mesma",
+    "_RequiredImage_" : "Seleccione uma imagem",
+    "_RequiredSelection_" : "Desenhe um rectângulo com o rato na região pretendida da imagem",
+
+
     "__COMMENT__": "CHILDREN ******************************************************************************************",
     "_ViewChildSequencesBtn_": "Ver aulas",
     "_EditChildPreferencesBtn_": "Editar preferências",

@@ -3,6 +3,8 @@ package com.l2f.vitheakids.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,26 +15,57 @@ import java.util.List;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Exercise {
 
-    @JsonProperty private Long exerciseId;
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="dtype")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = MultipleChoice.class, name = "MultipleChoice"),
+
+        @JsonSubTypes.Type(value = SelectionImageExercise.class, name = "SelectionImageExercise") }
+)
+public abstract class Exercise {
+
+    @JsonProperty private Long id;
     @JsonProperty private Topic topic;
     @JsonProperty private Level level;
-    @JsonProperty private Question question;
-    @JsonProperty private Answer rightAnswer;
-    @JsonProperty private List<Answer> answers;
-    @JsonProperty private String type;
+    //@JsonProperty private Question question;
+   // @JsonProperty private Answer rightAnswer;
+   // @JsonProperty private List<Answer> answers;
+    //@JsonProperty private String type;
+
+    public Exercise(){
+
+    }
+
+    public Exercise(Long exerciseId, Topic topic, Level level) {
+        this.id = exerciseId;
+        this.topic = topic;
+        this.level = level;
+    }
 
     public Long getId() {
-        return exerciseId;
+        return this.id;
     }
+
+    public void setExerciseId(Long exerciseId) {
+        this.id = exerciseId;
+    }
+
     public Topic getTopic() {
         return topic;
     }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
     public Level getLevel() {
         return level;
     }
-    public Question getQuestion() {
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+    /*  public Question getQuestion() {
         return question;
     }
     public Answer getRightAnswer() {
@@ -43,17 +76,10 @@ public class Exercise {
     }
     public String getType() {
         return type;
-    }
+    }*/
 
-    public void setId(Long id) {
-        this.exerciseId = id;
-    }
-    public void setTopic(Topic topic) {
-        this.topic = topic;
-    }
-    public void setLevel(Level level) {
-        this.level = level;
-    }
+
+    /*
     public void setQuestion(Question question) {
         this.question = question;
     }
@@ -63,9 +89,9 @@ public class Exercise {
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
-    public void setType(String type) {this.type = type;}
+    public void setType(String type) {this.type = type;}*/
 
-    public  List<Resource> getAllUsedResources() {
+    public  List<Resource> getAllUsedResources() {/*
         List<Resource> resources = new ArrayList<Resource>();
         Resource res1 = question.getStimulus();
         if (res1!=null) {
@@ -77,7 +103,8 @@ public class Exercise {
                 resources.add(res1);
             }
         }
-        return resources;
+        return resources;*/
+        return null;
     }
 
 
