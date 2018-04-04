@@ -14,7 +14,7 @@ import { Location } from '@angular/common';
 })
 export class EditCaregiverComponent  implements OnInit {
 
-  model: Caregiver = new Caregiver()
+  public editCaregiver = new Caregiver();
 
   genders = ['Female', 'Male', 'Other'];
   securityquestions = ['Qual o seu grupo musical favorito quando era criança?', 'Qual foi o primeiro filme que viu no cinema?', 
@@ -40,6 +40,7 @@ export class EditCaregiverComponent  implements OnInit {
   public lastName;
   public gender;
   public email;
+  public username;
   public securityQuestion;
   public securityPassword;
 
@@ -49,15 +50,13 @@ export class EditCaregiverComponent  implements OnInit {
     this.loading = true;
     this.caregiverService.getCaregiver(this.caregiverService.getUsername()).subscribe(
       (res: any) => {
-        console.log(res.json());
         this.caregiverId = res.json().caregiverId;
-        console.log(this.caregiverId);
         this.firstName = res.json().firstName;
         this.lastName = res.json().lastName;
         this.gender = res.json().gender;
         this.email = res.json().email;
-        this.securityQuestion = res.json().securityQuestion.question;
-        this.securityPassword = res.json().securityQuestion.password;
+        // this.securityQuestion = res.json().securityQuestion.question;
+        // this.securityPassword = res.json().securityQuestion.password;
         this.loading = false;
       },
       err => {
@@ -109,6 +108,20 @@ export class EditCaregiverComponent  implements OnInit {
     }
   }*/
 
+  validateUsername() {
+    if (this.username === undefined) {
+      this.usernameError = true;
+    } else {
+      this.usernameError = false;
+      let username = this.username.replace(/\s+/g, '');
+      if (username.length === 0) {
+        this.usernameError = true;
+      } else {
+        this.usernameError = false;
+      }
+    }
+  }
+
   validateFirstName() {
     if (this.firstName === undefined) {
       this.firstNameError = true;
@@ -124,7 +137,7 @@ export class EditCaregiverComponent  implements OnInit {
   }
 
   validateLastName() {
-    if (this.model.lastName === undefined) {
+    if (this.lastName === undefined) {
       this.lastNameError = true;
     } else {
       this.lastNameError = false;
@@ -155,30 +168,38 @@ export class EditCaregiverComponent  implements OnInit {
 
   submit() {
     // this.validatePassword();
+    // this.validateUsername();
     this.validateFirstName();
     this.validateLastName();
     this.validateGender();
     this.validateEmail();
-    this.validateSecurityQuestion();
-    this.validateSecurityPassword();
+    // this.validateSecurityQuestion();
+    // this.validateSecurityPassword();
 
-    if (this.firstNameError === false && this.lastNameError === false && this.genderError === false && this.emailError === false &&
-      this.securityQuestionError === false) { // && this.securityPasswordError === false) {
-      this.editCaregiver();
+    if (this.firstNameError === false && this.lastNameError === false && this.genderError === false && this.emailError === false) { // &&
+      // this.securityQuestionError === false) { // && this.securityPasswordError === false) {
+      this.editCaregiverProfile();
     }
   }
 
-  editCaregiver() {
+  editCaregiverProfile() {
     this.loading = true;
     this.error = undefined;
-    let caregiverName = this.model.firstName + ' ' + this.model.lastName;
+
+    this.editCaregiver.firstName = this.firstName;
+    this.editCaregiver.lastName = this.lastName;
+    this.editCaregiver.gender = this.gender;
+    this.editCaregiver.email = this.email;
+    // this.editCaregiver.securityQuestion = this.securityQuestion;
+
+    let caregiverName = this.editCaregiver.firstName + ' ' + this.editCaregiver.lastName;
 
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Editar cuidador').body('Tem a certeza que pretende editar o cuidador ' + caregiverName + '?').open();
 
     dialogRef.then(dialogRef2 => { dialogRef2.result.then(result => {
       if (result) {
-        this.caregiverService.editCaregiver(this.model).subscribe(
+        this.caregiverService.editCaregiver(this.editCaregiver).subscribe(
           res => {
             this.caregiverService.setSuccess(true);
             this.caregiverService.setFailure(false);
@@ -202,7 +223,7 @@ export class EditCaregiverComponent  implements OnInit {
   }
 
   reset() {
-    this.model = new Caregiver()
+    this.editCaregiver = new Caregiver()
   }
 
   goBack() {

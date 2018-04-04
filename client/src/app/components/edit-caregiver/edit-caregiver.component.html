@@ -8,6 +8,7 @@
     </div>
 
     <form (ngSubmit)="editCaregiver()" #caregiverForm="ngForm" class="col-md-8">
+
         <div class=row>
             <div class="form-group">
                 <label for="firstName">{{ '_FirstName_' | translate }} <span class="text-danger"> * </span></label>
@@ -39,7 +40,7 @@
                 <div *ngIf="genderError" class="alert alert-danger"> {{ '_RequiredGender_' | translate }} </div>
             </div>
         </div>
-        <div class=row>
+        <!--<div class=row>
             <div class="form-group">
                 <label for="securityQuestion">{{ '_SecurityQuestion_' | translate }} <span class="text-danger"> * </span></label>
                 <select class="form-control" id="securityQuestion" required [(ngModel)]="this.securityQuestion" name="securityQuestion" (ngModelChange)="validateSecurityQuestion()">
@@ -47,7 +48,7 @@
                 </select>
                 <div *ngIf="securityQuestionError" class="alert alert-danger"> {{ '_RequiredSecurityQuestion_' | translate }} </div>
             </div>
-        </div>
+        </div>-->
         <!-- so aparece se a questao for mudada para outra 
         <div class=row>
             <div class="form-group">

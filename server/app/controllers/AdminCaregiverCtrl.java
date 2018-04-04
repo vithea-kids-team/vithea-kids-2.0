@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import javax.inject.Inject;
 import models.Caregiver;
 import play.Logger;
+import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -37,9 +38,50 @@ public class AdminCaregiverCtrl extends Controller {
         return wrapper;
     }
     
-    public Result editCaregiver() {
+    public Result editCaregiver(String username) {
         Logger.debug("Hit AdminCaregiverCtrl.editCaregiver method");
-        return badRequest("not yet implemented");
+        
+        DynamicForm editCaregiverForm = formFactory.form().bindFromRequest();
+
+        Logger.debug("DEBUG:" + editCaregiverForm);
+
+        if (editCaregiverForm.hasErrors()) {
+            return badRequest(editCaregiverForm.errorsAsJson());
+        }
+        Caregiver caregiver = Caregiver.findByUsername(username);
+        
+        if (caregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver doesn't exist"));
+        } else {
+            Logger.debug("Editing caregiver: " + username);
+
+            caregiver.setFirstName(editCaregiverForm.get("firstName"));
+            caregiver.setLastName(editCaregiverForm.get("lastName"));
+            caregiver.setEmail(editCaregiverForm.get("email"));
+            caregiver.setGender(editCaregiverForm.get("gender"));
+            
+            caregiver.save();
+            
+            /*child.getChildLogin().setUsername(editChildForm.get("username"));
+            child.setFirstName(editChildForm.get("firstName"));
+            child.setLastName(editChildForm.get("lastName"));
+            child.setGender(editChildForm.get("gender"));
+            child.setBirthDate(editChildForm.get("birthDate"));
+            
+            child.save();
+            
+            Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+            if (loggedCaregiver == null) {
+                return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+            }
+            
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            String content = child.getChildId() + "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + "," + "edit\n";
+            String pathChildren = loggedCaregiver.getPathChildrenLog();
+            adminLogs.writeToFile(pathChildren, content);
+            */
+            return ok(Json.toJson(caregiver));
+        }
     }
     
     

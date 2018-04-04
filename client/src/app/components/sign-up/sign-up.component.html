@@ -10,7 +10,7 @@
         <div class=row>
             <div class="form-group">
                 <label for="username">{{ '_Username_' | translate }} <span class="text-danger"> * </span></label>
-                <input type="text" (input)="validateUsername()" class="form-control" id="username" required pattern="^[A-Za-z0-9_-]{3,15}$" maxlength="30" [(ngModel)]="model.username" name="username" #username="ngModel">
+                 <input type="text" (input)="validateUsername()" class="form-control" id="username" required pattern="^[A-Za-z0-9_-]{3,15}$" maxlength="30" [(ngModel)]="model.username" name="username">
                 <div *ngIf="usernameError" class="alert alert-danger"> {{ '_RequiredUsername_' | translate }} </div>
             </div>
         </div>

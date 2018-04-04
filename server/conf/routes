@@ -18,7 +18,7 @@ POST        /vithea-kids-api/recoverpassword                controllers.Security
 
 # Caregiver
 POST        /vithea-kids-api/signup                         controllers.SecurityController.signup
-POST        /vithea-kids-api/editcaregiver                  controllers.AdminCaregiverCtrl.editCaregiver
+POST        /vithea-kids-api/editcaregiver/:username        controllers.AdminCaregiverCtrl.editCaregiver(username:String)
 GET         /vithea-kids-api/loggedcaregiver/:username      controllers.AdminCaregiverCtrl.getCaregiver(username:String)
 
 # Child

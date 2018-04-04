@@ -26,12 +26,9 @@ export class CaregiverService {
   constructor(public http: HttpApiClient, public router: Router, public location: Location, public modal: Modal) { }
 
   editCaregiver(caregiver: Caregiver): Observable<Response> {
-    return this.http.post('/editcaregiver/', caregiver);
+    console.log(this.getUsername());
+    return this.http.post('/editcaregiver/' + this.getUsername(), caregiver);
   }
-
-  /*getCaregiver(): Observable<Caregiver> {
-    return this.http.get('/loggedcaregiver/').map(result => result && result.json());
-  }*/
   getCaregiver(username) {
     return this.http.get('/loggedcaregiver/' + username);
   }
