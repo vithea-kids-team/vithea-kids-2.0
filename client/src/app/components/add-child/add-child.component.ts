@@ -173,7 +173,7 @@ export class AddChildComponent implements OnInit {
       const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
       .title('Editar criança').body('Tem a certeza que pretende editar os dados da criança ' + childName + '?').open();
 
-      dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      dialogRef.then(dialogRef2 => { dialogRef2.result.then(result => {
         if (result) {
           this.childService.editChild(this.model).subscribe(
             res => {
@@ -198,7 +198,7 @@ export class AddChildComponent implements OnInit {
       const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
       .title('Registar criança').body('Tem a certeza que pretende registar a criança ' + childName + '?').open();
 
-      dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+      dialogRef.then(dialogRef2 => { dialogRef2.result.then(result => {
         if (result) {
           this.childService.addChildren(this.model).subscribe(
             res => {

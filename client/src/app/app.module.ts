@@ -17,12 +17,12 @@ import { appRoutes } from './app.routing';
 import { AppComponent } from './components/app.component';
 import { ImagePickerComponent } from './components/utils/image-picker/image-picker.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { EditCaregiverComponent } from './components/edit-caregiver/edit-caregiver.component';
 import { PreferencesComponent } from './components/preferences/preferences.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { AdminComponent } from './components/admin/admin.component';
 
 import { CaregiverService } from './services/caregiver/caregiver.service';
@@ -63,6 +63,9 @@ import { SequenceFilter } from './pipes/sequence-filter';
 
 import { ResourcesComponent } from  './components/resources/resources.component';
 import { ResourcesService } from './services/resources/resources.service';
+
+import { RecoverPasswordComponent } from  './components/recover-password/recover-password.component';
+
 import { AddResourceComponent } from './components/add-resource/add-resource.component';
 import { ResourceTypeFilter } from './pipes/resources-type-filter';
 
@@ -107,6 +110,7 @@ export function translateFactory(https: HttpClient) {
     ShowExerciseMultipleChoiceImageComponent,
     ImagePickerComponent,
     SignUpComponent,
+    EditCaregiverComponent,
     SequencesComponent,
     AddSequenceComponent,
     PreferencesComponent,
@@ -118,10 +122,10 @@ export function translateFactory(https: HttpClient) {
     LoaderComponent,
     SpinnerComponent,
     FileUploadComponent,
-    SettingsComponent,
     AdminComponent,
     ResourcesComponent,
     ResourceTypeFilter,
+    RecoverPasswordComponent,
     AddResourceComponent
   ],
   providers: [

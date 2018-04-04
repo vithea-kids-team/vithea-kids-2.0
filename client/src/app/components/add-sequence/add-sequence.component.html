@@ -12,7 +12,7 @@
             <div class="col-md-12 col-sm-12" style="padding-left:0">
                 <div class="form-group">
                     <label for="sequenceName">{{ '_SequenceName_' | translate }}<span class="text-danger"> * </span></label>
-                    <input type="text" class="form-control" id="sequenceName" maxlength="50" required [(ngModel)]="newSequence.sequenceName" (ngModelChange)="validateNameSequence()" name="sequenceName" #sequenceName="ngModel">
+                    <input type="text" class="form-control" id="sequenceName" maxlength="50" required [(ngModel)]="newSequence.sequenceName" (input)="validateNameSequence()" name="sequenceName" #sequenceName="ngModel">
                     <div *ngIf="nameError" class="alert alert-danger"> {{ '_RequiredSequenceName_' | translate }} </div>
                 </div>
             </div>

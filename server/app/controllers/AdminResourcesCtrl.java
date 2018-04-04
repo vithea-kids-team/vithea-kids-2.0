@@ -69,7 +69,7 @@ public class AdminResourcesCtrl extends Controller {
                     File file = resource.getFile();
                     BufferedImage originalImage = ImageIO.read(file);
                     
-                    String fileName = resource.getFilename();
+                    String fileName = resource.getFilename().replaceAll(" ", "_");
                     String extension = this.getExtension(fileName);
                     
                     // validate extension

@@ -233,6 +233,7 @@ public class AdminChildCtrl extends Controller {
         if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
+        
         Logger.debug(loggedCaregiver.getCaregiverLogin().getUsername() + " is logged in.");
         Logger.debug(loggedCaregiver.getChildList().size() + " children registered.");
         return ok(Json.toJson(loggedCaregiver.getChildList()));

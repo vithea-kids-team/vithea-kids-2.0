@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/map'
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { Response } from '@angular/http';
 import { HttpApiClient } from '../http/http-api-client.service';
 import { Router } from '@angular/router';
 import { Caregiver } from '../../models/caregiver';
@@ -13,14 +14,23 @@ import { Location } from '@angular/common';
 export class CaregiverService {
 
   userObs: Observable<any>;
-  failedLogin: boolean = false;
-  loggedIn: boolean = false;
+  failedLogin = false;
+  loggedIn = false;
   success = false
   failure = false;
+  failurePassword = false;
   textSuccess;
   textFailure;
+  textFailurePassword;
 
-  constructor(public http: HttpApiClient, public router: Router, public location: Location,public modal: Modal) { }
+  constructor(public http: HttpApiClient, public router: Router, public location: Location, public modal: Modal) { }
+
+  editCaregiver(caregiver: Caregiver): Observable<Response> {
+    return this.http.post('/editcaregiver/' + this.getUsername(), caregiver);
+  }
+  getCaregiver(username) {
+    return this.http.get('/loggedcaregiver/' + username);
+  }
 
   getSuccess() {
     return this.success;
@@ -28,8 +38,14 @@ export class CaregiverService {
   getFailure() {
     return this.failure;
   }
+  getFailurePassword() {
+    return this.failurePassword;
+  }
   getTextSuccess() {
     return this.textSuccess;
+  }
+  getTextFailurePassword() {
+    return this.textFailurePassword;
   }
   getTextFailure() {
     return this.textFailure;
@@ -47,9 +63,16 @@ export class CaregiverService {
     this.textFailure = text;
   }
 
+  fetchQuestion(username) {
+    return this.http.post('/getsecurityquestion', JSON.stringify({username}));
+  }
+
+  recoverPassword(username, securityAnswer, password) {
+    return this.http.post('/recoverpassword', JSON.stringify({username, securityAnswer, password}));
+  }
+
   login(username, password) {
-    return this.http
-      .post('/login/caregiver', JSON.stringify({ username, password }))
+    return this.http.post('/login/caregiver', JSON.stringify({ username, password }))
       .map(res => {
           if (res) {
             this.failedLogin = false;
@@ -72,11 +95,10 @@ export class CaregiverService {
   }
 
   logout() {
-
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Sair').body('Tem a certeza que pretende terminar a sessão actual?').open();
 
-    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+    dialogRef.then(dialogRef2 => { dialogRef2.result.then(result => {
       if (result) {
         return this.http.post('/logout', JSON.stringify(null)).subscribe(
           res => {

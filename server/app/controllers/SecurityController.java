@@ -3,17 +3,11 @@ package controllers;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.ConfigFactory;
 import java.io.File;
-import java.util.Properties;
 import javax.inject.Inject;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import models.Caregiver;
 import models.Level;
 import models.Login;
+import models.SecurityQuestion;
 import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
@@ -21,6 +15,7 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
 import play.mvc.*;
+import static play.mvc.Results.ok;
 
 public class SecurityController extends Controller {
 
@@ -29,56 +24,16 @@ public class SecurityController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "Authorization";
     public static final String AUTH_TOKEN = "authToken";
-    public AdminLogs adminLogs = new AdminLogs();
+    public static final String SECURITY_QUESTION = "securityQuestion";
+    public AdminLogs adminLogs = new AdminLogs();  
+    //public AdminCaregiverCtrl adminCaregiver = new AdminCaregiverCtrl();
+
 
     public static Login getUser() {
         return (Login) Http.Context.current().args.get("user");
     }
-
-    // returns an authToken
-    public Result login(String type) {
-        Logger.debug("Hit SecurityController.Login method");
-        Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
-
-        if (loginForm.hasErrors()) {
-            Logger.debug("\t Login form has errors, returning badRequest", loginForm.errorsAsJson());
-            return badRequest(loginForm.errorsAsJson());
-        }
-
-        Login login = loginForm.get();
-        Logger.debug("\t Username:" + login.getUsername());
-        Logger.debug("\t Password:" + login.getPassword());
-        Login user = Login.findByUsernameAndPassword(login.getUsername(), login.getPassword());
-        
-        if (user == null || (user.getUserType() == 0 && type.equals("child")) || (user.getUserType() == 1 && type.equals("caregiver"))) {
-            Logger.debug("\t \t Invalid user, returning unauthorized");
-            return unauthorized("Invalid username or password");
-        } else {
-            String authToken = user.addSession();
-            ObjectNode authTokenJson = Json.newObject();
-            authTokenJson.put(AUTH_TOKEN, authToken);
-            response().setCookie(Http.Cookie.builder(AUTH_TOKEN, authToken).withSecure(ctx().request().secure()).build());
-
-            Logger.debug("\t \t Returning authentication token.");
-            
-            //this.sendEmail("lua.svmac@gmail.com", "Teste", "Awesome! It works!");
-            
-            return ok(authTokenJson);
-        }
-    }
-
-    @Security.Authenticated(Secured.class)
-    public Result logout() {
-        Logger.debug("Hit SecurityController.Logout method");
-        Logger.debug("\t Deleting tokens...");
-        response().discardCookie(AUTH_TOKEN);
-        String token = Http.Context.current().request().headers().get(AUTH_TOKEN_HEADER)[0];
-        getUser().removeSession(token);
-        Logger.debug("\t Redirecting...");
-        return redirect("/");
-    }
-
-    public Result signup() {
+    
+    public Result signup(){
         Logger.debug("Hit SecurityController.Signup method");
         Logger.debug("\t Binding data from request");
         DynamicForm signUpForm = formFactory.form().bindFromRequest();
@@ -94,20 +49,26 @@ public class SecurityController extends Controller {
         } else if (Login.findByUsername(signUpForm.get("username")) != null) {
             return badRequest("Username already exists");
         } else {
+            String username     = signUpForm.get("username");
+            String password     = signUpForm.get("password");
+            String email        = signUpForm.get("email");
+            String firstName    = signUpForm.get("firstName");
+            String lastName     = signUpForm.get("lastName");
+            String gender       = signUpForm.get("gender");
+            String secQuestion  = signUpForm.get("securityQuestion");
+            String secPassword  = signUpForm.get("securityPassword");
+            
+            Logger.debug("\t \t Creating caregiver...");
+            Caregiver user = new Caregiver(email, gender,  firstName, lastName, secQuestion, secPassword);
+            
             Logger.debug("\t \t Creating user login...");
-            Login userlogin = new Login(signUpForm.get("username"), signUpForm.get("password"));
+            Login userlogin = new Login(username, password);
             userlogin.setEnabled(true);
             userlogin.setUserType(0);
             userlogin.save();
-            Logger.debug("\t \t Creating caregiver...");
-            Caregiver user = new Caregiver();
             user.setCaregiverLogin(userlogin);
-            user.setEmail(signUpForm.get("email"));
-            user.setFirstName(signUpForm.get("firstname"));
-            user.setLastName(signUpForm.get("lastname"));
-            user.setGender(signUpForm.get("gender"));
             user.save();
-            
+                    
             Boolean DEVELOPMENT = Boolean.parseBoolean(ConfigFactory.load().getString("development"));
             String path = "";
             
@@ -164,7 +125,7 @@ public class SecurityController extends Controller {
             return ok("User created successfully");
         }
     }
-   
+    
     public void createTopicsDefault(Caregiver loggedCaregiver){
         Topic topic1 = new Topic("Animais", loggedCaregiver, true);
         topic1.save();
@@ -183,46 +144,90 @@ public class SecurityController extends Controller {
         level3.save();
     }
     
-    public void sendEmail(String to, String subject, String body){
-        
-        // Recipient's email ID needs to be mentioned.
-        // Sender's email ID needs to be mentioned
-        String from = "lua.svmac@gmail.com"; //admin@vithea-kids.com
+    // returns an authToken
+    public Result login(String type) {
+        Logger.debug("Hit SecurityController.Login method");
+        Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
 
-        // Assuming you are sending email from localhost
-        String host = "localhost";
-
-        // Get system properties
-        Properties properties = System.getProperties();
-    
-        // Setup mail server
-        properties.setProperty("mail.smtp.host", host);
-
-        // Get the default Session object.
-        Session session = Session.getDefaultInstance(properties);
-        
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
-
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
-
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Set Subject: header field
-            message.setSubject(subject);
-
-            // Now set the actual message
-            message.setText(body);
-
-            // Send message
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
+        if (loginForm.hasErrors()) {
+            Logger.debug("\t Login form has errors, returning badRequest", loginForm.errorsAsJson());
+            return badRequest(loginForm.errorsAsJson());
         }
+
+        Login login = loginForm.get();
+        Logger.debug("\t Username:" + login.getUsername());
+        Logger.debug("\t Password:" + login.getPassword());
+        Login user = Login.findByUsernameAndPassword(login.getUsername(), login.getPassword());
+        
+        if (user == null || (user.getUserType() == 0 && type.equals("child")) || (user.getUserType() == 1 && type.equals("caregiver"))) {
+            Logger.debug("\t \t Invalid user, returning unauthorized");
+            return unauthorized("Invalid username or password");
+        } else {
+            String authToken = user.addSession();
+            ObjectNode authTokenJson = Json.newObject();
+            authTokenJson.put(AUTH_TOKEN, authToken);
+            response().setCookie(Http.Cookie.builder(AUTH_TOKEN, authToken).withSecure(ctx().request().secure()).build());
+
+            Logger.debug("\t \t Returning authentication token.");
+                        
+            return ok(authTokenJson);
+        }
+    }
+
+    @Security.Authenticated(Secured.class)
+    public Result logout() {
+        Logger.debug("Hit SecurityController.Logout method");
+        Logger.debug("\t Deleting tokens...");
+        response().discardCookie(AUTH_TOKEN);
+        String token = Http.Context.current().request().headers().get(AUTH_TOKEN_HEADER)[0];
+        getUser().removeSession(token);
+        Logger.debug("\t Redirecting...");
+        return redirect("/");
+    }
+    
+    public Result getQuestion(){
+        Logger.debug("Hit SecurityController.getQuestion method");
+        
+        DynamicForm questionForm = formFactory.form().bindFromRequest();
+        String username = questionForm.get("username");
+        
+        Caregiver caregiver = Caregiver.findByUsername(username);
+        
+        if(caregiver == null){
+            return badRequest("Username does not exist");
+        }
+        else {
+            SecurityQuestion securityQuestion = caregiver.getSecurityQuestion();
+            if(securityQuestion == null){ 
+                return badRequest("Security Question does not exist"); 
+            }
+            String question = securityQuestion.getQuestion();
+            ObjectNode questionJson = Json.newObject();
+            questionJson.put(SECURITY_QUESTION, question);
+            return ok(questionJson);
+        }
+    }
+    
+    public Result recoverPassword() {
+        Logger.debug("Hit SecurityController.recoverPassword method");  
+      
+        DynamicForm recoverPasswordForm = formFactory.form().bindFromRequest();
+        String username = recoverPasswordForm.get("username");
+        String password = recoverPasswordForm.get("password");
+        String securityAnswer = recoverPasswordForm.get("securityAnswer");
+        
+        Caregiver caregiver = Caregiver.findByUsername(username);
+        String caregiverSecurityAnswer = caregiver.getSecurityQuestion().getAnswer();
+        
+        if(caregiverSecurityAnswer.equals(securityAnswer)) {
+            Login findByUsername = Login.findByUsername(username);
+            findByUsername.setPassword(password);
+            findByUsername.setEnabled(true);
+            findByUsername.save();
+        }
+        else return badRequest("Wrong security answer");
+        
+    return ok("Password changed successfully");
     }
 
 }

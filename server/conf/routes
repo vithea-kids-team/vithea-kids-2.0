@@ -10,13 +10,16 @@ GET         /assets/*file                                   controllers.Assets.v
 GET         /vithea-kids/assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
 GET         /vithea-kids/*any                               controllers.HomeController.index(any)
 
-
-#GET         /files/*file                                    controllers.AdminExerciseCtrl.serve(file)
-
 # HomePage
-POST        /vithea-kids-api/signup                         controllers.SecurityController.signup
 POST        /vithea-kids-api/login/:type                    controllers.SecurityController.login(type:String)
 POST        /vithea-kids-api/logout                         controllers.SecurityController.logout
+POST        /vithea-kids-api/getsecurityquestion            controllers.SecurityController.getQuestion                
+POST        /vithea-kids-api/recoverpassword                controllers.SecurityController.recoverPassword
+
+# Caregiver
+POST        /vithea-kids-api/signup                         controllers.SecurityController.signup
+POST        /vithea-kids-api/editcaregiver/:username        controllers.AdminCaregiverCtrl.editCaregiver(username:String)
+GET         /vithea-kids-api/loggedcaregiver/:username      controllers.AdminCaregiverCtrl.getCaregiver(username:String)
 
 # Child
 POST        /vithea-kids-api/registerchild                  controllers.AdminChildCtrl.registerchild

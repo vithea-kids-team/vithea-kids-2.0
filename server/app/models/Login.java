@@ -53,9 +53,9 @@ public class Login extends Model {
         public Login() {}
         
 	public Login(String username, String password) {
-		setUsername(username);
-		setPassword(password);
-                this.createdUtc = new Date();
+            setUsername(username);
+            setPassword(password);
+            this.createdUtc = new Date();
 	}	
 
 	public Long getLoginId() {
@@ -79,8 +79,8 @@ public class Login extends Model {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
-		shaPassword = getSha512(password);
+            this.password = password;
+            shaPassword = getSha512(password);
 	}
 
 	public boolean isEnabled() {
