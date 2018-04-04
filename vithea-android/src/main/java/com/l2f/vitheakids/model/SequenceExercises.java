@@ -48,7 +48,7 @@ public class SequenceExercises {
     public List<Resource> getAllResources(){
         List<Resource> listResources = new ArrayList<Resource>();
         for (Exercise exercise: sequenceExercises){
-            listResources.addAll(((MultipleChoice) exercise).getAllUsedResources());
+            listResources.addAll(exercise.getAllUsedResources());
         }
         return listResources;
     }
