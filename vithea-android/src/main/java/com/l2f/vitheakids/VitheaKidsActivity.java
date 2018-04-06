@@ -275,7 +275,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
                 }
             }
             else if(currentExercise instanceof SelectionImageExercise){
-                // FIXME: 03/04/2018
+                fragmentTransaction.replace(R.id.child_fragment_container, SelectionImageFragment.newInstance((SelectionImageExercise) currentExercise,imageStorage, seqName, child));
             }
             fragmentTransaction.commit();
 
@@ -293,7 +293,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         res = child.getReinforcement().getReinforcementResource();
 
         if (reinforcementActive && res!=null) {
-            hideActionBar(); // TODO maybe not hide
+            hideActionBar();
             playReinforcementMessage(child, "EXERCISE_REINFORCEMENT");
 
             byte[] bitmap = imageStorage.getImage(seqName, res.getResourceId());//getting reinforcement image
@@ -325,16 +325,12 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         ImageButton  buttonPrevious = (ImageButton ) findViewById(R.id.previousExerciseButton);
         ImageButton  buttonNext= (ImageButton ) findViewById(R.id.nextExerciseButton);
 
-        if (isLastExercise) {
+        if (isLastExercise ) {
             Log.d("lastExercise", "it's the last exercise");
             next.setVisibility(View.INVISIBLE);
             end.setVisibility(View.VISIBLE);
-            previous.setVisibility(View.VISIBLE);
 
             ImageButton  buttonEnd = (ImageButton) findViewById(R.id.endExerciseButton);
-
-
-
             buttonEnd.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -344,13 +340,19 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
                 }
             });
 
-            buttonPrevious.setOnClickListener(new View.OnClickListener() {
+            if(exercises.size()!=1){
+                previous.setVisibility(View.VISIBLE);
+                buttonPrevious.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    previousExerciseHandler();
-                }
-            });
+                    @Override
+                    public void onClick(View v) {
+                        previousExerciseHandler();
+                    }
+                });
+            }
+            else{
+                previous.setVisibility(View.INVISIBLE);
+            }
 
         } else if(!isLastExercise && !isfirstExercise) {
             Log.d("not last, not first", "exercise");
@@ -393,11 +395,11 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
 //**** Region Handlers - what happens when you do some actions ************************************
 
-    protected void rightAnswerHandler(View v, Child child) {
+    protected void rightAnswerHandler() {
         inExercise = false;
         correctAnswer = true;
         playReinforcementMessage(child, "EXERCISE_REINFORCEMENT");
-        if(reinforcementActive) playReinforcement(child);
+        if(reinforcementActive) playReinforcement(this.child);
         else nextExerciseHandler();
         attempts = 0;
     }

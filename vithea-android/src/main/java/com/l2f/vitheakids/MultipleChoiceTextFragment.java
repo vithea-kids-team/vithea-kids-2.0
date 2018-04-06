@@ -169,7 +169,7 @@ public class MultipleChoiceTextFragment extends Fragment {
             if (answer.isRightAnswer()) { //right answer
                 btn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        activity.rightAnswerHandler(v, child);
+                        activity.rightAnswerHandler();
                     }
                 });
                 rightAnswerButtons.add(btn);

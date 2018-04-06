@@ -120,7 +120,7 @@ public class MultipleChoiceImageFragment extends Fragment {
             if (answer.isRightAnswer()) {
                 option.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        act.rightAnswerHandler(v, child); //fixme create interface
+                        act.rightAnswerHandler(); //fixme create interface
                     }
                 });
                 rightAnswers.add(option);

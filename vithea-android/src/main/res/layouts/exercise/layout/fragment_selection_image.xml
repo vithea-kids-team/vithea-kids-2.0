@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/selectionImageLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.l2f.vitheakids.ReinforcementFragment"
+    >
+    <TextView
+        android:id="@+id/questionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="assafsfsdfsd"
+        android:layout_marginBottom="5dp"
+        android:textSize="25sp">
+
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/containerImageTouch"
+        android:layout_width="378dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+
+        >
+
+    </LinearLayout>
+
+</LinearLayout>

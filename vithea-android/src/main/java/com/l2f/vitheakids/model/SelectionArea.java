@@ -4,7 +4,7 @@ package com.l2f.vitheakids.model;
  * Created by silvi on 03/04/2018.
  */
 
-class SelectionArea {
+public class SelectionArea {
     private float startX;
     private float startY;
     private float endX;

@@ -1,7 +1,10 @@
 package com.l2f.vitheakids.model;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,5 +68,18 @@ public class SelectionImageExercise extends Exercise {
 
     public void setSelectionAreas(List<SelectionArea> selectionAreas) {
         this.selectionAreas = selectionAreas;
+    }
+
+    @Override
+    public  List<Resource> getAllUsedResources() {
+        List<Resource> resources = new ArrayList<Resource>();
+        Log.d("SelectionImageExercise", "loading resource");
+        if (stimulus!=null) {
+            Log.d("SelectionImageExercise", " resource not null");
+
+            resources.add(stimulus);
+        }
+
+        return resources;
     }
 }

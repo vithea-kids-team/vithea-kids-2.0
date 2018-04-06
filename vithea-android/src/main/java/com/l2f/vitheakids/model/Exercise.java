@@ -91,21 +91,7 @@ public abstract class Exercise {
     }
     public void setType(String type) {this.type = type;}*/
 
-    public  List<Resource> getAllUsedResources() {/*
-        List<Resource> resources = new ArrayList<Resource>();
-        Resource res1 = question.getStimulus();
-        if (res1!=null) {
-            resources.add(res1);
-        }
-        for (Answer answer : answers) {
-            res1 = answer.getStimulus();
-            if (res1!=null) {
-                resources.add(res1);
-            }
-        }
-        return resources;*/
-        return null;
-    }
+    public abstract  List<Resource> getAllUsedResources();
 
 
 
