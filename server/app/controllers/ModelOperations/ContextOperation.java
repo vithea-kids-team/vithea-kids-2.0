@@ -17,6 +17,7 @@ public class ContextOperation {
     String exerciseType;
     
     public ContextOperation(String type){
+        System.out.println(type);
         this.exerciseType=type;
     }
     
@@ -29,6 +30,11 @@ public class ContextOperation {
         if(exerciseType.equals("selectionImage")){
             return new SelectionImageOperations();
         }
+        
+        if(exerciseType.equals("speech")){
+            return new SpeechOperations();
+        }
+        
         return null;
     }
       

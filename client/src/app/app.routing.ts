@@ -12,6 +12,7 @@ import { PreferencesComponent } from './components/preferences/preferences.compo
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { ResourcesComponent } from './components/resources/resources.component';
 import { AddResourceComponent } from './components/add-resource/add-resource.component';
 import { RecoverPasswordComponent } from './components/recover-password/recover-password.component';
@@ -29,6 +30,7 @@ export const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'recover', component: RecoverPasswordComponent },
   { path: 'admin', component: AdminComponent, canActivate: [GuardService] },
+  { path: 'settings', component: SettingsComponent, canActivate: [GuardService] },
   { path: 'children',
     children: [{ path: '', component: ChildrenComponent, canActivate: [GuardService] },
               { path: 'new', component: AddChildComponent, canActivate: [GuardService] },

@@ -9,32 +9,28 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.AdminLogs;
 import controllers.SecurityController;
 import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import models.Answer;
 import models.Caregiver;
 import models.Exercise;
-import models.Level;
-import models.MultipleChoice;
-import models.Question;
 import models.Sequence;
 import models.SequenceExercise;
-import models.Topic;
+import models.SpeechExercise;
 import play.Logger;
 import play.data.DynamicForm;
-import scala.collection.concurrent.Debug;
+
 
 /**
  *
- * @author silvi
+ * @author soraia meneses alarcão
  */
-public class McOperations implements ExerciseOperations {
+public class SpeechOperations implements ExerciseOperations {
     public AdminLogs adminLogs = new AdminLogs();
     
     @Override
     public Exercise createExercise(DynamicForm registerExerciseForm, JsonNode json) {  
+        
         int answers = 0;
         boolean stimulus = false;
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -70,112 +66,15 @@ public class McOperations implements ExerciseOperations {
         
         String question = registerExerciseForm.get("question");
         
-        if(registerExerciseForm.get("type").equals("text")) {
-                        
-            List<String> rightAnswers = new ArrayList<String>();
-            List<String> distractors = new ArrayList<String>();
-            
-            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
-                rightAnswers.add(registerExerciseForm.data().get(key));
-            });
-            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
-                distractors.add(registerExerciseForm.data().get(key));
-            });
-          
-            exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusId, rightAnswers, distractors, false);
-            exercise.save();
-            
-            String content = stimulusId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
-            timestamp.toLocalDateTime() + "," + "Stimuli" + "," + "addToExercise" + "," + "false" + "\n";
-            String pathResources = loggedCaregiver.getPathResourcesLog();
-            adminLogs.writeToFile(pathResources, content);
-           
-        } else if(registerExerciseForm.get("type").equals("image")) {
-            
-            String stimulusText = registerExerciseForm.get("stimulusText");
-            if(stimulusText != null) stimulus = true;
-            else stimulus = false;
-            
-            List<Long> rightAnswers = new ArrayList<Long>();
-            List<Long> distractors = new ArrayList<Long>();
-            
-            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
-                rightAnswers.add(Long.parseLong(registerExerciseForm.data().get(key)));
-            });
-            registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
-                distractors.add(Long.parseLong(registerExerciseForm.data().get(key)));
-            });
-            
-            /*
-       
-            int answerResourceId;
-            String sresourcesid = "";
-            
-            try {
-                answerResourceId = parseInt(registerExerciseForm.get("rightAnswerImg"));
-                sresourcesid += answerResourceId + " ";
-                answers++;
-            } catch (NumberFormatException e) {
-                answerResourceId = -1;
-            }
-            
-            
-            
-            List<Long> rigthAnswersResourcesIds = new ArrayList<>();
-            Map<String, String> data = registerExerciseForm.data();
-            int numberRightAnswers = data.size();
-            for(int i = 0; i < numberRightAnswers; i++){
-                String key = "rightAnswers[" + i + "]";
-                if(data.containsKey(key)){
-                    int answerId;
-                    try {
-                        answerId = parseInt(data.get(key));
-                        sresourcesid += answerId + " ";
-                    } catch (NumberFormatException e) {
-                        answerId = -1;
-                    }
-                    rigthAnswersResourcesIds.add((long)answerId);
-                }
-            }
-            
-            List<Long> distractorsResourcesIds = new ArrayList<>();
-            Map<String, String> data2 = registerExerciseForm.data();
-            int numberDistractors = data2.size();
-            for(int i = 0; i < numberDistractors; i++){
-                String key = "distractors[" + i + "]";
-                if(data.containsKey(key)){
-                    int answerId;
-                    try {
-                        answerId = parseInt(data.get(key));
-                        sresourcesid += answerId + " ";
-                    } catch (NumberFormatException e) {
-                        answerId = -1;
-                    }
-                    distractorsResourcesIds.add((long)answerId);
-                }
-            }
-            */
-            
-            exercise = new MultipleChoice(loggedCaregiver, topic, level, question, stimulusText, rightAnswers, distractors, false);
-            exercise.save();
-            
-            /*String content = answerResourceId + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
-                timestamp.toLocalDateTime() + "," + "Answers" + "," + "addToExercise" + ","  + "," + "false" + "\n";
-            String pathResources = loggedCaregiver.getPathResourcesLog();
-            adminLogs.writeToFile(pathResources, content);
-            
-            Object[] toArray = distractorsResourcesIds.toArray();
-            for(int i = 0; i < toArray.length; i++){
-                content = toArray[i] + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
-                timestamp.toLocalDateTime() + "," + "Answers" + "," + "addToExercise" + "," + "," + "false" + "\n";
-                pathResources = loggedCaregiver.getPathResourcesLog();
-                adminLogs.writeToFile(pathResources, content);
-            }*/
-        }
+        List<String> rightAnswers = new ArrayList<>();
+        registerExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
+            rightAnswers.add(registerExerciseForm.data().get(key));
+        });
         
+        exercise = new SpeechExercise(loggedCaregiver, topic, level, question, stimulusId, rightAnswers, false);
         exercise.save();
         
-        String content = exercise.getExerciseId()+ "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + ","  +
+        /*String content = exercise.getExerciseId()+ "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + ","  +
                 registerExerciseForm.get("type") + "," + "create" + "," + answers + "," + stimulus + "," + "false" + "\n";
         String pathExercise = loggedCaregiver.getPathExercisesLog();
         adminLogs.writeToFile(pathExercise, content);
@@ -188,7 +87,7 @@ public class McOperations implements ExerciseOperations {
         String content3 = topic + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
                 timestamp.toLocalDateTime() + "," + "addToExercise" + "," + "false" + "\n";
         String pathTopics = loggedCaregiver.getPathTopicsLog();
-        adminLogs.writeToFile(pathTopics, content3);   
+        adminLogs.writeToFile(pathTopics, content3);   */
        
         return exercise;
      }
@@ -196,16 +95,17 @@ public class McOperations implements ExerciseOperations {
     @Override
     public void deleteExercise(long exerciseId, Caregiver loggedCaregiver) {
         
-        MultipleChoice exercise = (MultipleChoice) Exercise.findExerciseById(exerciseId);
+        SpeechExercise exercise = (SpeechExercise) Exercise.findExerciseById(exerciseId);
         
-        List<Answer> answers = exercise.getAnswers();
+        /**++List<Answer> answers = exercise.getAnswers();
         List<Answer> iterable = new ArrayList(answers);
         
         iterable.forEach((Answer ans) -> {
             answers.remove(ans);
             exercise.save();
             ans.delete();
-        });
+        });*/
+        
         
         List<SequenceExercise> sequenceExercise = exercise.getSequenceExercise();
         List<SequenceExercise> iterable2 = new ArrayList(sequenceExercise);
@@ -238,20 +138,18 @@ public class McOperations implements ExerciseOperations {
         adminLogs.writeToFile(pathExercise, content);
         
         exercise.delete();
-        
-        
     }
     
 
     @Override
     public Exercise editExercise(DynamicForm editExerciseForm, long exerciseId, Caregiver loggedCaregiver) {
-        Debug.log(editExerciseForm);
+        //Debug.log(editExerciseForm);
         String sresourcesid = "";
-        MultipleChoice exercise = (MultipleChoice) Exercise.findExerciseById(exerciseId); //getting exercise
+        SpeechExercise exercise = (SpeechExercise) Exercise.findExerciseById(exerciseId); //getting exercise
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         
         Logger.debug("Editing exercise with id " + exerciseId);
-
+/*
         // topic
         long topic;
         try {
@@ -371,7 +269,7 @@ public class McOperations implements ExerciseOperations {
             editExerciseForm.get("type") + "," + "edit" + "," + answerssize + "," + stimulus + "," + "false" + "\n";
         String pathExercise = loggedCaregiver.getPathExercisesLog();
         adminLogs.writeToFile(pathExercise, content);
-
+        */
         return exercise;
     }
     

@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import models.Caregiver;
 import models.Exercise;
 import models.Level;
-import models.MultipleChoice;
 import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
@@ -82,7 +81,8 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         
-       
+        Logger.debug(registerExerciseForm.get("type"));
+        
         ExerciseOperations contextExercise = new ContextOperation(registerExerciseForm.get("type")).selectExerciseOperations();
         Exercise exercise = contextExercise.createExercise(registerExerciseForm, json);
          
@@ -119,7 +119,6 @@ public class AdminExerciseCtrl extends Controller {
         ExerciseOperations  contextExercise = new ContextOperation(editExerciseForm.get("type")).selectExerciseOperations();
         exercise = contextExercise.editExercise(editExerciseForm, exerciseId, loggedCaregiver);
        
-        
         return ok(Json.toJson(exercise));        
     }
     
@@ -259,13 +258,12 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
         }
         
-        if (exercise instanceof MultipleChoice){
+        new McOperations().deleteExercise(exerciseId, loggedCaregiver);
+        
+        /*if (exercise instanceof MultipleChoice){
             
-           new McOperations().deleteExercise(exerciseId, loggedCaregiver,(MultipleChoice) exercise);
-        }
-        
-        
-
+           
+        }*/
         return ok(buildJsonResponse("success", "Exercise deleted successfully"));
     }
     

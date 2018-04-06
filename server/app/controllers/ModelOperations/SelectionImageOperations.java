@@ -5,7 +5,6 @@
  */
 package controllers.ModelOperations;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -13,10 +12,8 @@ import controllers.SecurityController;
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
 import java.util.List;
-import java.util.logging.Level;
 import models.Caregiver;
 import models.Exercise;
-import models.MultipleChoice;
 import models.Resource;
 import models.SelectionArea;
 import models.SelectionImageExercise;
@@ -64,13 +61,11 @@ public class SelectionImageOperations implements ExerciseOperations{
             Logger.debug(ex.getMessage());
         }
 
-        
-        
         return exercise;
     }
 
     @Override
-    public void deleteExercise(long exerciseId, Caregiver loggedCaregiver, MultipleChoice exercise) {
+    public void deleteExercise(long exerciseId, Caregiver loggedCaregiver) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

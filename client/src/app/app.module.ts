@@ -24,6 +24,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 import { CaregiverService } from './services/caregiver/caregiver.service';
 import { PaginationService } from './services/pagination/pagination.service';
@@ -45,11 +46,13 @@ import { AddExerciseComponent } from './components/add-exercise/add-exercise.com
 import { AddExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/add-exercise-mc-image/add-exercise-mc-image.component';
 import { AddExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/add-exercise-mc-text/add-exercise-mc-text.component';
 import { AddExerciseSelectionImageComponent} from './components/selection-image-exercise/add-exercise-selectionImage/add-exercise-selectionImage.component';
+import { AddExerciseSpeechComponent} from './components/speech-exercise/add-exercise-speech/add-exercise-speech.component';
 
 
 import { EditExerciseComponent } from './components/edit-exercise/edit-exercise.component';
 import { EditExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/edit-exercise-mc-image/edit-exercise-mc-image.component';
 import { EditExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/edit-exercise-mc-text/edit-exercise-mc-text.component';
+
 import { ShowExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/show-exercise-mc-image/show-exercise-mc-image.component';
 import { ShowExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/show-exercise-mc-text/show-exercise-mc-text.component';
 
@@ -103,6 +106,7 @@ export function translateFactory(https: HttpClient) {
     AddExerciseMultipleChoiceImageComponent,
     AddExerciseMultipleChoiceTextComponent,
     AddExerciseSelectionImageComponent,
+    AddExerciseSpeechComponent,
     EditExerciseComponent,
     EditExerciseMultipleChoiceTextComponent,
     EditExerciseMultipleChoiceImageComponent,
@@ -123,6 +127,7 @@ export function translateFactory(https: HttpClient) {
     SpinnerComponent,
     FileUploadComponent,
     AdminComponent,
+    SettingsComponent,  
     ResourcesComponent,
     ResourceTypeFilter,
     RecoverPasswordComponent,

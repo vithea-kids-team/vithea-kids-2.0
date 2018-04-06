@@ -17,8 +17,9 @@
         <div class="form-group">
             <label> {{ '_ExerciseType_' | translate }} <span class="text-danger"> * </span></label>
             <br>
-            <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="type"  name="type">Resposta em texto</label>
+            <label class="radio-inline"><input type="radio" value="speech" [(ngModel)]="type" name="type">Resposta em fala</label>
             <label class="radio-inline"><input type="radio" value="image" [(ngModel)]="type" name="type">Resposta em imagem</label>
+            <label class="radio-inline"><input type="radio" value="text" [(ngModel)]="type"  name="type">Resposta em texto</label>
             <label class="radio-inline"><input type="radio" value="imageSelection" [(ngModel)]="type" name="type">Selecção em imagens</label>
         </div>
     </div>
@@ -34,6 +35,10 @@
 
         <div *ngIf="type == 'imageSelection'">
             <app-add-exercise-selectionImage></app-add-exercise-selectionImage>
+        </div>
+
+        <div *ngIf="type == 'speech'">
+            <app-add-exercise-speech></app-add-exercise-speech>
         </div>
     </div>
 
