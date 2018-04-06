@@ -140,11 +140,10 @@ export class ExercisesComponent implements OnInit, OnChanges {
   }
 
   public deleteExercise(exerciseId) {
-
     const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
     .title('Eliminar exercício').body(`Tem a certeza que pretende eliminar o exercício?`).open();
 
-    dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+    dialogRef.then( dialogRef2 => { dialogRef2.result.then(result => {
       if (result) {
         this.exercisesService.deleteExercise(exerciseId).subscribe(
           res => {
