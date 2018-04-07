@@ -50,14 +50,14 @@
         </div>
     </div>
 
-    <div class="row">
+<div class="row">
         <loader *ngIf="loading"></loader>
 
         <alert *ngIf="success" type="success" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textSuccess }} </alert>
         <alert *ngIf="failure" type="danger" dismissOnTimeout="5000" (onClosed)="reset()"> {{ textFailure }} </alert>
 
-        <div *ngIf="!loading">
-            <p *ngIf="exercises?.length === 0 && !sequenceId">{{ '_NoExercises_' | translate }}</p>
+        <div *ngIf="!loading">        
+         <p *ngIf="exercises?.length === 0 && !sequenceId">{{ '_NoExercises_' | translate }}</p>
             <p *ngIf="exercises?.length === 0 && sequenceId">{{ '_NoExercisesSequences1_' | translate }}{{sequence.sequenceName}}{{'_NoExercisesSequences2_' | translate }}</p>
             <div class="panel panel-default" *ngFor="let exercise of pagedItems | exerciseFilter:searchBy | exerciseTypeFilter: imageFilter:textFilter">
                 <div *ngIf="!loading" class="panel-body">
@@ -65,8 +65,9 @@
                         <app-show-exercise-mc-image [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'image'" ></app-show-exercise-mc-image>
                         <app-show-exercise-mc-text [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'text'" ></app-show-exercise-mc-text>                
                     </div>
+                </div>
                 <div class="panel-heading">
-                    <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/' + exercise.type.toLowerCase() + '/edit']">
+                    <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/' + exercise.dtype.toLowerCase() + '/edit']">
                         <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
                     </button>
                     <button type="button" class="btn btn-danger" (click)="deleteExercise(exercise.exerciseId)">

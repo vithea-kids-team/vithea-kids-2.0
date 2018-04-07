@@ -55,19 +55,18 @@ export class AddExerciseSelectionImageComponent implements OnInit {
     this.loading = true;
     this.resourcesService.fetchResources().subscribe(
       resResources => {
-        let temp = this.resourcesService.getResourcesByType('stimuli');
-        this.images = temp;
+        this.images  = this.resourcesService.getResourcesByType('stimuli');
         this.resourcesService.fetchLevels().subscribe(
           resLevels => {
               this.levels = resLevels;
               this.resourcesService.fetchTopics().subscribe(
                 resTopics => {
                     this.topics = resTopics;
+                    this.loading = false;
                 })
-                this.loading = false;
           })
-        this.loading = false;
       })
+      this.loading = false;
       this.newExercise.type = 'selectionImage';
       this.newExercise.selectionsAreas = [];
   }
@@ -119,6 +118,7 @@ export class AddExerciseSelectionImageComponent implements OnInit {
 
   // adapt this to multiple areas
   registerSelectionImageExercise() {
+    this.error = undefined;
     this.newExercise.topic = this.topic;
     this.newExercise.level = this.level;
     this.newExercise.question = this.question;
@@ -153,7 +153,9 @@ export class AddExerciseSelectionImageComponent implements OnInit {
       } else {
         this.goBack();
       }
-    }).catch(() => {})});
+    }).catch(() => {
+      console.log('Error saving exercise of selection image ');
+    })});
   }
 
   submit () {
@@ -189,7 +191,7 @@ export class AddExerciseSelectionImageComponent implements OnInit {
   }
 
   valideSelectionArea() {
-    if (this.selectionArea.startX === undefined || this.selectionArea.startY === undefined || this.selectionArea.endX === undefined 
+    if (this.selectionArea.startX === undefined || this.selectionArea.startY === undefined || this.selectionArea.endX === undefined
       || this.selectionArea.endY === undefined) {
         this.selectionError = true;
     }else {

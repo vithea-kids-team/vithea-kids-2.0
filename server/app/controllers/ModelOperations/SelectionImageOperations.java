@@ -42,7 +42,8 @@ public class SelectionImageOperations implements ExerciseOperations{
             level = -1;
         }
         
-        String question = json.get("question").toString(); //question
+        String question = form.get("question"); //question
+        System.out.println("question: " + question);
         Long stimulusId = json.get("stimulus").longValue(); //stimulus
         Resource stimulus = Resource.findById(stimulusId); //resource
         

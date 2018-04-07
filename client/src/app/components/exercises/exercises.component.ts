@@ -130,13 +130,14 @@ export class ExercisesComponent implements OnInit, OnChanges {
         this.exercises = result;
         console.log(this.exercises);
         this.setPage(1);
-        this.loading = false;
       },
       err => {
         console.error('Error loading sequence exercises.' + err);
         this.exercises = [];
       }
     );
+    this.loading = false;
+
   }
 
   public deleteExercise(exerciseId) {
@@ -213,5 +214,11 @@ export class ExercisesComponent implements OnInit, OnChanges {
 
     // get current page of items
     this.pagedItems = this.exercises.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    console.log(this.pagedItems[0].dtype);
+    console.log(this.pagedItems[1].dtype);
+  }
+
+  log(thing) {
+    console.log(thing);
   }
 }
