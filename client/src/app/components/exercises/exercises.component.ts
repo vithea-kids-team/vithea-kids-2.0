@@ -10,6 +10,7 @@ import { ChildrenService } from '../../services/children/children.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
 import { Overlay } from 'ngx-modialog';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
+import {Router} from '@angular/router';
 import { ShowExerciseMultipleChoiceTextComponent } from '../../components/multiple-choice-exercise/show-exercise-mc-text/show-exercise-mc-text.component';
 import { ShowExerciseMultipleChoiceImageComponent } from '../../components/multiple-choice-exercise/show-exercise-mc-image/show-exercise-mc-image.component';
 
@@ -41,7 +42,7 @@ export class ExercisesComponent implements OnInit, OnChanges {
 
   constructor(public route: ActivatedRoute, public exercisesService: ExercisesService,
     public childrenService: ChildrenService, public paginationService: PaginationService,
-    public location: Location, public modal: Modal) { }
+    public location: Location, public modal: Modal, public router: Router) { }
 
   ngOnInit() {
     this.fetchExercises();
@@ -214,11 +215,14 @@ export class ExercisesComponent implements OnInit, OnChanges {
 
     // get current page of items
     this.pagedItems = this.exercises.slice(this.pager.startIndex, this.pager.endIndex + 1);
-    console.log(this.pagedItems[0].dtype);
-    console.log(this.pagedItems[1].dtype);
   }
 
-  log(thing) {
-    console.log(thing);
+  navigateEdit(exercise: Exercise) {
+    if (exercise.dtype.toLowerCase() === 'multiplechoice') {
+       this.router.navigate(['/exercises/' + exercise.exerciseId + '/' + exercise.dtype.toLowerCase() + '-' +
+       exercise.type.toLowerCase() + '/edit']);
+    }else {
+      this.router.navigate(['/exercises/' + exercise.exerciseId + '/' + exercise.dtype.toLowerCase() + '/edit']);
+    }
   }
 }

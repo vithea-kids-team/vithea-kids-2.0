@@ -31,7 +31,7 @@ public class MultipleChoice extends Exercise{
     //@OneToOne(mappedBy="exercise", cascade = CascadeType.ALL)
     //private Answer rightAnswer;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="exercise")
     private List<Answer> answersList;
     
     
@@ -65,11 +65,11 @@ public class MultipleChoice extends Exercise{
         //answers.add(this.rightAnswer);
         
         rightAnswers.forEach((s) -> {
-            answers.add(new Answer(s,true));
+            answers.add(new Answer(this,s,true));
         }); 
         
         distractors.forEach((s) -> {
-            answers.add(new Answer(s,false));
+            answers.add(new Answer(this,s,false));
         }); 
         
         this.answersList = answers; 
@@ -152,7 +152,7 @@ public class MultipleChoice extends Exercise{
         while(i.hasNext() || j.hasNext()) {
             String description = i.next();
             Long stimulus = j.next();
-            Answer answer = new Answer(description, true);
+            Answer answer = new Answer(this, description, true);
             answer.setStimulus(stimulus);
             answer.save();
             Logger.debug("New exercise :: addDistractor: " + answer.getAnswerDescription() +" (" + answer.getAnswerId() + ")");
@@ -175,12 +175,12 @@ public class MultipleChoice extends Exercise{
       
       List<Answer> answers =  new ArrayList<Answer>();
       for(String r : rightAnswers){
-          Answer rightAnswer = new Answer(r,true);
+          Answer rightAnswer = new Answer(this, r,true);
           answers.add(rightAnswer);
       }
       
       for(String d : distractors){
-         Answer rightAnswer = new Answer(d,false);
+         Answer rightAnswer = new Answer(this, d,false);
         answers.add(rightAnswer);
       }
       

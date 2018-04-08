@@ -5,6 +5,11 @@
  */
 package controllers.ModelOperations;
 
+import models.Exercise;
+import models.MultipleChoice;
+import models.SelectionImageExercise;
+import models.SpeechExercise;
+
 /**
  *
  * @author silvi
@@ -14,14 +19,9 @@ package controllers.ModelOperations;
  * @author silvi
  */
 public class ContextOperation {
-    String exerciseType;
     
-    public ContextOperation(String type){
-        System.out.println(type);
-        this.exerciseType=type;
-    }
     
-    public ExerciseOperations selectExerciseOperations(){
+    public ExerciseOperations selectExerciseOperations(String exerciseType){
         
         if(exerciseType.equals("text") || exerciseType.equals("image")){
             return new McOperations();
@@ -37,5 +37,20 @@ public class ContextOperation {
         
         return null;
     }
+    
+     public ExerciseOperations selectExerciseOperations(Exercise exercise){
+         if(exercise instanceof MultipleChoice){
+               return new McOperations();
+         }
+         
+         if(exercise instanceof SelectionImageExercise){
+               return new SelectionImageOperations();
+         }
+         
+         if(exercise instanceof SpeechExercise){
+               return new SpeechOperations();
+         }
+         return null;
+     }
       
 }

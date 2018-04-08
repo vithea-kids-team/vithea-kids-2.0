@@ -12,6 +12,7 @@ import static java.lang.Integer.parseInt;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import models.Answer;
 import models.Caregiver;
 import models.Exercise;
 import models.Sequence;
@@ -97,14 +98,14 @@ public class SpeechOperations implements ExerciseOperations {
         
         SpeechExercise exercise = (SpeechExercise) Exercise.findExerciseById(exerciseId);
         
-        /**++List<Answer> answers = exercise.getAnswers();
+        List<Answer> answers = exercise.getAnswers();
         List<Answer> iterable = new ArrayList(answers);
         
         iterable.forEach((Answer ans) -> {
             answers.remove(ans);
             exercise.save();
             ans.delete();
-        });*/
+        });
         
         
         List<SequenceExercise> sequenceExercise = exercise.getSequenceExercise();

@@ -7,6 +7,7 @@ export class Exercise {
     public topic: string
     public level: string
     public question: string
+    public dtype: string
 
     // multiple choice
     public stimulus: string

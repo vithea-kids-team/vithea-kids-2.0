@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="panel-heading">
-                    <button type="button" class="btn btn-primary" [routerLink]="['/exercises/' + exercise.exerciseId + '/' + exercise.dtype.toLowerCase() + '/edit']">
+                    <button type="button" class="btn btn-primary"  (click)= "navigateEdit(exercise)">
                         <span class="glyphicon glyphicon-pencil" style="font-size: small;"></span> {{ '_Edit_' | translate }}
                     </button>
                     <button type="button" class="btn btn-danger" (click)="deleteExercise(exercise.exerciseId)">
@@ -76,7 +76,7 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
 
     <!-- pager -->
     <ul *ngIf="pager.pages && pager.pages.length" class="pagination">

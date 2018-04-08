@@ -18,6 +18,9 @@ public class Answer extends Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+     @ManyToOne(optional=false)
+     Exercise exercise;
 
     private String answerDescription;
 
@@ -29,15 +32,18 @@ public class Answer extends Model {
     @Column(nullable = true)
     private Resource stimulus;
     
+    
+    
     /**
      * Answers of text exercises
      * @param answer
      * @param rightAnswer 
      */
-    public Answer(String answer, Boolean rightAnswer) {
+    public Answer(Exercise exercise, String answer, Boolean rightAnswer) {
         this.answerDescription = answer;
         this.stimulus = null;
         this.rightAnswer = rightAnswer;
+        this.exercise = exercise;
     }
     
     /**

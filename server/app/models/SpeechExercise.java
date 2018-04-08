@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -22,9 +23,9 @@ public class SpeechExercise extends Exercise{
     //private Question question;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Resource stimulusSpeech;
-
-    //@OneToMany(cascade = CascadeType.ALL)
-    //private List<Answer> answersListSpeech;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="exercise")
+    private List<Answer> answersListSpeech;
     
     
     /**
@@ -55,10 +56,10 @@ public class SpeechExercise extends Exercise{
         List<Answer> answers = new ArrayList();
         
         rightAnswers.forEach((s) -> {
-            answers.add(new Answer(s,true));
+            answers.add(new Answer(this,s,true));
         });
         
-        //this.answersListSpeech = answers; 
+        this.answersListSpeech = answers; 
     }
     
     /*public Question getQuestion() {
@@ -69,7 +70,7 @@ public class SpeechExercise extends Exercise{
         return questionSpeech;
     }
     
-    /*public List<Answer> getAnswers() {
+    public List<Answer> getAnswers() {
        return answersListSpeech;
     }
     public void resetAnswers(){
@@ -77,21 +78,10 @@ public class SpeechExercise extends Exercise{
     }
     public void removeAnswer(Answer ans){
         answersListSpeech.remove(ans);
-    }*/
-    /*public void removeQuestion(){
-        question.delete();
-    }*/
+    }
+   
   
-    /*public void setQuestion(Question question) {
-            this.question = question;
-    }*/
-    /*public void setQuestion(String questionDescription, Long stimulusSpeech) {
-        Question question = new Question(questionDescription);
-        if(stimulusSpeech != 0) question.setStimulus(stimulusSpeech);
-        question.save();
-        Logger.debug("New exercise :: setQuestion: " + question.getQuestionDescription() + " (" + question.getQuestionId() + ")");
-        this.question = question;
-    }*/
+  
     
     /*+public void setAnswers(List<Answer> answers){
         this.answersListSpeech = answers;
