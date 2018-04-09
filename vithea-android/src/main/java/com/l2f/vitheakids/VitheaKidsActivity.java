@@ -5,6 +5,7 @@ import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.model.Exercise;
 import com.l2f.vitheakids.model.ExerciseLogInfo;
 import com.l2f.vitheakids.model.MultipleChoice;
+import com.l2f.vitheakids.model.SpeechExercise;
 import com.l2f.vitheakids.model.PersonalMessage;
 import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.model.SelectionImageExercise;
@@ -275,7 +276,10 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
                 }
             }
             else if(currentExercise instanceof SelectionImageExercise){
-                fragmentTransaction.replace(R.id.child_fragment_container, SelectionImageFragment.newInstance((SelectionImageExercise) currentExercise,imageStorage, seqName, child));
+                fragmentTransaction.replace(R.id.child_fragment_container, SelectionImageFragment.newInstance((SelectionImageExercise) currentExercise, imageStorage, seqName, child));
+            }
+            else if(currentExercise instanceof SpeechExercise){
+                fragmentTransaction.replace(R.id.child_fragment_container, SpeechFragment.newInstance((SpeechExercise) currentExercise, imageStorage, seqName, child));
             }
             fragmentTransaction.commit();
 

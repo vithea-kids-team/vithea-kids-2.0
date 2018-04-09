@@ -20,7 +20,9 @@ import java.util.List;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = MultipleChoice.class, name = "MultipleChoice"),
 
-        @JsonSubTypes.Type(value = SelectionImageExercise.class, name = "SelectionImageExercise") }
+        @JsonSubTypes.Type(value = SelectionImageExercise.class, name = "SelectionImageExercise")}
+
+        //@JsonSubTypes.Type(value = SpeechExercise.class, name = "SpeechExercise") }
 )
 public abstract class Exercise {
 

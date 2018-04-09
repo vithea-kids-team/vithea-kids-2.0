@@ -16,7 +16,6 @@
         android:text="assafsfsdfsd"
         android:layout_marginBottom="5dp"
         android:textSize="25sp">
-
     </TextView>
 
     <LinearLayout
@@ -25,9 +24,28 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="vertical">
+    </LinearLayout>
 
-        >
+    <LinearLayout
+        android:id="@+id/containerButton"
+        android:layout_width="378dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/ImageButtonStart"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/ImageButtonStop"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
 
     </LinearLayout>
 

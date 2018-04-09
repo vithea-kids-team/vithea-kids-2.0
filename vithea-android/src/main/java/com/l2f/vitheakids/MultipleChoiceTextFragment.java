@@ -158,6 +158,7 @@ public class MultipleChoiceTextFragment extends Fragment {
             Button btn = (Button) fragmentView.findViewById(idButtons.get(i));
             Answer answer = answers.get(i);
             btn.setBackgroundDrawable(Prompting.makeSelector(getContext(), getResources().getColor(R.color.exercise_button_color)));
+
             //fixme testar prompting com cores!
             if (!child.getSequenceExercisesPreferences().getSequenceExerciseCapitalization().equals("DEFAULT")) {
                 btn.setText(answer.getAnswerDescription().toUpperCase());

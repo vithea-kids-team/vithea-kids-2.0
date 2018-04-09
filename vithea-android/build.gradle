@@ -79,6 +79,7 @@ dependencies {
     compile files('libs/json-20080701.jar')
     compile files('libs/spring-android-core-1.0.1.RELEASE.jar')
     compile files('libs/spring-android-rest-template-1.0.1.RELEASE.jar')
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:design:25.3.1'
     compile 'com.jakewharton:butterknife:8.5.1'
@@ -88,7 +89,12 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.3.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
     compile 'com.android.support:gridlayout-v7:25.3.1'
+    compile 'com.android.support:animated-vector-drawable:25.3.1'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
 
+}
+dependencies {
+    implementation 'com.android.support:support-v4:25.+'
 }
 dependencies {
     implementation 'com.android.support:support-v4:25.+'

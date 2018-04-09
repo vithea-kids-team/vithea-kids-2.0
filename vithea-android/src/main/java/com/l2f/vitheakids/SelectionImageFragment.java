@@ -1,7 +1,5 @@
 package com.l2f.vitheakids;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -9,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,10 +29,6 @@ public class SelectionImageFragment extends Fragment {
    private String seqName;
    private View fragmentView;
    private Child child;
-
-
-
-
 
 
     public SelectionImageFragment() {
@@ -82,7 +74,7 @@ public class SelectionImageFragment extends Fragment {
         byte[] image  = imageStorage.getImage(seqName,exercise.getStimulus().getResourceId());
         imageStorage.setImageOfView(getContext(),imageViewTouch,image);
 
-        LinearLayout linearLayout = (LinearLayout) fragmentView.findViewById(R.id.containerImageTouch);
+        LinearLayout linearLayout = (LinearLayout) fragmentView.findViewById(R.id.containerImage);
         linearLayout.addView(imageViewTouch);
 
         imageViewTouch.setOnTouchListener(new View.OnTouchListener() {
