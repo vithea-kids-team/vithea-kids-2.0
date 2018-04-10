@@ -43,12 +43,9 @@ public class SpeechExercise extends Exercise{
         super(question, loggedCaregiver, def, topic, level);
         
         if (stimulusId != -1) {
-                
             stimulusSpeech = Resource.findById(stimulusId);
-            //this.question = new Question(question, stimulusSpeech);
         } else {
             stimulusSpeech = null;
-            //this.question = new Question(question);
         }
         
         this.questionSpeech = question;
@@ -62,12 +59,24 @@ public class SpeechExercise extends Exercise{
         this.answersListSpeech = answers; 
     }
     
-    /*public Question getQuestion() {
-        return question1;
-    }*/
-    
-    public String getQuestion(){
+    public String getQuestionSpeech(){
         return questionSpeech;
+    }
+    
+    public void setQuestionSpeech(String question){
+        this.questionSpeech = question;
+    }
+    
+    public Resource getStimulusSpeech(){
+        return stimulusSpeech;
+    }
+    
+    public void setStimulusSpeech(long stimulusId){
+        if (stimulusId != -1) {
+            this.stimulusSpeech = Resource.findById(stimulusId);
+        } else {
+            this.stimulusSpeech = null;
+        }
     }
     
     public List<Answer> getAnswers() {
@@ -76,40 +85,12 @@ public class SpeechExercise extends Exercise{
     public void resetAnswers(){
         answersListSpeech.clear();
     }
-    public void removeAnswer(Answer ans){
-        answersListSpeech.remove(ans);
-    }
-   
-  
-  
-    
-    /*+public void setAnswers(List<Answer> answers){
+    public void setAnswers(List<Answer> answers) {
         this.answersListSpeech = answers;
     }
     
-    public void  setAnswersText (List<String> rightAnswers){
-      //remove all answers
-      List<Answer> arrayAux =  new ArrayList<Answer>(this.answersListSpeech);
-    
-      for(Answer a : arrayAux){
-        this.answersListSpeech.remove(a);
-        this.save();
-        a.delete();
-      }
-      
-      List<Answer> answers =  new ArrayList<Answer>();
-      for(String r : rightAnswers){
-          Answer rightAnswer = new Answer(r,true);
-          answers.add(rightAnswer);
-      }
-      
-      this.answersListSpeech = answers;
-        
-    }****/
-
-    //public static List<Exercise> getAll() {
-        //return find.all();
-   /// }
-    
+    public void removeAnswer(Answer ans){
+        answersListSpeech.remove(ans);
+    }
     
 }

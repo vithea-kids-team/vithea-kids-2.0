@@ -1,11 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/selectionImageLayout"
+    android:id="@+id/speechLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.l2f.vitheakids.ReinforcementFragment"
-    >
+    tools:context="com.l2f.vitheakids.ReinforcementFragment">
+
     <TextView
         android:id="@+id/questionText"
         android:layout_width="match_parent"
@@ -18,7 +18,18 @@
         android:textSize="25sp">
     </TextView>
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/stimulusImage"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/questionText"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:maxHeight="200dp"
+        android:maxWidth="500dp">
+    </ImageView>
+    <!--<LinearLayout
         android:id="@+id/containerImage"
         android:layout_width="378dp"
         android:layout_height="wrap_content"
@@ -26,7 +37,7 @@
         android:gravity="center"
         android:orientation="vertical">
     </LinearLayout>
-
+-->
     <LinearLayout
         android:id="@+id/containerButton"
         android:layout_width="378dp"
@@ -36,16 +47,18 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/ImageButtonStart"
+            android:id="@+id/ButtonStart"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Start" />
 
         <Button
-            android:id="@+id/ImageButtonStop"
+            android:id="@+id/ButtonStop"
             android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Stop" />
 
     </LinearLayout>
 

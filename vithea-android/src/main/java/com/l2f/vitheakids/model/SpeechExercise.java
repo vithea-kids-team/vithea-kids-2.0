@@ -1,46 +1,45 @@
 package com.l2f.vitheakids.model;
 
 import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by silvi on 03/04/2018.
+ * Created by soraiamenesesalarcao on 09/04/2018.
  */
 
 public class SpeechExercise extends Exercise {
-   @JsonProperty private String question1;
-   @JsonProperty private Resource stimulus;
+   @JsonProperty private String questionSpeech;
+   @JsonProperty private Resource stimulusSpeech;
    @JsonProperty private List<Answer> answers;
 
    public SpeechExercise(){
 
    }
 
-   public SpeechExercise(Long exerciseId, Topic topic, Level level, String question1, Resource stimulus, List<Answer> answers) {
+   public SpeechExercise(Long exerciseId, Topic topic, Level level, String questionSpeech, Resource stimulusSpeech, List<Answer> answers) {
         super(exerciseId, topic, level);
-        this.question1 = question1;
-        this.stimulus = stimulus;
+        Log.d("stimulus", stimulusSpeech.toString());
+        this.questionSpeech = questionSpeech;
+        this.stimulusSpeech = stimulusSpeech;
         this.answers = answers;
     }
 
-    public String getQuestion1() {
-        return question1;
+    public String getQuestionSpeech() {
+        return questionSpeech;
     }
 
-    public void setQuestion1(String question1) {
-        this.question1 = question1;
+    public void setQuestionSpeech(String questionSpeech) {
+        this.questionSpeech = questionSpeech;
     }
 
-    public Resource getStimulus() {
-        return stimulus;
+    public Resource getStimulusSpeech() {
+        return stimulusSpeech;
     }
 
-    public void setStimulus(Resource stimulus) {
-        this.stimulus = stimulus;
+    public void setStimulusSpeech(Resource stimulusSpeech) {
+        this.stimulusSpeech = stimulusSpeech;
     }
 
     public List<Answer> getAnswers() { return answers; }
@@ -51,10 +50,11 @@ public class SpeechExercise extends Exercise {
     public  List<Resource> getAllUsedResources() {
         List<Resource> resources = new ArrayList<Resource>();
         Log.d("SpeechExercise", "loading resource");
-        if (stimulus!=null) {
+        if (stimulusSpeech != null) {
             Log.d("SpeechExercise", " resource not null");
-            resources.add(stimulus);
+            resources.add(stimulusSpeech);
         }
+        else Log.d("SpeechExerciseStimulus", "loading resource failed");
         return resources;
     }
 }

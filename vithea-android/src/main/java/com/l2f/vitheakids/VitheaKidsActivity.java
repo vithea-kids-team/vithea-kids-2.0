@@ -334,7 +334,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
             next.setVisibility(View.INVISIBLE);
             end.setVisibility(View.VISIBLE);
 
-            ImageButton  buttonEnd = (ImageButton) findViewById(R.id.endExerciseButton);
+            ImageButton buttonEnd = (ImageButton) findViewById(R.id.endExerciseButton);
             buttonEnd.setOnClickListener(new View.OnClickListener() {
 
                 @Override

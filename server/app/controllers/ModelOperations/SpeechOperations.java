@@ -9,15 +9,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import controllers.AdminLogs;
 import controllers.SecurityController;
 import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import models.Answer;
 import models.Caregiver;
 import models.Exercise;
+import models.Level;
 import models.Sequence;
 import models.SequenceExercise;
 import models.SpeechExercise;
+import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
 
@@ -150,7 +153,7 @@ public class SpeechOperations implements ExerciseOperations {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         
         Logger.debug("Editing exercise with id " + exerciseId);
-/*
+
         // topic
         long topic;
         try {
@@ -165,11 +168,13 @@ public class SpeechOperations implements ExerciseOperations {
         } catch (NumberFormatException e) {
             topic = -1;
         }
+        
         exercise.setTopic(topic);
         String content = topic + "," + loggedCaregiver.getCaregiverId() + "," + exercise.getExerciseId() + "," + 
                 timestamp.toLocalDateTime() + "," + "addToExercise" + ","  +  exercise.getTopic().getTopicDescription() + "," + "false" + "\n";
         String pathTopic = loggedCaregiver.getPathTopicsLog();
         adminLogs.writeToFile(pathTopic, content);
+        
 
         // level
         long level;
@@ -192,14 +197,40 @@ public class SpeechOperations implements ExerciseOperations {
         String pathLevel = loggedCaregiver.getPathLevelsLog();
         adminLogs.writeToFile(pathLevel, content);
 
-        // question
         String question = editExerciseForm.get("question");
-        exercise.getQuestion().setQuestionDescription(question);
+        exercise.setQuestionSpeech(question);
         exercise.setExerciseName(question);
-
-        int answerssize = 0; 
-        boolean stimulus = false;
-
+        
+        boolean stimulus;
+        int stimulusId;
+            try {
+                stimulusId = parseInt(editExerciseForm.get("stimulus"));
+                exercise.setStimulusSpeech((long)stimulusId);
+                stimulus = true;
+            } catch (NumberFormatException e) {
+                stimulusId = -1;
+                stimulus = false;
+            }
+        
+        int answerssize = 0;
+        List<String> rightAnswers = new ArrayList<String>();
+        editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
+                rightAnswers.add(editExerciseForm.data().get(key));
+        });
+        
+        exercise.resetAnswers();
+        List<Answer> answers = new ArrayList();
+        rightAnswers.forEach((s) -> {
+            answers.add(new Answer(exercise,s,true));
+        });
+        exercise.setAnswers(answers);
+        
+        exercise.save();
+        
+        /*
+        // question
+        
+       
 
         // stimulus, answer, and distractors for text
         if(editExerciseForm.get("type").equals("text")) {

@@ -19,26 +19,17 @@ import java.util.List;
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="dtype")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = MultipleChoice.class, name = "MultipleChoice"),
-
         @JsonSubTypes.Type(value = SelectionImageExercise.class, name = "SelectionImageExercise"),
         @JsonSubTypes.Type(value = SpeechExercise.class, name = "SpeechExercise")
 
-}
-
-        //@JsonSubTypes.Type(value = SpeechExercise.class, name = "SpeechExercise") }
-)
+})
 public abstract class Exercise {
 
     @JsonProperty private Long id;
     @JsonProperty private Topic topic;
     @JsonProperty private Level level;
-    //@JsonProperty private Question question;
-   // @JsonProperty private Answer rightAnswer;
-   // @JsonProperty private List<Answer> answers;
-    //@JsonProperty private String type;
 
     public Exercise(){
-
     }
 
     public Exercise(Long exerciseId, Topic topic, Level level) {
@@ -70,34 +61,7 @@ public abstract class Exercise {
     public void setLevel(Level level) {
         this.level = level;
     }
-    /*  public Question getQuestion() {
-        return question;
-    }
-    public Answer getRightAnswer() {
-        return rightAnswer;
-    }
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-    public String getType() {
-        return type;
-    }*/
-
-
-    /*
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-    public void setRightAnswer(Answer rightAnswer) {
-        this.rightAnswer = rightAnswer;
-    }
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-    public void setType(String type) {this.type = type;}*/
 
     public abstract  List<Resource> getAllUsedResources();
-
-
 
 }

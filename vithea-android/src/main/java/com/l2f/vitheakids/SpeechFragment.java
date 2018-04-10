@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,10 +22,8 @@ import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.model.Resource;
-import com.l2f.vitheakids.model.SelectionImageExercise;
 import com.l2f.vitheakids.model.SpeechExercise;
 import com.l2f.vitheakids.rest.SendAudimus;
-import com.l2f.vitheakids.rest.SendLogs;
 import com.l2f.vitheakids.util.TaskListener;
 
 import org.springframework.http.ResponseEntity;
@@ -100,35 +99,41 @@ public class SpeechFragment extends Fragment implements TaskListener {
 
         // question
         TextView questionText = (TextView) fragmentView.findViewById(R.id.questionText);
-        String  question  = exercise.getQuestion1();
+        String  question  = exercise.getQuestionSpeech();
         question  = (child.toUpperCase())? question.toUpperCase(): question;
         questionText.setText(question);
 
         // Stimulus
-        Resource stimulus = exercise.getStimulus();
-
+        Resource stimulus = exercise.getStimulusSpeech();
         byte[] image  = imageStorage.getImage(seqName,stimulus.getResourceId());
         ImageView img = (ImageView) fragmentView.findViewById(R.id.stimulusImage);
         imageStorage.setImageOfView(getContext(),img,image);
 
+        // Buttons
+        Button start = (Button) fragmentView.findViewById(R.id.ButtonStart);
+        Button stop = (Button) fragmentView.findViewById(R.id.ButtonStop);
+        stop.setVisibility(View.INVISIBLE);
+
         if (!exercise.getAnswers().isEmpty()) {
             answers = exercise.getAnswers();
-
-            Collections.shuffle(answers);
-            exercise.setAnswers(answers);
+            for (int i=0; i < answers.size(); i++) {
+                Log.d("answer", answers.get(i).getAnswerDescription());
+            }
+        }
+        else {
+            Log.d("answer", "nao há");
         }
 
-        // Configure Audio
-        buffersizebytes = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-        buffer = new byte[buffersizebytes];
-        recorder = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, 16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersizebytes * 2);
-
-        // Buttons
-        final ImageButton start = (ImageButton) fragmentView.findViewById(R.id.ImageButtonStart);
-        final ImageButton stop = (ImageButton) fragmentView.findViewById(R.id.ImageButtonStop);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("entreistart", "entrei start");
+
+                // Configure Audio
+                /*buffersizebytes = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+                buffer = new byte[buffersizebytes];
+                recorder = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, 16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersizebytes * 2);
+
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -147,73 +152,73 @@ public class SpeechFragment extends Fragment implements TaskListener {
                         }
                         recdone = true;
                     }
-                }).start();
+                }).start();*/
             }
         });
+
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recorder.stop();
+                Log.d("entreistop", "entrei stop");
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-//						Log.i("backg tid p", ": " + Process.getThreadPriority(Process.myTid()));
+                //recorder.stop();
 
-                        while (!recdone) ;
-
-                        StringBuilder sb = new StringBuilder();
-                        try {
-                            List<Future<String>> lft = threadedExecuter.invokeAll(buffers);
-                            for (int i = 0; i < lft.size(); i++) {
-                                Future<String> ft = lft.get(i);
-                                try {
-                                    sb.append(ft.get());
-                                } catch (ExecutionException e) {
-                                    e.printStackTrace();
-                                }
+                /*StringBuilder sb = new StringBuilder();
+                    try {
+                        List<Future<String>> lft = threadedExecuter.invokeAll(buffers);
+                        for (int i = 0; i < lft.size(); i++) {
+                            Future<String> ft = lft.get(i);
+                            try {
+                                sb.append(ft.get());
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
                             }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
                         }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
 
-                        String sentaud = "[" + sb.substring(0, sb.length() - 1) + "]";
-                        String xmlgramar = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" +
-                                "<grammar root=\"main\" version=\"1.0\" xmlns=\"http://www.w3.org/2001/06/grammar\" xml:lang=\"pt-PT\">" +
-                                "<rule id=\"main\">" +  "<item repeat=\"0-1\">" + "<one-of>";
+                // answers
+                if (!exercise.getAnswers().isEmpty()) {
+                    answers = exercise.getAnswers();
+                }
 
-                        for (int i=0; i < answers.size(); i++) {
-                            xmlgramar += "<item><ruleref special=\"GARBAGE\"/>" +
-                                    answers.get(i).getAnswerDescription() +
-                                    "<ruleref special=\"GARBAGE\"/></item>";
-                        }
-                        xmlgramar += "<item><ruleref special=\"GARBAGE\"/></item>" +
+                String sentaud = "[" + sb.substring(0, sb.length() - 1) + "]";
+                String xmlgramar = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" +
+                        "<grammar root=\"main\" version=\"1.0\" xmlns=\"http://www.w3.org/2001/06/grammar\" xml:lang=\"pt-PT\">" +
+                        "<rule id=\"main\">" +  "<item repeat=\"0-1\">" + "<one-of>";
+
+                for (int i=0; i < answers.size(); i++) {
+                    xmlgramar += "<item><ruleref special=\"GARBAGE\"/>" +
+                            answers.get(i).getAnswerDescription() +
+                            "<ruleref special=\"GARBAGE\"/></item>";
+                }
+                xmlgramar += "<item><ruleref special=\"GARBAGE\"/></item>" +
                                 "</one-of>" + "</item>" + "</rule>" + "</grammar>";
 
-                        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-                        body.add("task", "echo-kws-asr");
-                        body.add("sbytes", sentaud);
-                        body.add("lang","pt");
-                        body.add("grxml", xmlgramar);
+                MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+                body.add("task", "echo-kws-asr");
+                body.add("sbytes", sentaud);
+                body.add("lang","pt");
+                body.add("grxml", xmlgramar);
+                Log.d("xmlgramar", xmlgramar);
 
-                        //Send Logs to Server
-                        final String url = getString(R.string.ws_uri) + getString(R.string.child_sequence_uri);
-                        AsyncTask<Void, Void, ResponseEntity<String>> response = new SendAudimus(body, (VitheaKidsActivity) getActivity(), url, (VitheaKidsActivity) getActivity()).execute();
-                        try {
-                            Log.d("RESPONSE", response.get().toString());
-                        } catch (InterruptedException e) {
+                //Send Audimus Request to Server
+                /*final String url = getString(R.string.ws_uri) + getString(R.string.child_sequence_uri);
+                       AsyncTask<Void, Void, ResponseEntity<String>> response = new SendAudimus(body, (VitheaKidsActivity) getActivity(), url, (VitheaKidsActivity) getActivity()).execute();
+                       try {
+                           Log.d("RESPONSE", response.get().toString());
+                       } catch (InterruptedException e) {
                             e.printStackTrace();
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         }
 
                         buffers = null;
-                    }
-                }).start();
+             /*       }
+                }).start();*/
             }
         });
-
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_speech, container, false);
