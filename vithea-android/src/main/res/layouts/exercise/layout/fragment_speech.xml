@@ -18,26 +18,24 @@
         android:textSize="25sp">
     </TextView>
 
-    <ImageView
-        android:id="@+id/stimulusImage"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/questionText"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:adjustViewBounds="false"
-        android:maxHeight="200dp"
-        android:maxWidth="500dp">
-    </ImageView>
-    <!--<LinearLayout
+    <LinearLayout
         android:id="@+id/containerImage"
-        android:layout_width="378dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/stimulusImage1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="false"
+            android:maxHeight="200dp"
+            android:maxWidth="500dp"></ImageView>
     </LinearLayout>
--->
+
     <LinearLayout
         android:id="@+id/containerButton"
         android:layout_width="378dp"

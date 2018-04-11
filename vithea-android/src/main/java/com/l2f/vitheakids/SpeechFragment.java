@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 
 /**
@@ -61,7 +63,6 @@ public class SpeechFragment extends Fragment implements TaskListener {
     static ArrayList<RawBuffer> buffers;
     static ExecutorService threadedExecuter = null;
 
-    private OnFragmentInteractionListener mListener;
 
     public SpeechFragment() {
         // Required empty public constructor
@@ -106,7 +107,7 @@ public class SpeechFragment extends Fragment implements TaskListener {
         // Stimulus
         Resource stimulus = exercise.getStimulusSpeech();
         byte[] image  = imageStorage.getImage(seqName,stimulus.getResourceId());
-        ImageView img = (ImageView) fragmentView.findViewById(R.id.stimulusImage);
+        ImageView img = (ImageView) fragmentView.findViewById(R.id.stimulusImage1);
         imageStorage.setImageOfView(getContext(),img,image);
 
         // Buttons
@@ -124,11 +125,11 @@ public class SpeechFragment extends Fragment implements TaskListener {
             Log.d("answer", "nao há");
         }
 
-        start.setOnClickListener(new View.OnClickListener() {
+        start.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("entreistart", "entrei start");
-
+                Toast.makeText(v.getContext(), "entreiiii", Toast.LENGTH_LONG).show();
                 // Configure Audio
                 /*buffersizebytes = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
                 buffer = new byte[buffersizebytes];
@@ -156,7 +157,7 @@ public class SpeechFragment extends Fragment implements TaskListener {
             }
         });
 
-        stop.setOnClickListener(new View.OnClickListener() {
+        stop.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("entreistop", "entrei stop");
@@ -221,24 +222,10 @@ public class SpeechFragment extends Fragment implements TaskListener {
         });
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_speech, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        return fragmentView;
     }
 
 
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     @Override
     public void onTaskStarted() {
