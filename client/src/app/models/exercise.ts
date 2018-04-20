@@ -16,10 +16,10 @@ export class Exercise {
     public distractors: Array<string>
 
     // to remove
+    public stimulusText: string;
     // public distractor1: string
     // public distractor2: string
     // public distractor3: string
-    public stimulusText: string;
     // public rightAnswerIds: Array<number>;
     // public distractorIds: Array<number>;
     // public stimulusImageId: number;

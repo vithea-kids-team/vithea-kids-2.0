@@ -48,13 +48,14 @@ import { AddExerciseMultipleChoiceTextComponent } from './components/multiple-ch
 import { AddExerciseSelectionImageComponent} from './components/selection-image-exercise/add-exercise-selectionImage/add-exercise-selectionImage.component';
 import { AddExerciseSpeechComponent} from './components/speech-exercise/add-exercise-speech/add-exercise-speech.component';
 
-
 import { EditExerciseComponent } from './components/edit-exercise/edit-exercise.component';
 import { EditExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/edit-exercise-mc-image/edit-exercise-mc-image.component';
 import { EditExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/edit-exercise-mc-text/edit-exercise-mc-text.component';
+import { EditExerciseSpeechComponent } from './components/speech-exercise/edit-exercise-speech/edit-exercise-speech.component';
 
 import { ShowExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/show-exercise-mc-image/show-exercise-mc-image.component';
 import { ShowExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/show-exercise-mc-text/show-exercise-mc-text.component';
+import { ShowExerciseSpeechComponent} from './components/speech-exercise/show-exercise-speech/show-exercise-speech.component';
 
 import { ExerciseFilter } from './pipes/exercise-filter';
 import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
@@ -110,8 +111,10 @@ export function translateFactory(https: HttpClient) {
     EditExerciseComponent,
     EditExerciseMultipleChoiceTextComponent,
     EditExerciseMultipleChoiceImageComponent,
+    EditExerciseSpeechComponent,
     ShowExerciseMultipleChoiceTextComponent,
     ShowExerciseMultipleChoiceImageComponent,
+    ShowExerciseSpeechComponent,
     ImagePickerComponent,
     SignUpComponent,
     EditCaregiverComponent,
@@ -127,7 +130,7 @@ export function translateFactory(https: HttpClient) {
     SpinnerComponent,
     FileUploadComponent,
     AdminComponent,
-    SettingsComponent,  
+    SettingsComponent,
     ResourcesComponent,
     ResourceTypeFilter,
     RecoverPasswordComponent,

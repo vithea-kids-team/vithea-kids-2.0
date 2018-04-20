@@ -11,7 +11,7 @@ import { Modal } from 'ngx-modialog/plugins/bootstrap';
 import { Location } from '@angular/common';
 import { EditExerciseMultipleChoiceImageComponent } from '../../components/multiple-choice-exercise/edit-exercise-mc-image/edit-exercise-mc-image.component';
 import { EditExerciseMultipleChoiceTextComponent } from '../../components/multiple-choice-exercise/edit-exercise-mc-text/edit-exercise-mc-text.component';
-
+import { EditExerciseSpeechComponent } from '../../components/speech-exercise/edit-exercise-speech/edit-exercise-speech.component';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
