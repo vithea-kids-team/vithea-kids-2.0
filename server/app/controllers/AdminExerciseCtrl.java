@@ -4,14 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.ModelOperations.ContextOperation;
 import controllers.ModelOperations.ExerciseOperations;
-import controllers.ModelOperations.McOperations;
 import java.sql.Timestamp;
 import java.util.*;
 import javax.inject.Inject;
 import models.Caregiver;
 import models.Exercise;
 import models.Level;
-import models.MultipleChoice;
 import models.Topic;
 import play.Logger;
 import play.data.DynamicForm;
@@ -116,6 +114,8 @@ public class AdminExerciseCtrl extends Controller {
         if (exercise == null) {
             return badRequest(buildJsonResponse("error", "Exercise doesn't exist"));
         }
+        
+        Logger.debug(editExerciseForm.get("type"));
              
         ExerciseOperations  contextExercise = new ContextOperation().selectExerciseOperations(editExerciseForm.get("type"));
         exercise = contextExercise.editExercise(editExerciseForm, exerciseId, loggedCaregiver);

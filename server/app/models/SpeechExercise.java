@@ -19,8 +19,6 @@ import javax.persistence.OneToMany;
 public class SpeechExercise extends Exercise{
     
     private String questionSpeech;
-    //@OneToOne(mappedBy="exercise", cascade = CascadeType.ALL)
-    //private Question question;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Resource stimulusSpeech;
     
@@ -93,4 +91,25 @@ public class SpeechExercise extends Exercise{
         answersListSpeech.remove(ans);
     }
     
+    public void  setAnswersText (List<String> rightAnswers){
+        
+      //remove all answers
+      List<Answer> arrayAux =  new ArrayList<Answer>(this.answersListSpeech);
+    
+      for(Answer a : arrayAux){
+        this.answersListSpeech.remove(a);
+        this.save();
+        a.delete();
+      }
+      
+      List<Answer> answers =  new ArrayList<Answer>();
+      for(String r : rightAnswers){
+          Answer rightAnswer = new Answer(this, r,true);
+          answers.add(rightAnswer);
+      }
+      
+      this.answersListSpeech = answers; 
+    }
+    
 }
+

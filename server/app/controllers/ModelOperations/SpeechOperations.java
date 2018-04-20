@@ -147,7 +147,6 @@ public class SpeechOperations implements ExerciseOperations {
 
     @Override
     public Exercise editExercise(DynamicForm editExerciseForm, long exerciseId, Caregiver loggedCaregiver) {
-        //Debug.log(editExerciseForm);
         String sresourcesid = "";
         SpeechExercise exercise = (SpeechExercise) Exercise.findExerciseById(exerciseId); //getting exercise
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -218,86 +217,11 @@ public class SpeechOperations implements ExerciseOperations {
                 rightAnswers.add(editExerciseForm.data().get(key));
         });
         
-        exercise.resetAnswers();
-        List<Answer> answers = new ArrayList();
-        rightAnswers.forEach((s) -> {
-            answers.add(new Answer(exercise,s,true));
-        });
-        exercise.setAnswers(answers);
+        exercise.setAnswersText(rightAnswers);
         
         exercise.save();
         
-        /*
-        // question
-        
-       
-
-        // stimulus, answer, and distractors for text
-        if(editExerciseForm.get("type").equals("text")) {
-
-            // right answer
-            //String rightAnswer = editExerciseForm.get("rightAnswer");
-            //exercise.getRightAnswer().setAnswerDescription(rightAnswer);
-            //answers.add(exercise.getRightAnswer());
-            List<String> rightAnswers = new ArrayList<String>();
-            List<String> distractors = new ArrayList<String>();
-            
-            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
-                rightAnswers.add(editExerciseForm.data().get(key));
-            });
-            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
-                distractors.add(editExerciseForm.data().get(key));
-            });
-            
-            exercise.setAnswersText(rightAnswers, distractors);
-            
-
-            // stimulus
-            int stimulusId;
-            try {
-                stimulusId = parseInt(editExerciseForm.get("stimulus"));
-                exercise.getQuestion().setStimulus((long)stimulusId);
-                stimulus = true;
-            } catch (NumberFormatException e) {
-                stimulusId = -1;
-                exercise.removeQuestion();
-                exercise.setQuestion(new Question(question));
-                exercise.setExerciseName(question);
-
-                stimulus = false;
-            }
-            System.out.println("image stimulus:" + stimulusId);
-        }
-        // stimulus, answer and distractors for image
-        else if(editExerciseForm.get("type").equals("image")) {
-            
-            List<Long> rightAnswers = new ArrayList<Long>();
-            List<Long> distractors = new ArrayList<Long>();
-            
-            //right answers
-            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("rightAnswers"))).forEachOrdered((key) -> {
-                rightAnswers.add(Long.parseLong(editExerciseForm.data().get(key)));
-            });
-            
-           //distractors
-            editExerciseForm.data().keySet().stream().filter((key) -> (key.startsWith("distractors"))).forEachOrdered((key) -> {
-                distractors.add(Long.parseLong(editExerciseForm.data().get(key)));
-            });
-
-            exercise.setAnswersImg(rightAnswers, distractors);
-
-            // stimulus
-            String stimulusText = editExerciseForm.get("stimulusText");
-            exercise.getQuestion().setStimulusText(stimulusText);
-            if(stimulusText != null) {
-                if(stimulusText.isEmpty()) stimulus = false;
-                else stimulus = true;
-            }
-
-        }
-        exercise.save();
-
-        content = exercise.getExerciseId()+ "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + ","  +
+        /*content = exercise.getExerciseId()+ "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + ","  +
             editExerciseForm.get("type") + "," + "edit" + "," + answerssize + "," + stimulus + "," + "false" + "\n";
         String pathExercise = loggedCaregiver.getPathExercisesLog();
         adminLogs.writeToFile(pathExercise, content);

@@ -234,6 +234,7 @@ export class EditExerciseSpeechComponent implements OnInit {
     this.editExercise.question = this.question;
     this.editExercise.exerciseId = this.exerciseId;
     this.editExercise.exerciseName = this.exerciseName;
+    this.editExercise.type = 'speech';
 
     const stimulus = this.stimulusImgs.filter((stimulus2) => { return stimulus2.selected; });
     if (stimulus.length === 1) {
