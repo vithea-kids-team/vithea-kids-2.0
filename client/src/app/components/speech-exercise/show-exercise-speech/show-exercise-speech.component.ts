@@ -18,13 +18,12 @@ export class ShowExerciseSpeechComponent implements OnInit {
   public topic;
   public level;
   public resourcePath;
-  public type = '';
+  public type = 'speechexercise';
   public development = true;
 
   constructor() {}
 
   ngOnInit() {
-
     this.questionDescription = this.exercise.questionSpeech;
     this.stimulus = this.exercise.stimulusSpeech;
     if (this.stimulus) {
@@ -38,7 +37,7 @@ export class ShowExerciseSpeechComponent implements OnInit {
     this.answers = this.exercise.answers;
     this.topic = this.exercise.topic.topicDescription;
     this.level = this.exercise.level.levelDescription;
-    this.type = this.exercise.type.toLowerCase();
+    this.type = this.exercise.dtype.toLowerCase();
   }
 
   public truncate(str: String, size: number) {

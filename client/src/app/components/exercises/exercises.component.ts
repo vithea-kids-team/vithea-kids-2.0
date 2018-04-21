@@ -10,10 +10,10 @@ import { ChildrenService } from '../../services/children/children.service';
 import { PaginationService } from '../../services/pagination/pagination.service';
 import { Overlay } from 'ngx-modialog';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { ShowExerciseMultipleChoiceTextComponent } from '../../components/multiple-choice-exercise/show-exercise-mc-text/show-exercise-mc-text.component';
 import { ShowExerciseMultipleChoiceImageComponent } from '../../components/multiple-choice-exercise/show-exercise-mc-image/show-exercise-mc-image.component';
-
+import { ShowExerciseSpeechComponent } from '../../components/speech-exercise/show-exercise-speech/show-exercise-speech.component';
 
 @Component({
   selector: 'app-exercises',

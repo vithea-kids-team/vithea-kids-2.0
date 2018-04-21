@@ -18,7 +18,6 @@ public class RawBuffer implements Callable<String> {
 		for (int i = 0; i < bsize; i++) {
 			sentaud.append(buf[i] + ",");
 		}
-
 		return sentaud.toString();
 	}
 	

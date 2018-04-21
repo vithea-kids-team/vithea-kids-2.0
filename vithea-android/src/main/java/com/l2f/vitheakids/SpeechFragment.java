@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.os.Process;
 
 import com.l2f.vitheakids.RawBuffer.RawBuffer;
 import com.l2f.vitheakids.Storage.ImageStorage;
@@ -33,8 +34,10 @@ import org.springframework.util.MultiValueMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -57,11 +60,13 @@ public class SpeechFragment extends Fragment implements TaskListener {
     private Child child;
     private List<Answer> answers;
     static byte[] buffer;
+    private ArrayList<String> audio;
     static int buffersizebytes;
-    static AudioRecord recorder = null;
+    static AudioRecord recorder;
     static boolean recdone = true;
     static ArrayList<RawBuffer> buffers;
     static ExecutorService threadedExecuter = null;
+    Button start, stop;
 
 
     public SpeechFragment() {
@@ -87,10 +92,13 @@ public class SpeechFragment extends Fragment implements TaskListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
+
+        threadedExecuter = Executors.newCachedThreadPool();
+
+        buffersizebytes = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        buffer = new byte[buffersizebytes];
+        recorder = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, 16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersizebytes * 2);
+
     }
 
     @Override
@@ -111,9 +119,9 @@ public class SpeechFragment extends Fragment implements TaskListener {
         imageStorage.setImageOfView(getContext(),img,image);
 
         // Buttons
-        Button start = (Button) fragmentView.findViewById(R.id.ButtonStart);
-        Button stop = (Button) fragmentView.findViewById(R.id.ButtonStop);
-        stop.setVisibility(View.INVISIBLE);
+        start = (Button) fragmentView.findViewById(R.id.ButtonStart);
+        stop = (Button) fragmentView.findViewById(R.id.ButtonStop);
+        //stop.setVisibility(View.INVISIBLE);
 
         if (!exercise.getAnswers().isEmpty()) {
             answers = exercise.getAnswers();
@@ -129,31 +137,42 @@ public class SpeechFragment extends Fragment implements TaskListener {
             @Override
             public void onClick(View v) {
                 Log.d("entreistart", "entrei start");
-                Toast.makeText(v.getContext(), "entreiiii", Toast.LENGTH_LONG).show();
-                // Configure Audio
-                /*buffersizebytes = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-                buffer = new byte[buffersizebytes];
-                recorder = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, 16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersizebytes * 2);
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        //Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
+
+                        Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO);
                         if (recorder.getRecordingState() == AudioRecord.RECORDSTATE_STOPPED) {
+                            Log.d("entreistart", "RECORDSTATE_STOPPED");
                             recorder.startRecording();
+                            //changeButtons();
                         }
+
                         buffers = new ArrayList<>();
                         recdone = false;
+                        Log.d("entreistart", "" + recdone);
+
                         while (recorder.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
                             int res = recorder.read(buffer, 0, buffersizebytes);
                             if (res == AudioRecord.ERROR_INVALID_OPERATION || res == AudioRecord.ERROR_BAD_VALUE || res == 0) {
                                 continue;
                             }
-                            buffers.add(new RawBuffer(buffer, res));
+                            Log.d("entreistart", "" + res);
+                            if(res!=-1) buffers.add(new RawBuffer(buffer, res));
+                            /*try {
+                                if(res!=-1) {
+                                    String call = new RawBuffer(buffer, res).call();
+                                    audio.add(call);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }*/
                         }
                         recdone = true;
+                        Log.d("entreistart", "" + recdone);
                     }
-                }).start();*/
+                }).start();
             }
         });
 
@@ -162,62 +181,81 @@ public class SpeechFragment extends Fragment implements TaskListener {
             public void onClick(View v) {
                 Log.d("entreistop", "entrei stop");
 
-                //recorder.stop();
+                recorder.stop();
 
-                /*StringBuilder sb = new StringBuilder();
-                    try {
-                        List<Future<String>> lft = threadedExecuter.invokeAll(buffers);
-                        for (int i = 0; i < lft.size(); i++) {
-                            Future<String> ft = lft.get(i);
-                            try {
-                                sb.append(ft.get());
+                Log.d("entreistop", "" + buffers.size());
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+
+                        while (!recdone) ;
+
+                        StringBuilder sb = new StringBuilder();
+
+                        /*Log.d("entreistop", "" + audio.size());
+                        for (int i = 0; i < audio.size(); i++) {
+                            String ft = audio.get(i);
+                            sb.append(ft);
+                        }
+                        Log.d("entreistop", sb.toString());*/
+
+                        try {
+                            List<Future<String>> lft = threadedExecuter.invokeAll(buffers);
+
+                            for (int i = 0; i < lft.size(); i++) {
+                                Future<String> ft = lft.get(i);
+                                try {
+                                    sb.append(ft.get());
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            Log.d("entreistop", sb.toString());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        // answers
+                        if (!exercise.getAnswers().isEmpty()) {
+                            answers = exercise.getAnswers();
+                        }
+
+                        String sentaud = "[" + sb.substring(0, sb.length() - 1) + "]";
+                        String xmlgramar = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" +
+                                "<grammar root=\"main\" version=\"1.0\" xmlns=\"http://www.w3.org/2001/06/grammar\" xml:lang=\"pt-PT\">" +
+                                "<rule id=\"main\">" +  "<item repeat=\"0-1\">" + "<one-of>";
+
+                        for (int i=0; i < answers.size(); i++) {
+                            xmlgramar += "<item><ruleref special=\"GARBAGE\"/>" +
+                                    answers.get(i).getAnswerDescription() +
+                                    "<ruleref special=\"GARBAGE\"/></item>";
+                        }
+                        xmlgramar += "<item><ruleref special=\"GARBAGE\"/></item>" +
+                                        "</one-of>" + "</item>" + "</rule>" + "</grammar>";
+
+                        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+                        body.add("task", "echo-kws-asr");
+                        body.add("sbytes", sentaud);
+                        body.add("lang","pt");
+                        body.add("grxml", xmlgramar);
+                        Log.d("entreistop", xmlgramar);
+
+                        //Send Audimus Request to Server
+                        final String url = getString(R.string.ws_uri) + getString(R.string.child_sequence_uri);
+                            new SendAudimus(body, (VitheaKidsActivity) getActivity(), url, (VitheaKidsActivity) getActivity()).execute();
+                            /*try {
+                                Log.d("RESPONSE", response.get().toString());
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
-                            }
+                            }*/
+
+                            buffers = null;
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                // answers
-                if (!exercise.getAnswers().isEmpty()) {
-                    answers = exercise.getAnswers();
-                }
-
-                String sentaud = "[" + sb.substring(0, sb.length() - 1) + "]";
-                String xmlgramar = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" +
-                        "<grammar root=\"main\" version=\"1.0\" xmlns=\"http://www.w3.org/2001/06/grammar\" xml:lang=\"pt-PT\">" +
-                        "<rule id=\"main\">" +  "<item repeat=\"0-1\">" + "<one-of>";
-
-                for (int i=0; i < answers.size(); i++) {
-                    xmlgramar += "<item><ruleref special=\"GARBAGE\"/>" +
-                            answers.get(i).getAnswerDescription() +
-                            "<ruleref special=\"GARBAGE\"/></item>";
-                }
-                xmlgramar += "<item><ruleref special=\"GARBAGE\"/></item>" +
-                                "</one-of>" + "</item>" + "</rule>" + "</grammar>";
-
-                MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-                body.add("task", "echo-kws-asr");
-                body.add("sbytes", sentaud);
-                body.add("lang","pt");
-                body.add("grxml", xmlgramar);
-                Log.d("xmlgramar", xmlgramar);
-
-                //Send Audimus Request to Server
-                /*final String url = getString(R.string.ws_uri) + getString(R.string.child_sequence_uri);
-                       AsyncTask<Void, Void, ResponseEntity<String>> response = new SendAudimus(body, (VitheaKidsActivity) getActivity(), url, (VitheaKidsActivity) getActivity()).execute();
-                       try {
-                           Log.d("RESPONSE", response.get().toString());
-                       } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-
-                        buffers = null;
-             /*       }
-                }).start();*/
+                }).start();
             }
         });
 
@@ -226,6 +264,10 @@ public class SpeechFragment extends Fragment implements TaskListener {
     }
 
 
+    public void changeButtons(){
+        start.setVisibility(View.INVISIBLE);
+        stop.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void onTaskStarted() {

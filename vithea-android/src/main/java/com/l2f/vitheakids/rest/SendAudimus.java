@@ -44,7 +44,7 @@ public class SendAudimus extends AsyncTask<Void, Void, ResponseEntity<String>> {
 
 		try {
 			response = Api.post(url, body, this.activity, "sendAudimus");
-			//Log.d(TAG, "response:" + response.getBody().toString());
+			Log.d("entreistop", "response:" + response.getBody().toString());
 		}
 		catch (HttpClientErrorException e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);

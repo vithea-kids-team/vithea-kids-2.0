@@ -21,7 +21,6 @@
             <div class="row">
                 <h3>{{ '_AddExercisesToSequence_' | translate }}<span class=" text-danger "> * </span></h3>
                 <div *ngIf="exercises?.length === 0"><em>{{ '_NoExercises_' | translate }}</em></div>
-                <!--<loader *ngIf="!exercises "></loader>-->
                 <div *ngIf="exercises?.length > 0 || addedExercises?.length > 0">
                     <div>
                         <form class="input-group" class="col-md-6 col-sm-6" style="padding-left:0">
@@ -33,7 +32,10 @@
                                         <div *ngIf="exercise.dtype.toLowerCase() == 'multiplechoice'">
                                                 <app-show-exercise-mc-image [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'image'" ></app-show-exercise-mc-image>
                                                 <app-show-exercise-mc-text [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'text'" ></app-show-exercise-mc-text>                
-                                            </div> 
+                                        </div>
+                                        <div *ngIf="exercise.dtype.toLowerCase() == 'speechexercise'">
+                                            <app-show-exercise-speech [exercise]="exercise"></app-show-exercise-speech>
+                                        </div> 
                                         <a class="btn btn-success pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
                                     </div>
                                 </li>
@@ -48,9 +50,12 @@
                                         <a class="btn btn-danger pull-left" style="padding:0" (click)="removeExercise(index)"><i class="glyphicon glyphicon-arrow-left"></i></a>
                                         <a class="btn btn-secondary pull-left" style="padding:0.1"></a>
                                         <div *ngIf="exercise.dtype.toLowerCase() == 'multiplechoice'">
-                                                <app-show-exercise-mc-image [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'image'" ></app-show-exercise-mc-image>
-                                                <app-show-exercise-mc-text [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'text'" ></app-show-exercise-mc-text>                
-                                        </div> 
+                                            <app-show-exercise-mc-image [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'image'" ></app-show-exercise-mc-image>
+                                            <app-show-exercise-mc-text [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'text'" ></app-show-exercise-mc-text>
+                                        </div>
+                                        <div *ngIf="exercise.dtype.toLowerCase() == 'speechexercise'">
+                                            <app-show-exercise-speech [exercise]="exercise"></app-show-exercise-speech>
+                                        </div>
                                         <a *ngIf="index >= 1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="upExercise(index)"><i class="glyphicon glyphicon-arrow-up"></i></a>
                                         <a class="btn btn-secondary pull-right" style="padding:0"></a>
                                         <a *ngIf="index < addedExercises?.length-1 && addedExercises?.length > 1" class="btn btn-secondary pull-right" style="padding:0" (click)="downExercise(index)"><i class="glyphicon glyphicon-arrow-down"></i></a>

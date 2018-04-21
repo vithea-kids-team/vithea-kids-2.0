@@ -204,8 +204,6 @@ export class AddSequenceComponent implements OnInit {
     }
 
     findExerciseById(exerciseId: number) {
-        console.log(exerciseId);
-        console.log(this.exercises);
         let length = this.exercises.length;
         for (let i = 0; i < length; i++) {
             let exercise = this.exercises[i];
@@ -223,7 +221,7 @@ export class AddSequenceComponent implements OnInit {
         const dialogRef = this.modal.confirm().size('lg').isBlocking(true).showClose(false).okBtn('Sim').cancelBtn('Não')
         .title('Registar aula').body('Tem a certeza que pretende registar a aula ' + sequenceName + '?').open();
 
-        dialogRef.then(dialogRef => { dialogRef.result.then(result => {
+        dialogRef.then(dialogRef2 => { dialogRef2.result.then(result => {
             if (result) {
                 this.newSequence.exercisesToAdd = this.addedExercises.map((exercise) => {
                     return exercise.exerciseId;
