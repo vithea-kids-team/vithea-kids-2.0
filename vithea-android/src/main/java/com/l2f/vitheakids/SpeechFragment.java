@@ -22,6 +22,7 @@ import com.l2f.vitheakids.RawBuffer.RawBuffer;
 import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
+import com.l2f.vitheakids.model.Exercise;
 import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.model.SpeechExercise;
 import com.l2f.vitheakids.rest.SendAudimus;
@@ -59,14 +60,14 @@ public class SpeechFragment extends Fragment implements TaskListener {
     private View fragmentView;
     private Child child;
     private List<Answer> answers;
-    static byte[] buffer;
-    private ArrayList<String> audio;
-    static int buffersizebytes;
-    static AudioRecord recorder;
-    static boolean recdone = true;
-    static ArrayList<RawBuffer> buffers;
-    static ExecutorService threadedExecuter = null;
-    Button start, stop;
+
+    private byte[] buffer;
+    private int buffersizebytes;
+    private AudioRecord recorder;
+    private boolean recdone = true;
+    private ArrayList<RawBuffer> buffers;
+    private ExecutorService threadedExecuter = null;
+    private Button start, stop;
 
 
     public SpeechFragment() {
@@ -86,19 +87,17 @@ public class SpeechFragment extends Fragment implements TaskListener {
         fragment.imageStorage = imageStorage;
         fragment.seqName = seqName;
         fragment.child = child;
+        fragment.threadedExecuter = Executors.newCachedThreadPool();
+        fragment.buffersizebytes = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        fragment.buffer = new byte[fragment.buffersizebytes];
+        fragment.recorder = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, 16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, fragment.buffersizebytes * 2);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        threadedExecuter = Executors.newCachedThreadPool();
-
-        buffersizebytes = AudioRecord.getMinBufferSize(16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-        buffer = new byte[buffersizebytes];
-        recorder = new AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION, 16000, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersizebytes * 2);
-
     }
 
     @Override
@@ -149,25 +148,23 @@ public class SpeechFragment extends Fragment implements TaskListener {
                             //changeButtons();
                         }
 
-                        buffers = new ArrayList<>();
+                        buffers = new ArrayList<RawBuffer>();
                         recdone = false;
                         Log.d("entreistart", "" + recdone);
 
                         while (recorder.getRecordingState() == AudioRecord.RECORDSTATE_RECORDING) {
                             int res = recorder.read(buffer, 0, buffersizebytes);
-                            if (res == AudioRecord.ERROR_INVALID_OPERATION || res == AudioRecord.ERROR_BAD_VALUE || res == 0) {
+                            if (res == AudioRecord.ERROR_INVALID_OPERATION || res == AudioRecord.ERROR_BAD_VALUE || res == 0 || res == -1) {
                                 continue;
                             }
-                            Log.d("entreistart", "" + res);
-                            if(res!=-1) buffers.add(new RawBuffer(buffer, res));
-                            /*try {
-                                if(res!=-1) {
-                                    String call = new RawBuffer(buffer, res).call();
-                                    audio.add(call);
-                                }
+
+                            RawBuffer rawBuffer = new RawBuffer(buffer, res);
+                            buffers.add(rawBuffer);
+                            try {
+                                Log.d("entreistart", "" + rawBuffer.call());
                             } catch (Exception e) {
                                 e.printStackTrace();
-                            }*/
+                            }
                         }
                         recdone = true;
                         Log.d("entreistart", "" + recdone);
@@ -193,16 +190,15 @@ public class SpeechFragment extends Fragment implements TaskListener {
                         while (!recdone) ;
 
                         StringBuilder sb = new StringBuilder();
-
-                        /*Log.d("entreistop", "" + audio.size());
-                        for (int i = 0; i < audio.size(); i++) {
-                            String ft = audio.get(i);
-                            sb.append(ft);
-                        }
-                        Log.d("entreistop", sb.toString());*/
-
                         try {
-                            List<Future<String>> lft = threadedExecuter.invokeAll(buffers);
+                            for (int i = 0; i < buffers.size(); i++) {
+                                String call = buffers.get(i).call();
+                                Log.d("entreistop", call);
+                                sb.append(call);
+                            }
+                            Log.d("entreistop", sb.toString());
+
+                            /*List<Future<String>> lft = threadedExecuter.invokeAll(buffers);
 
                             for (int i = 0; i < lft.size(); i++) {
                                 Future<String> ft = lft.get(i);
@@ -212,8 +208,10 @@ public class SpeechFragment extends Fragment implements TaskListener {
                                     e.printStackTrace();
                                 }
                             }
-                            Log.d("entreistop", sb.toString());
+                            */
                         } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 
@@ -243,7 +241,7 @@ public class SpeechFragment extends Fragment implements TaskListener {
                         Log.d("entreistop", xmlgramar);
 
                         //Send Audimus Request to Server
-                        final String url = getString(R.string.ws_uri) + getString(R.string.child_sequence_uri);
+                        final String url = "http://www.l2f.inesc-id.pt/~pfialho/tts/frameworkProxyASR.php";
                             new SendAudimus(body, (VitheaKidsActivity) getActivity(), url, (VitheaKidsActivity) getActivity()).execute();
                             /*try {
                                 Log.d("RESPONSE", response.get().toString());
@@ -256,6 +254,7 @@ public class SpeechFragment extends Fragment implements TaskListener {
                             buffers = null;
                         }
                 }).start();
+                //Process.setThreadPriority(Process.THREAD_PRIORITY_DEFAULT);
             }
         });
 

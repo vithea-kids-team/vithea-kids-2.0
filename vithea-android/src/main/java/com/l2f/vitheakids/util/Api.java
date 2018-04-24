@@ -105,7 +105,7 @@ public final class Api {
         if(!requestType.equals("login")) {
             requestHeaders.add(AUTHORIZATION, token);
         }
-        Log.d(AUTHORIZATION, token );
+        Log.d(AUTHORIZATION, token);
 
         HttpEntity<?> requestEntity = new HttpEntity<Object>(body,
                 requestHeaders);
@@ -129,7 +129,7 @@ public final class Api {
         restTemplate.setMessageConverters(messageConverters);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        //Log.d(TAG, "response:" + response.getBody().toString());
+        Log.d(TAG, "response:" + response.getBody().toString());
 
         if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
             SharedPreferences settings = act.getSharedPreferences("AppPreferences", MODE_PRIVATE);

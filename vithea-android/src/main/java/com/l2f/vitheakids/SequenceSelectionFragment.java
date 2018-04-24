@@ -106,9 +106,6 @@ public class SequenceSelectionFragment extends Fragment {
 
                 mListener.onFragmentSelection(seq.getSequenceId(), seq.getName(), seq.getSequenceExercises(), position);
 
-
-
-
                 // Draw view exercise at LoadImageTask
             }
         });
