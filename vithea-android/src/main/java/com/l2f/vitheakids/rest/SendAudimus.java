@@ -47,7 +47,7 @@ public class SendAudimus extends AsyncTask<Void, Void, ResponseEntity<String>> {
 
 		try {
 			response = Api.post(url, body, this.activity, "sendAudimus");
-			Log.d("entreistop", "response:" + response.getBody().toString());
+			Log.d("entreistop2", response.toString());
 		}
 		catch (HttpClientErrorException e) {
 			Log.e(TAG, e.getLocalizedMessage(), e);
@@ -60,77 +60,5 @@ public class SendAudimus extends AsyncTask<Void, Void, ResponseEntity<String>> {
 	protected void onPostExecute(ResponseEntity<String> response) {
 		listener.onTaskFinished(response);
 	}
-
-
-	/*
-	@Override
-	protected Void doInBackground(Void... arg0) {
-		//TODO replace by correct end
-		//final String url = activity.getString(R.string.ws_uri) + activity.getString(R.string.send_log_uri);
-		
-		//HttpAuthentication authHeader = new HttpBasicAuthentication(
-		//		activity.userName, Protection.cypher(activity.password));
-		
-		// Prepare acceptable media type
-		List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
-		acceptableMediaTypes.add(MediaType.APPLICATION_XML);
-		acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
-		acceptableMediaTypes.add(MediaType.TEXT_PLAIN);
-		
-		HttpHeaders requestHeaders = new HttpHeaders();
-		//requestHeaders.setAuthorization(authHeader);
-		
-		requestHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-//		requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-//		requestHeaders.setContentType(MediaType.APPLICATION_XML);
-
-		requestHeaders.setAccept(acceptableMediaTypes);
-
-		//String logs = this.sequenceToSave.toJSON();
-		//Log.d(TAG, "JSON: " + logs);
-		
-		MultiValueMap<String, Object> body = new LinkedMultiValueMap<String, Object>();
-		//MultiValueMap<String, SequenceLogInfo> body = new LinkedMultiValueMap<String, SequenceLogInfo>();
-		body.add("test", "hello");
-		//body.add("sequenceLog", logs);
-
-		//Log.d(TAG, this.sequenceToSave.toString());
-		
-		//HttpEntity<?> requestEntity = new HttpEntity<Object>(body, requestHeaders);
-		
-		//HttpEntity<?> requestEntity = new HttpEntity<Object>(this.sequenceToSave,
-		//				requestHeaders);
-		
-		// Create a new RestTemplate instance
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-
-		List<HttpMessageConverter<?>> messageConverters = restTemplate.getMessageConverters();
-		
-		// I know this sounds stupid but it prevents a HttpMessageNotWritableException 
-		FormHttpMessageConverter mainConverter = new FormHttpMessageConverter();
-		mainConverter.addPartConverter(new MappingJackson2HttpMessageConverter());		
-		messageConverters.add(mainConverter);
-		
-		messageConverters.add(new StringHttpMessageConverter());
-		messageConverters.add(new MappingJackson2HttpMessageConverter());
-		messageConverters.add(new ByteArrayHttpMessageConverter());
-
-		restTemplate.setMessageConverters(messageConverters);
-
-		//try {
-			// Make the network request
-			//Log.d(TAG, url);
-			//ResponseEntity<Boolean> response = restTehttps://delightedrobot.com/2012/02/23/handwriting-app-tablet/mplate.exchange(url, HttpMethod.POST, requestEntity, Boolean.class);
-			//Log.d(TAG, response.getBody().toString());
-			//restTemplate.put(url, requestEntity);
-
-		//} catch (HttpClientErrorException e) {
-		//	Log.e(TAG, e.getLocalizedMessage(), e);
-		//	e.printStackTrace();
-		//}
-		//return null;
-	}
-	*/
 
 }

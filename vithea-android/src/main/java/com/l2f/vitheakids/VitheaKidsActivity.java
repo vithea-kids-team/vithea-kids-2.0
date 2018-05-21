@@ -261,7 +261,6 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         // trick because of the next button
         inExercise = true;
 
-
         // Set exercise info
         if (child != null) {
             currentExercise = exercises.get(currentExercisePosition);
@@ -400,6 +399,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 //**** Region Handlers - what happens when you do some actions ************************************
 
     protected void rightAnswerHandler() {
+        Log.d("entreistop", "entrei right answer handler");
         inExercise = false;
         correctAnswer = true;
         playReinforcementMessage(child, "EXERCISE_REINFORCEMENT");
