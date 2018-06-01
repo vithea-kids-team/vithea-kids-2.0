@@ -221,7 +221,7 @@ public class SpeechFragment extends Fragment implements TaskListener {
                         Log.d("entreistop", response.getBody().toString());
                         activity.rightAnswerHandler();
                     } else {
-                        Log.d("entreistop", "entrei nao funciona handler");
+                        Log.d("entreistop", "entrei funciona handler");
                         activity.attempts++;
                         activity.readWithOrWithoutEmotion(child, "Tenta outra vez.");
                         changeButtons();

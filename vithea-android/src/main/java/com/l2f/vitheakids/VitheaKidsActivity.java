@@ -657,7 +657,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         final String url = getString(R.string.ws_uri) + getString(R.string.child_sequence_uri);
 
         //Send Logs to Server
-        new SendLogs(body, this, url, this).execute();
+        //new SendLogs(body, this, url, this).execute();
 
     }
 

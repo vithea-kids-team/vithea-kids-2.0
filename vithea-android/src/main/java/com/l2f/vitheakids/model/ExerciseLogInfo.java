@@ -44,12 +44,14 @@ public class ExerciseLogInfo {
 		this.childID = childID;
 		this.exerciseID = exerciseID;
 		this.promptingStrategy = promptingStrategy;
+		//TODO prompting types
 		this.reinforcementStrategy = reinforcementStrategy;
 		this.timestampBeginExercise = dateFormat.format(new Date());  //now
 
-		//TODO prompting types
-
 		numberOfDistractorHits = 0;
+		//TODO distractors hit
+
+		//TODO exercise preview
 
 		correct = false;
 		skipped = false;
@@ -72,17 +74,6 @@ public class ExerciseLogInfo {
 
 		this.correct = correctAnswer;
 		this.skipped = skipped;
-
-		/*
-		if (correctAnswer) {
-			this.correct = true;
-			this.skipped = false;
-		}
-		else {	//skipped
-			this.correct = false;
-			this.skipped = true;
-		}
-		*/
 
 		currentSequenceLogInfo.addFinishedExercise(this, currentExercisePosition);
 

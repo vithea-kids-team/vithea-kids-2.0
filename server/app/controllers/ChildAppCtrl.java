@@ -35,19 +35,14 @@ public class ChildAppCtrl extends Controller {
         }
         Logger.debug("User exists.");
         Child loggedChild = Child.findByUsername(user.getUsername());
-        //Child loggedChild = Child.findByUsername("minisoraia");
 
         if (loggedChild == null) {
             return badRequest(buildJsonResponse("error", "Child does not exist."));
         }
         Logger.debug(loggedChild.getChildLogin().getUsername() + " is logged in.");
-               
-        //JsonNode toJson = Json.toJson(loggedChild.toString());
-        //Logger.debug("NOT XPTO: " + Json.stringify(toJson));
 
         System.out.println(Json.stringify(Json.toJson(loggedChild.toString1())));
         return ok(Json.toJson(loggedChild.toString1()));
-
     }
     
     public static ObjectNode buildJsonResponse(String type, String message) {

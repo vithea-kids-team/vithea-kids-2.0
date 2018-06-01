@@ -1,0 +1,49 @@
+<div class="container">
+
+    <div class="row">
+        <div class="panel-default pull-right">
+            <a type="button" class="btn btn-default" (click)="goBack()">
+                <span class="glyphicon glyphicon-arrow-left" style="font-size: small;" aria-hidden="true"></span> {{'_GoBack_' | translate }}
+            </a>
+        </div>
+    </div>
+
+    <div class=row>
+        <h2>{{ '_Statistics_' | translate }}</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" >
+            <div style="display: block">
+                    <canvas baseChart height="100"
+                    [datasets]="lineChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [colors]="lineChartColors"
+                    [legend]="lineChartLegend"
+                    [chartType]="lineChartType">
+                </canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <br><br>
+        <div *ngIf="children" class="form-group">
+            <p *ngIf="children?.length === 0">{{ '_NoChildren_' | translate }}</p>
+            <div *ngIf="children?.length > 0">
+                <p> {{ '_SelectChild_' | translate }}</p>
+                <select [(ngModel)]="selectedChild" #child (change)="updateChild(child.value)">
+                    <option *ngFor="let child of children" [value]="child.childId">{{ child.firstName }} {{ child.lastName }}</option> 
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div *ngIf="this.childId">
+        <div class=row>
+            <h3>{{ '_Sequences_' | translate }}</h3>
+        </div>
+        <app-statistics-sequence [childInput] = childId></app-statistics-sequence>
+    </div>
+</div>

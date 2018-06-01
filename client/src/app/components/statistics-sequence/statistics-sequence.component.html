@@ -1,0 +1,38 @@
+<div class="container">
+
+    <p *ngIf="sequencesStats?.length === 0">{{ '_NoSequences_' | translate }}</p>
+
+    <div *ngIf="pagedItems">
+        <div class="panel panel-default"  *ngFor="let sequence of pagedItems" >
+            <div class="panel-body" >
+                <h3>{{sequence.name}}</h3>
+                <p>{{sequence.date}} {{sequence.hourInit}}-{{sequence.hourEnd}}</p>
+                <div class="progress">
+                    <div id="progress" class="progress-bar progress-bar-info" role="progressbar"
+                        aria-valuemin="0" aria-valuemax="100" [style.width]="sequence.percentage + '%'">   
+                        {{sequence.percentage}}% Complete ({{ sequence.correctExercices }}/{{ sequence.totalExercises }})
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- pager -->
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                <a (click)="setPage(1)">{{ '_First_' | translate }}</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                <a (click)="setPage(pager.currentPage - 1)">{{ '_Previous_' | translate }}</a>
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a (click)="setPage(page)">{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a (click)="setPage(pager.currentPage + 1)">{{ '_Next_' | translate }}</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+               <a (click)="setPage(pager.totalPages)">{{ '_Last_' | translate }}</a>
+            </li>
+        </ul>
+    </div>
+</div>

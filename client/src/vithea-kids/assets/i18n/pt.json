@@ -21,6 +21,7 @@
     "_MyProfile_": "O Meu Perfil",
     "_Reinforcements_": "Reforços",
     "_PersonalMessages_": "Mensagens personalizadas",
+    "_Statistics_": "Estatísticas",
 
     "__COMMENT__": "SIGNUP, REGISTER CHILD AND LOGIN FORM *************************************************************",
     "_Username_": "Nome de utilizador",
@@ -144,6 +145,7 @@
     "_SelectImagesAnimatedCharacter_": "Clique na imagem que pretende utilizar como personagem animada",
     "_SelectTopic_": "Seleccione o tema que pretende utilizar",
     "_SelectLevel_": "Seleccione o nível de dificuldade que pretende utilizar",
+    "_SelectChild_": "Seleccione a criança para ver as suas estatisticas", 
     "_Settings_": "Gerir Temas e Níveis",
     "_Topics_": "Temas",
     "_Levels_": "Níveis de dificuldade",

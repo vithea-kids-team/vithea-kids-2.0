@@ -11,6 +11,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { ModalModule } from 'ngx-modialog';
 import { BootstrapModalModule } from 'ngx-modialog/plugins/bootstrap';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { ChartsModule } from 'ng2-charts';
 
 import { appRoutes } from './app.routing';
 
@@ -25,6 +26,8 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { StatisticsSequenceComponent } from './components/statistics-sequence/statistics-sequence.component';
 
 import { CaregiverService } from './services/caregiver/caregiver.service';
 import { PaginationService } from './services/pagination/pagination.service';
@@ -94,7 +97,8 @@ export function translateFactory(https: HttpClient) {
     MyDatePickerModule,
     AlertModule.forRoot(),
     ModalModule.forRoot(),
-    BootstrapModalModule
+    BootstrapModalModule,
+    ChartsModule
   ],
   declarations: [
     AppComponent,
@@ -121,6 +125,8 @@ export function translateFactory(https: HttpClient) {
     SequencesComponent,
     AddSequenceComponent,
     PreferencesComponent,
+    StatisticsComponent,
+    StatisticsSequenceComponent,
     ChildFilter,
     SequenceFilter,
     EqualValidator,

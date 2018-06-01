@@ -19,6 +19,8 @@ import { RecoverPasswordComponent } from './components/recover-password/recover-
 import { AdminComponent } from './components/admin/admin.component';
 import { EditCaregiverComponent } from './components/edit-caregiver/edit-caregiver.component';
 import { GuardService } from './services/guard/guard.service';
+import { StatisticsComponent } from './components/statistics/statistics.component';
+import { StatisticsSequenceComponent } from './components/statistics-sequence/statistics-sequence.component';
 
 export const appName = 'vithea-kids';
 
@@ -31,6 +33,8 @@ export const appRoutes: Routes = [
   { path: 'recover', component: RecoverPasswordComponent },
   { path: 'admin', component: AdminComponent, canActivate: [GuardService] },
   { path: 'settings', component: SettingsComponent, canActivate: [GuardService] },
+  { path: 'statistics', component: StatisticsComponent, canActivate: [GuardService] },
+  { path: 'statisticsSequence', component: StatisticsSequenceComponent, canActivate: [GuardService] },
   { path: 'children',
     children: [{ path: '', component: ChildrenComponent, canActivate: [GuardService] },
               { path: 'new', component: AddChildComponent, canActivate: [GuardService] },
