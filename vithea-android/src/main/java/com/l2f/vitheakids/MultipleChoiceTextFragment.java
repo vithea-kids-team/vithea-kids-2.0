@@ -142,7 +142,6 @@ public class MultipleChoiceTextFragment extends Fragment {
             }
             if(child.getPrompting().getPromptingRead()){
                 Prompting.readAnswers(currentAnswers);
-
             }
         }
 

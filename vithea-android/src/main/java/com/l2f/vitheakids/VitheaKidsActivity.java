@@ -272,6 +272,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
                 } else if (((MultipleChoice)currentExercise).getType().equals("IMAGE")) {
                     fragmentTransaction.replace(R.id.child_fragment_container, MultipleChoiceImageFragment.newInstance((MultipleChoice) currentExercise, child, imageStorage, seqName));
+                    readWithOrWithoutEmotion(child, ((MultipleChoice)currentExercise).getQuestion().getQuestionDescription());
                 }
             }
             else if(currentExercise instanceof SelectionImageExercise){
@@ -279,6 +280,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
             }
             else if(currentExercise instanceof SpeechExercise){
                 fragmentTransaction.replace(R.id.child_fragment_container, SpeechFragment.newInstance((SpeechExercise) currentExercise, imageStorage, seqName, child));
+                readWithOrWithoutEmotion(child, ((SpeechExercise)currentExercise).getQuestionSpeech());
             }
             fragmentTransaction.commit();
 
@@ -448,6 +450,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         for (PersonalMessage message : personalMessages) {
             if (message.getMessageType().equals(exercise_reinforcement)) {
                 sentence = message.getMessage();
+                readWithOrWithoutEmotion(child, sentence);
                 break;
             }
         }
@@ -493,14 +496,11 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
     }
     protected void homeHandler() {
         setSequenceSelectionView();
-
-
     }
 
     protected  void backMenuHandler(){
         CustomDialogClass cdd=new CustomDialogClass(this);
         cdd.show();
-
     }
 
     private void exitHandler(){

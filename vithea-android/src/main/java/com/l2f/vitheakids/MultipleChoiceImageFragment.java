@@ -124,9 +124,6 @@ public class MultipleChoiceImageFragment extends Fragment {
                     }
                 });
                 rightAnswers.add(option);
-
-
-
             } else {
                 option.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
