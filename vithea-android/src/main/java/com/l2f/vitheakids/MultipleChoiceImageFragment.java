@@ -3,7 +3,6 @@ package com.l2f.vitheakids;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.l2f.vitheakids.Storage.ImageStorage;
 import com.l2f.vitheakids.model.Answer;
 import com.l2f.vitheakids.model.Child;
-import com.l2f.vitheakids.model.Exercise;
 import com.l2f.vitheakids.model.MultipleChoice;
 import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.util.Prompting;
@@ -23,6 +21,7 @@ import com.l2f.vitheakids.util.Prompting;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.TreeMap;
 
 
 /**
@@ -44,6 +43,8 @@ public class MultipleChoiceImageFragment extends Fragment {
     private VitheaKidsActivity  act;
     private List<ImageView> rightAnswers = new ArrayList<>();
     private List<ImageView> wrongAnswers = new ArrayList<>();
+    private TreeMap<Integer, Long> viewResourceId = new TreeMap<Integer, Long>();
+    public int size;
 
     private List<Answer> answers;
     public MultipleChoiceImageFragment() {
@@ -62,6 +63,7 @@ public class MultipleChoiceImageFragment extends Fragment {
         fragment.exercise=exercise;
         fragment.imageStorage=imageStorage;
         fragment.seqName=seqName;
+        fragment.size = 0;
         return fragment;
     }
 
@@ -112,6 +114,7 @@ public class MultipleChoiceImageFragment extends Fragment {
 
                 byte[] bitmap = imageStorage.getImage(this.seqName, answerImage.getResourceId());
                 imageStorage.setImageOfView(getContext(),option,bitmap);
+                viewResourceId.put(option.getId(), answerImage.getResourceId());
             }
 
             option.setVisibility(View.VISIBLE);
@@ -157,16 +160,20 @@ public class MultipleChoiceImageFragment extends Fragment {
                 }
             }
         }
-
     }
 
 
     public void distractorHandler(View v){
         act.attempts++;
+        FrameLayout fr = (FrameLayout) v.getParent();
+        ImageView im  = (ImageView) fr.getChildAt(1);
+        Long resourceId = viewResourceId.get(im.getId());
+        exercise.addAttempts(resourceId.toString());
+
         if (act.promptingActive && child.getPrompting() != null ) {
             if (child.getPrompting().getPromptingHide()) {
-                FrameLayout fr = (FrameLayout) v.getParent();
-                ImageView im  = (ImageView) fr.getChildAt(1);
+                //FrameLayout fr = (FrameLayout) v.getParent();
+                //ImageView im  = (ImageView) fr.getChildAt(1);
                 im.setVisibility(View.INVISIBLE);
             }
 
@@ -180,17 +187,15 @@ public class MultipleChoiceImageFragment extends Fragment {
                 }
             }
 
-            if(child.getPrompting().getPromptingSize()) {
+            if(child.getPrompting().getPromptingSize() && size == 0) {
                 for(ImageView imageView: rightAnswers) {
-                    Log.d("prompting", "image");
                     Prompting.setImageSize(getContext(), wrongAnswers);
+                    size++;
                 }
             }
             else {
                 act.readWithOrWithoutEmotion(child, "Tenta outra vez.");
             }
-
-
         }
     }
 

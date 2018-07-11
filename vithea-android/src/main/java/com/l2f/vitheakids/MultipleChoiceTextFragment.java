@@ -122,6 +122,8 @@ public class MultipleChoiceTextFragment extends Fragment {
 
     protected  void distractorHandler(View v){
         activity.attempts++;
+        exercise.addAttempts(((Button) v).getText().toString().toUpperCase());
+
         if(activity.promptingActive && child.getPrompting()!=null){
             if(child.getPrompting().getPromptingHide()) {
                 currentAnswers.remove(((Button) v).getText().toString().toUpperCase());
@@ -141,7 +143,11 @@ public class MultipleChoiceTextFragment extends Fragment {
                 }
             }
             if(child.getPrompting().getPromptingRead()){
-                Prompting.readAnswers(currentAnswers);
+                String answers="";
+                for(int i = 0; i < currentAnswers.size(); i++) {
+                    answers += currentAnswers.get(i) + ".";
+                }
+                activity.readWithOrWithoutEmotion(child, answers);
             }
         }
 
@@ -208,7 +214,13 @@ public class MultipleChoiceTextFragment extends Fragment {
                     }
                 }
                 if (child.getPrompting().getPromptingRead()) {
-                    Prompting.readAnswers(currentAnswers);
+                    String answers="";
+                    for(int i = 0; i < currentAnswers.size(); i++) {
+                        answers += currentAnswers.get(i) + ".";
+                    }
+                    activity.readWithOrWithoutEmotion(child, answers);
+
+                    //Prompting.readAnswers(currentAnswers);
                 }
                 else{
                     activity.readWithOrWithoutEmotion(child, "Tenta outra vez.");

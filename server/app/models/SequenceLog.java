@@ -7,6 +7,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,8 @@ import javax.persistence.Id;
  *
  * @author soraiamenesesalarcao
  */
+
+@Entity
 public class SequenceLog extends Model  {
   
     @Id
@@ -22,25 +25,46 @@ public class SequenceLog extends Model  {
     private Long sequenceLogId;
     private Long sequenceId;
     private Long childId;
+    private String name;
     private String timestampBegin;
     private String timestampEnd;
     private int numberExercisesCorrect;
     private int numberExercisesSkipped;
     private int numberExercisesTotal;
+    private Long distractorHitsAvg;
     private List<ExerciseLog> exercisesLog;
     
-    
-    public SequenceLog(Long sequenceId, Long childId, String timestampBegin,
-            String timestampEnd, int numberExercisesCorrect, int numberExercisesSkipped,
-            int numberExercisesTotal, List<ExerciseLog> exercisesLog){
+    public SequenceLog(Long sequenceId, Long childId, String name, 
+            String timestampBegin, String timestampEnd, 
+            int numberExercisesTotal, int numberExercisesCorrect, 
+            int numberExercisesSkipped, Long distractorHitsAvg, 
+            List<ExerciseLog> exercisesLog){
         this.sequenceId = sequenceId;
         this.childId = childId;
+        this.name = name;
         this.timestampBegin = timestampBegin;
         this.timestampEnd = timestampEnd;
         this.numberExercisesCorrect = numberExercisesCorrect;
         this.numberExercisesSkipped = numberExercisesSkipped;
         this.numberExercisesTotal = numberExercisesTotal;
+        this.distractorHitsAvg = distractorHitsAvg;
         this.exercisesLog = exercisesLog;
+    }  
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getDistractorHitsAvg() {
+        return distractorHitsAvg;
+    }
+
+    public void setDistractorHitsAvg(Long distractorHitsAvg) {
+        this.distractorHitsAvg = distractorHitsAvg;
     }
     
     public Long getSequenceLogId() {
@@ -114,5 +138,4 @@ public class SequenceLog extends Model  {
     public void setExercisesLog(List<ExerciseLog> exercisesLog) {
         this.exercisesLog = exercisesLog;
     }
-    
 }

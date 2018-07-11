@@ -21,7 +21,6 @@ import java.util.List;
         @JsonSubTypes.Type(value = MultipleChoice.class, name = "MultipleChoice"),
         @JsonSubTypes.Type(value = SelectionImageExercise.class, name = "SelectionImageExercise"),
         @JsonSubTypes.Type(value = SpeechExercise.class, name = "SpeechExercise")
-
 })
 public abstract class Exercise {
 
@@ -37,6 +36,10 @@ public abstract class Exercise {
         this.topic = topic;
         this.level = level;
     }
+
+    public abstract String getType();
+
+    public abstract ArrayList<String> getAttempts();
 
     public Long getId() {
         return this.id;

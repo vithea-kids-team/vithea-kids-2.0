@@ -10,14 +10,19 @@ public class ReadTask extends AsyncTask<String, Void, Void> {
 	@Override
 	protected Void doInBackground(String... params) {
 
-		if (params.length > 1 && !params[0].isEmpty() && !params[1].isEmpty()) {
+		if(params[0].equals("cat")) UnityPlayer.UnitySendMessage("/cat5/tgrl1_body/tgrl1_head", "setVoice", "Violeta_slow");					// cat
+		else if(params[0].equals("edgar")) UnityPlayer.UnitySendMessage("/edgar1/tguy1_head", "setVoice", "Viriato_slow");	    			// edgar
+		else if(params[0].equals("filipe")) UnityPlayer.UnitySendMessage("/john2/tguy5_body/tguy5_head", "setVoice", "Vicente_slow"); 		// filipe
 
-            Log.d("saythis", params[0]+ ";" + params[1] +";1");
-			UnityPlayer.UnitySendMessage("GameManager", "SayThisWithEmotion", params[0] + ";" + params[1] +";1");
-		} else if (!params[0].isEmpty()) {
-            Log.d("saythis", params[0]);
+		if (params.length > 2 && !params[1].isEmpty() && !params[2].isEmpty()) {
+            Log.d("saythis", params[1]+ ";" + params[2] +";1");
+			UnityPlayer.UnitySendMessage("GameManager", "SayThisWithEmotion", params[1] + ";" + params[2] +";1");
+		} else if (!params[1].isEmpty()) {
+			Log.d("saythis", params[0]);
+            Log.d("saythis", params[1]);
 
-            UnityPlayer.UnitySendMessage("GameManager", "SayThis", params[0]);
+            UnityPlayer.UnitySendMessage("GameManager", "SayThis", params[1]);
+
 		}
 
 		// 1 second + 600 ms for each 5 characters

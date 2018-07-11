@@ -3,24 +3,17 @@ package models;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import play.Logger;
 
 
@@ -145,16 +138,15 @@ public class Exercise extends Model {
         return sequencesExercise;
     }
      
-
     public static final Finder<Long, Exercise> find = new Finder<>(Exercise.class);
     
     public static List<Exercise> findByAuthor(Caregiver author) {
-            Logger.debug("Looking for exercises from: " + author.getCaregiverLogin().getUsername());
-            return find.where().eq("author_id", author.getCaregiverId()).findList();
+        Logger.debug("Looking for exercises from: " + author.getCaregiverLogin().getUsername());
+        return find.where().eq("author_id", author.getCaregiverId()).findList();
     }
     
     public static Exercise findExerciseById(Long id) {
-            Logger.debug("Looking for exercise " + id);
-            return find.where().eq("id", id).findUnique();
+        Logger.debug("Looking for exercise " + id);
+        return find.where().eq("id", id).findUnique();
     }
 }

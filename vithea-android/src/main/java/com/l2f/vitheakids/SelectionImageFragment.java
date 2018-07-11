@@ -92,8 +92,4 @@ public class SelectionImageFragment extends Fragment {
         
         return  fragmentView;
     }
-
-
-
-
 }

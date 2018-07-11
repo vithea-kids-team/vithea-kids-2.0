@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.ConfigFactory;
 import java.io.File;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import models.AnimatedCharacter;
 import models.Caregiver;
 import models.Child;
+import models.ExerciseLog;
 import models.Login;
 import models.PersonalMessage;
 import models.PersonalMessageType;
@@ -21,7 +23,9 @@ import models.Resource;
 import models.Sequence;
 import models.SequenceExercisesCapitalization;
 import models.SequenceExercisesOrder;
+import models.SequenceLog;
 import models.SequencePreferences;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import play.Logger;
@@ -90,6 +94,7 @@ public class AdminChildCtrl extends Controller {
             child.setPrompting(new Prompting());
             child.setSequenceExercisesPreferences(new SequencePreferences());
             child.setEmotions(false);
+            //child.setSequencesLogList(new ArrayList<>());
             
             child.save();
             
@@ -305,17 +310,12 @@ public class AdminChildCtrl extends Controller {
             return badRequest(buildJsonResponse("error", "Invalid child id."));
         }
         
-        
         DynamicForm prefs = formFactory.form().bindFromRequest();
         Logger.debug("DEBUG:" + prefs);
-        
-        //Form<UpdatePreferences> updatePreferencesForm = formFactory.form(UpdatePreferences.class).bindFromRequest();
-        
+                
         if (prefs.hasErrors()) {
             return badRequest(prefs.errorsAsJson());
         }
-        
-        //UpdatePreferences prefs = updatePreferencesForm.get();
         
         String greetingMessage = child.getPersonalMessagesList().get(0).getMessage();
         String exerciseReinforcementMessage = child.getPersonalMessagesList().get(1).getMessage();
@@ -379,7 +379,6 @@ public class AdminChildCtrl extends Controller {
         sq.save();
         
         child.setEmotions(Boolean.parseBoolean(prefs.get("emotions")));
-        
         Logger.debug("Emotions:" + prefs.get("emotions"));
         
         child.save();
@@ -471,7 +470,8 @@ public class AdminChildCtrl extends Controller {
             return badRequest(sequenceLogsForm.errorsAsJson());
         }
         
-        Logger.debug("DEBUG:" + sequenceLogsForm);
+        Logger.debug("entrei saveLogsChild");
+        //Logger.debug("DEBUG:" + sequenceLogsForm);
         
         String SEQUENCE_LOG_TAG = sequenceLogsForm.get("sequence_log");
         
@@ -480,48 +480,96 @@ public class AdminChildCtrl extends Controller {
             
             String sequenceId = json.get("sequenceID").toString();
             String childId = json.get("childID").toString();
-            String timestampBeginSequence = json.get("timestampBeginSequence").toString();
-            String timestampEndSequence = json.get("timestampEndSequence").toString();
+            String name = json.get("name").toString();
             String numberOfExercises = json.get("numberOfExercises").toString();
             String correctExercises = json.get("correctExercises").toString();
-            String exercisesLogs = json.get("exercisesLogs").toString();
+            String skippedExercises = json.get("skippedExercises").toString();
+            String timestampBeginSequence = json.get("timestampBeginSequence").toString();
+            String timestampEndSequence = json.get("timestampEndSequence").toString();
             String distractorHitsAvg = json.get("distractorHitsAvg").toString();
             
-            String content = sequenceId + "," + timestampBeginSequence + "," + 
-                    timestampEndSequence + "," + childId + "," + 
-                    numberOfExercises + "," + correctExercises + "," + 
+            String content = sequenceId + "," + childId + "," + name + "," + 
+                    timestampBeginSequence + "," +  timestampEndSequence + "," +
+                    numberOfExercises + "," + correctExercises + "," + skippedExercises + "," + 
                     distractorHitsAvg;
             
-            exercisesLogs = exercisesLogs.substring(1, exercisesLogs.length() - 1);
-            String[] split = exercisesLogs.split("\\},");
-            int numberExercises =  split.length;
+            JSONArray exercisesLogs = (JSONArray) json.get("exercisesLogs");
             
-            JSONObject json2;
+            int numberExercises =  exercisesLogs.length() - 1;
             String content2 = "";
+            Logger.debug("entrei saveLogsChild - EXERCISELOGS " + exercisesLogs.toString());
+            List<ExerciseLog> exercisesLog = new ArrayList<>();
             
             // para cada exercise
             for (int i = 0; i < numberExercises; i++){
-                split[i] += "}";
-                json2 = new JSONObject(split[i]);
+                JSONObject exercise = (JSONObject) exercisesLogs.get(i);
+                
+                String childIdEx = exercise.get("childID").toString();
+                String exerciseId = exercise.get("exerciseID").toString();
+                String promptingStrategy = exercise.get("promptingStrategy").toString();
+                String promptingTypes = exercise.get("promptingTypes").toString();
+                String attempts = exercise.get("attempts").toString();
+                String typeExercise = exercise.get("typeExercise").toString();
+                String timestampBeginExercise = exercise.get("timestampBeginExercise").toString();
+                String timestampEndExercise = exercise.get("timestampEndExercise").toString();
+                String reinforcementStrategy = exercise.get("reinforcementStrategy").toString();
+                String numberOfDistractorHits = exercise.get("numberOfDistractorHits").toString();
+                String correct = exercise.get("correct").toString();
+                String skipped = exercise.get("skipped").toString();
+                String exercisePreview = exercise.get("exercisePreview").toString();
             
-                String exerciseId = json2.get("exerciseID").toString();
-                String promptingStrategy = json2.get("promptingStrategy").toString();
-                String reinforcementStrategy = json2.get("reinforcementStrategy").toString();
-                String timestampBeginExercise = json2.get("timestampBeginExercise").toString();
-                String timestampEndExercise = json2.get("timestampEndExercise").toString();
-                String numberOfDistractorHits = json2.get("numberOfDistractorHits").toString();
-                String correct = json2.get("correct").toString();
-                String skipped = json2.get("skipped").toString();
-            
-                content2 += sequenceId + "," + timestampBeginSequence + "," + 
-                    timestampEndSequence + "," + childId + "," + exerciseId + "," + 
-                    promptingStrategy + "," + reinforcementStrategy + "," + 
-                    timestampBeginExercise + "," + timestampEndExercise + "," + 
-                    numberOfDistractorHits + "," + correct + "," + skipped + "\n";          
+                content2 += typeExercise + "," + childIdEx + "," + exerciseId  + "," + 
+                        promptingStrategy + "," + promptingTypes + "," + attempts + "," + 
+                        reinforcementStrategy + "," + timestampBeginExercise + "," + 
+                        timestampEndExercise + "," + numberOfDistractorHits + "," + 
+                        correct + "," + skipped + "," + exercisePreview + "\n";
+                                
+                ExerciseLog exLog = new ExerciseLog(typeExercise, 
+                        Long.parseLong(exerciseId), Long.parseLong(childIdEx), 
+                        Long.parseLong(sequenceId), exercisePreview, 
+                        timestampBeginExercise, timestampEndExercise, 
+                        attempts, Boolean.parseBoolean(correct), 
+                        Boolean.parseBoolean(skipped), reinforcementStrategy, 
+                        promptingStrategy, promptingTypes, 
+                        Integer.parseInt(numberOfDistractorHits));
+                exLog.save();
+                
+                exercisesLog.add(exLog);
             }
             
-            System.out.println(loggedChild.getFirstName() + " " + loggedChild.getLastName());
+            Logger.debug("entrei saveLogsChild - SEQUENCE");
+            Logger.debug("sequenceID: " + Long.parseLong(sequenceId));
+            Logger.debug("childID: " + Long.parseLong(childId));
+            Logger.debug("numberOfExercises: " + Integer.parseInt(numberOfExercises));
+            Logger.debug("correctExercises: " + Integer.parseInt(correctExercises));
+            Logger.debug("skippedExercises: " + Integer.parseInt(skippedExercises));
+            //Logger.debug("distractorHitsAvg: " + Long.parseLong(distractorHitsAvg));        
+            //Long.parseLong(distractorHitsAvg)
             
+            //distractorHitsAvg = "0.0";
+            
+            SequenceLog seqLog = new SequenceLog(Long.parseLong(sequenceId), 
+                    Long.parseLong(childId), name, timestampBeginSequence,
+                    timestampEndSequence, Integer.parseInt(numberOfExercises),
+                    Integer.parseInt(correctExercises), Integer.parseInt(skippedExercises),
+                    Long.getLong("0.5"), exercisesLog);
+            seqLog.save();
+            
+            //loggedChild.getSequencesLogList()
+            
+            //loggedChild.addSequencesLog(seqLog);
+            //loggedChild.save();
+            //Logger.debug("" + loggedChild.getSequencesLogList().size());
+            
+            //SequencePreferences sq = child.getSequenceExercisesPreferences();
+            //Logger.debug("Sequence Exercises Order:" + prefs.get("sequenceExercisesOrder"));
+            //sq.setSequenceExercisesOrder(SequenceExercisesOrder.valueOf(prefs.get("sequenceExercisesOrder")));    
+            //Logger.debug("Sequence Exercises Capitalization:" + prefs.get("sequenceExercisesCapitalization"));
+            //sq.setSequenceExercisesCapitalization(SequenceExercisesCapitalization.valueOf(prefs.get("sequenceExercisesCapitalization")));
+            //sq.save();
+            
+            
+            Logger.debug("entrei saveLogsChild - WRITE LOGS");
             String pathAndroidSequences = loggedChild.getPathAndroidSequencesLog();
             System.out.println(loggedChild.getPathAndroidSequencesLog());
             adminLogs.writeToFile(pathAndroidSequences, content);
@@ -529,12 +577,32 @@ public class AdminChildCtrl extends Controller {
             String pathAndroidSequencesExercises = loggedChild.getPathAndroidSequencesExercisesLog();
             adminLogs.writeToFile(pathAndroidSequencesExercises, content2);
             
-           
             return ok();
-        
-            
         } catch (JSONException ex) {
             return badRequest(sequenceLogsForm.errorsAsJson());
         }
     }
+
+    public Result getLogChildSequences(Long childId) {
+        
+        Logger.debug("entrei getLogChildSequences");
+        
+        Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
+        if (loggedCaregiver == null) {
+            return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
+        }
+        
+        List<Child> children = loggedCaregiver.getChildList();
+        Child child = Child.findByChildId(childId);
+        if (!children.contains(child)) {
+            return badRequest(buildJsonResponse("error", "Invalid child id."));
+        }
+   
+        List<SequenceLog> sequencesLogList = child.getSequencesLogList();
+        Logger.debug(sequencesLogList.size() + " " + sequencesLogList.toString());
+        
+        return ok(Json.toJson(child.getSequencesLogList()));
+    }
+    
+
 }

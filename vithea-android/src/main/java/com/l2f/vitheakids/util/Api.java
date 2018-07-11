@@ -129,7 +129,6 @@ public final class Api {
         restTemplate.setMessageConverters(messageConverters);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        Log.d(TAG, "response:" + response.getBody().toString());
 
         if (response.getStatusCode() == HttpStatus.UNAUTHORIZED) {
             SharedPreferences settings = act.getSharedPreferences("AppPreferences", MODE_PRIVATE);

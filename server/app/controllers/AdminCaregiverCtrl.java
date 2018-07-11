@@ -62,24 +62,6 @@ public class AdminCaregiverCtrl extends Controller {
             
             caregiver.save();
             
-            /*child.getChildLogin().setUsername(editChildForm.get("username"));
-            child.setFirstName(editChildForm.get("firstName"));
-            child.setLastName(editChildForm.get("lastName"));
-            child.setGender(editChildForm.get("gender"));
-            child.setBirthDate(editChildForm.get("birthDate"));
-            
-            child.save();
-            
-            Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().username);
-            if (loggedCaregiver == null) {
-                return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
-            }
-            
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            String content = child.getChildId() + "," + loggedCaregiver.getCaregiverId() + "," + timestamp.toLocalDateTime() + "," + "edit\n";
-            String pathChildren = loggedCaregiver.getPathChildrenLog();
-            adminLogs.writeToFile(pathChildren, content);
-            */
             return ok(Json.toJson(caregiver));
         }
     }

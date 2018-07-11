@@ -67,6 +67,10 @@ export class ChildrenService {
     return this.http.get('/child/' + id + '/sequences').map(res => res.json());
   }
 
+  getChildSequencesLog(id: number) {
+    return this.http.get('/child/' + id + '/sequences/log').map(res => res.json());
+  }
+
   getSequence(id: number) {
       return this.http.get('/sequences/' + id);
   }

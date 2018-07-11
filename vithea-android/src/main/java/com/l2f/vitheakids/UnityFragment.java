@@ -26,7 +26,6 @@ public class UnityFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("fragmento", "entrei");
         View viewFragment = inflater.inflate(R.layout.unity_fragment,container,false);
         activity = (VitheaKidsActivity) getActivity();
         mUnityPlayer = activity.getmUnityPlayer();

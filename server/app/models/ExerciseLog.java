@@ -6,6 +6,8 @@
 package models;
 
 import com.avaje.ebean.Model;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,32 +16,88 @@ import javax.persistence.Id;
  *
  * @author soraiamenesesalarcao
  */
+@Entity
 public class ExerciseLog extends Model  {
   
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long exerciseLogId;
     
-    private Exercise exercise;
+    private String typeExercise;
+    private Long exerciseId;
+    private Long childId;
+    private Long sequenceId;
+    @Column(columnDefinition = "TEXT")
+    private String exercisePreview;
     private String timestampInit;
     private String timestampEnd;
     private String attempsMade;
+    private boolean correct; 
     private boolean skipped;
-    private boolean reinforcement;
-    private boolean prompting;
+    private String reinforcement;
+    private String prompting;
     private String promptingTypes;
+    private int numberOfDistractorHits;
     
-    public ExerciseLog(Exercise exercise, String timestampInit, 
-            String timestampEnd, String attempsMade, boolean skipped,
-            boolean reinforcement, boolean prompting, String promptingTypes){
-        this.exercise = exercise;
+    public ExerciseLog(String typeExercise, Long exerciseId, long childId,
+            Long sequenceId, String exercisePreview, String timestampInit, 
+            String timestampEnd, String attempsMade, boolean correct, 
+            boolean skipped, String reinforcement, String prompting, 
+            String promptingTypes, int numberOfDistractorHits){
+        this.typeExercise = typeExercise;
+        this.exerciseId = exerciseId;
+        this.childId = childId;
+        this.sequenceId = sequenceId;
+        this.exercisePreview = exercisePreview;
         this.timestampInit = timestampInit;
         this.timestampEnd = timestampEnd;
         this.attempsMade = attempsMade;
+        this.correct = correct;
         this.skipped = skipped;
         this.reinforcement = reinforcement;
         this.prompting = prompting;
         this.promptingTypes = promptingTypes;
+        this.numberOfDistractorHits = numberOfDistractorHits;
+    }
+
+    public String getTypeExercise() {
+        return typeExercise;
+    }
+
+    public void setTypeExercise(String typeExercise) {
+        this.typeExercise = typeExercise;
+    }
+
+    public Long getExerciseId() {
+        return exerciseId;
+    }
+
+    public void setExerciseId(Long exerciseId) {
+        this.exerciseId = exerciseId;
+    }
+
+    public boolean isCorrect() {
+        return correct;
+    }
+
+    public void setCorrect(boolean correct) {
+        this.correct = correct;
+    }
+
+    public String getReinforcement() {
+        return reinforcement;
+    }
+
+    public void setReinforcement(String reinforcement) {
+        this.reinforcement = reinforcement;
+    }
+
+    public int getNumberOfDistractorHits() {
+        return numberOfDistractorHits;
+    }
+
+    public void setNumberOfDistractorHits(int numberOfDistractorHits) {
+        this.numberOfDistractorHits = numberOfDistractorHits;
     }
 
     public Long getExerciseLogId() {
@@ -50,12 +108,12 @@ public class ExerciseLog extends Model  {
         this.exerciseLogId = exerciseLogId;
     }
 
-    public Exercise getExercise() {
-        return exercise;
+    public String getExercisePreview() {
+        return exercisePreview;
     }
 
-    public void setExercise(Exercise exercise) {
-        this.exercise = exercise;
+    public void setExercisePreview(String exercisePreview) {
+        this.exercisePreview = exercisePreview;
     }
 
     public String getTimestampInit() {
@@ -90,19 +148,15 @@ public class ExerciseLog extends Model  {
         this.skipped = skipped;
     }
 
-    public boolean isReinforcment() {
-        return reinforcement;
-    }
-
-    public void setReinforcment(boolean reinforcement) {
+    public void setReinforcment(String reinforcement) {
         this.reinforcement = reinforcement;
     }
 
-    public boolean isPrompting() {
+    public String isPrompting() {
         return prompting;
     }
 
-    public void setPrompting(boolean prompting) {
+    public void setPrompting(String prompting) {
         this.prompting = prompting;
     }
 

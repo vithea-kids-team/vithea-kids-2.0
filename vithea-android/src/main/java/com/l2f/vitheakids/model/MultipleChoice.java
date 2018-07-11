@@ -10,6 +10,7 @@ public class MultipleChoice extends Exercise {
     @JsonProperty private String type;
     @JsonProperty private Question question;
     @JsonProperty private List<Answer> answers;
+    private ArrayList<String> attempts = new ArrayList<>();
 
     public MultipleChoice(){
 
@@ -46,6 +47,14 @@ public class MultipleChoice extends Exercise {
         this.answers = answersList;
     }
 
+    public ArrayList<String> getAttempts(){
+        return attempts;
+    }
+
+    public void setAttempts(ArrayList<String> attempts) {
+        this.attempts = attempts;
+    }
+
     @Override
     public  List<Resource> getAllUsedResources() {
         List<Resource> resources = new ArrayList<Resource>();
@@ -60,5 +69,9 @@ public class MultipleChoice extends Exercise {
             }
         }
         return resources;
+    }
+
+    public void addAttempts(String attempt) {
+        attempts.add(attempt);
     }
 }

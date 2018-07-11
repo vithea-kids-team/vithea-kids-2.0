@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions;
  * Activities that contain this fragment must implement the
  * to handle interaction events.
  * Use the {@link ReinforcementFragment#newInstance} factory method to
+ * Use the {@link ReinforcementFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ReinforcementFragment extends Fragment {

@@ -75,6 +75,8 @@ public class AdminExerciseCtrl extends Controller {
             return badRequest(registerExerciseForm.errorsAsJson());
         }
         
+        System.out.println(registerExerciseForm);
+        
         Caregiver loggedCaregiver = Caregiver.findByUsername(SecurityController.getUser().getUsername());
         if (loggedCaregiver == null) {
             return badRequest(buildJsonResponse("error", "Caregiver does not exist."));
@@ -117,7 +119,7 @@ public class AdminExerciseCtrl extends Controller {
         
         Logger.debug(editExerciseForm.get("type"));
              
-        ExerciseOperations  contextExercise = new ContextOperation().selectExerciseOperations(editExerciseForm.get("type"));
+        ExerciseOperations contextExercise = new ContextOperation().selectExerciseOperations(editExerciseForm.get("type"));
         exercise = contextExercise.editExercise(editExerciseForm, exerciseId, loggedCaregiver);
        
         return ok(Json.toJson(exercise));        

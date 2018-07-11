@@ -29,7 +29,7 @@ public class SequenceLogInfo {
 
 	@JsonProperty private long childID;
 	@JsonProperty private long sequenceID;
-
+	@JsonProperty private String name;
 	@JsonProperty private int numberOfExercises;
 	@JsonProperty private int correctExercises;
 	@JsonProperty private int skippedExercises;
@@ -43,8 +43,9 @@ public class SequenceLogInfo {
 	//sum of all distractors' hits of all exercises
 	private int totalDistractorHits;
 	
-	public SequenceLogInfo(long childID, long sequenceID, int numberOfExercises) {
+	public SequenceLogInfo(long childID, long sequenceID, int numberOfExercises, String name) {
 		this.childID = childID;
+		this.name = name;
 		this.sequenceID = sequenceID;
 		this.numberOfExercises = numberOfExercises;
 		this.correctExercises = 0;
@@ -54,7 +55,6 @@ public class SequenceLogInfo {
 
 		// Time of the beginning of the sequence
 		this.timestampBeginSequence = dateFormat.format(new Date());  //now
-
 		this.exercisesLogs = new ArrayList<ExerciseLogInfo>();
 	}
 

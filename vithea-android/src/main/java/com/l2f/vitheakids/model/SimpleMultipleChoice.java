@@ -50,4 +50,7 @@ public class SimpleMultipleChoice extends MultipleChoiceExercise {
 		this.textDistractors = textDistractors;
 	}
 
+	public String getType(){
+		return this.getClass().getName();
+	}
 }

@@ -1,5 +1,7 @@
 package com.l2f.vitheakids.model;
 
+import java.util.ArrayList;
+
 /**
  * Updated by Soraia Meneses Alarcão on 21/07/2017
  */
@@ -10,6 +12,7 @@ public class MultipleChoiceExercise {
 	private String topic;
 	private int level;
 	private String instruction;
+
 
     /**
 	 * @return the exerciseId
@@ -61,5 +64,6 @@ public class MultipleChoiceExercise {
 	public void setInstruction(String instruction) {
 		this.instruction = instruction;
 	}
+
 
 }

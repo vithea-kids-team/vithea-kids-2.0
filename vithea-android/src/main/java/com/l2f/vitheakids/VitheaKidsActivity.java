@@ -11,6 +11,7 @@ import com.l2f.vitheakids.model.Resource;
 import com.l2f.vitheakids.model.SelectionImageExercise;
 import com.l2f.vitheakids.model.SequenceLogInfo;
 import com.l2f.vitheakids.rest.FetchChildInfo;
+import com.l2f.vitheakids.rest.SendAudimus;
 import com.l2f.vitheakids.rest.SendLogs;
 import com.l2f.vitheakids.task.LoadImageTask;
 import com.l2f.vitheakids.task.ReadTask;
@@ -26,6 +27,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
@@ -45,6 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -125,7 +128,6 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
     @Override
     protected void onStop(){
-
         super.onStop();
         finish();
     }
@@ -435,11 +437,11 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
      * Launch a task to read the text
      */
     public void readWithOrWithoutEmotion(Child child, String sentence){
-
+       Log.d("animatedchar", child.getAnimatedCharacter().getName());
         if (child.getEmotions()) {
-            new ReadTask().execute(sentence, "joy");
+            new ReadTask().execute(child.getAnimatedCharacter().getName(),sentence, "joy");
         } else {
-            new ReadTask().execute(sentence);
+            new ReadTask().execute(child.getAnimatedCharacter().getName(),sentence);
         }
 
     }
@@ -481,7 +483,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
     }
 
     protected void endHandler() {
-         findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);//remove navigation view of exercises
+        findViewById(R.id.nav_view).setVisibility(View.INVISIBLE);//remove navigation view of exercises
         // TODO Send logger and show results
         //new SendLogs(this, currentSequenceLog).execute();
 
@@ -521,6 +523,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         else
             item.setTitle("Ligar Reforço");
     }
+
     private void promptingHandler(MenuItem item){
         promptingActive = !(promptingActive);
         if(promptingActive){
@@ -621,15 +624,24 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         String promptingStrategy = child.getPrompting().getPromptingStrategy();
         String reinforcementStrategy = child.getReinforcement().getReinforcementStrategy();
 
-        currentExerciseLogInfo = new ExerciseLogInfo(childID, exerciseID, promptingStrategy, reinforcementStrategy);
+        ArrayList<String> promptingTypes = new ArrayList<>();
+        if(child.getPrompting().getPromptingColor()) promptingTypes.add("color");
+        if(child.getPrompting().getPromptingHide()) promptingTypes.add("hide");
+        if(child.getPrompting().getPromptingRead()) promptingTypes.add("read");
+        if(child.getPrompting().getPromptingScratch()) promptingTypes.add("scratch");
+        if(child.getPrompting().getPromptingSize()) promptingTypes.add("size");
+
+        currentExerciseLogInfo = new ExerciseLogInfo(childID, exerciseID, promptingStrategy,
+                promptingTypes, reinforcementStrategy);
     }
 
     private void initNewSequenceLogInfo() {
         long childID = child.getChildId();
         long sequenceID = currentSequenceId;
         int numberOfExercises = child.getSequenceBySequenceID(sequenceID).getNumberOfExercises();
+        String name = child.getSequenceBySequenceID(sequenceID).getName();
 
-        currentSequenceLogInfo = new SequenceLogInfo(childID, sequenceID, numberOfExercises);
+        currentSequenceLogInfo = new SequenceLogInfo(childID, sequenceID, numberOfExercises, name);
 
         initNewExerciseLogInfo();
     }
@@ -638,10 +650,10 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
 
         //Log object parameters
         int numberOfWrongAttempts = attempts;
+        ArrayList<String> attemptsResponse = currentExercise.getAttempts();
 
         // log() also adds the exerciseLogInfo to the current sequenceLogInfo
-        currentExerciseLogInfo.log(numberOfWrongAttempts, correctAnswer, skipped, currentSequenceLogInfo, currentExercisePosition);
-
+        currentExerciseLogInfo.log(attemptsResponse, currentExercise, numberOfWrongAttempts, correctAnswer, skipped, currentSequenceLogInfo, currentExercisePosition);
     }
 
     private void logSequence() {
@@ -657,6 +669,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         final String url = getString(R.string.ws_uri) + getString(R.string.child_sequence_uri);
 
         //Send Logs to Server
+        new SendLogs(body, this, url, this).execute();
         //new SendLogs(body, this, url, this).execute();
 
     }
@@ -765,7 +778,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
         this.seqName = seqName;
         this.exercises= exercises;
         this.currentSequenceId = idSeq;
-        this.currentExercisePosition =0;
+        this.currentExercisePosition = 0;
 
         initNewSequenceLogInfo();
         List<Resource> resources = child.getAllResourcesBySeqPosition(position);

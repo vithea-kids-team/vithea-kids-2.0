@@ -1,3 +1,6 @@
+import { Exercise } from './exercise';
+import { Child } from './child';
+
 export class Sequence {
     public exerciseId: number;
     public sequenceId: number;

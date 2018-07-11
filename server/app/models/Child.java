@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -73,6 +74,30 @@ public class Child extends Model {
     
     @JsonIgnore
     private String pathAndroidSequencesExercisesLog;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "child_sequencesLog")
+    private List<SequenceLog> sequencesLogList;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<SequenceLog> getSequencesLogList() {
+        return sequencesLogList;
+    }
+
+    public void setSequencesLogList(List<SequenceLog> sequencesLog) {
+        this.sequencesLogList = sequencesLog;
+    }
+    
+    public void addSequencesLog(SequenceLog seqLog){
+        this.sequencesLogList.add(seqLog);
+    }
     
     public AnimatedCharacter getAnimatedCharacter() {
         return animatedCharacter;

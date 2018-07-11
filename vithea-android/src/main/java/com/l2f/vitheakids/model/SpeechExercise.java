@@ -46,6 +46,14 @@ public class SpeechExercise extends Exercise {
 
     public void setAnswers(List<Answer> answers) { this.answers = answers; }
 
+    public String getType(){
+       return this.getClass().getName();
+    }
+
+    public ArrayList<String> getAttempts(){
+        return null;
+    }
+
     @Override
     public  List<Resource> getAllUsedResources() {
         List<Resource> resources = new ArrayList<Resource>();

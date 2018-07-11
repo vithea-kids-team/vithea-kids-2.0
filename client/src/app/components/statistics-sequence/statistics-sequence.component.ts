@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
 import { PaginationService } from '../../services/pagination/pagination.service';
 import { Overlay } from 'ngx-modialog';
 import { Modal } from 'ngx-modialog/plugins/bootstrap';
-import { StatisticsSequence } from '../../models/statisticsSequence';
+import { SequenceLog } from '../../models/sequenceLog';
 
 @Component({
   selector: 'app-statistics-sequence',
@@ -20,7 +20,7 @@ export class StatisticsSequenceComponent implements OnInit, OnChanges {
 
   public childId;
   public sequences: Array<Sequence>;
-  public sequencesStats: Array<StatisticsSequence> = new Array(1); // should be changed later
+  public sequencesStats: Array<SequenceLog> = new Array(1); // should be changed later
   public loading: boolean = false;
 
 
@@ -38,7 +38,7 @@ export class StatisticsSequenceComponent implements OnInit, OnChanges {
     this.childId = this.childInput;
 
     // change later
-    let stats = new StatisticsSequence;
+    let stats = new SequenceLog;
     stats.name = 'Teste';
     stats.date = '25 May 2018';
     stats.hourInit = '18:16';
@@ -49,7 +49,7 @@ export class StatisticsSequenceComponent implements OnInit, OnChanges {
     stats.sequenceId = 1;
     this.sequencesStats[0] = stats;
 
-    let stats2 = new StatisticsSequence;
+    let stats2 = new SequenceLog;
     stats2.name = 'Comida';
     stats2.date = '28 May 2018';
     stats2.hourInit = '14:47';
@@ -60,30 +60,31 @@ export class StatisticsSequenceComponent implements OnInit, OnChanges {
     stats2.sequenceId = 2;
     this.sequencesStats[1] = stats2;
 
-    this.getChildSequences(this.childId);
+    this.getChildSequencesLog(this.childId);
   }
 
   ngOnChanges() {
     this.childId = this.childInput;
-    this.getChildSequences(this.childId);
+    this.getChildSequencesLog(this.childId);
   }
 
-  public getChildSequences(id) {
-    this.childrenService.getChildSequences(id).subscribe(
+  public getChildSequencesLog(id) {
+    this.childrenService.getChildSequencesLog(id).subscribe(
       result => {
-        this.sequences = result;
-        if (this.sequences.length > 0) {
+        this.sequencesStats = result;
+        console.log(result);
+        if (this.sequencesStats.length > 0) {
           this.setPage(1);
         } else {
-          this.sequences = [];
+          this.sequencesStats = [];
           this.pagedItems = [];
         }
 
         this.loading = false;
       },
       err => {
-        console.error('Error loading child sequences.' + err);
-        this.sequences = [];
+        console.error('Error loading child log sequences.' + err);
+        this.sequencesStats = [];
       }
     );
   }

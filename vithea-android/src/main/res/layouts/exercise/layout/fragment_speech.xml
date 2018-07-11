@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:text="assafsfsdfsd"
+        android:text=""
         android:layout_marginBottom="5dp"
         android:textSize="25sp">
     </TextView>
@@ -49,14 +49,14 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:text="Start" />
+            android:text="Gravar" />
 
         <Button
             android:id="@+id/ButtonStop"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:text="Stop" />
+            android:text="Terminar" />
 
     </LinearLayout>
 

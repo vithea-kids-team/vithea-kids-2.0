@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.l2f.vitheakids.R;
 import com.l2f.vitheakids.VitheaKidsActivity;
+import com.l2f.vitheakids.model.Child;
 import com.l2f.vitheakids.task.ReadTask;
 
 import org.springframework.core.io.Resource;
@@ -30,8 +31,6 @@ import java.util.List;
 
 public class Prompting {
     public static void setButtonColor(Context context, Button view){
-
-        Log.d("pintei o botão", Integer.toString(view.getId()));
 
         view.setBackgroundDrawable(makeSelector(context, Color.parseColor("#66a3ff")));
     }
@@ -49,7 +48,7 @@ public class Prompting {
         }
     }
 
-    public static void  readAnswers(List<String> currentAnswers){
+    public static void  readAnswers(Child child, List<String> currentAnswers){
         String answers="";
         for(int i = 0; i < currentAnswers.size(); i++){
             answers += currentAnswers.get(i)+ ".";

@@ -35,6 +35,7 @@ public class AdminSequencesCtrl extends Controller {
         String sexercisesIds = "", schildrenIds = "";
         
         if (registerSequenceForm.hasErrors()) {
+            System.out.println("error");
             return badRequest(registerSequenceForm.errorsAsJson());
         }
      
@@ -44,21 +45,26 @@ public class AdminSequencesCtrl extends Controller {
         }
         String sequenceName = registerSequenceForm.get("sequenceName");
         
+        System.out.println(registerSequenceForm);
+        
+        
         List<Long> exerciseIds = new ArrayList<>();
         List<Integer> order = new ArrayList<>();
         int i = 0;
+
         while(true) {
             String key = "exercisesToAdd[" + i + "]";
             if (registerSequenceForm.data().containsKey(key)) {
-                int answerId;
+                System.out.println(key);
+                int exerciseId;
                 try {
-                    answerId = parseInt(registerSequenceForm.data().get(key));
-                    sexercisesIds += answerId + " ";
+                    exerciseId = parseInt(registerSequenceForm.data().get(key));
+                    sexercisesIds += exerciseId + " ";
                 } catch (NumberFormatException e) {
-                    answerId = -1;
+                    exerciseId = -1;
                 }
 
-                exerciseIds.add((long)answerId);
+                exerciseIds.add((long)exerciseId);
                 int orderNumber = i+1;
                 order.add(orderNumber);
             } else {
@@ -128,7 +134,6 @@ public class AdminSequencesCtrl extends Controller {
         String pathSequence = loggedCaregiver.getPathSequencesLog();
         adminLogs.writeToFile(pathSequence, content);
         
-
         return ok(Json.toJson(sequence));
     }
     

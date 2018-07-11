@@ -70,6 +70,14 @@ public class SelectionImageExercise extends Exercise {
         this.selectionAreas = selectionAreas;
     }
 
+    public String getType(){
+        return this.getClass().getName();
+    }
+
+    public ArrayList<String> getAttempts(){
+        return null;
+    }
+
     @Override
     public  List<Resource> getAllUsedResources() {
         List<Resource> resources = new ArrayList<Resource>();
