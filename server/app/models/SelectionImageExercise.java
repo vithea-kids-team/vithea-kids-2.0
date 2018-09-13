@@ -5,6 +5,7 @@
  */
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -57,6 +58,32 @@ public class SelectionImageExercise extends Exercise{
     public List<SelectionArea> getSelectionAreas() {
         return selectionAreas;
     }
+    
+    public void deleleSelectionAreas(){
+        this.getSelectionAreas().forEach((selectionArea) ->{
+               selectionArea.delete();
+        });
+        this.save();
+    }
+
+    public void setQuestion1(String question1) {
+        this.question1 = question1;
+    }
+
+    public void setSelectionAreas(List<SelectionArea> selectionAreas) {
+        
+         List<SelectionArea> arrayAux =  new ArrayList<SelectionArea>(this.selectionAreas);
+        //remove all answers
+        for(SelectionArea a : arrayAux){
+            this.selectionAreas.remove(a);
+            this.save();
+            a.delete();
+        }
+        
+       this.selectionAreas = selectionAreas;
+    }
+    
+    
     
     
     

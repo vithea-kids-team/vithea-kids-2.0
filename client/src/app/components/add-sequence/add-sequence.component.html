@@ -35,7 +35,10 @@
                                         </div>
                                         <div *ngIf="exercise.dtype.toLowerCase() == 'speechexercise'">
                                             <app-show-exercise-speech [exercise]="exercise"></app-show-exercise-speech>
-                                        </div> 
+                                        </div>
+                                        <div *ngIf="exercise.dtype.toLowerCase() == 'selectionimageexercise'">
+                                            <app-show-exercise-selectionImage [exercise]="exercise"></app-show-exercise-selectionImage>
+                                        </div>  
                                         <a class="btn btn-success pull-right" style="padding:0" (click)="addExercise(index)"><i class="glyphicon glyphicon-arrow-right"></i></a>
                                     </div>
                                 </li>

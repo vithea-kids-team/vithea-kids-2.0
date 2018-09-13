@@ -55,10 +55,12 @@ import { EditExerciseComponent } from './components/edit-exercise/edit-exercise.
 import { EditExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/edit-exercise-mc-image/edit-exercise-mc-image.component';
 import { EditExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/edit-exercise-mc-text/edit-exercise-mc-text.component';
 import { EditExerciseSpeechComponent } from './components/speech-exercise/edit-exercise-speech/edit-exercise-speech.component';
+import { EditExerciseSelectionImageComponent } from './components/selection-image-exercise/edit-exercise-selectionImage/edit-exercise-selectionImage.component';
 
 import { ShowExerciseMultipleChoiceImageComponent } from './components/multiple-choice-exercise/show-exercise-mc-image/show-exercise-mc-image.component';
 import { ShowExerciseMultipleChoiceTextComponent } from './components/multiple-choice-exercise/show-exercise-mc-text/show-exercise-mc-text.component';
-import { ShowExerciseSpeechComponent} from './components/speech-exercise/show-exercise-speech/show-exercise-speech.component';
+import { ShowExerciseSpeechComponent } from './components/speech-exercise/show-exercise-speech/show-exercise-speech.component';
+import { ShowExerciseSelectionImageComponent } from './components/selection-image-exercise/show-exercise-selectionImage/show-exercise-selectionImage.component';
 
 import { ExerciseFilter } from './pipes/exercise-filter';
 import { ExerciseTypeFilter } from './pipes/exercise-type-filter';
@@ -116,9 +118,11 @@ export function translateFactory(https: HttpClient) {
     EditExerciseMultipleChoiceTextComponent,
     EditExerciseMultipleChoiceImageComponent,
     EditExerciseSpeechComponent,
+    EditExerciseSelectionImageComponent,
     ShowExerciseMultipleChoiceTextComponent,
     ShowExerciseMultipleChoiceImageComponent,
     ShowExerciseSpeechComponent,
+    ShowExerciseSelectionImageComponent,
     ImagePickerComponent,
     SignUpComponent,
     EditCaregiverComponent,

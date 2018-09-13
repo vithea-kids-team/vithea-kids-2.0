@@ -68,8 +68,9 @@
                     <div *ngIf="exercise.dtype.toLowerCase() == 'speechexercise'">
                         <app-show-exercise-speech [exercise]="exercise"></app-show-exercise-speech>
                     </div>
-                    <!--<div *ngIf="exercise.dtype.toLowerCase() == 'selectionimageexercise'">
-                    </div>-->
+                    <div *ngIf="exercise.dtype.toLowerCase() == 'selectionimageexercise'">
+                        <app-show-exercise-selectionImage [exercise]="exercise"></app-show-exercise-selectionImage>
+                    </div>
                 </div>
                 <div class="panel-heading">
                     <button type="button" class="btn btn-primary"  (click)= "navigateEdit(exercise)">

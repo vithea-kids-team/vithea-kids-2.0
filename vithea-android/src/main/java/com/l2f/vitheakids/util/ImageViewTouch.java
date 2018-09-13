@@ -29,7 +29,8 @@ public class ImageViewTouch extends android.support.v7.widget.AppCompatImageView
         Paint paint=new Paint();
         paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(selectionArea.getStartX(),selectionArea.getStartY(),selectionArea.getStartX()+selectionArea.getEndX(),selectionArea.getEndY()+selectionArea.getStartY(),paint);
+        //debug
+       // canvas.drawRect(selectionArea.getStartX(),selectionArea.getStartY(),selectionArea.getStartX()+selectionArea.getEndX(),selectionArea.getEndY()+selectionArea.getStartY(),paint);
 
     }
 

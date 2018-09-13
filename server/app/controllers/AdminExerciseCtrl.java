@@ -100,8 +100,9 @@ public class AdminExerciseCtrl extends Controller {
     public Result editExercise(long exerciseId) {
         
         DynamicForm editExerciseForm = formFactory.form().bindFromRequest();
-
-        Logger.debug("DEBUG:" + editExerciseForm);
+        JsonNode json = request().body().asJson();
+        
+        Logger.debug("DEBUG:" + json);
 
         if (editExerciseForm.hasErrors()) {
             return badRequest(editExerciseForm.errorsAsJson());
@@ -120,7 +121,7 @@ public class AdminExerciseCtrl extends Controller {
         Logger.debug(editExerciseForm.get("type"));
              
         ExerciseOperations contextExercise = new ContextOperation().selectExerciseOperations(editExerciseForm.get("type"));
-        exercise = contextExercise.editExercise(editExerciseForm, exerciseId, loggedCaregiver);
+        exercise = contextExercise.editExercise(editExerciseForm, exerciseId, loggedCaregiver,json);
        
         return ok(Json.toJson(exercise));        
     }

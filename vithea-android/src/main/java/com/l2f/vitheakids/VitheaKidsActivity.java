@@ -437,7 +437,7 @@ public class VitheaKidsActivity extends AppCompatActivity implements ActivityCom
      * Launch a task to read the text
      */
     public void readWithOrWithoutEmotion(Child child, String sentence){
-       Log.d("animatedchar", child.getAnimatedCharacter().getName());
+//       Log.d("animatedchar", child.getAnimatedCharacter().getName());
         if (child.getEmotions()) {
             new ReadTask().execute(child.getAnimatedCharacter().getName(),sentence, "joy");
         } else {
