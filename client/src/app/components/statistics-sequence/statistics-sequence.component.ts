@@ -20,7 +20,7 @@ export class StatisticsSequenceComponent implements OnInit, OnChanges {
 
   public childId;
   public sequences: Array<Sequence>;
-  public sequencesStats: Array<SequenceLog> = new Array(1); // should be changed later
+  public sequencesStats: Array<SequenceLog> = new Array(2); // should be changed later
   public loading: boolean = false;
 
 
@@ -60,12 +60,13 @@ export class StatisticsSequenceComponent implements OnInit, OnChanges {
     stats2.sequenceId = 2;
     this.sequencesStats[1] = stats2;
 
-    this.getChildSequencesLog(this.childId);
+   // this.getChildSequencesLog(this.childId);
   }
 
   ngOnChanges() {
     this.childId = this.childInput;
-    this.getChildSequencesLog(this.childId);
+    console.log(this.sequencesStats);
+   // this.getChildSequencesLog(this.childId);
   }
 
   public getChildSequencesLog(id) {
