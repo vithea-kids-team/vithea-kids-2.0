@@ -148,15 +148,10 @@ public class MultipleChoiceImageFragment extends Fragment {
                 }
                 if (child.getPrompting().getPromptingSize()) {
                     for (ImageView rightAnswer : rightAnswers) {
-                        Prompting.setImageSize(getContext(), wrongAnswers);
-                    }
-                }
+                        Prompting.setImageSize(getContext(), rightAnswer);
+                    }                }
                 if (child.getPrompting().getPromptingScratch()) {
-                    for (ImageView v : optionsList) {
-                        if (!rightAnswers.contains(v)) {
-                            Prompting.scratchImage(getContext(), v);
-                        }
-                    }
+                    Prompting.scratchImage(getContext(), wrongAnswers);
                 }
             }
         }
@@ -168,17 +163,17 @@ public class MultipleChoiceImageFragment extends Fragment {
         FrameLayout fr = (FrameLayout) v.getParent();
         ImageView im  = (ImageView) fr.getChildAt(1);
         Long resourceId = viewResourceId.get(im.getId());
-        exercise.addAttempts(resourceId.toString());
+       // exercise.addAttempts(resourceId.toString());
 
         if (act.promptingActive && child.getPrompting() != null ) {
             if (child.getPrompting().getPromptingHide()) {
-                //FrameLayout fr = (FrameLayout) v.getParent();
-                //ImageView im  = (ImageView) fr.getChildAt(1);
-                im.setVisibility(View.INVISIBLE);
+               for(ImageView imAux : wrongAnswers) {
+                   imAux.setVisibility(View.INVISIBLE);
+               }
             }
 
             if (child.getPrompting().getPromptingScratch()){
-                Prompting.scratchImage(getContext(), (ImageView) v);
+                Prompting.scratchImage(getContext(), wrongAnswers);
             }
 
             if(child.getPrompting().getPromptingColor()) {
@@ -188,10 +183,10 @@ public class MultipleChoiceImageFragment extends Fragment {
             }
 
             if(child.getPrompting().getPromptingSize() && size == 0) {
-                for(ImageView imageView: rightAnswers) {
-                    Prompting.setImageSize(getContext(), wrongAnswers);
-                    size++;
+                for (ImageView rightAnswer : rightAnswers) {
+                    Prompting.setImageSize(getContext(), rightAnswer);
                 }
+                size++;
             }
             else {
                 act.readWithOrWithoutEmotion(child, "Tenta outra vez.");
