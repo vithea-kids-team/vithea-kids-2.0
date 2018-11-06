@@ -2,8 +2,8 @@
 
     <p *ngIf="sequencesStats?.length === 0">{{ '_NoSequences_' | translate }}</p>
 
-    <div *ngIf="pagedItems">
-        <div class="panel panel-default"  *ngFor="let sequence of pagedItems" >
+    <div *ngIf="sequencesStats">
+        <div class="panel panel-default"  *ngFor="let sequence of sequencesStats" >
             <div class="panel-body" >
                 <h3>{{sequence.name}}</h3>
                 <p>{{sequence.date}} {{sequence.hourInit}}-{{sequence.hourEnd}}</p>

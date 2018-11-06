@@ -1,0 +1,80 @@
+<loader *ngIf="loading"></loader>
+<div class="container" *ngIf="!loading">
+    <div style="height: 50px;">
+            <p class="text-danger"> {{ '_Mandatory_' | translate }} </p>
+    </div>
+
+    <form (ngSubmit)="registerExercise()" #exerciseForm="ngForm" class="col-md-8">
+
+    <div class="row">
+            <div *ngIf="topics" class="form-group">
+                <label for="topic"> {{ '_Topic_' | translate }} <span class="text-danger"> * </span></label>
+                <p *ngIf="topics?.length === 0">{{ '_NoTopics_' | translate }}</p>
+                <div *ngIf="topics?.length > 0">
+                    <p> {{ '_SelectTopic_' | translate }}</p>
+                    <select class="form-control" id="topic" required [(ngModel)]="this.editExercise.topic" (ngModelChange)="validateTopic()" name="topic">
+                        <option *ngFor="let topic of topics" [value]="topic.topicId">{{ topic.topicDescription }}</option>
+                    </select>
+                </div>
+                <div *ngIf="topicError" class="alert alert-danger">{{ '_RequiredTopic_' | translate }}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div *ngIf="levels" class="form-group">
+                <label for="level"> {{ '_Level_' | translate }} <span class="text-danger"> * </span></label>
+                <p *ngIf="levels?.length === 0">{{ '_NoLevels_' | translate }}</p>
+                <div *ngIf="levels?.length > 0">
+                    <p> {{ '_SelectLevel_' | translate }}</p>
+                    <select class="form-control" id="level" required [(ngModel)]="this.editExercise.level" (ngModelChange)="validateLevel()" name="level">
+                        <option *ngFor="let level of levels" [value]="level.levelId">{{ level.levelDescription }}</option>
+                    </select>
+                </div>
+                <div *ngIf="levelError" class="alert alert-danger">{{ '_RequiredLevel_' | translate }}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="question"> {{'_Question_' | translate }} <span class="text-danger"> * </span></label>
+                <input type="text" class="form-control" id="question" required maxlength="100" [(ngModel)]="this.editExercise.question" (ngModelChange)="validateQuestion()" name="question">      
+                <div *ngIf="questionError" class="alert alert-danger"> {{ '_RequiredQuestion_' | translate }}
+                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <label for="chooseImageSelection"> {{ '_selectionImage_' | translate }} <span class="text-danger"> * </span></label>
+            <br>
+            <p> {{ '_chooseImage__' | translate }}</p>
+            <em *ngIf="images?.length === 0">{{ '_NoResources_' | translate }}</em>
+            <div style="max-height: 100px; overflow-y: auto;">
+                <image-picker *ngIf=!loading id="images" [(ngModel)]="images" [multiSelect]="false" [selected]="images" (onSelected)="this.getImage($event)" name="images"> </image-picker>
+            </div>
+            <canvas class="border"  #imageCanvas width="400" height="400" (mousedown)="mouseDown($event)" (mouseup)="mouseUpEvent($event)" (mousemove)="mouseMove($event)">
+            </canvas> 
+
+            <div *ngIf="this.imageError" class="alert alert-danger">{{ '_RequiredImage_' | translate }}</div>
+            <div *ngIf="this.selectionError" class="alert alert-danger">{{ '_RequiredSelection_' | translate }}</div>                      
+                 
+        </div>  
+        <div class="row">
+            <a type="button " (click)="clearSelection()" class="btn btn-primary "> 
+                <span class="glyphicon glyphicon-trash" style="font-size: small; "></span> Apagar seleção 
+            </a>   
+        </div>
+        <div style="height: 70px; ">
+                <div *ngIf="error " class="alert alert-danger "> {{ error | translate }} </div>
+                <loader *ngIf="loadingAdd "  [height]="50"></loader>
+         </div>
+      
+        <div class="row ">
+            <a type="button" (click)="this.editSelectionExercise()" class=" btn btn-success">
+                <span class=" glyphicon glyphicon-ok " style="font-size: small; " aria-hidden="true "></span> {{ '_SaveChangesBtn_' | translate }}
+            </a>
+            <button [routerLink]="[ '/exercises'] " type="button " class="btn btn-secondary "> 
+                <span class="glyphicon glyphicon-remove " style="font-size: small; " aria-hidden="true "></span> {{'_Cancel_' | translate }}
+            </button>
+        </div>
+
+    </form>
+</div>

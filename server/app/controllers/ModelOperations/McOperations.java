@@ -244,7 +244,7 @@ public class McOperations implements ExerciseOperations {
     
 
     @Override
-    public Exercise editExercise(DynamicForm editExerciseForm, long exerciseId, Caregiver loggedCaregiver) {
+    public Exercise editExercise(DynamicForm editExerciseForm, long exerciseId, Caregiver loggedCaregiver, JsonNode json) {
         Debug.log(editExerciseForm);
         String sresourcesid = "";
         MultipleChoice exercise = (MultipleChoice) Exercise.findExerciseById(exerciseId); //getting exercise

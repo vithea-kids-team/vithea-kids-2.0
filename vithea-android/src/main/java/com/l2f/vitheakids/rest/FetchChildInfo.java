@@ -90,7 +90,8 @@ public class FetchChildInfo extends AsyncTask<Void, Void, Child> {
         if (child != null){
             AnimatedCharacter animatedCharacter = child.getAnimatedCharacter();
             if (animatedCharacter != null) {
-                new SwitchCharacterTask().execute(animatedCharacter.getName(), "cat"); // default
+                Log.d("character",  animatedCharacter.getName());
+                new SwitchCharacterTask().execute(animatedCharacter.getName(), "john2"); // default
             }
 
             //Greeting Message

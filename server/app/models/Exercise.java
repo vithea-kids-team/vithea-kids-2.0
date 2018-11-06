@@ -149,4 +149,29 @@ public class Exercise extends Model {
         Logger.debug("Looking for exercise " + id);
         return find.where().eq("id", id).findUnique();
     }
+    
+    public void deleteAllReferenceInSeq(){
+        List<SequenceExercise> sequenceExercise = this.getSequenceExercise();
+        List<SequenceExercise> iterable2 = new ArrayList(sequenceExercise);
+        
+        iterable2.forEach((SequenceExercise seqex) -> {
+            if (seqex.getExercise().getExerciseId() == this.getExerciseId()) {
+                sequenceExercise.remove(seqex);
+                seqex.delete();
+            }
+        });
+                
+        Sequence.getAll().forEach((seq) -> {
+            List<SequenceExercise> sequenceExerciseSeq = seq.getSequenceExercisesList();
+            List<SequenceExercise> iterable3 = new ArrayList(sequenceExerciseSeq);
+            
+            iterable3.forEach((SequenceExercise seqex) -> {
+                if (seqex.getExercise().getExerciseId() == this.getExerciseId()) {
+                    sequenceExerciseSeq.remove(seqex);
+                    seqex.delete();
+                }
+            });
+            seq.save();
+        });    
+    }
 }

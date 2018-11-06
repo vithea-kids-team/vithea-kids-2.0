@@ -61,21 +61,24 @@ public class Prompting {
         fr.setBackground(context.getResources().getDrawable(R.drawable.border));
     }
 
-    public static void setImageSize(Context context, List<ImageView> views){
-        for(ImageView view: views) {
+    public static void setImageSize(Context context, ImageView view){
+        Log.d("prompting", "setImageSize");
+        //for(ImageView view: views) {
             view.requestLayout();
             int currentHeight = view.getMeasuredHeight();
             int currentWidth = view.getMeasuredWidth();
 
-            view.getLayoutParams().height = currentHeight - 50;
-            view.getLayoutParams().width = currentWidth - 50;
-        }
+            view.getLayoutParams().height = currentHeight +100;
+            view.getLayoutParams().width = currentWidth +100;
+        //}
     }
 
-    public static void scratchImage(Context context, ImageView view){
-        FrameLayout fr = (FrameLayout) view.getParent();
-        ImageView im  = (ImageView) fr.getChildAt(1);// getting imageView that contais cruz.jpg
-        im.setVisibility(View.VISIBLE);
+    public static void scratchImage(Context context, List<ImageView> views){
+        for(ImageView iv : views) {
+            FrameLayout fr = (FrameLayout) iv.getParent();
+            ImageView im = (ImageView) fr.getChildAt(1);// getting imageView that contais cruz.jpg
+            im.setVisibility(View.VISIBLE);
+        }
     }
     public static void resetScratchImage(Context context, ImageView view){
         FrameLayout fr = (FrameLayout) view.getParent();

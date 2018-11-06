@@ -19,6 +19,6 @@ public interface ExerciseOperations {
     
     public Exercise createExercise(DynamicForm form, JsonNode json);
     public void deleteExercise(long exerciseId, Caregiver loggedCaregiver);
-    public Exercise editExercise(DynamicForm registerExerciseForm, long id, Caregiver loggedCaregiver);
+    public Exercise editExercise(DynamicForm registerExerciseForm, long id, Caregiver loggedCaregiver,JsonNode json);
     
 }

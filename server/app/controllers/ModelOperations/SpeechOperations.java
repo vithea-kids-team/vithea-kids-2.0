@@ -146,7 +146,7 @@ public class SpeechOperations implements ExerciseOperations {
     
 
     @Override
-    public Exercise editExercise(DynamicForm editExerciseForm, long exerciseId, Caregiver loggedCaregiver) {
+    public Exercise editExercise(DynamicForm editExerciseForm, long exerciseId, Caregiver loggedCaregiver, JsonNode json) {
         String sresourcesid = "";
         SpeechExercise exercise = (SpeechExercise) Exercise.findExerciseById(exerciseId); //getting exercise
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
