@@ -74,7 +74,7 @@
 
         <div class="row">
                 <br>
-                <label for="answer"> {{ '_Distractors_' | translate }} <span class="text-danger"> * </span></label>
+                <label for="answer"> {{ '_Distractors_' | translate }}</label>
                 <p> {{ '_SelectImagesDistractor_' | translate }}</p>
                 <em *ngIf="distractorImgs1?.length === 0">{{ '_NoDistractors1_' | translate }}</em>
                     <div *ngIf="numDistractors >= 1" style="max-height: 100px; overflow-y: auto;">

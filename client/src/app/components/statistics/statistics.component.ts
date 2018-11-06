@@ -85,4 +85,8 @@ export class StatisticsComponent implements OnInit {
     console.log("updateChild" + this.childId)
   }
 
+  goBack() {
+    this.location.back();
+  }
+
 }

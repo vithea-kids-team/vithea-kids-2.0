@@ -19,7 +19,7 @@ export class ShowExerciseMultipleChoiceImageComponent implements OnInit {
   public level;
   public resourcePathInit;
   public type = '';
-  public development = true;
+  public development = false;
 
   constructor() {}
 

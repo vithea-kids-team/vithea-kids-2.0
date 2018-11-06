@@ -45,7 +45,7 @@ export class AddExerciseSelectionImageComponent implements OnInit {
   public drag = false;
 
   public imageUrl;
-  public development = true;
+  public development = false;
 
   constructor(public modal: Modal, public route: ActivatedRoute, public resourcesService: ResourcesService,
     public exercisesService: ExercisesService, public router: Router, public location: Location,

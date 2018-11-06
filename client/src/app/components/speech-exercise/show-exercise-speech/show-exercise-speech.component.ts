@@ -19,7 +19,7 @@ export class ShowExerciseSpeechComponent implements OnInit {
   public level;
   public resourcePath;
   public type = 'speechexercise';
-  public development = true;
+  public development = false;
 
   constructor() {}
 
