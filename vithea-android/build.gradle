@@ -20,20 +20,25 @@ allprojects {
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 }
 
 android {
+    signingConfigs {
+        generateApk {
+            keyAlias 'vitheakids'
+            keyPassword 'vitheakids'
+            storeFile file('vitheakids')
+            storePassword 'vitheakids'
+        }
+    }
     compileSdkVersion 25
-
     defaultConfig {
         targetSdkVersion 25
     }
-
     lintOptions {
         abortOnError false
     }
-
     buildTypes {
         debug {
             jniDebuggable true
@@ -44,7 +49,6 @@ android {
 
         }
     }
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/LICENSE'

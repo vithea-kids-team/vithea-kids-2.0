@@ -115,10 +115,11 @@ public class SpeechFragment extends Fragment implements TaskListener {
 
         // Stimulus
         Resource stimulus = exercise.getStimulusSpeech();
-        byte[] image  = imageStorage.getImage(seqName,stimulus.getResourceId());
-        ImageView img = (ImageView) fragmentView.findViewById(R.id.stimulusImage1);
-        imageStorage.setImageOfView(getContext(),img,image);
-
+        if(stimulus != null) {
+            byte[] image = imageStorage.getImage(seqName, stimulus.getResourceId());
+            ImageView img = (ImageView) fragmentView.findViewById(R.id.stimulusImage1);
+            imageStorage.setImageOfView(getContext(), img, image);
+        }
         // Buttons
         start = (Button) fragmentView.findViewById(R.id.ButtonStart);
         stop = (Button) fragmentView.findViewById(R.id.ButtonStop);
