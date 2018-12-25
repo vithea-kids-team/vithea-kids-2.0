@@ -19,7 +19,7 @@ export class ShowExerciseMultipleChoiceTextComponent implements OnInit {
   public level;
   public resourcePath;
   public type = '';
-  public development = true;
+  public development = false;
 
   constructor() {}
 

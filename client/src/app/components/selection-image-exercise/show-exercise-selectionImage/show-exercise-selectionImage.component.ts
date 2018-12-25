@@ -20,7 +20,7 @@ export class ShowExerciseSelectionImageComponent implements OnInit {
   public level;
   public resourcePath;
   public type = 'selectionImage';
-  public development = true;
+  public development = false;
   public context: CanvasRenderingContext2D;
   public selectionArea: SelectionArea = new SelectionArea();
   @ViewChild('imageCanvas') imageCanvas: ElementRef;

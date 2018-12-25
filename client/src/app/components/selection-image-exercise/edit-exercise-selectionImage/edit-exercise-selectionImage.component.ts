@@ -41,7 +41,7 @@ export class EditExerciseSelectionImageComponent implements OnInit, AfterViewChe
   public level;
   public resourcePath;
   public type = 'selectionImage';
-  public development = true;
+  public development = false;
   public error;
   public exerciseId: number;
 
@@ -96,6 +96,12 @@ export class EditExerciseSelectionImageComponent implements OnInit, AfterViewChe
 
       }
     });
+    
+    if (this.development) {
+      this.editExercise.stimulus = 'vithea-kids/assets/' + this.editExercise.stimulus;
+    } else {
+      this.editExercise.stimulus = 'https://vithea.l2f.inesc-id.pt/' + this.editExercise.stimulus;
+    }
   }
 
   ngAfterViewChecked() {
@@ -150,8 +156,7 @@ export class EditExerciseSelectionImageComponent implements OnInit, AfterViewChe
 
 
   public drawRectangleImage() {
-    console.log('url: '+ this.editExercise.stimulus );
-    this.imageCanvas.nativeElement.style['background-image'] = 'url(' + 'vithea-kids/assets/'+ this.editExercise.stimulus + ')';
+    this.imageCanvas.nativeElement.style['background-image'] = 'url(' + 'vithea-kids/assets/' + this.editExercise.stimulus + ')';
     this.selectionArea.startX = this.editExercise.selectionsAreas[0].startX;
     this.selectionArea.endX =  this.editExercise.selectionsAreas[0].endX;
     this.selectionArea.startY = this.editExercise.selectionsAreas[0].startY;

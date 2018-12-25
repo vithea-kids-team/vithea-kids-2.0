@@ -56,6 +56,9 @@
                                             <app-show-exercise-mc-image [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'image'" ></app-show-exercise-mc-image>
                                             <app-show-exercise-mc-text [exercise]="exercise" *ngIf="exercise.type.toLowerCase() == 'text'" ></app-show-exercise-mc-text>
                                         </div>
+                                        <div *ngIf="exercise.dtype.toLowerCase() == 'selectionimageexercise'">
+                                            <app-show-exercise-selectionImage [exercise]="exercise"></app-show-exercise-selectionImage>
+                                        </div>  
                                         <div *ngIf="exercise.dtype.toLowerCase() == 'speechexercise'">
                                             <app-show-exercise-speech [exercise]="exercise"></app-show-exercise-speech>
                                         </div>
