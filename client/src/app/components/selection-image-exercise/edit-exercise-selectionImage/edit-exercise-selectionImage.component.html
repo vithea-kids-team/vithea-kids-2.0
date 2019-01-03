@@ -48,7 +48,7 @@
             <p> {{ '_chooseImage__' | translate }}</p>
             <em *ngIf="images?.length === 0">{{ '_NoResources_' | translate }}</em>
             <div style="max-height: 100px; overflow-y: auto;">
-                <image-picker *ngIf=!loading id="images" [(ngModel)]="images" [multiSelect]="false" [selected]="images" (onSelected)="this.getImage($event)" name="images"> </image-picker>
+                <image-picker *ngIf=!loading  [(ngModel)]="images"  [selected]="this.editExercise.stimulus" (onSelected)="this.getImage($event)" name="images" [multiSelect]="false"> </image-picker>
             </div>
             <canvas class="border"  #imageCanvas width="400" height="400" (mousedown)="mouseDown($event)" (mouseup)="mouseUpEvent($event)" (mousemove)="mouseMove($event)">
             </canvas> 

@@ -84,7 +84,7 @@ export class EditExerciseSelectionImageComponent implements OnInit, AfterViewChe
            this.editExercise.question = res.question1;
            this.editExercise.level = res.level.levelId;
            this.editExercise.topic = res.topic.topicId;
-           this.editExercise.stimulus = res.stimulus.resourcePath;
+           this.editExercise.stimulus = res.stimulus;
            this.editExercise.selectionsAreas = res.selectionAreas;
            this.dataRetrieved = true;
           },
@@ -96,12 +96,6 @@ export class EditExerciseSelectionImageComponent implements OnInit, AfterViewChe
 
       }
     });
-    
-    if (this.development) {
-      this.editExercise.stimulus = 'vithea-kids/assets/' + this.editExercise.stimulus;
-    } else {
-      this.editExercise.stimulus = 'https://vithea.l2f.inesc-id.pt/' + this.editExercise.stimulus;
-    }
   }
 
   ngAfterViewChecked() {
@@ -156,7 +150,12 @@ export class EditExerciseSelectionImageComponent implements OnInit, AfterViewChe
 
 
   public drawRectangleImage() {
-    this.imageCanvas.nativeElement.style['background-image'] = 'url(' + 'vithea-kids/assets/' + this.editExercise.stimulus + ')';
+    if (this.development) {
+      this.imageCanvas.nativeElement.style['background-image'] = 'url(' + 'vithea-kids/assets/' + this.editExercise.stimulus + ')';
+    } else {
+      this.imageCanvas.nativeElement.style['background-image'] =
+              'url(' + 'https://vithea.l2f.inesc-id.pt/' + this.editExercise.stimulus + ')';
+    }
     this.selectionArea.startX = this.editExercise.selectionsAreas[0].startX;
     this.selectionArea.endX =  this.editExercise.selectionsAreas[0].endX;
     this.selectionArea.startY = this.editExercise.selectionsAreas[0].startY;
